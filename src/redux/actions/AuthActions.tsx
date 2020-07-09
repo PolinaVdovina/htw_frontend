@@ -1,4 +1,4 @@
-import * as types from '../../constants/ActionTypes';
+import * as types from '../../constants/action-types';
 
 export function login(login, token, id, roles) {
     return {
