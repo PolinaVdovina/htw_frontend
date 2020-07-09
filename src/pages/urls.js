@@ -4,7 +4,7 @@ export const urls = {
         path: '/register/',
         shortPath: '/register/',
     },
-    autentification: {
+    authentication: {
         title: 'Аутентификация',
         path: '/auth/',
         shortPath: '/auth/',
