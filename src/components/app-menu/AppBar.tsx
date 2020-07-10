@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { AppBar as MuiAppBar, Toolbar, Typography, IconButton, makeStyles, Theme, createStyles } from '@material-ui/core'
 import MenuIcon from '@material-ui/icons/Menu';
-import { MenuContext } from './AppMenuContext';
+import { AppMenuContext } from './AppMenuContext';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -24,9 +24,9 @@ interface IAppBarProps {
 
 export const AppBar = (props : IAppBarProps) => {
     const classes = useStyles();
-    const context = React.useContext(MenuContext);
+    const context = React.useContext(AppMenuContext);
     return (
-        <MuiAppBar>
+        <MuiAppBar position="static">
             <Toolbar>
                 <IconButton onClick={props.onDrawerShow} className={classes.menuButton} edge="start" color="inherit" aria-label="menu">
                     <MenuIcon/>

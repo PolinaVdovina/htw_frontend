@@ -1,14 +1,11 @@
 import * as React from 'react';
 import { AppBar } from './AppBar';
 import { AppDrawer } from './AppDrawer';
-import { MenuContext, IMenuContextValue } from './AppMenuContext';
+import { AppMenuContext, IMenuContextValue } from './AppMenuContext';
 
 interface IAppMenuProps {
     title?: String,
 }
-
-
-
 
 export const AppMenu = (props : IAppMenuProps) => {
     const [isDrawerOpen, setDrawerOpen] = React.useState(false);
@@ -27,10 +24,10 @@ export const AppMenu = (props : IAppMenuProps) => {
 
     return (
         <div>
-            <MenuContext.Provider value={ contextValue }>
+            <AppMenuContext.Provider value={ contextValue }>
                 <AppBar onDrawerShow={showDrawer}/>
                 <AppDrawer onClose={closeDrawer} open={isDrawerOpen}/>
-            </MenuContext.Provider>
+            </AppMenuContext.Provider>
         </div>
     )
 }

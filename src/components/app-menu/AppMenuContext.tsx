@@ -4,4 +4,4 @@ export interface IMenuContextValue {
     title?: String
 }
 
-export const MenuContext = React.createContext<IMenuContextValue | null>(null);
+export const AppMenuContext = React.createContext<IMenuContextValue | null>(null);
