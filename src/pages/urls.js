@@ -1,4 +1,9 @@
 export const urls = {
+    home: {
+        title: 'Главная',
+        path: '/',
+        shortPath: '/',
+    },
     registration: {
         title: 'Регистрация',
         path: '/register/',
