@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Grid } from '@material-ui/core';
-import { SignInCard } from '../../components/cards/SignInCard/SignInCard';
+import { RegRoleCard } from '../../components/cards/SignInCard/RegRoleCard';
 
 interface IHomeProps {
     
@@ -8,8 +8,10 @@ interface IHomeProps {
 
 export const Home = (props : IHomeProps) => {
     return (
-        <Grid direction="row">
-            <SignInCard title="Соискатель"/>
+        <Grid container direction="row" spacing={5}>
+            <RegRoleCard title="Соискатель" desc="Ищите работу?" buttonText="Присоединиться"/>
+            <RegRoleCard title="Образовательное учреждение"/>
+            <RegRoleCard title="Работодатель"/>
         </Grid>
     )
 }

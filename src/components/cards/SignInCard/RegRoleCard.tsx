@@ -1,7 +1,7 @@
 import { Button, Card, Grid, Typography, makeStyles, Theme, createStyles } from '@material-ui/core';
 import * as React from 'react';
 
-interface ISignInCardProps {
+interface IRegRoleCardProps {
     title?: String,
     desc?: String,
     buttonText?: String,
@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-export const SignInCard = (props: ISignInCardProps) => {
+export const RegRoleCard = (props: IRegRoleCardProps) => {
     const classes = useStyles();
     return (
         <Card className={classes.root}>
