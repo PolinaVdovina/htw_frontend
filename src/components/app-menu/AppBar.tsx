@@ -9,7 +9,7 @@ const useStyles = makeStyles((theme: Theme) =>
       flexGrow: 1,
     },
     menuBar: {
-      height: theme.menuBar.height
+      minHeight: theme.menuBar.height,
     },
     menuButton: {
       marginRight: theme.spacing(2),
@@ -30,8 +30,8 @@ export const AppBar = (props : IAppBarProps) => {
     const classes = useStyles();
     const context = React.useContext(AppMenuContext);
     return (
-        <MuiAppBar className={classes.menuBar} position="fixed">
-            <Toolbar>
+        <MuiAppBar  position="fixed">
+            <Toolbar className={classes.menuBar}>
                 <IconButton onClick={props.onDrawerShow} className={classes.menuButton} edge="start" color="inherit" aria-label="menu">
                     <MenuIcon/>
                 </IconButton>
