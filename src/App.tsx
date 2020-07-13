@@ -8,6 +8,7 @@ import { Grid, makeStyles, createStyles, Theme, Divider, Backdrop, CircularProgr
 import { AppFooter } from './components/app-footer/AppFooter';
 import { RootState } from './redux/store';
 import { useDispatch, connect } from 'react-redux';
+import { startLoading } from './redux/actions/dialog-actions';
 
 
 
@@ -46,6 +47,7 @@ function mapStateToProps(state : RootState): IAppProps {
 function App(props: IAppProps) {
   const classes = useStyles();
   const dispatch = useDispatch();
+
   //dispatch( startLoading() );
   return (
       <div>

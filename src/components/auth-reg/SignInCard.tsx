@@ -1,6 +1,6 @@
 import { Button, Card, Grid, Typography, makeStyles, Theme, createStyles, TextField } from '@material-ui/core';
 import React, { useState } from 'react';
-import { validateRegPasword, /*validateRegLoginConnect*/ } from './validateFunctions';
+import { validateRegPasword, validateLogin } from './validateFunctions';
 
 interface ISignInCard {
 
@@ -21,6 +21,9 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         title: {
             padding: '10px'
+        },
+        item: {
+            width: '100%'
         }
   }),
 );
@@ -29,14 +32,34 @@ export const SignInCard = (props: ISignInCard) => {
     const classes = useStyles();
     const [login, setLogin] = useState('');
     const [password, setPassword] = useState('');
-    const [loginConnect, setLoginConnect] = useState('');
+    //const [loginConnect, setLoginConnect] = useState('');
     const [errorPassword, setErrorPassword] = useState('');
     const [errorLogin, setErrorLogin] = useState('');
-    const [errorLoginConnect, setErrorLoginConnect] = useState('');
+    //const [errorLoginConnect, setErrorLoginConnect] = useState('');
 
     function validate() {
+        setErrorPassword(validateRegPasword(password));
+        setErrorLogin(validateLogin(login));
+
+        if (errorPassword == '' && errorLogin == '') {
+            let body = {
+                accountLogin: login,
+                password: password
+            }
+
+            const postGet = {
+                method: 'POST',
+                headers: {
+                //'Authorization': 'Bearer '+ store.getState().auth.token,
+                'Accept': 'application/text',
+                'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(body)
+            };
+
+            fetch('http://127.0.0.1:8080/api/auth/login', postGet).then(response=>alert('вход выполнен')).catch(error => alert(error))
+        }
         
-        //setErrorLoginConnect(validateRegLoginConnect(loginConnect)['error']);
     }
     
     return (
@@ -47,7 +70,7 @@ export const SignInCard = (props: ISignInCard) => {
                         Вход
                     </Typography>
                 </Grid>
-                <Grid item>
+                <Grid item className={classes.item}>
                     <TextField className={classes.field}
                         variant="outlined"
                         margin="normal"
@@ -61,7 +84,7 @@ export const SignInCard = (props: ISignInCard) => {
                         onChange={(event) => {setLogin(event.target.value)}}
                     />                            
                 </Grid>
-                <Grid item>
+                <Grid item className={classes.item}>
                     <TextField className={classes.field}
                         variant="outlined"
                         margin="normal"

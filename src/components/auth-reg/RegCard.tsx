@@ -64,7 +64,7 @@ export const RegCard = (props: IRegCardProps) => {
                 body: JSON.stringify(body)
             };
 
-            fetch('http://127.0.0.1:8080/api/auth/create', postGet)/*.then(response=>alert(response))*/.catch(error => alert(error))
+            fetch('http://127.0.0.1:8080/api/auth/create', postGet).then(response=>alert('пользователь успешно зарегистрирован')).catch(error => alert(error))
             
             
             /*axios({
