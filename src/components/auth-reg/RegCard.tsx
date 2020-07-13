@@ -40,8 +40,6 @@ export const RegCard = (props: IRegCardProps) => {
     }
     
     return (
-        <Grid container justify='center' alignItems='center' direction='column'>
-            <Grid item style={{'padding': '50px'}}>
                 <Card className={classes.root}>
                     <Grid container direction="column" justify='center'>
                         <Grid item>
@@ -102,7 +100,5 @@ export const RegCard = (props: IRegCardProps) => {
                         </Grid>
                     </Grid>
                 </Card>
-            </Grid>
-        </Grid>
     )
 }

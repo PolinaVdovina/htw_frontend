@@ -40,8 +40,6 @@ export const SignInCard = (props: ISignInCard) => {
     }
     
     return (
-        <Grid container justify='center' alignItems='center' direction='column'>
-            <Grid item style={{'padding': '50px'}}>
                 <Card className={classes.root}>
                     <Grid container direction="column" justify='center'>
                         <Grid item>
@@ -89,7 +87,5 @@ export const SignInCard = (props: ISignInCard) => {
                         </Grid>
                     </Grid>
                 </Card>
-            </Grid>
-        </Grid>
     )
 }
