@@ -1,4 +1,4 @@
-import { Button, Card, Grid, Typography, makeStyles, Theme, createStyles, Divider } from '@material-ui/core';
+import { Button, Card, Grid, Typography, makeStyles, Theme, createStyles} from '@material-ui/core';
 import * as React from 'react';
 
 interface IRegRoleCardProps {

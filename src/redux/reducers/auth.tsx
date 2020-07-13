@@ -8,7 +8,7 @@ const initialState = {
     roles: null,
   };
 
-  export default function auth(state = initialState, action) {
+  export default function authReducer(state = initialState, action) {
     switch (action.type) {
         case types.LOG_IN:
         return {

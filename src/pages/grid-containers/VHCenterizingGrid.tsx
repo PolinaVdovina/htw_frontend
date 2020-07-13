@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { makeStyles, Theme, createStyles, Grid } from '@material-ui/core';
-import { RegRoleCard } from '../../components/cards/SignInCard/RegRoleCard';
+
 
 interface IVHCenterizingGridProps {
     children: React.ReactNode,

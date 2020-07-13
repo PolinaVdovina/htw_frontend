@@ -3,11 +3,13 @@ import React from 'react';
 import './App.css';
 import { Routes } from './pages/Routes';
 import { BrowserRouter } from 'react-router-dom';
-import { AppBar } from './components/app-menu/AppBar';
 import { AppMenu } from './components/app-menu/AppMenu';
-import { Grid, makeStyles, createStyles, Theme, MuiThemeProvider, Divider } from '@material-ui/core';
-import { theme } from './theme';
+import { Grid, makeStyles, createStyles, Theme, Divider, Backdrop, CircularProgress } from '@material-ui/core';
 import { AppFooter } from './components/app-footer/AppFooter';
+import { RootState } from './redux/store';
+import { useDispatch, connect } from 'react-redux';
+
+
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -24,18 +26,35 @@ const useStyles = makeStyles((theme: Theme) =>
     fakeMenuBar: {
       height: theme.menuBar.height
     },
+    backdrop: {
+      zIndex: 10000000,
+    }
   }),
 );
 
-function App() {
+
+interface IAppProps {
+  isLoading: boolean, 
+}
+
+function mapStateToProps(state : RootState): IAppProps {
+  return {
+    isLoading: state.dialogReducer.isLoading
+  }
+}
+
+function App(props: IAppProps) {
   const classes = useStyles();
+  const dispatch = useDispatch();
+  //dispatch( startLoading() );
   return (
-    
       <div>
+        <Backdrop className={classes.backdrop} open={props.isLoading}>
+          <CircularProgress/>
+        </Backdrop>
         <AppMenu title="How To Work"/>
         <Grid className={classes.gridVerticalContainer} container direction="column">
           <Grid item className = {classes.fakeMenuBar}/>
-          
           <BrowserRouter>
             <Routes/>
           </BrowserRouter>
@@ -46,4 +65,4 @@ function App() {
   );
 }
 
-export default App;
+export default connect(mapStateToProps)(App);

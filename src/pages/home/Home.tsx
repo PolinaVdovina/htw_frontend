@@ -1,23 +1,22 @@
 import * as React from 'react';
-import { Grid, makeStyles, Theme, createStyles } from '@material-ui/core';
+import { makeStyles, Theme, createStyles } from '@material-ui/core';
 import { RegRoleCard } from '../../components/cards/SignInCard/RegRoleCard';
-import { VHCenterizingGrid } from '../grid-containers/VHCenterizingGrid';
 import { HCenterizingGrid } from './../grid-containers/HCenterizingGrid';
 
 interface IHomeProps {
     
 }
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
+// const useStyles = makeStyles((theme: Theme) =>
+//   createStyles({
+//     root: {
 
-    },
-  }),
-);
+//     },
+//   }),
+// );
 
 export const Home = (props : IHomeProps) => {
-    const classes = useStyles();
+    //const classes = useStyles();
     return (
         <HCenterizingGrid>
             <RegRoleCard title="Соискатель" desc="Хотите найти востребованную работу?" buttonText="Присоединиться"/>
