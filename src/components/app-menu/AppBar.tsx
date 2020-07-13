@@ -8,6 +8,9 @@ const useStyles = makeStyles((theme: Theme) =>
     root: {
       flexGrow: 1,
     },
+    menuBar: {
+      minHeight: theme.menuBar.height,
+    },
     menuButton: {
       marginRight: theme.spacing(2),
     },
@@ -20,14 +23,15 @@ const useStyles = makeStyles((theme: Theme) =>
 interface IAppBarProps {
     title?: String,
     onDrawerShow?: (event: React.MouseEvent<HTMLButtonElement>) => void,
+    height?: number,
 }
 
 export const AppBar = (props : IAppBarProps) => {
     const classes = useStyles();
     const context = React.useContext(AppMenuContext);
     return (
-        <MuiAppBar position="static">
-            <Toolbar>
+        <MuiAppBar  position="fixed">
+            <Toolbar className={classes.menuBar}>
                 <IconButton onClick={props.onDrawerShow} className={classes.menuButton} edge="start" color="inherit" aria-label="menu">
                     <MenuIcon/>
                 </IconButton>

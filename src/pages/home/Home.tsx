@@ -1,17 +1,28 @@
 import * as React from 'react';
-import { Grid } from '@material-ui/core';
+import { Grid, makeStyles, Theme, createStyles } from '@material-ui/core';
 import { RegRoleCard } from '../../components/cards/SignInCard/RegRoleCard';
+import { VHCenterizingGrid } from '../grid-containers/VHCenterizingGrid';
+import { HCenterizingGrid } from './../grid-containers/HCenterizingGrid';
 
 interface IHomeProps {
     
 }
 
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    root: {
+
+    },
+  }),
+);
+
 export const Home = (props : IHomeProps) => {
+    const classes = useStyles();
     return (
-        <Grid container direction="row" spacing={5}>
-            <RegRoleCard title="Соискатель" desc="Ищите работу?" buttonText="Присоединиться"/>
-            <RegRoleCard title="Образовательное учреждение"/>
-            <RegRoleCard title="Работодатель"/>
-        </Grid>
+        <HCenterizingGrid>
+            <RegRoleCard title="Соискатель" desc="Хотите найти востребованную работу?" buttonText="Присоединиться"/>
+            <RegRoleCard title="Образовательное учреждение" desc="Вам нужно организовать студенческие практики?" buttonText="Присоединиться"/>
+            <RegRoleCard title="Работодатель" desc="Нуждаетесь в хорошем кадровом обеспечении?" buttonText="Присоединиться"/>
+        </HCenterizingGrid>
     )
 }
