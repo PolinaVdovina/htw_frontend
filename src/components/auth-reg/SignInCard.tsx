@@ -40,52 +40,52 @@ export const SignInCard = (props: ISignInCard) => {
     }
     
     return (
-                <Card className={classes.root}>
-                    <Grid container direction="column" justify='center'>
-                        <Grid item>
-                            <Typography variant="h5" className={classes.title}>
-                                Вход
-                            </Typography>
-                        </Grid>
-                        <Grid item>
-                            <TextField className={classes.field}
-                                variant="outlined"
-                                margin="normal"
-                                required
-                                error={errorLogin!=''}
-                                placeholder='Логин'
-                                id="email"
-                                helperText={errorLogin}
-                                autoComplete="login"   
-                                autoFocus                             
-                                onChange={(event) => {setLogin(event.target.value)}}
-                            />                            
-                        </Grid>
-                        <Grid item>
-                            <TextField className={classes.field}
-                                variant="outlined"
-                                margin="normal"
-                                required
-                                placeholder='Пароль'
-                                error={errorPassword!=''}
-                                name="password"
-                                helperText={errorPassword}
-                                type="password"
-                                id="password"
-                                autoComplete="current-password"
-                                onChange={(event) => {setPassword(event.target.value)}}
-                            />
-                        </Grid>
-                        <Grid item style={{'padding': '20px'}}>
-                            <Button className={classes.button}                                
-                                variant="contained"
-                                color="primary"
-                                onClick={validate}
-                            >
-                                Войти
-                            </Button>
-                        </Grid>
-                    </Grid>
-                </Card>
+        <Card className={classes.root}>
+            <Grid container direction="column" justify='center'>
+                <Grid item>
+                    <Typography variant="h5" className={classes.title}>
+                        Вход
+                    </Typography>
+                </Grid>
+                <Grid item>
+                    <TextField className={classes.field}
+                        variant="outlined"
+                        margin="normal"
+                        required
+                        error={errorLogin!=''}
+                        placeholder='Логин'
+                        id="email"
+                        helperText={errorLogin}
+                        autoComplete="login"   
+                        autoFocus                             
+                        onChange={(event) => {setLogin(event.target.value)}}
+                    />                            
+                </Grid>
+                <Grid item>
+                    <TextField className={classes.field}
+                        variant="outlined"
+                        margin="normal"
+                        required
+                        placeholder='Пароль'
+                        error={errorPassword!=''}
+                        name="password"
+                        helperText={errorPassword}
+                        type="password"
+                        id="password"
+                        autoComplete="current-password"
+                        onChange={(event) => {setPassword(event.target.value)}}
+                    />
+                </Grid>
+                <Grid item style={{'padding': '20px'}}>
+                    <Button className={classes.button}                                
+                        variant="contained"
+                        color="primary"
+                        onClick={validate}
+                    >
+                        Войти
+                    </Button>
+                </Grid>
+            </Grid>
+        </Card>
     )
 }
