@@ -1,6 +1,6 @@
 import { Button, Card, Grid, Typography, makeStyles, Theme, createStyles, TextField } from '@material-ui/core';
 import React, { useState } from 'react';
-import { validateRegPasword, /*validateRegLoginConnect*/ } from './validateFunctions';
+import { validateRegPasword, validateRegLoginConnect, validateLogin } from './validateFunctions';
 
 interface IRegCardProps {
 
@@ -21,6 +21,9 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         title: {
             padding: '10px'
+        },
+        item: {
+            width: '100%'
         }
   }),
 );
@@ -36,69 +39,70 @@ export const RegCard = (props: IRegCardProps) => {
 
     function validate() {
         setErrorPassword(validateRegPasword(password));
-        //setErrorLoginConnect(validateRegLoginConnect(loginConnect)['error']);
+        setErrorLoginConnect(validateRegLoginConnect(loginConnect)['error']);
+        setErrorLogin(validateLogin(login));
     }
     
     return (
-                <Card className={classes.root}>
-                    <Grid container direction="column" justify='center'>
-                        <Grid item>
-                            <Typography variant="h5" className={classes.title}>
-                                Регистрация
-                            </Typography>
-                        </Grid>
-                        <Grid item>
-                            <TextField className={classes.field}
-                                variant="outlined"
-                                margin="normal"
-                                required
-                                placeholder='Номер телефона или e-mail'
-                                error={errorLoginConnect!=''}
-                                name="email"
-                                helperText={errorLoginConnect}
-                                autoComplete="login"
-                                autoFocus
-                                onChange={(event) => {setLoginConnect(event.target.value)}}
-                            />
-                        </Grid>
-                        <Grid item>
-                            <TextField className={classes.field}
-                                variant="outlined"
-                                margin="normal"
-                                required
-                                error={errorLogin!=''}
-                                placeholder='Логин'
-                                id="email"
-                                helperText={errorLogin}
-                                autoComplete="login"                                
-                                onChange={(event) => {setLogin(event.target.value)}}
-                            />                            
-                        </Grid>
-                        <Grid item>
-                            <TextField className={classes.field}
-                                variant="outlined"
-                                margin="normal"
-                                required
-                                placeholder='Пароль'
-                                error={errorPassword!=''}
-                                name="password"
-                                helperText={errorPassword}
-                                type="password"
-                                id="password"
-                                autoComplete="current-password"
-                                onChange={(event) => {setPassword(event.target.value)}}
-                            />
-                        </Grid>
-                        <Grid item style={{'padding': '20px'}}>
-                            <Button className={classes.button}                                
-                                variant="contained"
-                                color="primary"
-                                onClick={validate}
-                            >
-                                Регистрация
-                            </Button>
-                        </Grid>
-                    </Grid>
-                </Card>
+        <Card className={classes.root}>
+            <Grid container direction="column" justify='center'>
+                <Grid item>
+                    <Typography variant="h5" className={classes.title}>
+                        Регистрация
+                    </Typography>
+                </Grid>
+                <Grid item className={classes.item}>
+                    <TextField className={classes.field}
+                        variant="outlined"
+                        margin="normal"
+                        required
+                        placeholder='Номер телефона или e-mail'
+                        error={errorLoginConnect!=''}
+                        name="email"
+                        helperText={errorLoginConnect}
+                        autoComplete="login"
+                        autoFocus
+                        onChange={(event) => {setLoginConnect(event.target.value)}}
+                    />
+                </Grid>
+                <Grid item className={classes.item}>
+                    <TextField className={classes.field}
+                        variant="outlined"
+                        margin="normal"
+                        required
+                        error={errorLogin!=''}
+                        placeholder='Логин'
+                        id="email"
+                        helperText={errorLogin}
+                        autoComplete="login"                                
+                        onChange={(event) => {setLogin(event.target.value)}}
+                    />                            
+                </Grid>
+                <Grid item className={classes.item}>
+                    <TextField className={classes.field}
+                        variant="outlined"
+                        margin="normal"
+                        required
+                        placeholder='Пароль'
+                        error={errorPassword!=''}
+                        name="password"
+                        helperText={errorPassword}
+                        type="password"
+                        id="password"
+                        autoComplete="current-password"
+                        onChange={(event) => {setPassword(event.target.value)}}
+                    />
+                </Grid>
+                <Grid item style={{'padding': '20px'}}>
+                    <Button className={classes.button}                                
+                        variant="contained"
+                        color="primary"
+                        onClick={validate}
+                    >
+                        Регистрация
+                    </Button>
+                </Grid>
+            </Grid>
+        </Card>
     )
 }
