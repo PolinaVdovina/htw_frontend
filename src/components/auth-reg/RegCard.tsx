@@ -40,7 +40,44 @@ export const RegCard = (props: IRegCardProps) => {
     function validate() {
         setErrorPassword(validateRegPasword(password));
         setErrorLoginConnect(validateRegLoginConnect(loginConnect)['error']);
+        let typeLoginConnect = validateRegLoginConnect(loginConnect)['type'];
         setErrorLogin(validateLogin(login));
+
+        if (errorPassword == '' && errorLogin == '' && errorLoginConnect == '') {
+            //const axios = require('axios');
+        
+            let body = {
+                login: login,
+                password: password
+            }
+
+            if (typeLoginConnect) 
+                body[typeLoginConnect] = loginConnect;
+
+            const postGet = {
+                method: 'POST',
+                headers: {
+                //'Authorization': 'Bearer '+ store.getState().auth.token,
+                'Accept': 'application/text',
+                'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(body)
+            };
+
+            fetch('http://127.0.0.1:8080/api/auth/create', postGet)/*.then(response=>alert(response))*/.catch(error => alert(error))
+            
+            
+            /*axios({
+                method: 'post',
+                url: 'localhost:8080/api/auth/create',
+                data: {
+                login: login,
+                password: password
+                }
+            }).then(response => {
+                alert(response);
+            }).catch(error => alert(error))*/
+        }        
     }
     
     return (

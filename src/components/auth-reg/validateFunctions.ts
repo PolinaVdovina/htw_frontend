@@ -20,7 +20,7 @@ export function validateRegLoginConnect(loginConnect: string) {
     }
     else return {
         'error': '',
-        'type': 'e-mail'
+        'type': 'email'
     }
         
 }
