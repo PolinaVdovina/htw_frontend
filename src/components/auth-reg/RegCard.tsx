@@ -1,6 +1,6 @@
 import { Button, Card, Grid, Typography, makeStyles, Theme, createStyles, TextField } from '@material-ui/core';
 import React, { useState } from 'react';
-import { validateRegPasword, validateRegLoginConnect, validateLogin } from './validateFunctions';
+import { validateRegPasword, validateRegLoginConnect, validateLogin } from '../../utils/validateFunctions';
 
 interface IRegCardProps {
 
@@ -44,8 +44,7 @@ export const RegCard = (props: IRegCardProps) => {
         setErrorLogin(validateLogin(login));
 
         if (errorPassword == '' && errorLogin == '' && errorLoginConnect == '') {
-            //const axios = require('axios');
-        
+                   
             let body = {
                 login: login,
                 password: password
@@ -57,16 +56,32 @@ export const RegCard = (props: IRegCardProps) => {
             const postGet = {
                 method: 'POST',
                 headers: {
-                //'Authorization': 'Bearer '+ store.getState().auth.token,
-                'Accept': 'application/text',
-                'Content-Type': 'application/json'
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(body)
             };
 
-            fetch('http://127.0.0.1:8080/api/auth/create', postGet).then(response=>alert('пользователь успешно зарегистрирован')).catch(error => alert(error))
+            fetch('auth/create', postGet)
+                .catch(error => alert(error))
+                .then(response=>{
+                    if (response) 
+                        return response.json();
+                })
+                .then(resp => {
+                    if (resp.error) {
+                        alert("Такой пользователь уже существует")
+                    }
+                    else {
+                        alert('Пользователь успешно зарегистрирован');
+                        localStorage.setItem('token', resp.token); 
+                        localStorage.setItem('login', resp.accountLogin);
+                        let params = (new URL(window.location.href)).searchParams; 
+                        localStorage.setItem('role', params.get("role") || '')                       
+                    }                  
+                })
             
-            
+            //const axios = require('axios');
             /*axios({
                 method: 'post',
                 url: 'localhost:8080/api/auth/create',

@@ -1,6 +1,6 @@
 import { Button, Card, Grid, Typography, makeStyles, Theme, createStyles, TextField } from '@material-ui/core';
 import React, { useState } from 'react';
-import { validateRegPasword, validateLogin } from './validateFunctions';
+import { validateRegPasword, validateLogin } from '../../utils/validateFunctions';
 
 interface ISignInCard {
 
@@ -32,10 +32,8 @@ export const SignInCard = (props: ISignInCard) => {
     const classes = useStyles();
     const [login, setLogin] = useState('');
     const [password, setPassword] = useState('');
-    //const [loginConnect, setLoginConnect] = useState('');
     const [errorPassword, setErrorPassword] = useState('');
     const [errorLogin, setErrorLogin] = useState('');
-    //const [errorLoginConnect, setErrorLoginConnect] = useState('');
 
     function validate() {
         setErrorPassword(validateRegPasword(password));
@@ -50,16 +48,29 @@ export const SignInCard = (props: ISignInCard) => {
             const postGet = {
                 method: 'POST',
                 headers: {
-                //'Authorization': 'Bearer '+ store.getState().auth.token,
-                'Accept': 'application/text',
-                'Content-Type': 'application/json'
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(body)
             };
 
-            fetch('http://127.0.0.1:8080/api/auth/login', postGet).then(response=>alert('вход выполнен')).catch(error => alert(error))
-        }
-        
+            fetch('auth/login', postGet)
+                .catch(error => alert(error))
+                .then(response=>{
+                    if (response) 
+                        return response.json();
+                })
+                .then(resp => {
+                    if (resp.error) {
+                        alert("Неверный логин или пароль")
+                    }
+                    else {
+                        alert('Вход выполнен')  
+                        localStorage.setItem('token', resp.token); 
+                        localStorage.setItem('login', resp.accountLogin)  
+                    }                                                            
+                })
+        }       
     }
     
     return (
