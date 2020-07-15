@@ -1,6 +1,6 @@
 import { Button, Card, Grid, Typography, makeStyles, Theme, createStyles, TextField } from '@material-ui/core';
 import React, { useState } from 'react';
-import { validateRegPasword, /*validateRegLoginConnect*/ } from './validateFunctions';
+import { validateRegPasword, validateLogin } from '../../utils/validateFunctions';
 
 interface ISignInCard {
 
@@ -21,6 +21,9 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         title: {
             padding: '10px'
+        },
+        item: {
+            width: '100%'
         }
   }),
 );
@@ -29,14 +32,45 @@ export const SignInCard = (props: ISignInCard) => {
     const classes = useStyles();
     const [login, setLogin] = useState('');
     const [password, setPassword] = useState('');
-    const [loginConnect, setLoginConnect] = useState('');
     const [errorPassword, setErrorPassword] = useState('');
     const [errorLogin, setErrorLogin] = useState('');
-    const [errorLoginConnect, setErrorLoginConnect] = useState('');
 
     function validate() {
-        
-        //setErrorLoginConnect(validateRegLoginConnect(loginConnect)['error']);
+        setErrorPassword(validateRegPasword(password));
+        setErrorLogin(validateLogin(login));
+
+        if (errorPassword == '' && errorLogin == '') {
+            let body = {
+                accountLogin: login,
+                password: password
+            }
+
+            const postGet = {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(body)
+            };
+
+            fetch('auth/login', postGet)
+                .catch(error => alert(error))
+                .then(response=>{
+                    if (response) 
+                        return response.json();
+                })
+                .then(resp => {
+                    if (resp.error) {
+                        alert("Неверный логин или пароль")
+                    }
+                    else {
+                        alert('Вход выполнен')  
+                        localStorage.setItem('token', resp.token); 
+                        localStorage.setItem('login', resp.accountLogin)  
+                    }                                                            
+                })
+        }       
     }
     
     return (
@@ -47,7 +81,7 @@ export const SignInCard = (props: ISignInCard) => {
                         Вход
                     </Typography>
                 </Grid>
-                <Grid item>
+                <Grid item className={classes.item}>
                     <TextField className={classes.field}
                         variant="outlined"
                         margin="normal"
@@ -61,7 +95,7 @@ export const SignInCard = (props: ISignInCard) => {
                         onChange={(event) => {setLogin(event.target.value)}}
                     />                            
                 </Grid>
-                <Grid item>
+                <Grid item className={classes.item}>
                     <TextField className={classes.field}
                         variant="outlined"
                         margin="normal"

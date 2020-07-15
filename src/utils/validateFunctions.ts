@@ -20,10 +20,15 @@ export function validateRegLoginConnect(loginConnect: string) {
     }
     else return {
         'error': '',
-        'type': 'e-mail'
+        'type': 'email'
     }
         
 }
+
+export function validateAuthLogin(login: string) {
+    
+}
+
 
 export function validatePhone(phone: string) : boolean {
     let regexpPhone = new RegExp(/(\+7|8)[- _]*\(?[- _]*(\d{3}[- _]*\)?([- _]*\d){7}|\d\d[- _]*\d\d[- _]*\)?([- _]*\d){6})/g);
