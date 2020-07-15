@@ -9,10 +9,9 @@ interface IVHCenterizingGridProps {
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      textAlign: "center",
       alignContent:"center",
       justifyContent: "center",
-      flexGrow:1,
+      flex:1,
     },
   }),
 );

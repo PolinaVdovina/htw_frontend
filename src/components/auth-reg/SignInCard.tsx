@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme: Theme) =>
         root: {
             //maxWidth: "400px",
             width: "400px",
-            height: "40%"
+            textAlign: "center",
         },
         field: {
             width: '85%'
