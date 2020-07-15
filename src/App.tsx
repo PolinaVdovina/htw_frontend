@@ -8,15 +8,9 @@ import { Grid, makeStyles, createStyles, Theme, Divider, Backdrop, CircularProgr
 import { AppFooter } from './components/app-footer/AppFooter';
 import { RootState } from './redux/store';
 import { useDispatch, connect } from 'react-redux';
-<<<<<<< HEAD
 import { stopLoading } from './redux/actions/dialog-actions';
 import { startLoading } from './redux/reducers/dialog-reducers';
 import { AppMenuList } from './components/app-menu/AppMenuList';
-=======
-import { startLoading } from './redux/actions/dialog-actions';
-
-
->>>>>>> 66292964b2b95b88f211bdff17e2cb40415046c9
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
