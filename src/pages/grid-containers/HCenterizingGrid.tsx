@@ -9,12 +9,10 @@ interface IHCenterizingGridProps {
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      padding: "20px",
-      textAlign: "center",
+
       justifyContent: "center",
       flex: 1,
-      maxWidth: 1280,
-     
+      height: "min-content"
     },
   }),
 );

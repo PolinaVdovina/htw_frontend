@@ -1,4 +1,5 @@
 import * as types from '../../constants/action-types';
+import { startLoading as startLoadingAction } from './../actions/dialog-actions';
 
 interface IDialogState {
     isLoading: boolean
@@ -22,3 +23,7 @@ export default function dialogReducer(state = initialState, action) : IDialogSta
         return state;
     }
 }
+
+export const startLoading: () => void = () => async (dispatch, getState) => {
+    dispatch(startLoadingAction);
+} 

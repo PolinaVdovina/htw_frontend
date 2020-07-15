@@ -2,7 +2,7 @@ export function validateRegPasword(password: string): string {
     if (password == '')
         return 'Пароль не может быть пустым'
     else if (password.length <= 6)
-        return 'Пароль должен сожержать более 6 символов'    
+        return 'Пароль должен содержать более 6 символов'    
     else return ''
 }
 

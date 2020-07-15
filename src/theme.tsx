@@ -3,21 +3,34 @@ import { blue, indigo, lightBlue } from "@material-ui/core/colors";
 
 declare module '@material-ui/core/styles/createMuiTheme' {
     interface Theme {
+        container: {
+          maxWidth: number
+        }
         menuBar: {
           height?: number;
+          menuWidth?: number,
         };
       }
     
     interface ThemeOptions {
+        container: {
+          maxWidth: number,
+          menuWidth?: number,
+        },
         menuBar: {
-          height?: number;
+          height?: number,
+          menuWidth?: number,
         };
       }
   }
 
 export const theme = createMuiTheme({
     menuBar: {
-        height: 54,
+      height: 54,
+      menuWidth: 240,
+    },
+    container: {
+      maxWidth: 1280
     },
     palette: {
       primary: {

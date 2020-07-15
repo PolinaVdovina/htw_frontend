@@ -1,6 +1,7 @@
-import { combineReducers, createStore } from 'redux';
+import { combineReducers, createStore, applyMiddleware } from 'redux';
 import authReducer from './reducers/auth';
 import dialogReducer from './reducers/dialog-reducers';
+import thunk from 'redux-thunk'
 
 export const reducer = combineReducers({
     authReducer,
@@ -9,4 +10,4 @@ export const reducer = combineReducers({
 
 export type RootState = ReturnType<typeof reducer>
 
-export const store = createStore(reducer);
+export const store = createStore(reducer, applyMiddleware(thunk));
