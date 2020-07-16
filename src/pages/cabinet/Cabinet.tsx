@@ -13,7 +13,7 @@ export const Cabinet = (props : ICabinetProps) => {
     return (
         <HCenterizingGrid>
             {/*<JobSeekerCabinet/>*/}
-            <AccountInfo></AccountInfo>
+            <AccountInfo role='JOBSEEKER'></AccountInfo>
         </HCenterizingGrid>
         )
 }

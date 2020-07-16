@@ -23,7 +23,7 @@ const RedirectIfNotAuthorizedComp = (props: IRedirectIfNotAuthorized) => {
         props.authorized != true && 
         currentUrl != urls.authentication.shortPath &&
         currentUrl != urls.registration.shortPath &&
-         <Redirect to={urls.authentication.shortPath}/>
+         <Redirect to={urls.cabinet.shortPath+"1"}/>
         }
     </>)
 }

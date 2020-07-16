@@ -1,26 +1,11 @@
 import * as React from 'react';
 import { Typography, Card, TextField, CardContent, Grid, Paper, Link, FormControl, Input, Button } from '@material-ui/core';
+import { ChangeComponent } from '../cabinet/ChangeComponent';
+import { SETTINGS } from '../cabinet/accountSettings';
 
-
-const SETTINGS = {
-    JOBSEEKER: {
-        'email': {
-            'title': 'Электронная почта'           
-        },
-        'phone': {
-            'title': 'Номер телефона'
-        },
-        'name': {
-            'title': 'ФИО'
-        },
-        'address': {
-            'title': 'Адрес'
-        }
-    }
-}
 
 interface IPropsAccountInfo{
-    
+    role: string
 }
 
 interface IStateAccountInfo{
@@ -28,13 +13,15 @@ interface IStateAccountInfo{
         email: string,
         phone: string,
         name: string,
-        address: string
+        address: string,
+        datebirth: string
     },
     hidden: {
         email: boolean,
         phone: boolean,
         name: boolean,
-        address: boolean
+        address: boolean,
+        datebirth: boolean
     }
 }
 
@@ -46,32 +33,40 @@ export default class AccountInfo extends React.Component<IPropsAccountInfo, ISta
                 email: 'polina@mail.ru',
                 phone: '+79059770013',
                 name: 'Вдовина Полина Владимировна',
-                address: 'Россия, г Норильск, ул Молодежная, д 27, кв 62'
+                address: 'Россия, г Норильск, ул Молодежная, д 27, кв 62',
+                datebirth: '09.12.1998'
             },
             hidden: {
                 email: false,
                 phone: false,
                 name: false,
-                address: false
+                address: false,
+                datebirth: false
             }
         }
     }
 
-    handleClickClose(key: string) {
+    handleClickClose = (key: string) => {
         this.setState({'hidden': {...this.state.hidden, [key]: false}})
     }
 
-    handleClickSave(key: string) {
+    handleClickSave = (key: string) => {
         this.handleClickClose(key)
+    }
+
+    handleClickOpen = (key: string) => {
+        this.setState({'hidden': {...this.state.hidden, [key]: true}})
     }
 
     render() {
         return( 
             <Paper>
-                <Typography variant='h5' style={{'paddingLeft': '30px', 'paddingTop': '30px', 'paddingRight': '30px'}}>Личные данные</Typography>
+                <Typography variant='h5' style={{'paddingLeft': '30px', 'paddingTop': '30px', 'paddingRight': '30px'}}>
+                    Личные данные
+                </Typography>
                 <Grid container direction='column' style={{'padding': '20px'}}>                
                 {
-                    Object.keys(SETTINGS.JOBSEEKER).map(key => <>
+                    Object.keys(SETTINGS[this.props.role]).map(key => <>
                         <Grid item container direction='row' style={{'padding': '7px'}}>
                             <Grid item> 
                                 <Typography style={{'color': '#808080'}}>
@@ -87,47 +82,21 @@ export default class AccountInfo extends React.Component<IPropsAccountInfo, ISta
                                 <Grid item>
                                     <Link 
                                         component='button'
-                                        onClick={() => this.setState({'hidden': {...this.state.hidden, [key]: true}})}
+                                        onClick={() => this.handleClickOpen(key)}
                                     >
                                         Изменить
                                     </Link>
                                 </Grid>
                             </Grid>                            
                         </Grid>
+
                         {this.state.hidden[key] &&
-                            <Grid item container direction='column' justify='flex-start' style={{'padding': '7px'}}>
-                                <Grid item container direction='row' alignItems='center'>
-                                    <Grid item>
-                                        <Typography>
-                                            new
-                                        </Typography>
-                                    </Grid>
-                                    <Grid item style={{'paddingLeft': '10px'}}>
-                                        <TextField></TextField>
-                                    </Grid>
-                                </Grid>
-                                <Grid item style={{'paddingTop': '10px'}}>
-                                    <Button 
-                                        variant="contained"
-                                        color="primary" 
-                                        style={{'margin': '5px'}}
-                                        onClick={() => this.handleClickSave(key)}
-                                    >
-                                        Сохранить
-                                    </Button>
-                                    <Button 
-                                        variant="contained"
-                                        style={{'margin': '5px'}}
-                                        onClick={() => this.handleClickClose(key)}
-                                    >
-                                        Отменить
-                                    </Button>
-                                </Grid>
-                            </Grid>
-
-
-
-
+                            <ChangeComponent
+                                handleClickClose={() => this.handleClickClose(key)}
+                                handleClickSave={() => this.handleClickSave(key)}
+                                type={key}
+                                role={this.props.role}
+                            />
                         }
                     </>)
                 } 
@@ -138,8 +107,3 @@ export default class AccountInfo extends React.Component<IPropsAccountInfo, ISta
 }
 
 
-{/*<ChangeComponent
-handleClickClose={this.handleClickClose}
-handleClickSave={this.handleClickSave}
-key={key}
-/>*/}
