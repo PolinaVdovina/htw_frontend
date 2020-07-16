@@ -1,10 +1,33 @@
 import { Button, Card, Grid, Typography, makeStyles, Theme, createStyles, TextField } from '@material-ui/core';
 import React, { useState } from 'react';
 import { validateRegPasword, validateLogin } from '../../utils/validateFunctions';
+import axios, { AxiosRequestConfig } from 'axios'
+import { RootState } from '../../redux/store';
+import { connect, useDispatch } from 'react-redux';
+//import { startLoading as handleStartLoading, stopLoading as handleStopLoading } from '../../redux/reducers/dialog-reducers';
+//import { login as handleLogin } from '../../redux/reducers/auth-reducers';
 
-interface ISignInCard {
+
+import { login as loginFetch } from './../../utils/fetchFunctions';
+import { loginAction } from './../../redux/actions/auth-actions';
+import { startLoadingAction, stopLoadingAction } from '../../redux/actions/dialog-actions';
+//import { stopLoading } from './../../redux/reducers/dialog-reducers';
+
+
+
+interface ISignInCardProps {
 
 }
+
+function mapStateToProps(state : RootState) {
+    return {
+      isLoading: state.dialogReducer.isLoading,
+    }
+  }
+  
+  const mapDispatchToProps = {
+
+  }
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -28,48 +51,60 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-export const SignInCard = (props: ISignInCard) => {
+const SignInCardComp = (props: ISignInCardProps) => {
     const classes = useStyles();
     const [login, setLogin] = useState('');
     const [password, setPassword] = useState('');
     const [errorPassword, setErrorPassword] = useState('');
     const [errorLogin, setErrorLogin] = useState('');
+    const dispatch = useDispatch();
+    async function validate() {
+        const preValidatePassword = validateRegPasword(password);
+        const preValidateLogin = validateLogin(login);
 
-    function validate() {
-        setErrorPassword(validateRegPasword(password));
-        setErrorLogin(validateLogin(login));
+        setErrorPassword(preValidatePassword);
+        setErrorLogin(preValidateLogin);
+        
 
-        if (errorPassword == '' && errorLogin == '') {
-            let body = {
-                accountLogin: login,
-                password: password
+        //alert(JSON.stringify(result))
+        if (preValidatePassword == '' && preValidateLogin == '') {
+            dispatch(startLoadingAction());
+            const result = await loginFetch(login, password);
+            if(result.msgStatus == "ok") {
+                dispatch(loginAction(login, result.token, 0, 0));
+                //alert('Вход выполнен');
+
+            } else {
+                alert("Неверный логин или пароль")
             }
+            dispatch(stopLoadingAction());
+            
+            //props.handleStartLoading();
+            // const postGet = {
+            //     method: 'POST',
+            //     headers: {
+            //         'Accept': 'application/json',
+            //         'Content-Type': 'application/json'
+            //     },
+            //     body: JSON.stringify(body)
+            // };
 
-            const postGet = {
-                method: 'POST',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(body)
-            };
-
-            fetch('auth/login', postGet)
-                .catch(error => alert(error))
-                .then(response=>{
-                    if (response) 
-                        return response.json();
-                })
-                .then(resp => {
-                    if (resp.error) {
-                        alert("Неверный логин или пароль")
-                    }
-                    else {
-                        alert('Вход выполнен')  
-                        localStorage.setItem('token', resp.token); 
-                        localStorage.setItem('login', resp.accountLogin)  
-                    }                                                            
-                })
+            // fetch('auth/login', postGet)
+            //     .catch(error => alert(error))
+            //     .then(response=>{
+            //         if (response) 
+            //             return response.json();
+            //     })
+            //     .then(resp => {
+            //         if (resp.error) {
+            //             alert("Неверный логин или пароль")
+            //         }
+            //         else {
+            //             alert('Вход выполнен')  
+            //             localStorage.setItem('token', resp.token); 
+            //             localStorage.setItem('login', resp.accountLogin)  
+            //         }                                                            
+            //     })
         }       
     }
     
@@ -123,3 +158,5 @@ export const SignInCard = (props: ISignInCard) => {
         </Card>
     )
 }
+
+export const SignInCard = connect(mapStateToProps, mapDispatchToProps)(SignInCardComp);

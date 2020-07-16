@@ -7,12 +7,12 @@ export const urls = {
     registration: {
         title: 'Регистрация',
         path: '/register/',
-        shortPath: '/register/',
+        shortPath: '/register',
     },
     authentication: {
         title: 'Аутентификация',
         path: '/auth/',
-        shortPath: '/auth/',
+        shortPath: '/auth',
     },
     cabinet: {
         title: 'Кабинет',

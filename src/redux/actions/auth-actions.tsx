@@ -1,20 +1,28 @@
 import * as types from '../../constants/action-types';
 
-export function login(login, token, id, roles) {
+
+export function loginAction(login, token, id, entityType) {
     return {
       type: types.LOG_IN,
       authFunction: 
       login,
       token,
       id,
-      roles,
+      entityType,
     };
   }
   
 
-  export function logout() {
+  export function logoutAction() {
     return {
       type: types.LOG_OUT,
+    };
+  }
+  
+
+  export function errorAction() {
+    return {
+      type: types.LOG_IN_ERROR,
     };
   }
   

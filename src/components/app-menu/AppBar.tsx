@@ -10,6 +10,8 @@ import NotificationsIcon from '@material-ui/icons/Notifications'; //уведом
 import SearchIcon from '@material-ui/icons/Search'; //поиск 
 import { urls } from '../../pages/urls';
 import { relative } from 'path';
+import { connect } from 'react-redux';
+import { RootState } from '../../redux/store';
 
 
 
@@ -70,13 +72,21 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
+function mapStateToProps(state : RootState) {
+  return {
+    authorized: state.authReducer.loggedIn,
+  }
+}
+
+
 interface IAppBarProps {
     title?: String,
     onDrawerShow?: (event: React.MouseEvent<HTMLButtonElement>) => void,
     height?: number,
+    authorized: boolean,
 }
 
-export const AppBar = (props : IAppBarProps) => {
+export const AppBarComp = (props : IAppBarProps) => {
     const classes = useStyles();
    
     const context = React.useContext(AppMenuContext);
@@ -84,13 +94,18 @@ export const AppBar = (props : IAppBarProps) => {
         <MuiAppBar  position="fixed" className={classes.root}>
           <Container className={classes.container}>
             <Toolbar className={classes.menuBar}>
+                {
+                props.authorized &&
                 <IconButton onClick={props.onDrawerShow} className={classes.menuButton} edge="start" color="inherit" aria-label="menu">
                     <MenuIcon/>
                 </IconButton>
+                }
                 <Typography variant="h6" className={classes.title}>
                     {context?.title}
                 </Typography>
 
+                {
+                props.authorized &&
                 <div className={classes.search}>
                   <div className={classes.searchIcon}>
                     <SearchIcon />
@@ -104,8 +119,11 @@ export const AppBar = (props : IAppBarProps) => {
                     inputProps={{ 'aria-label': 'search' }}
                   />
                 </div>
+                }
             </Toolbar>
             </Container>
         </MuiAppBar>
     )
 }
+
+export const AppBar = connect(mapStateToProps)(AppBarComp)

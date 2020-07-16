@@ -1,5 +1,6 @@
 import { Button, Card, Grid, Typography, makeStyles, Theme, createStyles} from '@material-ui/core';
 import * as React from 'react';
+import { Redirect } from 'react-router';
 
 interface IRegRoleCardProps {
     title?: String,
@@ -41,6 +42,7 @@ export const RegRoleCard = (props: IRegRoleCardProps) => {
     const classes = useStyles();
     return (
         <div className={classes.root}>
+            <Redirect to="/"/>
             <Card className={classes.card}>
                 <Grid className={classes.gridContainer} container direction="column">
                     <Grid item>
