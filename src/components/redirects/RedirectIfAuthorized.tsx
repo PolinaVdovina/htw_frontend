@@ -2,6 +2,7 @@ import * as React from 'react';
 import { RootState } from '../../redux/store';
 import { Redirect } from 'react-router';
 import { connect } from 'react-redux';
+import { urls } from '../../pages/urls';
 
 
 interface IRedirectIfAuthorized {
@@ -17,7 +18,7 @@ function mapStateToProps(state : RootState) {
 const RedirectIfAuthorizedComp = (props: IRedirectIfAuthorized) => {
     return (
     <>
-        {props.authorized && <Redirect to="/"/>}
+        {props.authorized && <Redirect to={urls.cabinet.shortPath+"1"}/>}
     </>)
 }
 
