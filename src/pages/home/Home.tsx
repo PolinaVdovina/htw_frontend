@@ -2,6 +2,7 @@ import * as React from 'react';
 import { makeStyles, Theme, createStyles } from '@material-ui/core';
 import { RegRoleCard } from '../../components/cards/SignInCard/RegRoleCard';
 import { HCenterizingGrid } from './../grid-containers/HCenterizingGrid';
+import { RedirectIfNotAuthorized } from './../../components/redirects/RedirectIfNotAuthorized';
 
 interface IHomeProps {
     

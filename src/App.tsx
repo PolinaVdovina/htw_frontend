@@ -8,9 +8,8 @@ import { Grid, makeStyles, createStyles, Theme, Divider, Backdrop, CircularProgr
 import { AppFooter } from './components/app-footer/AppFooter';
 import { RootState } from './redux/store';
 import { useDispatch, connect } from 'react-redux';
-import { stopLoading } from './redux/actions/dialog-actions';
-import { startLoading } from './redux/reducers/dialog-reducers';
 import { AppMenuList } from './components/app-menu/AppMenuList';
+import { RedirectIfNotAuthorized } from './components/redirects/RedirectIfNotAuthorized';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -57,30 +56,29 @@ const useStyles = makeStyles((theme: Theme) =>
 
 interface IAppProps {
   isLoading: boolean, 
+  startLoading: () => void,
+  authorized: boolean,
 }
 
-function mapStateToProps(state : RootState): IAppProps {
+function mapStateToProps(state : RootState) {
   return {
-    isLoading: state.dialogReducer.isLoading
+    isLoading: state.dialogReducer.isLoading,
+    authorized: state.authReducer.loggedIn==true,
   }
 }
 
-interface IAppDispatchProps {
-  startLoading: () => void
-}
-
 const mapDispatchToProps = {
-    startLoading: startLoading
+    //startLoading: startLoading
 }
 
-function App(props: IAppProps & IAppDispatchProps) {
+function App(props: IAppProps) {
   const classes = useStyles();
   const theme = useTheme();
   const dispatch = useDispatch();
 
   //dispatch( startLoading() );
   //dispatch( stopLoading() );
-  props.startLoading();
+  //props.startLoading();
   return (
       <div>
         <Backdrop className={classes.backdrop} open={props.isLoading}>
@@ -90,12 +88,15 @@ function App(props: IAppProps & IAppDispatchProps) {
         <Grid className={classes.gridVerticalContainer} container direction="column">
           <Grid item className = {classes.fakeMenuBar}/>
           <Grid className={classes.content} container item direction="row" style={{padding:theme.spacing(2), flexWrap:"nowrap"}} >
-
+            {
+            props.authorized &&
             <Paper className={classes.appMenuPaper}>
               <AppMenuList/>
             </Paper>
+            }
             <BrowserRouter>
               <Routes/>
+              <RedirectIfNotAuthorized/> 
             </BrowserRouter>
           </Grid>
           <Divider/>

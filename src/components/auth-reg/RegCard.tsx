@@ -1,10 +1,17 @@
 import { Button, Card, Grid, Typography, makeStyles, Theme, createStyles, TextField } from '@material-ui/core';
 import React, { useState } from 'react';
 import { validateRegPasword, validateRegLoginConnect, validateLogin } from '../../utils/validateFunctions';
+import { startLoadingAction, stopLoadingAction } from '../../redux/actions/dialog-actions';
+import { loginAction } from '../../redux/actions/auth-actions';
+import { useDispatch } from 'react-redux';
+import { login as loginFetch, register as registerFetch } from './../../utils/fetchFunctions';
 
 interface IRegCardProps {
 
 }
+
+
+
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -37,50 +44,64 @@ export const RegCard = (props: IRegCardProps) => {
     const [errorPassword, setErrorPassword] = useState('');
     const [errorLogin, setErrorLogin] = useState('');
     const [errorLoginConnect, setErrorLoginConnect] = useState('');
-
-    function validate() {
-        setErrorPassword(validateRegPasword(password));
-        setErrorLoginConnect(validateRegLoginConnect(loginConnect)['error']);
+    const dispatch = useDispatch();
+    async function validate() {
+        const prePasswordErrorValidate = validateRegPasword(password);
+        const preLoginErrorValidate = validateLogin(login);
+        const preLoginConnectErrorValidate = validateRegLoginConnect(loginConnect)['error'];
         let typeLoginConnect = validateRegLoginConnect(loginConnect)['type'];
-        setErrorLogin(validateLogin(login));
+        setErrorPassword(prePasswordErrorValidate);
+        setErrorLoginConnect(preLoginConnectErrorValidate);
+        setErrorLogin(preLoginErrorValidate);
 
-        if (errorPassword == '' && errorLogin == '' && errorLoginConnect == '') {
-                   
-            let body = {
-                login: login,
-                password: password
+        if (prePasswordErrorValidate == '' && preLoginErrorValidate == '' && preLoginConnectErrorValidate == '') {
+            dispatch(startLoadingAction());
+            const result = await registerFetch(login, loginConnect, password);
+     
+            if(result.msgStatus == "ok") {
+                dispatch(loginAction(login, result.token, 0, 0));
+                //alert('Пользователь успешно зарегистрирован');
+
+            } else {
+                alert("Такой пользователь уже существует");
             }
+            dispatch(stopLoadingAction());
+                   
+            // let body = {
+            //     login: login,
+            //     password: password
+            // }
 
-            if (typeLoginConnect) 
-                body[typeLoginConnect] = loginConnect;
+            // if (typeLoginConnect) 
+            //     body[typeLoginConnect] = loginConnect;
 
-            const postGet = {
-                method: 'POST',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(body)
-            };
+            // const postGet = {
+            //     method: 'POST',
+            //     headers: {
+            //         'Accept': 'application/json',
+            //         'Content-Type': 'application/json'
+            //     },
+            //     body: JSON.stringify(body)
+            // };
 
-            fetch('auth/create', postGet)
-                .catch(error => alert(error))
-                .then(response=>{
-                    if (response) 
-                        return response.json();
-                })
-                .then(resp => {
-                    if (resp.error) {
-                        alert("Такой пользователь уже существует")
-                    }
-                    else {
-                        alert('Пользователь успешно зарегистрирован');
-                        localStorage.setItem('token', resp.token); 
-                        localStorage.setItem('login', resp.accountLogin);
-                        let params = (new URL(window.location.href)).searchParams; 
-                        localStorage.setItem('role', params.get("role") || '')                       
-                    }                  
-                })
+            // fetch('auth/create', postGet)
+            //     .catch(error => alert(error))
+            //     .then(response=>{
+            //         if (response) 
+            //             return response.json();
+            //     })
+            //     .then(resp => {
+            //         if (resp.error) {
+            //             alert("Такой пользователь уже существует")
+            //         }
+            //         else {
+            //             alert('Пользователь успешно зарегистрирован');
+            //             localStorage.setItem('token', resp.token); 
+            //             localStorage.setItem('login', resp.accountLogin);
+            //             let params = (new URL(window.location.href)).searchParams; 
+            //             localStorage.setItem('role', params.get("role") || '')                       
+            //         }                  
+            //     })
             
             //const axios = require('axios');
             /*axios({

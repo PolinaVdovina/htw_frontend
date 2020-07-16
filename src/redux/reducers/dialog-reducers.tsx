@@ -1,5 +1,5 @@
 import * as types from '../../constants/action-types';
-import { startLoading as startLoadingAction } from './../actions/dialog-actions';
+import { startLoadingAction, stopLoadingAction } from './../actions/dialog-actions';
 
 interface IDialogState {
     isLoading: boolean
@@ -9,7 +9,7 @@ const initialState : IDialogState = {
     isLoading: false,
 };
 
-export default function dialogReducer(state = initialState, action) : IDialogState {
+export function dialogReducer(state = initialState, action) : IDialogState {
     switch (action.type) {
         case types.START_LOADING:
             return {
@@ -24,6 +24,10 @@ export default function dialogReducer(state = initialState, action) : IDialogSta
     }
 }
 
-export const startLoading: () => void = () => async (dispatch, getState) => {
-    dispatch(startLoadingAction);
-} 
+// export const startLoading: () => void = () => async (dispatch, getState) => {
+//     dispatch(startLoadingAction () );
+// } 
+
+// export const stopLoading: () => void = () => async (dispatch, getState) => {
+//     dispatch(stopLoadingAction () );
+// } 
