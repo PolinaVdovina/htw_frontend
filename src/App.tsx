@@ -96,8 +96,13 @@ function App(props: IAppProps) {
             }
             <BrowserRouter>
               <Routes/>
+<<<<<<< HEAD
               {//<RedirectIfNotAuthorized/> 
               }
+=======
+              {//<RedirectIfNotAuthorized/>
+              } 
+>>>>>>> 4a8dc10a531eefc7630b49b021d425898166a000
             </BrowserRouter>
           </Grid>
           <Divider/>

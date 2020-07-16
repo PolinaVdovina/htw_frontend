@@ -1,38 +1,33 @@
 import * as React from 'react';
 import { Grid, Typography, TextField, Button } from '@material-ui/core';
+import { SETTINGS } from './accountSettings';
 
 interface IChangeComponent {
-    handleClickSave: (key: string) => void,
-    handleClickClose: (key: string) => void,
-    key: string
+    handleClickSave: () => void,
+    handleClickClose: () => void,
+    type: string,
+    role: string
 }
 
 export const ChangeComponent = (props : IChangeComponent) => {
+    const Component = SETTINGS[props.role][props.type].changeComponent;
+
     return (
         <Grid item container direction='column' justify='flex-start' style={{'padding': '7px'}}>
-            <Grid item container direction='row' alignItems='center'>
-                <Grid item>
-                    <Typography>
-                        new
-                    </Typography>
-                </Grid>
-                <Grid item style={{'paddingLeft': '10px'}}>
-                    <TextField></TextField>
-                </Grid>
-            </Grid>
+            { Component && <Component/>}
             <Grid item style={{'paddingTop': '10px'}}>
                 <Button 
                     variant="contained"
                     color="primary" 
                     style={{'margin': '5px'}}
-                    onClick={(/*props.key*/) => props.handleClickSave(props.key)}
+                    onClick={(event) => props.handleClickSave()}
                 >
                     Сохранить
                 </Button>
                 <Button 
                     variant="contained"
                     style={{'margin': '5px'}}
-                    onClick={(/*props.key*/) => props.handleClickClose(props.key)}
+                    onClick={(event) => props.handleClickClose()}
                 >
                     Отменить
                 </Button>
