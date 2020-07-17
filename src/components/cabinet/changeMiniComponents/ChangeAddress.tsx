@@ -6,9 +6,6 @@ interface IChangeAddress {
     
 }
 
-interface IAddressField {
-    title: string
-}
 
 const top100Films = [
     { title: 'The Shawshank Redemption', year: 1994 },
@@ -18,59 +15,14 @@ const top100Films = [
 ]
 
 
-const settings = {
-    'country': {
-        'title': 'Страна'
-    },
-    'region': {
-        'title': 'Регион'
-    },
-    'city': {
-        'title': 'Город'
-    },
-    'street': {
-        'title': 'Улица'
-    },
-    'house': {
-        'title': 'Дом'
-    },
-    'flat': {
-        'title': 'Квартира/офис'
-    }
-}
-
-
-const AddressField = (props : IAddressField) => {
-    return(
-        <Grid item container direction='row' alignItems='center' justify='space-between'>
-            <Grid item>
-                <Typography>
-                    {props.title}
-                </Typography>
-            </Grid>
-            <Grid item style={{'paddingLeft': '10px'}}>
-                <Autocomplete
-                    id="combo-box-demo"
-                    options={top100Films}
-                    getOptionLabel={(option) => option.title}
-                    style={{ width: 180 }}
-                    renderInput={(params) => <TextField {...params}/>}
-                />
-            </Grid>
-        </Grid>
-    )
-}
-
-
-
 export const ChangeAddress = (props : IChangeAddress) => {
     return(
-        <Grid container direction='column' style={{'width': '320px'}}>
-            {
-                Object.keys(settings).map(key => 
-                    <AddressField title={settings[key].title}/>
-                )
-            }            
-        </Grid>
+        <Autocomplete
+            id="combo-box-demo"
+            options={top100Films}
+            getOptionLabel={(option) => option.title}
+            style={{ width: 180 }}
+            renderInput={(params) => <TextField {...params}/>}
+        />
     )
 }
