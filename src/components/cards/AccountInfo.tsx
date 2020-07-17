@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Typography, Card, TextField, CardContent, Grid, Paper, Link, FormControl, Input, Button } from '@material-ui/core';
 import { ChangeComponent } from '../cabinet/ChangeComponent';
 import { SETTINGS } from '../cabinet/accountSettings';
+import { PaddingPaper } from './PaddingPaper';
 
 
 interface IPropsAccountInfo{
@@ -60,20 +61,20 @@ export default class AccountInfo extends React.Component<IPropsAccountInfo, ISta
 
     render() {
         return( 
-            <Paper>
-                <Typography variant='h5' style={{'paddingLeft': '30px', 'paddingTop': '30px', 'paddingRight': '30px'}}>
-                    Личные данные
-                </Typography>
-                <Grid container direction='column' style={{'padding': '20px'}}>                
-                {
+            <PaddingPaper>
+                <Grid container spacing={2} direction='column'>  
+                    <Grid item>
+                        <Typography variant='h5'>
+                            Личные данные
+                        </Typography>    
+                    </Grid>          
+                    {
                     Object.keys(SETTINGS[this.props.role]).map(key => <>
-                        <Grid item container direction='row' style={{'padding': '7px'}}>
-                            <Grid item> 
-                                <Typography style={{'color': '#808080'}}>
-                                    {SETTINGS.JOBSEEKER[key].title}
-                                </Typography>
-                            </Grid> 
-                            <Grid item container direction='row' justify='space-between'>                             
+                        <Grid container item direction="column">
+                            <Typography style={{'color': '#808080'}}>
+                                {SETTINGS.JOBSEEKER[key].title}
+                            </Typography> 
+                            <Grid item container direction='row' spacing={2} justify='space-between' style={{flexWrap:"nowrap"}}>                             
                                 <Grid item>
                                     <Typography>
                                         {this.state.data[key]}
@@ -87,7 +88,7 @@ export default class AccountInfo extends React.Component<IPropsAccountInfo, ISta
                                         Изменить
                                     </Link>
                                 </Grid>
-                            </Grid>                            
+                            </Grid>                        
                         </Grid>
 
                         {this.state.hidden[key] &&
@@ -101,7 +102,7 @@ export default class AccountInfo extends React.Component<IPropsAccountInfo, ISta
                     </>)
                 } 
                 </Grid>                                   
-            </Paper>            
+            </PaddingPaper>            
         )
     }
 }

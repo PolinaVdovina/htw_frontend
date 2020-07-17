@@ -20,6 +20,7 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       alignItems: "center",
+      
     },
     container: {
       padding:0,

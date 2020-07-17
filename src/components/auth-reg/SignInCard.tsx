@@ -1,4 +1,4 @@
-import { Button, Card, Grid, Typography, makeStyles, Theme, createStyles, TextField } from '@material-ui/core';
+import { Button, Card, Grid, Typography, makeStyles, Theme, createStyles, TextField, Snackbar } from '@material-ui/core';
 import React, { useState } from 'react';
 import { validateRegPasword, validateLogin } from '../../utils/validateFunctions';
 import axios, { AxiosRequestConfig } from 'axios'
@@ -11,7 +11,9 @@ import { connect, useDispatch } from 'react-redux';
 import { login as loginFetch } from './../../utils/fetchFunctions';
 import { loginAction } from './../../redux/actions/auth-actions';
 import { startLoadingAction, stopLoadingAction } from '../../redux/actions/dialog-actions';
+import { withSnackbar, useSnackbar } from 'notistack';
 //import { stopLoading } from './../../redux/reducers/dialog-reducers';
+
 
 
 
@@ -58,6 +60,7 @@ const SignInCardComp = (props: ISignInCardProps) => {
     const [errorPassword, setErrorPassword] = useState('');
     const [errorLogin, setErrorLogin] = useState('');
     const dispatch = useDispatch();
+    const snackBar = useSnackbar();
     async function validate() {
         const preValidatePassword = validateRegPasword(password);
         const preValidateLogin = validateLogin(login);
@@ -72,10 +75,12 @@ const SignInCardComp = (props: ISignInCardProps) => {
             const result = await loginFetch(login, password);
             if(result.msgStatus == "ok") {
                 dispatch(loginAction(login, result.token, 0, 0));
+                snackBar.enqueueSnackbar("Вы успешно вошли", {variant: "success"});
                 //alert('Вход выполнен');
 
             } else {
-                alert("Неверный логин или пароль")
+                snackBar.enqueueSnackbar("Неверный логин или пароль", {variant: "error"});
+                //alert("Неверный логин или пароль")
             }
             dispatch(stopLoadingAction());
             
@@ -159,4 +164,4 @@ const SignInCardComp = (props: ISignInCardProps) => {
     )
 }
 
-export const SignInCard = connect(mapStateToProps, mapDispatchToProps)(SignInCardComp);
+export const SignInCard = withSnackbar( connect(mapStateToProps, mapDispatchToProps)(SignInCardComp) );
