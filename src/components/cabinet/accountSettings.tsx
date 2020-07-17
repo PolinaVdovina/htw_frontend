@@ -8,7 +8,8 @@ export const SETTINGS = {
     JOBSEEKER: {
         'email': {
             'title': 'Электронная почта',
-            'changeComponent': ChangeEmail          
+            'changeComponent': ChangeEmail,  
+            'changing': "",        
         },
         'phone': {
             'title': 'Номер телефона',

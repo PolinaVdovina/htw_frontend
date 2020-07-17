@@ -48,13 +48,14 @@ interface IRegisterResponse {
     error?: string,
 }
 
-export const register = async (login, email, password) => {
+export const register = async (login, email, password, role) => {
     let returnData: IRegisterResponse;
     try {
         const response =  await axios.post("auth/create", {
             login,
             email,
             password,
+            role
         });
 
         

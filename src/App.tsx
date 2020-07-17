@@ -17,7 +17,8 @@ const useStyles = makeStyles((theme: Theme) =>
       width: "100%",
       minHeight: "100vh",
       alignItems:"center",
-      backgroundColor: "#edeef0"
+      backgroundColor: "#edeef0",
+
     },
     content: {
       flexGrow: 1,
@@ -96,13 +97,8 @@ function App(props: IAppProps) {
             }
             <BrowserRouter>
               <Routes/>
-<<<<<<< HEAD
               {//<RedirectIfNotAuthorized/> 
               }
-=======
-              {//<RedirectIfNotAuthorized/>
-              } 
->>>>>>> 4a8dc10a531eefc7630b49b021d425898166a000
             </BrowserRouter>
           </Grid>
           <Divider/>
