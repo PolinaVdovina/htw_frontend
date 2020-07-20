@@ -5,7 +5,8 @@ import { AddressSuggestions } from 'react-dadata';
 import 'react-dadata/dist/react-dadata.css';
 
 interface IChangeAddress {
-    
+    data: any,
+    onChange: (any) => void
 }
 
 
@@ -43,7 +44,11 @@ export const ChangeAddress = (props : IChangeAddress) => {
     }*/
 
     return(
-        <AddressSuggestions token="552dfb218ca6ea603908fc2391f8da0fa97a6cd6" value={value} onChange={(event) => setValue} />
+        <AddressSuggestions 
+            token="552dfb218ca6ea603908fc2391f8da0fa97a6cd6" 
+            value={value} 
+            onChange={(event) => setValue} 
+        />
     )
 }
 

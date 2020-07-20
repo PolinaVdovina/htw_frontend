@@ -1,3 +1,6 @@
+import { settings } from "cluster"
+import { settingsName } from "../components/cabinet/changeMiniComponents/changeSettings"
+
 export function validateRegPasword(password: string): string {
     if (password == '')
         return 'Пароль не может быть пустым'
@@ -46,4 +49,24 @@ export function validateLogin(login: string) : string {
         return 'Логин не может быть пустым';
     else
         return ''
+}
+
+export function validateName(name: {firstname: string, lastname: string, patronymic: string}): boolean {
+    let result = true;
+    Object.keys(settingsName).map(key => {
+        (name[key] == undefined || !name[key].match(/^[a-zа-яё\s]+$/iu) || name[key] == '') ? result = false : result = true;
+    })
+    return result;
+}
+
+export function validateDate(date: any): boolean {
+    if (date)
+        return true;
+    else return false;
+}
+
+export function validateAddress(address: string): boolean {
+    if (address && address != '')
+        return true;
+    else return false;
 }
