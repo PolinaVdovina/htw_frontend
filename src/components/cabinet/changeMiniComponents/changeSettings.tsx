@@ -1,5 +1,5 @@
 export const settingsAddress = {
-    'country': {
+    /*'country': {
         'title': 'Страна'
     },
     'region': {
@@ -16,6 +16,9 @@ export const settingsAddress = {
     },
     'flat': {
         'title': 'Квартира/офис'
+    }*/
+    'adddress': {
+        'title': 'Новый адрес'
     }
 }
 
