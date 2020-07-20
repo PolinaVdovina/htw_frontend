@@ -1,6 +1,9 @@
 import * as React from 'react';
 import { Grid, Typography, TextField, Button } from '@material-ui/core';
 import { SETTINGS } from './accountSettings';
+import { withSnackbar, WithSnackbarProps } from 'notistack';
+
+type FinalProps = IChangeComponent & WithSnackbarProps;
 
 interface IChangeComponent {
     handleClickSave: () => void,
@@ -9,19 +12,25 @@ interface IChangeComponent {
     role: string
 }
 
-export const ChangeComponent = (props : IChangeComponent) => {
+const ChangeComponentRaw = (props : FinalProps) => {
     const Component = SETTINGS[props.role][props.type].changeComponent;
     const changeSettings = SETTINGS[props.role][props.type].changeSettings;
     const validFunc = SETTINGS[props.role][props.type].validateFunction;
 
     const [data, setData] = React.useState('');
 
-    //const 
+    const onChange = (data: any) => {
+        setData(data);
+    } 
 
     const validateAndSave = () => {
-        
-        alert(validFunc());
-        //props.handleClickClose();
+        alert(data)
+        if (!validFunc(data))
+            props.enqueueSnackbar('Поле заполнено неверно', {variant: "error"})
+        else {
+            props.handleClickClose();
+            props.enqueueSnackbar('Данные сохранены', {variant: "success"})
+        }           
     }
 
     return (
@@ -35,7 +44,7 @@ export const ChangeComponent = (props : IChangeComponent) => {
                             </Typography>
                         </Grid>
                         <Grid item style={{'paddingLeft': '10px', 'flexGrow': 1}}>
-                            { <Component/>}
+                            { <Component onChange={onChange} data={data} type={key}/>}
                         </Grid>
                     </Grid>
                 )
@@ -60,3 +69,5 @@ export const ChangeComponent = (props : IChangeComponent) => {
         </Grid>
     )
 }
+
+export const ChangeComponent = withSnackbar(ChangeComponentRaw)
