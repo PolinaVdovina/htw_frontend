@@ -7,6 +7,6 @@ interface IChangeEmail {
 
 export const ChangeEmail = (props : IChangeEmail) => {
     return(
-        <TextField></TextField>
+        <TextField size='small' variant='outlined'></TextField>
     )
 }

@@ -7,6 +7,6 @@ interface IChangeName {
 
 export const ChangeName = (props : IChangeName) => {
     return(
-        <TextField></TextField>
+        <TextField  size='small' variant='outlined'></TextField>
     )
 }
