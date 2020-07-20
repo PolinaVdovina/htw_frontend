@@ -25,8 +25,7 @@ export const ChangeComponent = (props : IChangeComponent) => {
     }
 
     return (
-        <Grid item container direction='column' justify='flex-start' style={{'padding': '7px'}}>
-            
+        <Grid item container direction='column' justify='flex-start' style={{'padding': '7px'}}>           
             { Component &&
                 Object.keys(changeSettings).map(key => 
                     <Grid item container direction='row' alignItems='center' justify='space-between'>
