@@ -1,5 +1,30 @@
 import * as React from 'react';
-import { Grid, Typography, TextField, Select, MenuItem, FormControl, InputLabel } from '@material-ui/core';
+import { Grid, Typography, TextField, Select, MenuItem, FormControl, InputLabel, withStyles, Theme, createStyles } from '@material-ui/core';
+import InputBase from '@material-ui/core/InputBase';
+
+const BootstrapInput = withStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      'label + &': {
+        marginTop: theme.spacing(3),
+      },
+    },
+    input: {
+      borderRadius: 4,
+      position: 'relative',
+      backgroundColor: theme.palette.background.paper,
+      border: '1px solid #ced4da',
+      fontSize: 16,
+      padding: '10px 26px 10px 12px',
+      transition: theme.transitions.create(['border-color', 'box-shadow']),
+      '&:focus': {
+        borderRadius: 4,
+        borderColor: '#80bdff',
+        boxShadow: '0 0 0 0.2rem rgba(0,123,255,.25)',
+      },
+    },
+  }),
+)(InputBase);
 
 interface IChangeBirth {
     
@@ -62,9 +87,7 @@ export const ChangeBirth = (props : IChangeBirth) => {
                         id="demo-simple-select"
                         value={day}
                         onChange={handleChangeDay}   
-                        //size='small' 
-                        variant='outlined'
-                        //style={{'width': '60px'}}                     
+                        input={<BootstrapInput />}                
                     >
                         {
                             days().map(value => 
@@ -82,7 +105,8 @@ export const ChangeBirth = (props : IChangeBirth) => {
                         id="demo-simple-select"
                         value={month}
                         onChange={handleChangeMonth}
-                        style={{'width': '100px'}}
+                        style={{'width': '115px'}}
+                        input={<BootstrapInput />}
                     >
                         {
                             months.map(value => 
@@ -100,7 +124,8 @@ export const ChangeBirth = (props : IChangeBirth) => {
                         id="demo-simple-select"
                         value={year}
                         onChange={handleChangeYear}
-                        style={{'width': '65px'}}
+                        style={{'width': '75px'}}
+                        input={<BootstrapInput />}
                     >
                         {
                             years().map(value => 
