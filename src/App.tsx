@@ -49,7 +49,7 @@ const useStyles = makeStyles((theme: Theme) =>
       [theme.breakpoints.down('xs')]: {
         display: "none",
       },
-      position: "fixed",
+      //position: "fixed",
     },
     fakeAppMenuPaper: {
       position:"absolute",
@@ -104,13 +104,16 @@ function App(props: IAppProps) {
             <BrowserRouter>
               <AppMenu title="How To Work"/>
               {
+                //<div className = {classes.fakeAppMenuPaper}/>
               props.authorized && <>
-             
-                <div className = {classes.fakeAppMenuPaper}/>
+                
+                <Paper className={classes.appMenuPaper}>
+                  <AppMenuList/>
+                </Paper>
               </>
               }
               <Routes/>
-              {//<RedirectIfNotAuthorized/> 
+              {<RedirectIfNotAuthorized/> 
               }
             </BrowserRouter>
           </Grid>

@@ -23,15 +23,8 @@ const testPosts: Array<IPostData> = [
 export const Cabinet = (props : ICabinetProps) => {
     return (
         <HCenterizingGrid>
-            <Grid spacing={2} container item direction="column">
                 {/*<JobSeekerCabinet/>*/}
-                <Grid item>
-                    <AccountInfo role='JOBSEEKER'/>
-                </Grid>
-                <Grid item>
-                    <Tape posts={testPosts}/>
-                </Grid>
-            </Grid>
+            <AccountInfo role='JOBSEEKER'/>
         </HCenterizingGrid>
         )
 }

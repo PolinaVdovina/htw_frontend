@@ -55,7 +55,7 @@ export const register = async (login, email, password, role) => {
             login,
             email,
             password,
-            role
+            roles:role,
         });
 
         
@@ -84,3 +84,38 @@ export const register = async (login, email, password, role) => {
 
     return returnData;
 }
+
+export const getJobSeeker = async () => {
+    let returnData: IRegisterResponse;
+    try {
+        const response =  await axios.post("/auth/create", {
+            
+        });
+
+        
+
+        if(response.data.token) {
+            returnData =  {
+                login: login,
+                token: response.data.token,
+                msgStatus: "ok"
+            };
+        }
+        else {
+            returnData =  {
+                msgStatus:"error",
+                error: "Какая-нибудь ошибка!"
+            };
+        }
+    }
+    catch
+    {
+        returnData =  {
+            msgStatus:"error",
+            error: "Какая-нибудь ошибка с сетью!"
+        };
+    }
+
+    return returnData;
+}
+

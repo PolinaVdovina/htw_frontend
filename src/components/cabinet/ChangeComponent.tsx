@@ -1,6 +1,7 @@
 import * as React from 'react';
-import { Grid, Typography, TextField, Button } from '@material-ui/core';
+import { Grid, Typography, TextField, Button, createStyles, Theme, makeStyles } from '@material-ui/core';
 import { SETTINGS } from './accountSettings';
+import { useTheme } from '@material-ui/core';
 
 interface IChangeComponent {
     handleClickSave: () => void,
@@ -9,12 +10,22 @@ interface IChangeComponent {
     role: string
 }
 
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      
+      
+    },
+  }),
+);
+
 export const ChangeComponent = (props : IChangeComponent) => {
     const Component = SETTINGS[props.role][props.type].changeComponent;
     const changeSettings = SETTINGS[props.role][props.type].changeSettings;
     const validFunc = SETTINGS[props.role][props.type].validateFunction;
 
     const [data, setData] = React.useState('');
+    const theme = useTheme();
 
     //const 
 
@@ -25,34 +36,34 @@ export const ChangeComponent = (props : IChangeComponent) => {
     }
 
     return (
-        <Grid item container direction='column' justify='flex-start' style={{'padding': '7px'}}>
+        <Grid item container direction='column'  spacing={1}>
             
             { Component &&
                 Object.keys(changeSettings).map(key => 
-                    <Grid item container direction='row' alignItems='center' justify='space-between'>
-                        <Grid item>
-                            <Typography>
+                    <Grid item container direction='row'  alignItems='center'>
+                        <Grid item >
+                            <Typography style={{overflowWrap:"normal", width:"150px"}} >
                                 {changeSettings[key].title}
                             </Typography>
                         </Grid>
-                        <Grid item style={{'paddingLeft': '10px', 'flexGrow': 1}}>
+                        <Grid item >
                             { <Component/>}
                         </Grid>
                     </Grid>
                 )
             }            
-            <Grid item style={{'paddingTop': '10px'}}>
+            <Grid item style={{'paddingTop': theme.spacing(2)}}>
                 <Button 
                     variant="contained"
                     color="primary" 
-                    style={{'margin': '5px'}}
+                    style={{'margin': theme.spacing(1)}}
                     onClick={(event) => validateAndSave()}
                 >
                     Сохранить
                 </Button>
                 <Button 
                     variant="contained"
-                    style={{'margin': '5px'}}
+                    style={{'margin': theme.spacing(1)}}
                     onClick={(event) => props.handleClickClose()}  
                 >
                     Отменить

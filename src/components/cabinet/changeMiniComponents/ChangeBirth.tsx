@@ -79,7 +79,7 @@ export const ChangeBirth = (props : IChangeBirth) => {
 
     return(
         <Grid item container direction='row' alignItems='flex-end'>
-            <Grid item style={{'paddingLeft': '10px'}}>
+            <Grid item>
                 <FormControl>
                     
                     <Select

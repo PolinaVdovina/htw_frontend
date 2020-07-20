@@ -160,9 +160,9 @@ export const RegCard = (props: IRegCardProps) => {
                             }
                         }}
                         label='Роль'>
-                        <MenuItem value={"JOB_SEEKER"}>Соискатель</MenuItem>
-                        <MenuItem value={"EDUCATION_INSTITUTION"}>Образовательное учреждение</MenuItem>
-                        <MenuItem value={"EMPLOYER"}>Работодатель</MenuItem>
+                        <MenuItem value={"ROLE_JOBSEEKER"}>Соискатель</MenuItem>
+                        <MenuItem value={"ROLE_INSTITUTION"}>Образовательное учреждение</MenuItem>
+                        <MenuItem value={"ROLE_EMPLOYER"}>Работодатель</MenuItem>
                     </TextField>
                 </Grid>
                 <Grid item className={classes.item}>
