@@ -1,4 +1,5 @@
 import axios from "axios";
+import { store } from './../redux/store';
 
 interface ILoginResponse {
     login?: string,
@@ -85,28 +86,35 @@ export const register = async (login, email, password, role) => {
     return returnData;
 }
 
+
+// interface IJobSeekerResponse {
+//     email: string,
+//     phone: string,
+//     surname: string,
+//     name: string,
+//     middlename: string,
+//     name: string,
+//     name: string,
+//     name: string,
+//     name: string,
+//     name: string,
+// }
+
 export const getJobSeeker = async () => {
-    let returnData: IRegisterResponse;
+    let returnData;
     try {
-        const response =  await axios.post("/auth/create", {
-            
+        const response =  await axios.get("/personal/get", {
+            headers:{
+                Authorization: 'Bearer ' + store.getState().authReducer.token
+            }
         });
 
-        
-
-        if(response.data.token) {
-            returnData =  {
-                login: login,
-                token: response.data.token,
-                msgStatus: "ok"
-            };
-        }
-        else {
-            returnData =  {
-                msgStatus:"error",
-                error: "Какая-нибудь ошибка!"
-            };
-        }
+        returnData =  {
+            name: response.data.name,
+            surname: response.data.surname,
+            middlename: response.data.middlename,
+            msgStatus: "ok"
+        };
     }
     catch
     {
