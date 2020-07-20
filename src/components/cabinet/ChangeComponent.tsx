@@ -24,7 +24,7 @@ const ChangeComponentRaw = (props : FinalProps) => {
     } 
 
     const validateAndSave = () => {
-        alert(data)
+        //alert(data)
         if (!validFunc(data))
             props.enqueueSnackbar('Поле заполнено неверно', {variant: "error"})
         else {
