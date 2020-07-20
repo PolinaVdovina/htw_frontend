@@ -61,7 +61,7 @@ export default class AccountInfo extends React.Component<IPropsAccountInfo, ISta
 
     render() {
         return( 
-            <PaddingPaper>
+            <PaddingPaper style={{width:"100%"}}>
                 <Grid container spacing={2} direction='column'>  
                     <Grid item>
                         <Typography variant='h5'>

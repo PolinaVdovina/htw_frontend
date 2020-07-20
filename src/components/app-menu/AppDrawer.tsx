@@ -35,6 +35,10 @@ const drawerElementsDict = [
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
+    root: {
+      width: theme.menuBar.menuWidth,
+      minWidth: theme.menuBar.menuWidth,
+    },
     rootGrid: {
       alignItems: 'center',
       width: "224px"
@@ -42,7 +46,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
     avatarGrid: {
       padding: "12px",
-      backgroundColor: theme.palette.primary.main
+      backgroundColor: theme.palette.primary.main,
     },
 
     avatar: {
@@ -86,7 +90,7 @@ interface IAppDrawerProps {
 export const AppDrawer = (props: IAppDrawerProps) => {
     const classes = useStyles();
     return (
-        <Drawer open={props.open} onClose={props.onClose}>
+        <Drawer  open={props.open} onClose={props.onClose}>
           <AppMenuList/>
         </Drawer>
     )

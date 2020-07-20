@@ -3,7 +3,8 @@ import { theme } from './../../theme';
 
 const styles = (theme: Theme) => ({
     root: {
-      padding: theme.spacing(2)
+      padding: theme.spacing(2),
+
     },
   });
 

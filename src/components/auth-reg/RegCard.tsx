@@ -61,13 +61,17 @@ export const RegCard = (props: IRegCardProps) => {
         let preConfirmPasswordErrorValidate = '';
         let preRoleErrorValidate = '';
         
-        if(prePasswordErrorValidate == '' && password != confirmPassword) 
+        if(prePasswordErrorValidate == '' && password != confirmPassword)  {
             preConfirmPasswordErrorValidate = 'Пароль не совпадает';
-        if(role == '') 
+            
+        }
+        if(role == '') {
             preRoleErrorValidate = 'Укажите роль';
-        setErrorRole(preRoleErrorValidate);
 
-        if (prePasswordErrorValidate == '' && preLoginErrorValidate == '' && preLoginConnectErrorValidate == '' && errorConfirmPassword == '' && preRoleErrorValidate =='') {
+        }
+        setErrorRole(preRoleErrorValidate);
+        setErrorConfirmPassword(preConfirmPasswordErrorValidate);
+        if (prePasswordErrorValidate == '' && preLoginErrorValidate == '' && preLoginConnectErrorValidate == '' && preConfirmPasswordErrorValidate == '' && preRoleErrorValidate =='') {
             dispatch(startLoadingAction());
             const result = await registerFetch(login, loginConnect, password, role);
      
@@ -142,6 +146,26 @@ export const RegCard = (props: IRegCardProps) => {
                     </Typography>
                 </Grid>
                 <Grid item className={classes.item}>
+                    <TextField select className={classes.field}
+                        variant="outlined"
+                        margin="normal"
+                        required
+                        error={errorRole!=''}
+                        helperText={errorRole}
+                        value={role}
+                        onChange={(event) => setRole(event.target.value)}
+                        InputProps={{
+                            style: {
+                                textAlign: "left",
+                            }
+                        }}
+                        label='Роль'>
+                        <MenuItem value={"JOB_SEEKER"}>Соискатель</MenuItem>
+                        <MenuItem value={"EDUCATION_INSTITUTION"}>Образовательное учреждение</MenuItem>
+                        <MenuItem value={"EMPLOYER"}>Работодатель</MenuItem>
+                    </TextField>
+                </Grid>
+                <Grid item className={classes.item}>
                     <TextField className={classes.field}
                         variant="outlined"
                         margin="normal"
@@ -196,26 +220,6 @@ export const RegCard = (props: IRegCardProps) => {
                         id="confirmPassword"
                         onChange={(event) => {setConfirmPassword(event.target.value)}}
                     />
-                </Grid>
-                <Grid item className={classes.item}>
-                    <TextField select className={classes.field}
-                        variant="outlined"
-                        margin="normal"
-                        required
-                        error={errorRole!=''}
-                        helperText={errorRole}
-                        value={role}
-                        onChange={(event) => setRole(event.target.value)}
-                        InputProps={{
-                            style: {
-                                textAlign: "left",
-                            }
-                        }}
-                        label='Роль'>
-                        <MenuItem value={"JOB_SEEKER"}>Соискатель</MenuItem>
-                        <MenuItem value={"EDUCATION_INSTITUTION"}>Образовательное учреждение</MenuItem>
-                        <MenuItem value={"EMPLOYER"}>Работодатель</MenuItem>
-                    </TextField>
                 </Grid>
                 <Grid item style={{'padding': '20px'}}>
                     <Button className={classes.button}                                

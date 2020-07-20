@@ -42,7 +42,6 @@ export const RegRoleCard = (props: IRegRoleCardProps) => {
     const classes = useStyles();
     return (
         <div className={classes.root}>
-            <Redirect to="/"/>
             <Card className={classes.card}>
                 <Grid className={classes.gridContainer} container direction="column">
                     <Grid item>

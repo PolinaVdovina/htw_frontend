@@ -30,7 +30,7 @@ export const theme = createMuiTheme({
       menuWidth: 240,
     },
     container: {
-      maxWidth: 1280
+      maxWidth: 900
     },
     palette: {
       primary: {

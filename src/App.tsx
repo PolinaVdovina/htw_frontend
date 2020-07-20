@@ -10,11 +10,13 @@ import { RootState } from './redux/store';
 import { useDispatch, connect } from 'react-redux';
 import { AppMenuList } from './components/app-menu/AppMenuList';
 import { RedirectIfNotAuthorized } from './components/redirects/RedirectIfNotAuthorized';
+import { HCenterizingGrid } from './pages/grid-containers/HCenterizingGrid';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     gridVerticalContainer: {
       width: "100%",
+
       minHeight: "100vh",
       alignItems:"center",
       backgroundColor: "#edeef0",
@@ -23,6 +25,13 @@ const useStyles = makeStyles((theme: Theme) =>
     content: {
       flexGrow: 1,
       maxWidth: theme.container.maxWidth,
+      padding:theme.spacing(2), 
+      [theme.breakpoints.down('xs')]: {
+        paddingLeft:theme.spacing(0), 
+        paddingRight:theme.spacing(0), 
+      },
+      flexWrap:"nowrap",
+      alignContent: "center",
       //padding: theme.spacing(2),
     },
     fakeMenuBar: {
@@ -35,13 +44,15 @@ const useStyles = makeStyles((theme: Theme) =>
       marginRight: theme.spacing(2),
       height:"min-content",
       overflow: "hidden",
-
+      width: theme.menuBar.menuWidth,
+      minWidth: theme.menuBar.menuWidth,
       [theme.breakpoints.down('xs')]: {
         display: "none",
-      }
+      },
+      position: "fixed",
     },
     fakeAppMenuPaper: {
-      position:"relative",
+      position:"absolute",
       marginRight: theme.spacing(2),
       height:"min-content",
       overflow: "hidden",
@@ -85,17 +96,19 @@ function App(props: IAppProps) {
         <Backdrop className={classes.backdrop} open={props.isLoading}>
           <CircularProgress/>
         </Backdrop>
-        <AppMenu title="How To Work"/>
+        
         <Grid className={classes.gridVerticalContainer} container direction="column">
           <Grid item className = {classes.fakeMenuBar}/>
-          <Grid className={classes.content} container item direction="row" style={{padding:theme.spacing(2), flexWrap:"nowrap"}} >
-            {
-            props.authorized &&
-            <Paper className={classes.appMenuPaper}>
-              <AppMenuList/>
-            </Paper>
-            }
+          
+          <Grid className={classes.content} container item direction="row" >
             <BrowserRouter>
+              <AppMenu title="How To Work"/>
+              {
+              props.authorized && <>
+             
+                <div className = {classes.fakeAppMenuPaper}/>
+              </>
+              }
               <Routes/>
               {//<RedirectIfNotAuthorized/> 
               }

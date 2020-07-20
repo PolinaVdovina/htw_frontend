@@ -6,12 +6,24 @@ import PlaylistAddCheckIcon from '@material-ui/icons/PlaylistAddCheck';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import ChatIcon from '@material-ui/icons/Chat';
 import { urls } from '../../pages/urls';
+import { Link as RouterLink, LinkProps as RouterLinkProps, NavLink } from 'react-router-dom';
 
-const drawerElementsDict = [
+interface IDrawerElement {
+  IconComponent?: any,
+  title?: string,
+  url?: string,
+}
+
+const drawerElementsDict: Array<IDrawerElement> = [
+    {
+      IconComponent: AccountCircleIcon,
+      title: "Личный кабинет",
+      url: urls.cabinet.shortPath+"1",
+    },
     {
       IconComponent: LibraryBooksIcon,
       title: "Новости",
-      url: urls.home,
+      url: urls.home.shortPath,
     },
     {
       IconComponent: PlaylistAddCheckIcon,
@@ -36,7 +48,8 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     rootGrid: {
       alignItems: 'center',
-      width: theme.menuBar.menuWidth
+      width: theme.menuBar.menuWidth,
+      minWidth: theme.menuBar.menuWidth,
     },
 
     avatarGrid: {
@@ -64,7 +77,7 @@ const DrawerListButtons = () => {
         <List className={classes.listButtons}>
         {
           drawerElementsDict.map(el => 
-              <ListItem button>
+              <ListItem button component={NavLink} to={el.url || '/'}>
                   <ListItemIcon>
                       <el.IconComponent/>
                   </ListItemIcon>
@@ -88,7 +101,10 @@ export const AppMenuList = (props: IAppMenuList) => {
         <Grid container direction="column" className={classes.rootGrid}>
             <Grid container item direction="row" className={classes.avatarGrid}>
 
-                <Avatar className={classes.avatar} style={{marginRight:theme.spacing(2)}}/>
+                <Avatar 
+                className={classes.avatar}
+                component={NavLink} to={urls.cabinet.shortPath+"1"}
+                style={{marginRight:theme.spacing(2)}}/>
         
                 <Typography style={{flexGrow:1, width:"min-content", color:"white"}}>
                   Александр Галков

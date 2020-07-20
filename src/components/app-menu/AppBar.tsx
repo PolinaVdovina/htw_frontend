@@ -24,10 +24,11 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     container: {
       padding:0,
+      maxWidth:theme.container.maxWidth,
     },
     menuBar: {
       minHeight: theme.menuBar.height,
-      maxWidth: theme.container.maxWidth,
+
       paddingRight: theme.spacing(2),
       paddingLeft: theme.spacing(2),
     },

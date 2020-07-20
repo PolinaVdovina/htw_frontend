@@ -10,7 +10,7 @@ interface ILoginResponse {
 export const login = async (identity, password) => {
     let returnData: ILoginResponse;
     try {
-        const response =  await axios.post("auth/login", {
+        const response =  await axios.post("/auth/login", {
             accountLogin: identity,
             password: password,
         });
@@ -51,7 +51,7 @@ interface IRegisterResponse {
 export const register = async (login, email, password, role) => {
     let returnData: IRegisterResponse;
     try {
-        const response =  await axios.post("auth/create", {
+        const response =  await axios.post("/auth/create", {
             login,
             email,
             password,

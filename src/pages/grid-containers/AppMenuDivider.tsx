@@ -9,18 +9,20 @@ interface IAppMenuDividerProps {
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    appMenuList: {
+    appMenuPaper: {
         marginRight: theme.spacing(2),
         height:"min-content",
+        overflow: "hidden",
+  
         [theme.breakpoints.down('xs')]: {
           display: "none",
         }
     },
     content: {
-        flexGrow:1,
+        flex:1,
     },
     root: {
-      textAlign: "center",
+      flexWrap:"nowrap",
       justifyContent: "center",
       flex: 1,
       
@@ -32,11 +34,9 @@ export const AppMenuDivider = (props : IAppMenuDividerProps) => {
     const classes = useStyles();
     return (
         <Grid container direction="row" className={classes.root}>
-            <Grid item className={classes.appMenuList}>
-                <Paper>
-                    <AppMenuList/>
-                </Paper>
-            </Grid>
+            <Paper className={classes.appMenuPaper}>
+                <AppMenuList/>
+            </Paper>
             <Grid item className={classes.content}>
                 {props.children}
             </Grid>
