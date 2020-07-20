@@ -6,64 +6,105 @@ interface IChangeBirth {
 }
 
 export const ChangeBirth = (props : IChangeBirth) => {
-    const [age, setAge] = React.useState('');
+    const [day, setDay] = React.useState('');
+    const [month, setMonth] = React.useState('');
+    const [year, setYear] = React.useState('');
 
-    const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-        setAge(event.target.value as string);
+    const handleChangeDay = (event: React.ChangeEvent<{ value: unknown }>) => {
+        setDay(event.target.value as string);
     };
+
+    const handleChangeMonth = (event: React.ChangeEvent<{ value: unknown }>) => {
+        setMonth(event.target.value as string);
+    };
+
+    const handleChangeYear = (event: React.ChangeEvent<{ value: unknown }>) => {
+        setYear(event.target.value as string);
+    };
+
+    const days = () => {
+        let array: Array<number> = [];
+        for (let i: number = 1; i <= 31; i++)
+            array.push(i);
+        return array;
+    }
+
+    const years = () => {
+        let array: Array<number> = [];
+        let currentYear = new Date().getFullYear();
+        for (let i: number = 1901; i <= currentYear; i++)
+            array.push(i);
+        return array;
+    }
+
+    const months = [
+        'Январь',
+        'Февраль',
+        'Март',
+        'Апрель',
+        'Май',
+        'Июнь',
+        'Июль',
+        'Август',
+        'Сентябрь',
+        'Октябрь',
+        'Ноябрь',
+        'Декабрь'
+    ]
 
     return(
         <Grid item container direction='row' alignItems='flex-end'>
-            <Grid item>
-                <Typography>
-                    Дата рождения 
-                </Typography>
-            </Grid>
             <Grid item style={{'paddingLeft': '10px'}}>
                 <FormControl>
-                    <InputLabel id="demo-simple-select-label">День</InputLabel>
+                    
                     <Select
                         labelId="demo-simple-select-label"
                         id="demo-simple-select"
-                        value={age}
-                        onChange={handleChange}   
-                        style={{'width': '60px'}}                     
+                        value={day}
+                        onChange={handleChangeDay}   
+                        //style={{'width': '60px'}}                     
                     >
-                        <MenuItem value={10}>Ten</MenuItem>
-                        <MenuItem value={20}>Twenty</MenuItem>
-                        <MenuItem value={30}>Thirty</MenuItem>
+                        {
+                            days().map(value => 
+                                <MenuItem value={value}>{value}</MenuItem>
+                            )
+                        }
                     </Select>
                 </FormControl>
             </Grid>
             <Grid item style={{'paddingLeft': '10px'}}>
                 <FormControl>
-                    <InputLabel id="demo-simple-select-label">Месяц</InputLabel>
+                    
                     <Select
                         labelId="demo-simple-select-label"
                         id="demo-simple-select"
-                        value={age}
-                        onChange={handleChange}
-                        style={{'width': '90px'}}
+                        value={month}
+                        onChange={handleChangeMonth}
+                        style={{'width': '100px'}}
                     >
-                        <MenuItem value={10}>Ten</MenuItem>
-                        <MenuItem value={20}>Twenty</MenuItem>
-                        <MenuItem value={30}>Thirty</MenuItem>
+                        {
+                            months.map(value => 
+                                <MenuItem value={value}>{value}</MenuItem>
+                            )
+                        }
                     </Select>
                 </FormControl>
             </Grid>
             <Grid item style={{'paddingLeft': '10px'}}>
                 <FormControl>
-                    <InputLabel id="demo-simple-select-label">Год</InputLabel>
+                    
                     <Select
                         labelId="demo-simple-select-label"
                         id="demo-simple-select"
-                        value={age}
-                        onChange={handleChange}
-                        style={{'width': '70px'}}
+                        value={year}
+                        onChange={handleChangeYear}
+                        style={{'width': '65px'}}
                     >
-                        <MenuItem value={10}>Ten</MenuItem>
-                        <MenuItem value={20}>Twenty</MenuItem>
-                        <MenuItem value={30}>Thirty</MenuItem>
+                        {
+                            years().map(value => 
+                                <MenuItem value={value}>{value}</MenuItem>
+                            )
+                        }
                     </Select>
                 </FormControl>
             </Grid>
