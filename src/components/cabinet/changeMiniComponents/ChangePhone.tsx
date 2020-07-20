@@ -7,6 +7,6 @@ interface IChangePhone {
 
 export const ChangePhone = (props : IChangePhone) => {
     return(
-        <TextField></TextField>
+        <TextField  size='small' variant='outlined'></TextField>
     )
 }

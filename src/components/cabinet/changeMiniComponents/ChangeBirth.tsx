@@ -62,6 +62,8 @@ export const ChangeBirth = (props : IChangeBirth) => {
                         id="demo-simple-select"
                         value={day}
                         onChange={handleChangeDay}   
+                        //size='small' 
+                        variant='outlined'
                         //style={{'width': '60px'}}                     
                     >
                         {
