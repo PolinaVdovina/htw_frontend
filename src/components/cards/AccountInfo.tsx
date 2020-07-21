@@ -8,17 +8,14 @@ import { connect } from 'react-redux';
 
 
 interface IPropsAccountInfo{
-    role: string
+    role: string,
+    data: {
+        name: string,
+        dateBirth: string
+    }
 }
 
 interface IStateAccountInfo{
-    data: {
-        email: string,
-        phone: string,
-        name: string,
-        address: string,
-        datebirth: string
-    },
     hidden: {
         email: boolean,
         phone: boolean,
@@ -30,23 +27,22 @@ interface IStateAccountInfo{
 
 function mapStateToProps(state : RootState) {
     return {
-      data: { 
-          name: state.userPersonalsReducer.name + ' ' + state.userPersonalsReducer.surname + ' ' + state.userPersonalsReducer.middlename
-      } 
+        data: { 
+            name: state.userPersonalsReducer.surname + ' ' + state.userPersonalsReducer.name + ' ' + state.userPersonalsReducer.middlename,
+            dateBirth: '' + state.userPersonalsReducer.dateBirth,
+            phone: '' + state.userPersonalsReducer.phone,
+            email: '' + state.userPersonalsReducer.email
+        }
+      /*name: state.userPersonalsReducer.name,
+      surname: state.userPersonalsReducer.surname,
+      middlename: state.userPersonalsReducer.middlename*/
     }
-  }
+}
 
 class AccountInfoComp extends React.Component<IPropsAccountInfo, IStateAccountInfo> {
-    constructor(props) {
+    constructor(props) {       
         super(props);
         this.state = {
-            data: {
-                email: 'polina@mail.ru',
-                phone: '+79059770013',
-                name: 'Вдовина Полина Владимировна',
-                address: 'Россия, г Норильск, ул Молодежная, д 27, кв 62',
-                datebirth: '09.12.1998'
-            },
             hidden: {
                 email: false,
                 phone: false,
@@ -70,6 +66,7 @@ class AccountInfoComp extends React.Component<IPropsAccountInfo, IStateAccountIn
     }
 
     render() {
+        //alert(this.props.name)
         return( 
             <PaddingPaper style={{width:"100%"}}>
                 <Grid container spacing={2} direction='column'>  
@@ -87,7 +84,11 @@ class AccountInfoComp extends React.Component<IPropsAccountInfo, IStateAccountIn
                             <Grid item container direction='row' spacing={2} justify='space-between' style={{flexWrap:"nowrap"}}>                             
                                 <Grid item>
                                     <Typography>
-                                        {this.state.data[key]}
+                                        {
+                                            this.props.data[key] ?
+                                                (this.props.data[key].indexOf('null') == -1) ? this.props.data[key] : 'Не задано' :
+                                                'Не задано'
+                                        }
                                     </Typography>
                                 </Grid>
                                 <Grid item>

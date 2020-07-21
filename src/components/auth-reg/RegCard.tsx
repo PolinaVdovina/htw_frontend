@@ -73,7 +73,9 @@ export const RegCard = (props: IRegCardProps) => {
         setErrorConfirmPassword(preConfirmPasswordErrorValidate);
         if (prePasswordErrorValidate == '' && preLoginErrorValidate == '' && preLoginConnectErrorValidate == '' && preConfirmPasswordErrorValidate == '' && preRoleErrorValidate =='') {
             dispatch(startLoadingAction());
-            const result = await registerFetch(login, loginConnect, password, role);
+            const result = await registerFetch(login, typeLoginConnect=='email' ? loginConnect : null, 
+            typeLoginConnect=='phone' ? loginConnect : null
+            , password, role);
      
             if(result.msgStatus == "ok") {
                 dispatch(loginAction(login, result.token, 0, 0));
