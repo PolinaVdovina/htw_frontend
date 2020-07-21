@@ -23,19 +23,19 @@ export const settingsAddress = {
 }
 
 export const settingsBirth = {
-    'birthday': {
+    'dateBirth': {
         'title': 'Дата рождения'
     }
 }
 
 export const settingsName = {
-    'firstname': {
+    'surname': {
         'title': 'Фамилия'
     },
-    'lastname': {
+    'name': {
         'title': 'Имя'
     },
-    'patronymic': {
+    'middlename': {
         'title': 'Отчество'
     }
 }

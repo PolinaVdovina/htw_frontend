@@ -4,12 +4,18 @@ interface ICommonState {
     name?,
     surname?,
     middlename?,
+    dateBirth?,
+    phone?,
+    email?
 }
 
 const initialState : ICommonState = {
     name: null,
     surname: null,
     middlename: null,
+    dateBirth: null,
+    phone: null,
+    email: null
 };
 
 export function userPersonalsReducer(state = initialState, action) : ICommonState {
@@ -19,6 +25,9 @@ export function userPersonalsReducer(state = initialState, action) : ICommonStat
               name: action.name,
               surname: action.surname,
               middlename: action.middlename,
+              dateBirth: action.dateBirth,
+              phone: action.phone,
+              email: action.email
             }
         default:
         return state;

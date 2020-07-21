@@ -31,7 +31,7 @@ export const SETTINGS = {
             'changeSettings': settingsAddress,
             'validateFunction': validateAddress
         },
-        'datebirth': {
+        'dateBirth': {
             'title': 'Дата рождения',
             'changeComponent': ChangeBirth,
             'changeSettings': settingsBirth,

@@ -49,11 +49,12 @@ interface IRegisterResponse {
     error?: string,
 }
 
-export const register = async (login, email, password, role) => {
+export const register = async (login, email, phone, password, role) => {
     let returnData: IRegisterResponse;
     try {
         const response =  await axios.post("/auth/create", {
             login,
+            phone,
             email,
             password,
             roles:role,
@@ -112,6 +113,9 @@ export const getJobSeekerFetch = async () => {
             name: response.data.name,
             surname: response.data.surname,
             middlename: response.data.middlename,
+            dateBirth: response.data.dateBirth,
+            phone: response.data.contactDetails.phone,
+            email: response.data.contactDetails.email,
             msgStatus: "ok"
         };
     }
