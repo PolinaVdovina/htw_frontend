@@ -8,11 +8,12 @@ import { connect, useDispatch } from 'react-redux';
 //import { login as handleLogin } from '../../redux/reducers/auth-reducers';
 
 
-import { login as loginFetch } from './../../utils/fetchFunctions';
+import { login as loginFetch, getJobSeekerFetch } from './../../utils/fetchFunctions';
 import { loginAction } from './../../redux/actions/auth-actions';
 import { startLoadingAction, stopLoadingAction } from '../../redux/actions/dialog-actions';
 import { withSnackbar, useSnackbar } from 'notistack';
 //import { stopLoading } from './../../redux/reducers/dialog-reducers';
+import { fillJobSeekerPersonalAction } from './../../redux/actions/user-personals';
 
 
 
@@ -73,8 +74,11 @@ const SignInCardComp = (props: ISignInCardProps) => {
         if (preValidatePassword == '' && preValidateLogin == '') {
             dispatch(startLoadingAction());
             const result = await loginFetch(login, password);
+           
             if(result.msgStatus == "ok") {
-                dispatch(loginAction(login, result.token, 0, 0));
+                await dispatch(loginAction(login, result.token, 0, 0));
+                const jobSeekerData = await getJobSeekerFetch();
+                dispatch(fillJobSeekerPersonalAction(jobSeekerData.name, jobSeekerData.surname, jobSeekerData.middlename));
                 snackBar.enqueueSnackbar("Вы успешно вошли", {variant: "success"});
                 //alert('Вход выполнен');
 

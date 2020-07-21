@@ -7,7 +7,7 @@ import { RedirectIfNotAuthorized } from './../../components/redirects/RedirectIf
 import { Tape } from '../../components/cards/tape/Tape';
 import { IPostData } from './../../components/cards/tape/PostCard';
 import { Grid } from '@material-ui/core';
-import { getJobSeeker } from '../../utils/fetchFunctions';
+import { getJobSeekerFetch } from '../../utils/fetchFunctions';
 
 interface ICabinetProps {
     
@@ -23,8 +23,7 @@ const testPosts: Array<IPostData> = [
 
 export const Cabinet = (props : ICabinetProps) => {
     React.useEffect(() => {
-        const getDataFunc = async() => await getJobSeeker();
-        const data = getDataFunc();
+        
         
     })
     return (

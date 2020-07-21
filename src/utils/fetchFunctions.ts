@@ -100,7 +100,7 @@ export const register = async (login, email, password, role) => {
 //     name: string,
 // }
 
-export const getJobSeeker = async () => {
+export const getJobSeekerFetch = async () => {
     let returnData;
     try {
         const response =  await axios.get("/personal/get", {
@@ -108,7 +108,6 @@ export const getJobSeeker = async () => {
                 Authorization: 'Bearer ' + store.getState().authReducer.token
             }
         });
-
         returnData =  {
             name: response.data.name,
             surname: response.data.surname,

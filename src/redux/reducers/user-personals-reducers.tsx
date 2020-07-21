@@ -7,14 +7,18 @@ interface ICommonState {
 }
 
 const initialState : ICommonState = {
-
+    name: null,
+    surname: null,
+    middlename: null,
 };
 
-export function dialogReducer(state = initialState, action) : ICommonState {
+export function userPersonalsReducer(state = initialState, action) : ICommonState {
     switch (action.type) {
         case types.GET_JOBSEEKER_DATA:
             return {
-              
+              name: action.name,
+              surname: action.surname,
+              middlename: action.middlename,
             }
         default:
         return state;

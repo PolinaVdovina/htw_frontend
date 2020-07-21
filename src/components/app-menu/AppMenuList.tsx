@@ -7,6 +7,8 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 import ChatIcon from '@material-ui/icons/Chat';
 import { urls } from '../../pages/urls';
 import { Link as RouterLink, LinkProps as RouterLinkProps, NavLink } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { RootState } from '../../redux/store';
 
 interface IDrawerElement {
   IconComponent?: any,
@@ -90,16 +92,28 @@ const DrawerListButtons = () => {
 
 interface IAppMenuList {
     open?: boolean,
-    onClose?: (event) => void
+    onClose?: (event) => void,
+    name: string,
+    surname: string,
+    login?: string | null,
 }
 
+function mapStateToProps(state : RootState) {
+  return {
+    name: state.userPersonalsReducer.name,
+    surname: state.userPersonalsReducer.surname,
+    login: state.authReducer.login,
+    token: state.authReducer.token,
+  }
+}
 
-export const AppMenuList = (props: IAppMenuList) => {
+const AppMenuListComp = (props: IAppMenuList) => {
     const classes = useStyles();
     const theme = useTheme();
+
     return (
         <Grid container direction="column" className={classes.rootGrid}>
-            <Grid container item direction="row" className={classes.avatarGrid}>
+            <Grid container item alignItems="center" direction="row" className={classes.avatarGrid}>
 
                 <Avatar 
                 className={classes.avatar}
@@ -107,7 +121,7 @@ export const AppMenuList = (props: IAppMenuList) => {
                 style={{marginRight:theme.spacing(2)}}/>
         
                 <Typography style={{flexGrow:1, width:"min-content", color:"white"}}>
-                  Александр Галков
+                  {(props.name && props.surname) ? props.login + ' ' + props.surname : props.login}
                 </Typography>
         
             </Grid>
@@ -117,3 +131,5 @@ export const AppMenuList = (props: IAppMenuList) => {
         </Grid>
     )
 }
+
+export const AppMenuList = connect(mapStateToProps )(AppMenuListComp );

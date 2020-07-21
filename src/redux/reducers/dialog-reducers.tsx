@@ -21,8 +21,9 @@ export function dialogReducer(state = initialState, action) : IDialogState {
             };
         default:
         return state;
-    }
+    } 
 }
+
 
 // export const startLoading: () => void = () => async (dispatch, getState) => {
 //     dispatch(startLoadingAction () );

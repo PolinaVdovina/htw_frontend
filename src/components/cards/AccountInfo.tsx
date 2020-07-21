@@ -3,6 +3,8 @@ import { Typography, Card, TextField, CardContent, Grid, Paper, Link, FormContro
 import { ChangeComponent } from '../cabinet/ChangeComponent';
 import { SETTINGS } from '../cabinet/accountSettings';
 import { PaddingPaper } from './PaddingPaper';
+import { RootState } from '../../redux/store';
+import { connect } from 'react-redux';
 
 
 interface IPropsAccountInfo{
@@ -26,7 +28,15 @@ interface IStateAccountInfo{
     }
 }
 
-export default class AccountInfo extends React.Component<IPropsAccountInfo, IStateAccountInfo> {
+function mapStateToProps(state : RootState) {
+    return {
+      data: { 
+          name: state.userPersonalsReducer.name + ' ' + state.userPersonalsReducer.surname + ' ' + state.userPersonalsReducer.middlename
+      } 
+    }
+  }
+
+class AccountInfoComp extends React.Component<IPropsAccountInfo, IStateAccountInfo> {
     constructor(props) {
         super(props);
         this.state = {
@@ -108,3 +118,4 @@ export default class AccountInfo extends React.Component<IPropsAccountInfo, ISta
 }
 
 
+export default connect(mapStateToProps)(AccountInfoComp);

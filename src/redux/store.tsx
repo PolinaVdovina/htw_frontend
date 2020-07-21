@@ -3,10 +3,12 @@ import {authReducer} from './reducers/auth-reducers';
 import {dialogReducer} from './reducers/dialog-reducers';
 import thunk from 'redux-thunk'
 import { composeWithDevTools } from 'redux-devtools-extension';
+import { userPersonalsReducer } from './reducers/user-personals-reducers';
 
 export const reducer = combineReducers({
     authReducer,
     dialogReducer,
+    userPersonalsReducer
 });
 
 export type RootState = ReturnType<typeof reducer>
