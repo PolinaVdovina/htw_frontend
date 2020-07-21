@@ -121,7 +121,7 @@ const AppMenuListComp = (props: IAppMenuList) => {
                 style={{marginRight:theme.spacing(2)}}/>
         
                 <Typography style={{flexGrow:1, width:"min-content", color:"white"}}>
-                  {(props.name && props.surname) ? props.login + ' ' + props.surname : props.login}
+                  {(props.name && props.surname) ? props.name + ' ' + props.surname : props.login}
                 </Typography>
         
             </Grid>

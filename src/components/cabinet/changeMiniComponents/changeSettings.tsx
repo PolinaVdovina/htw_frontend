@@ -42,7 +42,7 @@ export const settingsName = {
 
 export const settingsPhone = {
     'phone': {
-        'title': 'Новый номер'
+        'title': 'Новый номер', 
     }
 }
 
