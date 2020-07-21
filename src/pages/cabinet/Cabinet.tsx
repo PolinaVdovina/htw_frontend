@@ -8,9 +8,10 @@ import { Tape } from '../../components/cards/tape/Tape';
 import { IPostData } from './../../components/cards/tape/PostCard';
 import { Grid } from '@material-ui/core';
 import { getJobSeekerFetch } from '../../utils/fetchFunctions';
+import { RootState } from '../../redux/store';
 
 interface ICabinetProps {
-    
+    role: string
 }
 
 const testPosts: Array<IPostData> = [
@@ -21,15 +22,25 @@ const testPosts: Array<IPostData> = [
     }
 ]
 
+function mapStateToProps(state : RootState) {
+    return {
+        role: state.authReducer.entityType,
+    }
+}
+
 export const Cabinet = (props : ICabinetProps) => {
     React.useEffect(() => {
-        
-        
+        /*let Component;
+        switch (props.role) {
+            case ('jobseeker'): Component =  <JobSeekerCabinet/>; break;
+        }*/
     })
+        
+
     return (
         <HCenterizingGrid>
-                {/*<JobSeekerCabinet/>*/}
-            <AccountInfo  role='JOBSEEKER'/>
+                <JobSeekerCabinet/>
+            {/*<AccountInfo  role='JOBSEEKER'/>*/}
         </HCenterizingGrid>
         )
 }
