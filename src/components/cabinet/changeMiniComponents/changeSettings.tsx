@@ -51,3 +51,21 @@ export const settingsEmail = {
         'title': 'Новый адрес'
     }
 }
+
+export const settingsInn = {
+    'inn': {
+        'title': 'Новый ИНН'
+    }
+}
+
+export const settingsOgrn = {
+    'ogrn': {
+        'title': 'Новый ОГРН'
+    }
+}
+
+export const settingsNameOrg = {
+    'name': {
+        'title': 'Новое наименование'
+    }
+}

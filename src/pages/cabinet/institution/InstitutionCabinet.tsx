@@ -4,7 +4,7 @@ import { JobSeekerFeedMenu } from './../../../components/feed-menu/job-seeker/Jo
 import { RedirectIfNotAuthorized } from './../../../components/redirects/RedirectIfNotAuthorized';
 import AccountInfo from '../../../components/cards/AccountInfo';
 
-interface IJobSeekerCabinet {
+interface IInstitutionCabinet {
 
 }
 
@@ -17,9 +17,9 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-export const JobSeekerCabinet = (props: IJobSeekerCabinet) => {
+export const InstitutionCabinet = (props: IInstitutionCabinet) => {
     const classes = useStyles();
     return (
-            <AccountInfo  role='INDIVIDUAL'/>
+            <AccountInfo  role='LEGAL'/>
     )
 }
