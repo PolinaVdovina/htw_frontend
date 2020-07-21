@@ -6,7 +6,7 @@ import { withSnackbar, WithSnackbarProps } from 'notistack';
 
 type FinalProps = IChangeComponent & WithSnackbarProps;
 
-interface IChangeComponent {
+export interface IChangeComponent {
     handleClickSave: () => void,
     handleClickClose: () => void,
     type: string,

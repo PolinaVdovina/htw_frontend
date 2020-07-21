@@ -1,10 +1,11 @@
 import * as React from 'react';
-import { Typography, Card, TextField, CardContent, Grid, Paper, Link, FormControl, Input, Button } from '@material-ui/core';
+import { Typography, Card, TextField, CardContent, Grid, Paper, Link, FormControl, Input, Button, Divider } from '@material-ui/core';
 import { ChangeComponent } from '../cabinet/ChangeComponent';
 import { SETTINGS } from '../cabinet/accountSettings';
 import { PaddingPaper } from './PaddingPaper';
 import { RootState } from '../../redux/store';
 import { connect } from 'react-redux';
+import { AccountCommonInfo } from './../cabinet/AccountCommonInfo';
 
 
 interface IPropsAccountInfo{
@@ -70,6 +71,10 @@ class AccountInfoComp extends React.Component<IPropsAccountInfo, IStateAccountIn
         return( 
             <PaddingPaper style={{width:"100%"}}>
                 <Grid container spacing={2} direction='column'>  
+                    <Grid item>
+                        <AccountCommonInfo/>
+                    </Grid>
+                    <Divider/>
                     <Grid item>
                         <Typography variant='h5'>
                             Личные данные
