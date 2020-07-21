@@ -70,3 +70,25 @@ export function validateAddress(address: string): boolean {
         return true;
     else return false;
 }
+
+export function validateNameOrg(name: string): boolean {
+    if (name && name != '')
+        return true;
+    else return false;
+}
+
+export function validateInn(inn: string): boolean {
+    if (inn && inn != '')
+        if (inn.length != 10) return false;
+        else if (!inn.match(/^[0-9]+$/)) return false;
+        else return true;
+    else return false;
+}
+
+export function validateOgrn(ogrn: string): boolean {
+    if (ogrn && ogrn != '')
+        if (ogrn.length != 13) return false;
+        else if (!ogrn.match(/^[0-9]+$/)) return false;
+        else return true;
+    else return false;
+}
