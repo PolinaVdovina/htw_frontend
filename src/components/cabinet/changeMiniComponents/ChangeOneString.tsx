@@ -12,7 +12,7 @@ export const ChangeOneString = (props : IChangeOneString) => {
         <TextField 
             size='small' 
             variant='outlined' 
-            value={props.data} 
+            value={props.data[props.type]} 
             onChange={(event) => props.onChange({[props.type]: event.target.value})}
         />
     )

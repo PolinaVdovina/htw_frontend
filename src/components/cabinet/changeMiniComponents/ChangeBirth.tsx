@@ -34,7 +34,7 @@ export const ChangeBirth = (props: IChangeBirth) => {
 			}}
 			variant='outlined'
 			size='small'
-			value={props.data}
+			value={props.data[props.type]}
 			//defaultValue="2017-05-24"
 			onChange={(event) => props.onChange({[props.type]: event.target.value})}
 		/>
