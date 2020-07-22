@@ -10,13 +10,13 @@ import { Link as RouterLink, LinkProps as RouterLinkProps, NavLink } from 'react
 import { connect } from 'react-redux';
 import { RootState } from '../../redux/store';
 import { ChangeComponent } from './ChangeComponent';
+import { ChangeComponentDialog } from './ChangeComponentDialog';
 
 interface IDrawerElement {
   IconComponent?: any,
   title?: string,
   url?: string,
 }
-
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -49,7 +49,6 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-
 interface IAccountCommonInfo {
     open?: boolean,
     onClose?: (event) => void,
@@ -70,7 +69,7 @@ function mapStateToProps(state : RootState) {
 const AccountCommonInfoComp = (props: IAccountCommonInfo) => {
     const classes = useStyles();
     const theme = useTheme();
-
+    const [open, setOpen] = React.useState(false);
     return (
             <Grid container alignItems="center" direction="row" className={classes.avatarGrid}>
                 <Avatar className={classes.avatar} />
@@ -82,17 +81,19 @@ const AccountCommonInfoComp = (props: IAccountCommonInfo) => {
                     Здесь написано обо мне, дя
                     </Typography>
 
-                    <ChangeComponent
-                    handleClickClose={() => {}}
-                    handleClickSave={() => {}}
+                    <ChangeComponentDialog 
+                    open={open}
+                    handleClickClose={() => {setOpen(false)}}
+                    handleClickSave={() => {setOpen(false)}}
                     type="name"
-                    role="JOBSEEKER"
+                    role="INDIVIDUAL"
                     />
                     
                 </Grid>
                 <Grid item>
                     <Link 
                         component='button'  
+                        onClick={()=>setOpen(true)}
                     >
                         Изменить
                     </Link>

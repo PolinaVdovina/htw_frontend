@@ -37,7 +37,12 @@ export const settingsName = {
     },
     'middlename': {
         'title': 'Отчество'
-    }
+    },
+    changeFunction: null, 
+}
+
+export const settingsDescription = {
+    'description': "О себе"
 }
 
 export const settingsPhone = {

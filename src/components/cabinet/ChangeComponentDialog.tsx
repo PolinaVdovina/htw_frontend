@@ -10,11 +10,12 @@ import { Link as RouterLink, LinkProps as RouterLinkProps, NavLink } from 'react
 import { connect } from 'react-redux';
 import { RootState } from '../../redux/store';
 import { ChangeComponent, IChangeComponent } from './ChangeComponent';
+import { theme } from './../../theme';
 
 
 
 
-interface IChangeComponentDialog {
+interface IChangeComponentDialog extends IChangeComponent {
     open: boolean,
 }
 
@@ -27,14 +28,16 @@ export const ChangeComponentDialog = (props: IChangeComponentDialog) => {
         ...other
     } = props
 
-    //const changeComponentProps: IChangeComponent = {
-    //    
-    //};
-
     return (
-            <Dialog open={props.open}>
-                {//<ChangeComponent {...other}/>
-                }
+            <Dialog open={props.open} >
+                <div style={{padding:theme.spacing(2)}}>
+                    <Grid container direction="column">
+                        <Typography variant="h5" style={{textAlign:"center", marginBottom:theme.spacing(2)}}>
+                            Изменить данные
+                        </Typography>
+                        <ChangeComponent {...other}/>
+                    </Grid>
+                </div>
             </Dialog>
     )
 }
