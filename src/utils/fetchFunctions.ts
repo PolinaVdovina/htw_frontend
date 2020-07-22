@@ -1,5 +1,6 @@
 import axios from "axios";
 import { store } from './../redux/store';
+import { IMessageInfo, MessageStatus } from "./fetchInterfaces";
 
 interface ILoginResponse {
     login?: string,
@@ -12,7 +13,7 @@ export const login = async (identity, password) => {
     let returnData: ILoginResponse;
     try {
         const response =  await axios.post("/auth/login", {
-            accountLogin: identity,
+            login: identity,
             password: password,
         });
 
@@ -47,6 +48,20 @@ interface IRegisterResponse {
     token?: string,
     msgStatus?: string,
     error?: string,
+}
+
+export const setJobSeekerName = async (name, surname, middlename) => {
+    const response = await axios.post("/setting/personal", {
+        name,
+        surname,
+        middlename,
+    });
+    const msgInfo: IMessageInfo = {
+        msgStatus: response.data.error ? MessageStatus.OK : MessageStatus.ERROR,
+    };
+    const returnData = {
+        msgStatus: response.data.error ? "ok" : "error"
+    }
 }
 
 export const register = async (login, email, phone, password, role) => {

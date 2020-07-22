@@ -20,7 +20,7 @@ const initialState : ICommonState = {
 
 export function userPersonalsReducer(state = initialState, action) : ICommonState {
     switch (action.type) {
-        case types.GET_JOBSEEKER_DATA:
+        case types.FILL_JOBSEEKER_DATA:
             return {
               name: action.name,
               surname: action.surname,
