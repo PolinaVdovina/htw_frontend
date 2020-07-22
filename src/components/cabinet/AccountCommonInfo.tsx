@@ -82,12 +82,12 @@ const AccountCommonInfoComp = (props: IAccountCommonInfo) => {
                     </Typography>
 
                     <ChangeComponentDialog 
-                    open={open}
-                    handleClickClose={() => {setOpen(false)}}
-                    handleClickSave={() => {setOpen(false)}}
-                    type="name"
-                    role="INDIVIDUAL"
-                    />
+                      open={open}
+                      handleClickClose={() => {setOpen(false)}}
+                      handleClickSave={() => {setOpen(false)}}
+                      type="name"
+                      role="INDIVIDUAL"
+                      />
                     
                 </Grid>
                 <Grid item>

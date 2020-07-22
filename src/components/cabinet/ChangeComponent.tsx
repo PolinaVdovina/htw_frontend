@@ -3,6 +3,9 @@ import { Grid, Typography, TextField, Button, createStyles, Theme, makeStyles } 
 import { SETTINGS } from './accountSettings';
 import { useTheme } from '@material-ui/core';
 import { withSnackbar, WithSnackbarProps } from 'notistack';
+import { IMessageInfo, MessageStatus } from '../../utils/fetchInterfaces';
+import { useDispatch } from 'react-redux';
+import { startLoadingAction, stopLoadingAction } from '../../redux/actions/dialog-actions';
 
 type FinalProps = IChangeComponent & WithSnackbarProps;
 
@@ -26,21 +29,38 @@ export const ChangeComponentRaw = (props : FinalProps) => {
     const Component = SETTINGS[props.role][props.type].changeComponent;
     const changeSettings = SETTINGS[props.role][props.type].changeSettings;
     const validFunc = SETTINGS[props.role][props.type].validateFunction;
+    const changeFunc = SETTINGS[props.role][props.type]['changeFunction'];
 
     const [data, setData] = React.useState('');
     const theme = useTheme();
-
+    const dispatch = useDispatch();
     const onChange = (data: any) => {
         setData(data);
     } 
 
-    const validateAndSave = () => {
+    const validateAndSave = async() => {
         //alert(data)
         if (!validFunc(data))
             props.enqueueSnackbar('Поле заполнено неверно', {variant: "error"})
         else {
-            props.handleClickClose();
-            props.enqueueSnackbar('Данные сохранены', {variant: "success"})
+            
+            if(changeFunc)
+            {
+                await dispatch(startLoadingAction());
+                const result = await changeFunc(dispatch, data);
+                await dispatch(stopLoadingAction());
+                if(result.msgStatus == MessageStatus.OK) {
+                    props.enqueueSnackbar('Данные сохранены', {variant: "success"});
+                    props.handleClickClose();
+                }
+                else {
+                    props.enqueueSnackbar('Не удалось изменить данные из-за проблем с соединением', {variant: "error"})
+                }
+            }
+            else {
+                props.enqueueSnackbar('Данные сохранены', {variant: "success"});
+                props.handleClickClose();
+            }
         }           
     }
 

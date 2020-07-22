@@ -4,6 +4,9 @@ import { ChangeName } from "./changeMiniComponents/ChangeName";
 import { ChangeBirth } from "./changeMiniComponents/ChangeBirth";
 import { settingsEmail, settingsPhone, settingsName, settingsBirth, settingsAddress, settingsNameOrg, settingsInn, settingsOgrn } from "./changeMiniComponents/changeSettings";
 import { validateEmail, validatePhone, validateName, validateDate, validateAddress, validateInn, validateNameOrg, validateOgrn } from "../../utils/validateFunctions";
+import { changeJobSeekerName } from "../../utils/change-component-utils";
+
+
 
 export const SETTINGS = {
     INDIVIDUAL: {
@@ -11,31 +14,36 @@ export const SETTINGS = {
             title: 'Электронная почта',
             changeComponent: ChangeOneString,
             changeSettings: settingsEmail,
-            validateFunction: validateEmail          
+            validateFunction: validateEmail,
+            changeFunction: changeJobSeekerName,      
         },
         phone: {
             title: 'Номер телефона',
             changeComponent: ChangeOneString,
             changeSettings: settingsPhone,
-            validateFunction: validatePhone
+            validateFunction: validatePhone,
+            changeFunction: changeJobSeekerName,
         },
         name: {
             title: 'ФИО',
             changeComponent: ChangeName,
             changeSettings: settingsName,
-            validateFunction: validateName
+            validateFunction: validateName,
+            changeFunction: changeJobSeekerName,
         },
         address: {
             title: 'Адрес',
             changeComponent: ChangeAddress,
             changeSettings: settingsAddress,
-            validateFunction: validateAddress
+            validateFunction: validateAddress,
+            changeFunction: changeJobSeekerName,
         },
         dateBirth: {
             title: 'Дата рождения',
             changeComponent: ChangeBirth,
             changeSettings: settingsBirth,
-            validateFunction: validateDate
+            validateFunction: validateDate,
+            changeFunction: changeJobSeekerName,
         }
     },
     LEGAL: {

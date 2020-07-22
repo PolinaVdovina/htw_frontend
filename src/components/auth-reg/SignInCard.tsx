@@ -78,7 +78,14 @@ const SignInCardComp = (props: ISignInCardProps) => {
             if(result.msgStatus == "ok") {
                 await dispatch(loginAction(login, result.token, 0, 0));
                 const jobSeekerData = await getJobSeekerFetch();
-                await dispatch(fillJobSeekerPersonalAction(jobSeekerData.name, jobSeekerData.surname, jobSeekerData.middlename, jobSeekerData.dateBirth, jobSeekerData.phone, jobSeekerData.email));
+                await dispatch(fillJobSeekerPersonalAction({
+                    name: jobSeekerData.name, 
+                    surname: jobSeekerData.surname, 
+                    middlename: jobSeekerData.middlename, 
+                    dateBirth: jobSeekerData.dateBirth, 
+                    phone: jobSeekerData.phone, 
+                    email: jobSeekerData.email
+                }));
                 snackBar.enqueueSnackbar("Вы успешно вошли", {variant: "success"});
                 //alert('Вход выполнен');
 

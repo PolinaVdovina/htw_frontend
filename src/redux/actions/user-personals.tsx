@@ -1,14 +1,9 @@
 import { FILL_JOBSEEKER_DATA, FILL_JOBSEEKER_NAME } from './../../constants/action-types';
 
-export function fillJobSeekerPersonalAction(name, surname, middlename, dateBirth, phone, email) {
+export function fillJobSeekerPersonalAction(data) {
     return {
         type: FILL_JOBSEEKER_DATA,
-        name,
-        surname,
-        middlename,
-        dateBirth,
-        phone,
-        email
+        data
     };
 }
 
@@ -21,3 +16,5 @@ export function fillJobSeekerNameAction(name, surname, middlename) {
 
     };
 }
+
+

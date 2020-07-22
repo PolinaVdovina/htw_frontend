@@ -50,19 +50,7 @@ interface IRegisterResponse {
     error?: string,
 }
 
-export const setJobSeekerName = async (name, surname, middlename) => {
-    const response = await axios.post("/setting/personal", {
-        name,
-        surname,
-        middlename,
-    });
-    const msgInfo: IMessageInfo = {
-        msgStatus: response.data.error ? MessageStatus.OK : MessageStatus.ERROR,
-    };
-    const returnData = {
-        msgStatus: response.data.error ? "ok" : "error"
-    }
-}
+
 
 export const register = async (login, email, phone, password, role) => {
     let returnData: IRegisterResponse;
@@ -145,3 +133,19 @@ export const getJobSeekerFetch = async () => {
     return returnData;
 }
 
+export const changeJobSeekerNameFetch = async (data) => {
+    const response = await axios.post("/personal/setting/personal",  {
+            ...data,
+            contactDetails: {}
+        },
+        {
+            headers: {Authorization: 'Bearer ' + store.getState().authReducer.token},
+        }
+    );
+    
+    const msgInfo: IMessageInfo = {
+        msgStatus: response.data.error ?  MessageStatus.ERROR : MessageStatus.OK,
+    };
+    
+    return  msgInfo;
+}

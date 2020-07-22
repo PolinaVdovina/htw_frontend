@@ -1,6 +1,7 @@
 import * as types from '../../constants/action-types';
 
 interface ICommonState {
+    isFetched,
     name?,
     surname?,
     middlename?,
@@ -10,6 +11,7 @@ interface ICommonState {
 }
 
 const initialState : ICommonState = {
+    isFetched: false,
     name: null,
     surname: null,
     middlename: null,
@@ -22,12 +24,15 @@ export function userPersonalsReducer(state = initialState, action) : ICommonStat
     switch (action.type) {
         case types.FILL_JOBSEEKER_DATA:
             return {
-              name: action.name,
-              surname: action.surname,
-              middlename: action.middlename,
-              dateBirth: action.dateBirth,
-              phone: action.phone,
-              email: action.email
+                ...state,
+                ...action.data,
+            }
+        case types.FILL_JOBSEEKER_NAME: 
+            return {
+                ...state,
+                name: action.name,
+                surname: action.surname,
+                middlename: action.middlename,
             }
         default:
         return state;
