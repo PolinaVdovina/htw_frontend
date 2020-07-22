@@ -84,8 +84,10 @@ const SignInCardComp = (props: ISignInCardProps) => {
                     middlename: jobSeekerData.middlename, 
                     dateBirth: jobSeekerData.dateBirth, 
                     phone: jobSeekerData.phone, 
-                    email: jobSeekerData.email
+                    email: jobSeekerData.email,
+                    about: jobSeekerData.about,
                 }));
+                alert(jobSeekerData.about);
                 snackBar.enqueueSnackbar("Вы успешно вошли", {variant: "success"});
                 //alert('Вход выполнен');
 

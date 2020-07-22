@@ -55,6 +55,8 @@ interface IAccountCommonInfo {
     name: string,
     surname: string,
     login?: string | null,
+    about?: string | null,
+    middlename?: string | null,
 }
 
 function mapStateToProps(state : RootState) {
@@ -63,29 +65,44 @@ function mapStateToProps(state : RootState) {
     surname: state.userPersonalsReducer.surname,
     login: state.authReducer.login,
     token: state.authReducer.token,
+    about: state.userPersonalsReducer.about,
+    middlename: state.userPersonalsReducer.middlename
   }
 }
 
 const AccountCommonInfoComp = (props: IAccountCommonInfo) => {
     const classes = useStyles();
     const theme = useTheme();
-    const [open, setOpen] = React.useState(false);
+    const [openName, setOpenName] = React.useState(false);
+    const [openAbout, setOpenAbout] = React.useState(false);
+
     return (
             <Grid container alignItems="center" direction="row" className={classes.avatarGrid}>
                 <Avatar className={classes.avatar} />
                 <Grid item container direction="column" className={classes.descriptionAndTitleBlock}>
                     <Typography className={classes.titleBlock}>
-                    {(props.name && props.surname) ? props.name + ' ' + props.surname : props.login}
+                    {(props.name && props.surname) ? props.name + ' ' + props.surname + ' ' + props.middlename  : "ФИО не указано"}
                     </Typography>
                     <Typography className={classes.descriptionBlock}>
-                    Здесь написано обо мне, дя
+                    <Link
+                    component='button' 
+                    onClick={()=>setOpenAbout(true)}>
+                      {props.about ? props.about : "Расскажите о себе"}
+                    </Link>
                     </Typography>
 
                     <ChangeComponentDialog 
-                      open={open}
-                      handleClickClose={() => {setOpen(false)}}
-                      handleClickSave={() => {setOpen(false)}}
+                      open={openName}
+                      handleClickClose={() => {setOpenName(false)}}
+                      handleClickSave={() => {setOpenName(false)}}
                       type="name"
+                      role="INDIVIDUAL"
+                      />
+                      <ChangeComponentDialog 
+                      open={openAbout}
+                      handleClickClose={() => {setOpenAbout(false)}}
+                      handleClickSave={() => {setOpenAbout(false)}}
+                      type="about"
                       role="INDIVIDUAL"
                       />
                     
@@ -93,7 +110,7 @@ const AccountCommonInfoComp = (props: IAccountCommonInfo) => {
                 <Grid item>
                     <Link 
                         component='button'  
-                        onClick={()=>setOpen(true)}
+                        onClick={()=>setOpenName(true)}
                     >
                         Изменить
                     </Link>

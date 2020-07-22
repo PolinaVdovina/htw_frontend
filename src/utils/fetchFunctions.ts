@@ -9,6 +9,8 @@ interface ILoginResponse {
     error?: string,
 }
 
+
+
 export const login = async (identity, password) => {
     let returnData: ILoginResponse;
     try {
@@ -119,7 +121,8 @@ export const getJobSeekerFetch = async () => {
             dateBirth: response.data.dateBirth,
             phone: response.data.contactDetails.phone,
             email: response.data.contactDetails.email,
-            msgStatus: "ok"
+            msgStatus: "ok",
+            about: response.data.about,
         };
     }
     catch
@@ -133,19 +136,53 @@ export const getJobSeekerFetch = async () => {
     return returnData;
 }
 
-export const changeJobSeekerNameFetch = async (data) => {
-    const response = await axios.post("/personal/setting/personal",  {
-            ...data,
-            contactDetails: {}
-        },
-        {
-            headers: {Authorization: 'Bearer ' + store.getState().authReducer.token},
-        }
-    );
-    
-    const msgInfo: IMessageInfo = {
-        msgStatus: response.data.error ?  MessageStatus.ERROR : MessageStatus.OK,
-    };
-    
-    return  msgInfo;
+export const changeJobSeekerDataFetch = async (data) => {
+    try {
+        const response = await axios.post("/personal/setting/personal",  {
+                ...data,
+                contactDetails: {}
+            },
+            {
+                headers: {Authorization: 'Bearer ' + store.getState().authReducer.token},
+            }
+        );
+        
+        const msgInfo: IMessageInfo = {
+            msgStatus: response.data.error ?  MessageStatus.ERROR : MessageStatus.OK,
+        };
+        return  msgInfo;
+    }
+    catch {
+        const msgInfo: IMessageInfo = {
+            msgStatus: MessageStatus.ERROR,
+            error: "Проблемы с соединением",
+        };
+        return  msgInfo;
+    }
+}
+
+
+export const changeJobSeekerAddressFetch = async (data) => {
+    try {
+        const response = await axios.post("/personal/setting/address",  {
+                ...data,
+                contactDetails: {}
+            },
+            {
+                headers: {Authorization: 'Bearer ' + store.getState().authReducer.token},
+            }
+        );
+        
+        const msgInfo: IMessageInfo = {
+            msgStatus: response.data.error ?  MessageStatus.ERROR : MessageStatus.OK,
+        };
+        return  msgInfo;
+    }
+    catch {
+        const msgInfo: IMessageInfo = {
+            msgStatus: MessageStatus.ERROR,
+            error: "Проблемы с соединением",
+        };
+        return  msgInfo;
+    }
 }

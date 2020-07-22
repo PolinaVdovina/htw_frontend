@@ -1,14 +1,24 @@
 import { fillJobSeekerPersonalAction } from "../redux/actions/user-personals"
-import { changeJobSeekerNameFetch } from "./fetchFunctions";
+import { changeJobSeekerDataFetch as changeJobSeekerDataFetch, changeJobSeekerAddressFetch } from "./fetchFunctions";
 import { IMessageInfo, MessageStatus } from "./fetchInterfaces";
 
 
-export const changeJobSeekerName = async ( dispatch, data ) => {
-    alert("dsfdsf");
-    const msgInfo: IMessageInfo = await changeJobSeekerNameFetch(data);
+export const changeJobSeekerData = async ( dispatch, data ) => {
+    const msgInfo: IMessageInfo = await changeJobSeekerDataFetch(data);
     //alert(msgInfo.msgStatus==MessageStatus.OK)
     if(msgInfo.msgStatus == MessageStatus.OK) {
         await dispatch( fillJobSeekerPersonalAction(data));
     }
     return msgInfo;
 }
+
+
+export const changeJobSeekerAddress = async ( dispatch, data ) => {
+    const msgInfo: IMessageInfo = await changeJobSeekerAddressFetch(data);
+    //alert(msgInfo.msgStatus==MessageStatus.OK)
+    if(msgInfo.msgStatus == MessageStatus.OK) {
+        await dispatch( fillJobSeekerPersonalAction(data));
+    }
+    return msgInfo;
+}
+

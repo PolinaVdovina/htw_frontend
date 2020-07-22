@@ -41,7 +41,9 @@ export const settingsName = {
 }
 
 export const settingsDescription = {
-    'description': "О себе"
+    'about': {
+        'title': "О себе"
+    }
 }
 
 export const settingsPhone = {

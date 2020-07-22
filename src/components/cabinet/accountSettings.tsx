@@ -2,48 +2,55 @@ import { ChangeOneString } from "./changeMiniComponents/ChangeOneString";
 import { ChangeAddress } from "./changeMiniComponents/ChangeAddress";
 import { ChangeName } from "./changeMiniComponents/ChangeName";
 import { ChangeBirth } from "./changeMiniComponents/ChangeBirth";
-import { settingsEmail, settingsPhone, settingsName, settingsBirth, settingsAddress, settingsNameOrg, settingsInn, settingsOgrn } from "./changeMiniComponents/changeSettings";
+import { settingsEmail, settingsPhone, settingsName, settingsBirth, settingsAddress, settingsNameOrg, settingsInn, settingsOgrn, settingsDescription } from "./changeMiniComponents/changeSettings";
 import { validateEmail, validatePhone, validateName, validateDate, validateAddress, validateInn, validateNameOrg, validateOgrn } from "../../utils/validateFunctions";
-import { changeJobSeekerName } from "../../utils/change-component-utils";
+import { changeJobSeekerData, changeJobSeekerAddress } from "../../utils/change-component-utils";
 
 
 
 export const SETTINGS = {
     INDIVIDUAL: {
+        about: {
+            title: 'О себе',
+            changeComponent: ChangeOneString,
+            changeSettings: settingsDescription,
+            validateFunction: validateDate,
+            changeFunction: changeJobSeekerData,      
+        },
         email: {
             title: 'Электронная почта',
             changeComponent: ChangeOneString,
             changeSettings: settingsEmail,
             validateFunction: validateEmail,
-            changeFunction: changeJobSeekerName,      
+            changeFunction: changeJobSeekerData,      
         },
         phone: {
             title: 'Номер телефона',
             changeComponent: ChangeOneString,
             changeSettings: settingsPhone,
             validateFunction: validatePhone,
-            changeFunction: changeJobSeekerName,
+            changeFunction: changeJobSeekerData,
         },
         name: {
             title: 'ФИО',
             changeComponent: ChangeName,
             changeSettings: settingsName,
             validateFunction: validateName,
-            changeFunction: changeJobSeekerName,
+            changeFunction: changeJobSeekerData,
         },
         address: {
             title: 'Адрес',
             changeComponent: ChangeAddress,
             changeSettings: settingsAddress,
             validateFunction: validateAddress,
-            changeFunction: changeJobSeekerName,
+            changeFunction: changeJobSeekerAddress,
         },
         dateBirth: {
             title: 'Дата рождения',
             changeComponent: ChangeBirth,
             changeSettings: settingsBirth,
             validateFunction: validateDate,
-            changeFunction: changeJobSeekerName,
+            changeFunction: changeJobSeekerData,
         }
     },
     LEGAL: {
@@ -69,7 +76,8 @@ export const SETTINGS = {
             title: 'Адрес',
             changeComponent: ChangeAddress,
             changeSettings: settingsAddress,
-            validateFunction: validateAddress
+            validateFunction: validateAddress,
+            
         },
         email: {
             title: 'Электронная почта',
