@@ -75,7 +75,7 @@ const AccountCommonInfoComp = (props: IAccountCommonInfo) => {
                 <Avatar className={classes.avatar} />
                 <Grid item container direction="column" className={classes.descriptionAndTitleBlock}>
                     <Typography className={classes.titleBlock}>
-                    Александр Галков
+                    {(props.name && props.surname) ? props.name + ' ' + props.surname : props.login}
                     </Typography>
                     <Typography className={classes.descriptionBlock}>
                     Здесь написано обо мне, дя
