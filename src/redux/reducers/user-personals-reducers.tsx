@@ -9,6 +9,7 @@ interface ICommonState {
     phone?,
     email?,
     about?,
+    address?,
 }
 
 const initialState : ICommonState = {
@@ -20,6 +21,7 @@ const initialState : ICommonState = {
     phone: null,
     email: null,
     about: null,
+    address: null,
 };
 
 export function userPersonalsReducer(state = initialState, action) : ICommonState {
@@ -28,6 +30,7 @@ export function userPersonalsReducer(state = initialState, action) : ICommonStat
             return {
                 ...state,
                 ...action.data,
+                isFetched: true,
             }
         case types.FILL_JOBSEEKER_NAME: 
             return {

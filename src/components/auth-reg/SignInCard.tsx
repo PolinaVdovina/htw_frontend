@@ -78,6 +78,27 @@ const SignInCardComp = (props: ISignInCardProps) => {
             if(result.msgStatus == "ok") {
                 await dispatch(loginAction(login, result.token, 0, 0));
                 const jobSeekerData = await getJobSeekerFetch();
+                let address: string | null = null;
+
+                if(jobSeekerData.address) {
+                    address = '';
+                    if(jobSeekerData.address.region)
+                        address += jobSeekerData.address.region + ' ';
+                    
+                    if(jobSeekerData.address.city)
+                        address += 'г ' + jobSeekerData.address.city + ' ';
+
+                    if(jobSeekerData.address.street)
+                        address += 'ул ' + jobSeekerData.address.street + ' ';
+
+                    if(jobSeekerData.address.house)
+                        address += 'д ' + jobSeekerData.address.house + ' ';
+                
+                    if(jobSeekerData.address.flat)
+                        address += 'кв ' + jobSeekerData.address.flat + ' ';
+                }
+
+                //alert(address);
                 await dispatch(fillJobSeekerPersonalAction({
                     name: jobSeekerData.name, 
                     surname: jobSeekerData.surname, 
@@ -86,8 +107,9 @@ const SignInCardComp = (props: ISignInCardProps) => {
                     phone: jobSeekerData.phone, 
                     email: jobSeekerData.email,
                     about: jobSeekerData.about,
+                    address: address,
                 }));
-                alert(jobSeekerData.about);
+                //alert(jobSeekerData.about);
                 snackBar.enqueueSnackbar("Вы успешно вошли", {variant: "success"});
                 //alert('Вход выполнен');
 

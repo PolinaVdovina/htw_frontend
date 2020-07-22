@@ -70,12 +70,14 @@ interface IAppProps {
   isLoading: boolean, 
   startLoading: () => void,
   authorized: boolean,
+  isPersonalDataFetched: boolean,
 }
 
 function mapStateToProps(state : RootState) {
   return {
     isLoading: state.dialogReducer.isLoading,
     authorized: state.authReducer.loggedIn==true,
+    isPersonalDataFetched: state.userPersonalsReducer.isFetched,
   }
 }
 
@@ -105,7 +107,7 @@ function App(props: IAppProps) {
               <AppMenu title="How To Work"/>
               {
                 //<div className = {classes.fakeAppMenuPaper}/>
-              props.authorized && <>
+              props.authorized && props.isPersonalDataFetched && <>
                 
                 <Paper className={classes.appMenuPaper}>
                   <AppMenuList/>

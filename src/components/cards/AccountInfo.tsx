@@ -12,7 +12,8 @@ interface IPropsAccountInfo{
     role: string,
     data: {
         name: string,
-        dateBirth: string
+        dateBirth: string,
+
     },
     settingsView: any
 }
@@ -33,7 +34,8 @@ function mapStateToProps(state : RootState) {
             name: state.userPersonalsReducer.surname + ' ' + state.userPersonalsReducer.name + ' ' + state.userPersonalsReducer.middlename,
             dateBirth: '' + state.userPersonalsReducer.dateBirth,
             phone: '' + state.userPersonalsReducer.phone,
-            email: '' + state.userPersonalsReducer.email
+            email: '' + state.userPersonalsReducer.email,
+            address: '' + state.userPersonalsReducer.address
         }
       /*name: state.userPersonalsReducer.name,
       surname: state.userPersonalsReducer.surname,
@@ -114,6 +116,7 @@ class AccountInfoComp extends React.Component<IPropsAccountInfo, IStateAccountIn
                                 handleClickSave={() => this.handleClickSave(key)}
                                 type={key}
                                 role={this.props.role}
+                                key={key}
                             />
                         }
                     </>)

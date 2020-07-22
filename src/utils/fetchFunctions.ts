@@ -123,6 +123,7 @@ export const getJobSeekerFetch = async () => {
             email: response.data.contactDetails.email,
             msgStatus: "ok",
             about: response.data.about,
+            address: response.data.address,
         };
     }
     catch
@@ -140,7 +141,7 @@ export const changeJobSeekerDataFetch = async (data) => {
     try {
         const response = await axios.post("/personal/setting/personal",  {
                 ...data,
-                contactDetails: {}
+
             },
             {
                 headers: {Authorization: 'Bearer ' + store.getState().authReducer.token},
@@ -148,7 +149,7 @@ export const changeJobSeekerDataFetch = async (data) => {
         );
         
         const msgInfo: IMessageInfo = {
-            msgStatus: response.data.error ?  MessageStatus.ERROR : MessageStatus.OK,
+            msgStatus: response.data.error || (response.data.status && response.data.status == 'error') ?  MessageStatus.ERROR : MessageStatus.OK,
         };
         return  msgInfo;
     }
@@ -166,7 +167,7 @@ export const changeJobSeekerAddressFetch = async (data) => {
     try {
         const response = await axios.post("/personal/setting/address",  {
                 ...data,
-                contactDetails: {}
+
             },
             {
                 headers: {Authorization: 'Bearer ' + store.getState().authReducer.token},

@@ -17,7 +17,7 @@ export const settingsAddress = {
     'flat': {
         'title': 'Квартира/офис'
     }*/
-    'adddress': {
+    'address': {
         'title': 'Новый адрес'
     }
 }

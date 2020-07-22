@@ -20,6 +20,7 @@ const initialState: IAuthState = {
     entityType: null,
     error: null,
     msgStatus: null,
+    
   };
 
 

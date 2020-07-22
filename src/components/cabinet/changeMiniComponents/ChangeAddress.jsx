@@ -19,12 +19,14 @@ function strParser(str/*: string*/) {
             strArray.splice(i, 1);
     }
     let data = {
-        country: 'Россия',
-        region: strArray[0] ? strArray[0] : '',
-        city: strArray[1] ? strArray[1].replace('г ', '') : '',
-        street: strArray[2] ? strArray[2] : '',
-        house: strArray[3] ? strArray[3].replace('д ', '') : 0,
-        flat: strArray[4] ? strArray[4].replace('кв ', '') : 0,
+        address: {
+            country: 'Россия',
+            region: strArray[0] ? strArray[0] : '',
+            city: strArray[1] ? strArray[1].replace('г ', '') : '',
+            street: strArray[2] ? strArray[2] : '',
+            house: strArray[3] ? strArray[3].replace('д ', '') : 0,
+            flat: strArray[4] ? strArray[4].replace('кв ', '') : 0,
+        }
     };
     return data;
 }

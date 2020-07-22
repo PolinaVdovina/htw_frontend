@@ -6,6 +6,7 @@ import { loginAction } from '../../redux/actions/auth-actions';
 import { useDispatch } from 'react-redux';
 import { login as loginFetch, register as registerFetch } from './../../utils/fetchFunctions';
 import { useSnackbar } from 'notistack';
+import { fillJobSeekerPersonalAction } from '../../redux/actions/user-personals';
 
 interface IRegCardProps {
 
@@ -77,6 +78,10 @@ export const RegCard = (props: IRegCardProps) => {
             typeLoginConnect=='phone' ? loginConnect : null
             , password, role);
      
+            await dispatch(fillJobSeekerPersonalAction({
+
+            }));
+
             if(result.msgStatus == "ok") {
                 dispatch(loginAction(login, result.token, 0, 0));
                 snackBar.enqueueSnackbar("Пользователь успешно зарегистрирован", {variant: "success"});
