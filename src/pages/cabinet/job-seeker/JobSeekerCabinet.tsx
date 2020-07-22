@@ -20,6 +20,6 @@ const useStyles = makeStyles((theme: Theme) =>
 export const JobSeekerCabinet = (props: IJobSeekerCabinet) => {
     const classes = useStyles();
     return (
-            <AccountInfo  role='INDIVIDUAL'/>
+            <AccountInfo role='INDIVIDUAL' settingsView={['email', 'phone', 'address', 'dateBirth']}/>
     )
 }

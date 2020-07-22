@@ -20,7 +20,8 @@ export const ChangeBirth = (props) => {
 
 interface IChangeBirth {
     data: string,
-    onChange: (any) => void
+	onChange: (any) => void,
+	type: string
 }
 
 export const ChangeBirth = (props: IChangeBirth) => {
@@ -35,7 +36,7 @@ export const ChangeBirth = (props: IChangeBirth) => {
 			size='small'
 			value={props.data}
 			//defaultValue="2017-05-24"
-			onChange={(event) => props.onChange(event.target.value)}
+			onChange={(event) => props.onChange({[props.type]: event.target.value})}
 		/>
 	);
 }

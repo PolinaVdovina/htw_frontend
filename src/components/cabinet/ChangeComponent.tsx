@@ -26,7 +26,6 @@ export const ChangeComponentRaw = (props : FinalProps) => {
     const Component = SETTINGS[props.role][props.type].changeComponent;
     const changeSettings = SETTINGS[props.role][props.type].changeSettings;
     const validFunc = SETTINGS[props.role][props.type].validateFunction;
-
     const [data, setData] = React.useState('');
     const theme = useTheme();
 

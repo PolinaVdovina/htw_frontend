@@ -37,8 +37,7 @@ export const settingsName = {
     },
     'middlename': {
         'title': 'Отчество'
-    },
-    changeFunction: null, 
+    } 
 }
 
 export const settingsDescription = {
