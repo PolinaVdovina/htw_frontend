@@ -13,7 +13,8 @@ interface IPropsAccountInfo{
     data: {
         name: string,
         dateBirth: string
-    }
+    },
+    settingsView: any
 }
 
 interface IStateAccountInfo{
@@ -80,12 +81,12 @@ class AccountInfoComp extends React.Component<IPropsAccountInfo, IStateAccountIn
                             Общие данные
                         </Typography>    
                     </Grid>          
-                    {
-                    Object.keys(SETTINGS[this.props.role]).map(key => <>
+                    {this.props.settingsView.map(key => <>
                         <Grid container item direction="column">
                             <Typography style={{'color': '#808080'}}>
                                 {SETTINGS[this.props.role][key].title}
                             </Typography> 
+                        
                             <Grid item container direction='row' spacing={2} justify='space-between' style={{flexWrap:"nowrap"}}>                             
                                 <Grid item>
                                     <Typography>

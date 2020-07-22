@@ -3,7 +3,8 @@ import { Grid, Typography, TextField } from '@material-ui/core';
 
 interface IChangeOneString {
     data: string,
-    onChange: (any) => void
+    onChange: (any) => void,
+    type: string
 }
 
 export const ChangeOneString = (props : IChangeOneString) => {
@@ -12,7 +13,7 @@ export const ChangeOneString = (props : IChangeOneString) => {
             size='small' 
             variant='outlined' 
             value={props.data} 
-            onChange={(event) => props.onChange(event.target.value)}
+            onChange={(event) => props.onChange({[props.type]: event.target.value})}
         />
     )
 }

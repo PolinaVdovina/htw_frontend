@@ -18,6 +18,6 @@ const useStyles = makeStyles((theme: Theme) =>
 export const EmployeeCabinet = (props: IEmployeeCabinet) => {
     const classes = useStyles();
     return (
-        <AccountInfo  role='INDIVIDUAL'/>
+        <AccountInfo role='INDIVIDUAL' settingsView={['email', 'phone', 'address', 'dateBirth']}/>
     )
 }

@@ -20,6 +20,6 @@ const useStyles = makeStyles((theme: Theme) =>
 export const InstitutionCabinet = (props: IInstitutionCabinet) => {
     const classes = useStyles();
     return (
-            <AccountInfo  role='LEGAL'/>
+            <AccountInfo role='LEGAL' settingsView={['name', 'inn', 'ogrn', 'address', 'email', 'phone']}/>
     )
 }

@@ -11,7 +11,7 @@ export const settingsAddress = {
     'street': {
         'title': 'Улица'
     },
-    'house': {
+    'houses': {
         'title': 'Дом'
     },
     'flat': {
@@ -37,7 +37,7 @@ export const settingsName = {
     },
     'middlename': {
         'title': 'Отчество'
-    }
+    } 
 }
 
 export const settingsDescription = {
