@@ -116,17 +116,20 @@ export const getPersonalDataFetch = async () => {
                 Authorization: 'Bearer ' + store.getState().authReducer.token
             }
         });
-        returnData =  {
-            name: response.data.name,
-            surname: response.data.surname,
-            middlename: response.data.middlename,
-            dateBirth: response.data.dateBirth,
-            phone: response.data.contactDetails.phone,
-            email: response.data.contactDetails.email,
-            msgStatus: "ok",
-            about: response.data.about,
-            address: response.data.address,
-        };
+
+        returnData = response.data; 
+        returnData["msgStatus"] = "ok"
+            //{
+            // name: response.data.name,
+            // surname: response.data.surname,
+            // middlename: response.data.middlename,
+            // dateBirth: response.data.dateBirth,
+            // phone: response.data.contactDetails.phone,
+            // email: response.data.contactDetails.email,
+            // msgStatus: "ok",
+            // about: response.data.about,
+            // address: response.data.address,
+            //};
     }
     catch
     {
