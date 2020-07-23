@@ -7,6 +7,7 @@ interface ILoginResponse {
     token?: string,
     msgStatus?: string,
     error?: string,
+    role?: string
 }
 
 
@@ -25,6 +26,7 @@ export const login = async (identity, password) => {
             returnData =  {
                 login: response.data.accountLogin,
                 token: response.data.token,
+                role: response.data.role,
                 msgStatus: "ok"
             };
         }
@@ -137,9 +139,10 @@ export const getJobSeekerFetch = async () => {
     return returnData;
 }
 
-export const changeJobSeekerDataFetch = async (data) => {
+export const changePersonalDataFetch/*: (data:any, url:string | underfined)*/ = async (data, url?: string) => {
     try {
-        const response = await axios.post("/personal/setting/personal",  {
+        url = url || '/personal/setting/personal';
+        const response = await axios.post(url,  {
                 ...data,
 
             },

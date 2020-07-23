@@ -13,7 +13,7 @@ import { loginAction } from './../../redux/actions/auth-actions';
 import { startLoadingAction, stopLoadingAction } from '../../redux/actions/dialog-actions';
 import { withSnackbar, useSnackbar } from 'notistack';
 //import { stopLoading } from './../../redux/reducers/dialog-reducers';
-import { fillJobSeekerPersonalAction } from './../../redux/actions/user-personals';
+import { fillPersonalDataAction } from './../../redux/actions/user-personals';
 import { useTheme } from '@material-ui/core';
 import { Link as RouterLink } from 'react-router-dom';
 import { urls } from '../../pages/urls';
@@ -62,38 +62,51 @@ const SignInCardComp = (props: ISignInCardProps) => {
            
             if(result.msgStatus == "ok") {
                 await dispatch(loginAction(login, result.token, 0, 0));
-                const jobSeekerData = await getJobSeekerFetch();
-                let address: string | null = null;
 
-                if(jobSeekerData.address) {
-                    address = '';
-                    if(jobSeekerData.address.region)
-                        address += jobSeekerData.address.region + ' ';
-                    
-                    if(jobSeekerData.address.city)
-                        address += 'г ' + jobSeekerData.address.city + ' ';
+                const role = result.role;
+                alert(role);
+                switch(role) {
+                    case ("ROLE_JOBSEEKER" || "ROLE_EMPLOYEE"):
+                        const jobSeekerData = await getJobSeekerFetch();
+                        let address: string | null = null;
 
-                    if(jobSeekerData.address.street)
-                        address += 'ул ' + jobSeekerData.address.street + ' ';
+                        if(jobSeekerData.address) {
+                            address = '';
+                            if(jobSeekerData.address.region)
+                                address += jobSeekerData.address.region;
+                            
+                            if(jobSeekerData.address.city)
+                                address += ', г ' + jobSeekerData.address.city;
 
-                    if(jobSeekerData.address.house)
-                        address += 'д ' + jobSeekerData.address.house + ' ';
-                
-                    if(jobSeekerData.address.flat)
-                        address += 'кв ' + jobSeekerData.address.flat + ' ';
+                            if(jobSeekerData.address.street)
+                                address += ', ' + jobSeekerData.address.street;
+
+                            if(jobSeekerData.address.house)
+                                address += ', д ' + jobSeekerData.address.house;
+                        
+                            if(jobSeekerData.address.flat)
+                                address += ', кв ' + jobSeekerData.address.flat;
+                        }
+
+                        await dispatch(fillPersonalDataAction({
+                            name: jobSeekerData.name, 
+                            surname: jobSeekerData.surname, 
+                            middlename: jobSeekerData.middlename, 
+                            dateBirth: jobSeekerData.dateBirth, 
+                            phone: jobSeekerData.phone, 
+                            email: jobSeekerData.email,
+                            about: jobSeekerData.about,
+                            address: address,
+                        }));
+                        break;
+
+                    case ("ROLE_EMPLOYER" || "ROLE_INSTITUTION"):
+
+                        break;
                 }
-
+                
                 //alert(address);
-                await dispatch(fillJobSeekerPersonalAction({
-                    name: jobSeekerData.name, 
-                    surname: jobSeekerData.surname, 
-                    middlename: jobSeekerData.middlename, 
-                    dateBirth: jobSeekerData.dateBirth, 
-                    phone: jobSeekerData.phone, 
-                    email: jobSeekerData.email,
-                    about: jobSeekerData.about,
-                    address: address,
-                }));
+
                 //alert(jobSeekerData.about);
                 snackBar.enqueueSnackbar("Вы успешно вошли", {variant: "success"});
                 //alert('Вход выполнен');
