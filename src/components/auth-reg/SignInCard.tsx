@@ -61,9 +61,9 @@ const SignInCardComp = (props: ISignInCardProps) => {
             const result = await loginFetch(login, password);
            
             if(result.msgStatus == "ok") {
-                await dispatch(loginAction(login, result.token, 0, 0));
-
                 const role = result.role;
+                await dispatch(loginAction(login, result.token, 0, role));
+            
                 switch(role) {
                     case ("ROLE_JOBSEEKER"):
                         const jobSeekerData = await getJobSeekerFetch();

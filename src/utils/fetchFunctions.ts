@@ -168,7 +168,7 @@ export const changePersonalDataFetch/*: (data:any, url:string | underfined)*/ = 
 
 export const changeJobSeekerAddressFetch = async (data) => {
     try {
-        const response = await axios.post("/personal/setting/address",  {
+        const response = await axios.post("/personal/setting/personal",  {
                 ...data,
 
             },

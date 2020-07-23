@@ -32,7 +32,7 @@ export function authReducer(state = initialState, action): IAuthState {
             login: action.login,
             token: action.token,
             user_id: action.id,
-            entityType: action.roles,
+            entityType: action.entityType,
             msgStatus: "ok"
             
         }
