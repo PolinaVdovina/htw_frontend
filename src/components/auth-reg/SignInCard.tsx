@@ -64,9 +64,8 @@ const SignInCardComp = (props: ISignInCardProps) => {
                 await dispatch(loginAction(login, result.token, 0, 0));
 
                 const role = result.role;
-                alert(role);
                 switch(role) {
-                    case ("ROLE_JOBSEEKER" || "ROLE_EMPLOYEE"):
+                    case ("ROLE_JOBSEEKER"):
                         const jobSeekerData = await getJobSeekerFetch();
                         let address: string | null = null;
 
@@ -100,8 +99,35 @@ const SignInCardComp = (props: ISignInCardProps) => {
                         }));
                         break;
 
-                    case ("ROLE_EMPLOYER" || "ROLE_INSTITUTION"):
+                    case ("ROLE_EMPLOYER"):
+                        const employerData = await getJobSeekerFetch();
+                        let address1: string | null = null;
 
+                        if(employerData.address) {
+                            address1 = '';
+                            if(employerData.address.region)
+                                address1 += employerData.address.region;
+                            
+                            if(employerData.address.city)
+                                address1 += ', г ' + employerData.address.city;
+
+                            if(employerData.address.street)
+                                address1 += ', ' + employerData.address.street;
+
+                            if(employerData.address.house)
+                                address1 += ', д ' + employerData.address.house;
+                        
+                            if(employerData.address.flat)
+                                address1 += ', кв ' + employerData.address.flat;
+                        }
+
+                        await dispatch(fillPersonalDataAction({
+                            name: jobSeekerData.name, 
+                            phone: jobSeekerData.phone, 
+                            email: jobSeekerData.email,
+                            about: jobSeekerData.about,
+                            address: address1,
+                        }));
                         break;
                 }
                 
