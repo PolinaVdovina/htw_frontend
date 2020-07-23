@@ -8,7 +8,7 @@ import { connect, useDispatch } from 'react-redux';
 //import { login as handleLogin } from '../../redux/reducers/auth-reducers';
 
 
-import { login as loginFetch, getJobSeekerFetch } from './../../utils/fetchFunctions';
+import { login as loginFetch, getJobSeekerFetch, getEmployerFetch } from './../../utils/fetchFunctions';
 import { loginAction } from './../../redux/actions/auth-actions';
 import { startLoadingAction, stopLoadingAction } from '../../redux/actions/dialog-actions';
 import { withSnackbar, useSnackbar } from 'notistack';
@@ -18,6 +18,7 @@ import { useTheme } from '@material-ui/core';
 import { Link as RouterLink } from 'react-router-dom';
 import { urls } from '../../pages/urls';
 import { useStyles } from './styles';
+import { addressGlue } from '../../utils/appliedFunc';
 
 
 
@@ -67,25 +68,7 @@ const SignInCardComp = (props: ISignInCardProps) => {
                 switch(role) {
                     case ("ROLE_JOBSEEKER"):
                         const jobSeekerData = await getJobSeekerFetch();
-                        let address: string | null = null;
-
-                        if(jobSeekerData.address) {
-                            address = '';
-                            if(jobSeekerData.address.region)
-                                address += jobSeekerData.address.region;
-                            
-                            if(jobSeekerData.address.city)
-                                address += ', г ' + jobSeekerData.address.city;
-
-                            if(jobSeekerData.address.street)
-                                address += ', ' + jobSeekerData.address.street;
-
-                            if(jobSeekerData.address.house)
-                                address += ', д ' + jobSeekerData.address.house;
-                        
-                            if(jobSeekerData.address.flat)
-                                address += ', кв ' + jobSeekerData.address.flat;
-                        }
+                        let address = addressGlue(jobSeekerData.address);
 
                         await dispatch(fillPersonalDataAction({
                             name: jobSeekerData.name, 
@@ -100,33 +83,17 @@ const SignInCardComp = (props: ISignInCardProps) => {
                         break;
 
                     case ("ROLE_EMPLOYER"):
-                        const employerData = await getJobSeekerFetch();
-                        let address1: string | null = null;
-
-                        if(employerData.address) {
-                            address1 = '';
-                            if(employerData.address.region)
-                                address1 += employerData.address.region;
-                            
-                            if(employerData.address.city)
-                                address1 += ', г ' + employerData.address.city;
-
-                            if(employerData.address.street)
-                                address1 += ', ' + employerData.address.street;
-
-                            if(employerData.address.house)
-                                address1 += ', д ' + employerData.address.house;
-                        
-                            if(employerData.address.flat)
-                                address1 += ', кв ' + employerData.address.flat;
-                        }
+                        const employerData = await getEmployerFetch();
+                        let address1 = addressGlue(employerData.address);
 
                         await dispatch(fillPersonalDataAction({
-                            name: jobSeekerData.name, 
-                            phone: jobSeekerData.phone, 
-                            email: jobSeekerData.email,
-                            about: jobSeekerData.about,
+                            name: employerData.name, 
+                            phone: employerData.phone, 
+                            email: employerData.email,
+                            about: employerData.about,
                             address: address1,
+                            inn: employerData.inn,
+                            ogrn: employerData.ogrn
                         }));
                         break;
                 }

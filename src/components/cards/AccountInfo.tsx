@@ -20,11 +20,11 @@ interface IPropsAccountInfo{
 
 interface IStateAccountInfo{
     hidden: {
-        email: boolean,
-        phone: boolean,
-        name: boolean,
-        address: boolean,
-        datebirth: boolean
+        email?: boolean,
+        phone?: boolean,
+        name?: boolean,
+        address?: boolean,
+        datebirth?: boolean
     }
 }
 
@@ -35,11 +35,10 @@ function mapStateToProps(state : RootState) {
             dateBirth: '' + state.userPersonalsReducer.dateBirth,
             phone: '' + state.userPersonalsReducer.phone,
             email: '' + state.userPersonalsReducer.email,
-            address: '' + state.userPersonalsReducer.address
+            address: '' + state.userPersonalsReducer.address,
+            inn: '' + state.userPersonalsReducer.inn,
+            ogrn: '' + state.userPersonalsReducer.ogrn
         }
-      /*name: state.userPersonalsReducer.name,
-      surname: state.userPersonalsReducer.surname,
-      middlename: state.userPersonalsReducer.middlename*/
     }
 }
 
@@ -58,7 +57,7 @@ class AccountInfoComp extends React.Component<IPropsAccountInfo, IStateAccountIn
     }
 
     handleClickClose = (key: string) => {
-        this.setState({'hidden': {...this.state.hidden, [key]: false}})
+        this.setState({'hidden': {[key]: false}})
     }
 
     handleClickSave = (key: string) => {
@@ -66,7 +65,7 @@ class AccountInfoComp extends React.Component<IPropsAccountInfo, IStateAccountIn
     }
 
     handleClickOpen = (key: string) => {
-        this.setState({'hidden': {...this.state.hidden, [key]: true}})
+        this.setState({'hidden': {[key]: true}})
     }
 
     render() {

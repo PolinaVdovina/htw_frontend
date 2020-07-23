@@ -58,38 +58,43 @@ export const SETTINGS = {
             title: 'Наименование',
             changeComponent: ChangeOneString,
             changeSettings: settingsNameOrg,
-            validateFunction: validateNameOrg
+            validateFunction: validateNameOrg,
+            changeFunction: changeJobSeekerData
         },
         inn: {
             title: 'ИНН',
             changeComponent: ChangeOneString,
             changeSettings: settingsInn,
-            validateFunction: validateInn
+            validateFunction: validateInn,
+            changeFunction: changeJobSeekerData
         },
         ogrn: {
             title: 'ОГРН',
             changeComponent: ChangeOneString,
             changeSettings: settingsOgrn,
-            validateFunction: validateOgrn
+            validateFunction: validateOgrn,
+            changeFunction: changeJobSeekerData
         },
         address: {
             title: 'Адрес',
             changeComponent: ChangeAddress,
             changeSettings: settingsAddress,
             validateFunction: validateAddress,
-            
+            changeFunction: changeJobSeekerAddress
         },
         email: {
             title: 'Электронная почта',
             changeComponent: ChangeOneString,
             changeSettings: settingsEmail,
-            validateFunction: validateEmail          
+            validateFunction: validateEmail,
+            changeFunction: changeJobSeekerData          
         },
         phone: {
             title: 'Номер телефона',
             changeComponent: ChangeOneString,
             changeSettings: settingsPhone,
-            validateFunction: validatePhone
+            validateFunction: validatePhone,
+            changeFunction: changeJobSeekerData
         }
     }
 }
