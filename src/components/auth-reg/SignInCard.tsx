@@ -1,4 +1,4 @@
-import { Button, Card, Grid, Typography, makeStyles, Theme, createStyles, TextField, Snackbar } from '@material-ui/core';
+import { Button, Card, Grid, Typography, makeStyles, Theme, createStyles, TextField, Snackbar, Link } from '@material-ui/core';
 import React, { useState } from 'react';
 import { validateRegPasword, validateLogin } from '../../utils/validateFunctions';
 import axios, { AxiosRequestConfig } from 'axios'
@@ -14,6 +14,10 @@ import { startLoadingAction, stopLoadingAction } from '../../redux/actions/dialo
 import { withSnackbar, useSnackbar } from 'notistack';
 //import { stopLoading } from './../../redux/reducers/dialog-reducers';
 import { fillJobSeekerPersonalAction } from './../../redux/actions/user-personals';
+import { useTheme } from '@material-ui/core';
+import { Link as RouterLink } from 'react-router-dom';
+import { urls } from '../../pages/urls';
+import { useStyles } from './styles';
 
 
 
@@ -32,27 +36,7 @@ function mapStateToProps(state : RootState) {
 
   }
 
-const useStyles = makeStyles((theme: Theme) =>
-    createStyles({
-        root: {
-            //maxWidth: "400px",
-            width: "400px",
-            textAlign: "center",
-        },
-        field: {
-            width: '85%'
-        },
-        button: {
-            width: '60%',
-        },
-        title: {
-            padding: '10px'
-        },
-        item: {
-            width: '100%'
-        }
-  }),
-);
+
 
 const SignInCardComp = (props: ISignInCardProps) => {
     const classes = useStyles();
@@ -61,6 +45,7 @@ const SignInCardComp = (props: ISignInCardProps) => {
     const [errorPassword, setErrorPassword] = useState('');
     const [errorLogin, setErrorLogin] = useState('');
     const dispatch = useDispatch();
+    const theme = useTheme();
     const snackBar = useSnackbar();
     async function validate() {
         const preValidatePassword = validateRegPasword(password);
@@ -185,7 +170,8 @@ const SignInCardComp = (props: ISignInCardProps) => {
                         onChange={(event) => {setPassword(event.target.value)}}
                     />
                 </Grid>
-                <Grid item style={{'padding': '20px'}}>
+                <Grid item container className={classes.submitContainer} >
+                    
                     <Button className={classes.button}                                
                         variant="contained"
                         color="primary"
@@ -193,6 +179,9 @@ const SignInCardComp = (props: ISignInCardProps) => {
                     >
                         Войти
                     </Button>
+                    <Link component={RouterLink} to={urls.registration.shortPath}>
+                        Зарегистрироваться
+                    </Link>
                 </Grid>
             </Grid>
         </Card>

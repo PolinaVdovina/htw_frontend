@@ -1,4 +1,4 @@
-import { Button, Card, Grid, Typography, makeStyles, Theme, createStyles, TextField, Select, FormControl, MenuItem } from '@material-ui/core';
+import { Button, Card, Grid, Typography, makeStyles, Theme, createStyles, TextField, Select, FormControl, MenuItem, Link } from '@material-ui/core';
 import React, { useState } from 'react';
 import { validateRegPasword, validateRegLoginConnect, validateLogin } from '../../utils/validateFunctions';
 import { startLoadingAction, stopLoadingAction } from '../../redux/actions/dialog-actions';
@@ -7,35 +7,14 @@ import { useDispatch } from 'react-redux';
 import { login as loginFetch, register as registerFetch } from './../../utils/fetchFunctions';
 import { useSnackbar } from 'notistack';
 import { fillJobSeekerPersonalAction } from '../../redux/actions/user-personals';
+import { useStyles } from './styles';
+import { urls } from '../../pages/urls';
+import { Link as RouterLink } from 'react-router-dom';
 
 interface IRegCardProps {
 
 }
 
-
-
-
-const useStyles = makeStyles((theme: Theme) =>
-    createStyles({
-        root: {
-            //maxWidth: "400px",
-            width: "400px",
-            textAlign: "center",
-        },
-        field: {
-            width: '85%',
-        },
-        button: {
-            width: '60%',
-        },
-        title: {
-            padding: '10px'
-        },
-        item: {
-            width: '100%'
-        }
-  }),
-);
 
 export const RegCard = (props: IRegCardProps) => {
     const classes = useStyles();
@@ -157,6 +136,7 @@ export const RegCard = (props: IRegCardProps) => {
                         variant="outlined"
                         margin="normal"
                         required
+                        autoFocus
                         error={errorRole!=''}
                         helperText={errorRole}
                         value={role}
@@ -182,7 +162,7 @@ export const RegCard = (props: IRegCardProps) => {
                         name="email"
                         helperText={errorLoginConnect}
                         autoComplete="login"
-                        autoFocus
+                        
                         onChange={(event) => {setLoginConnect(event.target.value)}}
                     />
                 </Grid>
@@ -228,14 +208,19 @@ export const RegCard = (props: IRegCardProps) => {
                         onChange={(event) => {setConfirmPassword(event.target.value)}}
                     />
                 </Grid>
-                <Grid item style={{'padding': '20px'}}>
-                    <Button className={classes.button}                                
-                        variant="contained"
-                        color="primary"
-                        onClick={validate}
-                    >
-                        Регистрация
-                    </Button>
+                <Grid item container className={classes.submitContainer} >
+           
+                        <Button className={classes.button}                                
+                            variant="contained"
+                            color="primary"
+                            onClick={validate}
+                        >
+                            Регистрация
+                        </Button>
+                   
+                    <Link component={RouterLink} to={urls.authentication.shortPath}>
+                        Есть аккаунт?
+                    </Link>
                 </Grid>
             </Grid>
         </Card>
