@@ -1,8 +1,8 @@
-import { FILL_JOBSEEKER_DATA, FILL_JOBSEEKER_NAME } from './../../constants/action-types';
+import { FILL_PERSONAL_DATA, FILL_JOBSEEKER_NAME } from './../../constants/action-types';
 
-export function fillJobSeekerPersonalAction(data) {
+export function fillPersonalDataAction(data) {
     return {
-        type: FILL_JOBSEEKER_DATA,
+        type: FILL_PERSONAL_DATA,
         data
     };
 }

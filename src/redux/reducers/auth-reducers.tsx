@@ -7,7 +7,7 @@ export interface IAuthState {
     login?: string | null,
     token?: string | null,
     user_id?: number | null,
-    entityType?: number | null,
+    entityType?: string | null,
     error?: string | null,
     msgStatus?: string | null,
 }

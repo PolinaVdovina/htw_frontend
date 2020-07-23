@@ -1,23 +1,42 @@
-import { fillJobSeekerPersonalAction } from "../redux/actions/user-personals"
-import { changeJobSeekerDataFetch as changeJobSeekerDataFetch, changeJobSeekerAddressFetch } from "./fetchFunctions";
+import { fillPersonalDataAction } from "../redux/actions/user-personals"
+import { changePersonalDataFetch as changePersonalDataFetch, changeJobSeekerAddressFetch } from "./fetchFunctions";
 import { IMessageInfo, MessageStatus } from "./fetchInterfaces";
 
 
 export const changeJobSeekerData = async ( dispatch, data ) => {
-    const msgInfo: IMessageInfo = await changeJobSeekerDataFetch(data);
+    const msgInfo: IMessageInfo = await changePersonalDataFetch(data);
     //alert(msgInfo.msgStatus==MessageStatus.OK)
     if(msgInfo.msgStatus == MessageStatus.OK) {
-        await dispatch( fillJobSeekerPersonalAction(data));
+        await dispatch( fillPersonalDataAction(data));
     }
     return msgInfo;
 }
 
 
 export const changeJobSeekerAddress = async ( dispatch, data ) => {
-    const msgInfo: IMessageInfo = await changeJobSeekerAddressFetch(data);
+    const msgInfo: IMessageInfo = await changePersonalDataFetch(data);
     //alert(msgInfo.msgStatus==MessageStatus.OK)
     if(msgInfo.msgStatus == MessageStatus.OK) {
-        await dispatch( fillJobSeekerPersonalAction(data));
+        let address: string | null = null;
+        if(data.address) {
+            address = '';
+            if(data.address.region)
+                address += data.address.region;
+            
+            if(data.address.city)
+                address += ', г ' + data.address.city;
+
+            if(data.address.street)
+                address += ', ' + data.address.street
+
+            if(data.address.house)
+                address += ', д ' + data.address.house;
+        
+            if(data.address.flat)
+                address += ', кв ' + data.address.flat;
+        }
+
+        await dispatch( fillPersonalDataAction({address}));
     }
     return msgInfo;
 }

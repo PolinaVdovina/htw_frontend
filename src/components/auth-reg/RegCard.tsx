@@ -6,7 +6,7 @@ import { loginAction } from '../../redux/actions/auth-actions';
 import { useDispatch } from 'react-redux';
 import { login as loginFetch, register as registerFetch } from './../../utils/fetchFunctions';
 import { useSnackbar } from 'notistack';
-import { fillJobSeekerPersonalAction } from '../../redux/actions/user-personals';
+import { fillPersonalDataAction } from '../../redux/actions/user-personals';
 import { useStyles } from './styles';
 import { urls } from '../../pages/urls';
 import { Link as RouterLink } from 'react-router-dom';
@@ -57,7 +57,7 @@ export const RegCard = (props: IRegCardProps) => {
             typeLoginConnect=='phone' ? loginConnect : null
             , password, role);
      
-            await dispatch(fillJobSeekerPersonalAction({
+            await dispatch(fillPersonalDataAction({
 
             }));
 

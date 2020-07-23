@@ -43,7 +43,7 @@ export const SETTINGS = {
             changeComponent: ChangeAddress,
             changeSettings: settingsAddress,
             validateFunction: validateAddress,
-            changeFunction: changeJobSeekerData,
+            changeFunction: changeJobSeekerAddress,
         },
         dateBirth: {
             title: 'Дата рождения',

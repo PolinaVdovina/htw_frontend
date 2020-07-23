@@ -9,13 +9,14 @@ import { IPostData } from './../../components/cards/tape/PostCard';
 import { Grid } from '@material-ui/core';
 import { getJobSeekerFetch } from '../../utils/fetchFunctions';
 import { RootState } from '../../redux/store';
-import { connect } from 'http2';
+
 import { EmployeeCabinet } from './employee/EmployeeCabinet';
 import { EmployerCabinet } from './employer/EmployerCabinet';
 import { InstitutionCabinet } from './institution/InstitutionCabinet';
+import { connect } from 'react-redux';
 
 interface ICabinetProps {
-    role: string
+    role?: string | null
 }
 
 const testPosts: Array<IPostData> = [
@@ -32,7 +33,7 @@ function mapStateToProps(state : RootState) {
     }
 }
 
-export const Cabinet = (props : ICabinetProps) => {
+const CabinetComp = (props : ICabinetProps) => {
     React.useEffect(() => {
 
     })
@@ -40,12 +41,12 @@ export const Cabinet = (props : ICabinetProps) => {
 
     return (
         <HCenterizingGrid>
-            {/*<InstitutionCabinet/>*/}
-            {/*<EmployerCabinet/>*/}
-            {/*<EmployeeCabinet/>*/}
-            <JobSeekerCabinet/>
+            {props.role == 'ROLE_INSTITUTION' && <InstitutionCabinet/>}
+            {props.role == 'ROLE_EMPLOYER' && <EmployerCabinet/>}
+            {props.role == 'ROLE_EMPLOYEE' && <EmployeeCabinet/>}
+            {props.role == 'ROLE_JOBSEEKER' && <JobSeekerCabinet/>}
         </HCenterizingGrid>
         )
 }
 
-//export default connect(mapStateToProps)(CabinetComp);
+export const Cabinet = connect(mapStateToProps)(CabinetComp);
