@@ -57,6 +57,7 @@ interface IAccountCommonInfo {
     login?: string | null,
     about?: string | null,
     middlename?: string | null,
+    role: string,
 }
 
 function mapStateToProps(state : RootState) {
@@ -81,7 +82,8 @@ const AccountCommonInfoComp = (props: IAccountCommonInfo) => {
                 <Avatar className={classes.avatar} />
                 <Grid item container direction="column" className={classes.descriptionAndTitleBlock}>
                     <Typography className={classes.titleBlock}>
-                    {(props.name && props.surname) ? props.name + ' ' + props.surname + ' ' + props.middlename  : "ФИО не указано"}
+                    { props.role == "ROLE_JOBSEEKER" || props.role == "ROLE_EMPLOYEE" &&  (props.name && props.surname) ? props.name + ' ' + props.surname + ' ' + props.middlename  : "ФИО не указано" }
+                    { (props.role == "ROLE_EMPLOYER" || props.role == "ROLE_INSTITUTION") &&  (props.name) ? props.name: "Название не указано" }
                     </Typography>
                     <Typography className={classes.descriptionBlock}>
                     <Link
@@ -96,14 +98,7 @@ const AccountCommonInfoComp = (props: IAccountCommonInfo) => {
                       handleClickClose={() => {setOpenName(false)}}
                       handleClickSave={() => {setOpenName(false)}}
                       type="name"
-                      role="INDIVIDUAL"
-                      />
-                      <ChangeComponentDialog 
-                      open={openAbout}
-                      handleClickClose={() => {setOpenAbout(false)}}
-                      handleClickSave={() => {setOpenAbout(false)}}
-                      type="about"
-                      role="INDIVIDUAL"
+                      role={props.role}
                       />
                     
                 </Grid>

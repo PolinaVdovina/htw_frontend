@@ -165,7 +165,7 @@ export const changeJobSeekerDataFetch = async (data) => {
 
 export const changeJobSeekerAddressFetch = async (data) => {
     try {
-        const response = await axios.post("/personal/setting/address",  {
+        const response = await axios.post("/personal/setting/personal",  {
                 ...data,
 
             },
