@@ -108,7 +108,7 @@ export const register = async (login, email, phone, password, role) => {
 //     name: string,
 // }
 
-export const getJobSeekerFetch = async () => {
+export const getPersonalDataFetch = async () => {
     let returnData;
     try {
         const response =  await axios.get("/personal/get", {
@@ -141,7 +141,7 @@ export const getJobSeekerFetch = async () => {
 
 export const changePersonalDataFetch/*: (data:any, url:string | underfined)*/ = async (data, url?: string) => {
     try {
-        url = url || '/personal/setting/personal';
+        url = url || '/personal/get';
         const response = await axios.post(url,  {
                 ...data,
 
@@ -166,7 +166,7 @@ export const changePersonalDataFetch/*: (data:any, url:string | underfined)*/ = 
 }
 
 
-export const changeJobSeekerAddressFetch = async (data) => {
+/* export const changeJobSeekerAddressFetch = async (data) => {
     try {
         const response = await axios.post("/personal/setting/personal",  {
                 ...data,
@@ -190,3 +190,4 @@ export const changeJobSeekerAddressFetch = async (data) => {
         return  msgInfo;
     }
 }
+ */

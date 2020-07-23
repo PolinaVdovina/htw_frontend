@@ -7,7 +7,7 @@ import { RedirectIfNotAuthorized } from './../../components/redirects/RedirectIf
 import { Tape } from '../../components/cards/tape/Tape';
 import { IPostData } from './../../components/cards/tape/PostCard';
 import { Grid } from '@material-ui/core';
-import { getJobSeekerFetch } from '../../utils/fetchFunctions';
+import { getPersonalDataFetch } from '../../utils/fetchFunctions';
 import { RootState } from '../../redux/store';
 
 import { EmployeeCabinet } from './employee/EmployeeCabinet';

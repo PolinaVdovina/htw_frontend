@@ -75,7 +75,7 @@ class AccountInfoComp extends React.Component<IPropsAccountInfo, IStateAccountIn
             <PaddingPaper style={{width:"100%"}}>
                 <Grid container spacing={2} direction='column'>  
                     <Grid item>
-                        <AccountCommonInfo role={this.props.role}/>
+                        <AccountCommonInfo roleSettings={this.props.role}/>
                     </Grid>
                     <Divider/>
                     <Grid item>

@@ -1,5 +1,5 @@
 import { fillPersonalDataAction } from "../redux/actions/user-personals"
-import { changePersonalDataFetch as changePersonalDataFetch, changeJobSeekerAddressFetch } from "./fetchFunctions";
+import { changePersonalDataFetch as changePersonalDataFetch } from "./fetchFunctions";
 import { IMessageInfo, MessageStatus } from "./fetchInterfaces";
 
 

@@ -8,7 +8,7 @@ import { connect, useDispatch } from 'react-redux';
 //import { login as handleLogin } from '../../redux/reducers/auth-reducers';
 
 
-import { login as loginFetch, getJobSeekerFetch } from './../../utils/fetchFunctions';
+import { login as loginFetch, getPersonalDataFetch } from './../../utils/fetchFunctions';
 import { loginAction } from './../../redux/actions/auth-actions';
 import { startLoadingAction, stopLoadingAction } from '../../redux/actions/dialog-actions';
 import { withSnackbar, useSnackbar } from 'notistack';
@@ -67,7 +67,7 @@ const SignInCardComp = (props: ISignInCardProps) => {
             
                 switch(role) {
                     case ("ROLE_JOBSEEKER" || "ROLE_EMPLOYEE"):
-                        const jobSeekerData = await getJobSeekerFetch();
+                        const jobSeekerData = await getPersonalDataFetch();
                         let address: string | null = null;
 
                         if(jobSeekerData.address) {
