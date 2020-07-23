@@ -35,7 +35,7 @@ function mapStateToProps(state : RootState) {
             dateBirth: '' + state.userPersonalsReducer.dateBirth,
             phone: '' + state.userPersonalsReducer.phone,
             email: '' + state.userPersonalsReducer.email,
-            address: '' + state.userPersonalsReducer.address,
+            address: state.userPersonalsReducer.address,
             inn: '' + state.userPersonalsReducer.inn,
             ogrn: '' + state.userPersonalsReducer.ogrn
         }
