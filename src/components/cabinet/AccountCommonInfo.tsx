@@ -37,7 +37,8 @@ const useStyles = makeStyles((theme: Theme) =>
       marginRight:theme.spacing(2)
     },
     descriptionAndTitleBlock: {
-      flexGrow:1
+      flexGrow:1,
+      paddingRight: theme.spacing(2)
     },
     titleBlock: {
         width:"max-content"
@@ -111,6 +112,13 @@ const AccountCommonInfoComp = (props: IAccountCommonInfo) => {
                       handleClickClose={() => {setOpenName(false)}}
                       handleClickSave={() => {setOpenName(false)}}
                       type="name"
+                      role={props.roleSettings}
+                      />
+                    <ChangeComponentDialog 
+                      open={openAbout}
+                      handleClickClose={() => {setOpenAbout(false)}}
+                      handleClickSave={() => {setOpenAbout(false)}}
+                      type="about"
                       role={props.roleSettings}
                       />
                     

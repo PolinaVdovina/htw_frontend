@@ -62,7 +62,7 @@ export const RegCard = (props: IRegCardProps) => {
             }));
 
             if(result.msgStatus == "ok") {
-                dispatch(loginAction(login, result.token, 0, 0));
+                dispatch(loginAction(login, result.token, 0, role));
                 snackBar.enqueueSnackbar("Пользователь успешно зарегистрирован", {variant: "success"});
 
             } else {

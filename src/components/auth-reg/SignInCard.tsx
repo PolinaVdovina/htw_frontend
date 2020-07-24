@@ -18,6 +18,7 @@ import { useTheme } from '@material-ui/core';
 import { Link as RouterLink } from 'react-router-dom';
 import { urls } from '../../pages/urls';
 import { useStyles } from './styles';
+import { addressGlue, genderIntToStr } from '../../utils/appliedFunc';
 
 
 
@@ -63,29 +64,24 @@ const SignInCardComp = (props: ISignInCardProps) => {
             if(result.msgStatus == "ok") {
                 const role = result.role;
                 await dispatch(loginAction(login, result.token, 0, role));
-
             
                 switch(role) {
-                    case ("ROLE_JOBSEEKER" || "ROLE_EMPLOYEE"):
+                    case ("ROLE_JOBSEEKER"):
                         const jobSeekerData = await getPersonalDataFetch();
-                        let address: string | null = null;
+                        let address = addressGlue(jobSeekerData.address);
+                        alert(JSON.stringify(jobSeekerData.address))
+                        alert(JSON.stringify(address));
 
-                        if(jobSeekerData.address) {
-                            address = '';
-                            if(jobSeekerData.address.region)
-                                address += jobSeekerData.address.region;
-                            
-                            if(jobSeekerData.address.city)
-                                address += ', г ' + jobSeekerData.address.city;
-
-                            if(jobSeekerData.address.street)
-                                address += ', ' + jobSeekerData.address.street;
-
-                            if(jobSeekerData.address.house)
-                                address += ', д ' + jobSeekerData.address.house;
-                        
-                            if(jobSeekerData.address.flat)
-                                address += ', кв ' + jobSeekerData.address.flat;
+                        const data = {
+                            name: jobSeekerData.name, 
+                            surname: jobSeekerData.surname, 
+                            middlename: jobSeekerData.middlename, 
+                            dateBirth: jobSeekerData.dateBirth, 
+                            phone: jobSeekerData.contactDetails.phone, 
+                            email: jobSeekerData.contactDetails.email,
+                            about: jobSeekerData.about,
+                            address: address,
+                            gender: genderIntToStr(jobSeekerData.gender),
                         }
 
                         await dispatch(fillPersonalDataAction({
@@ -93,15 +89,27 @@ const SignInCardComp = (props: ISignInCardProps) => {
                             surname: jobSeekerData.surname, 
                             middlename: jobSeekerData.middlename, 
                             dateBirth: jobSeekerData.dateBirth, 
-                            phone: jobSeekerData.phone, 
-                            email: jobSeekerData.email,
+                            phone: jobSeekerData.contactDetails.phone, 
+                            email: jobSeekerData.contactDetails.email,
                             about: jobSeekerData.about,
                             address: address,
+                            gender: genderIntToStr(jobSeekerData.gender),
                         }));
                         break;
 
-                    case ("ROLE_EMPLOYER" || "ROLE_INSTITUTION"):
+                    case ("ROLE_EMPLOYER"):
+                        const employerData = await getPersonalDataFetch();
+                        let address1 = addressGlue(employerData.address);
 
+                        await dispatch(fillPersonalDataAction({
+                            name: employerData.name, 
+                            phone: employerData.phone, 
+                            email: employerData.email,
+                            about: employerData.about,
+                            address: address1,
+                            inn: employerData.inn,
+                            ogrn: employerData.ogrn
+                        }));
                         break;
                 }
                 

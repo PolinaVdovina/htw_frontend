@@ -118,6 +118,7 @@ export const getPersonalDataFetch = async () => {
         });
 
         returnData = response.data; 
+        //alert(JSON.stringify(response.data))
         returnData["msgStatus"] = "ok"
             //{
             // name: response.data.name,
@@ -142,9 +143,41 @@ export const getPersonalDataFetch = async () => {
     return returnData;
 }
 
-export const changePersonalDataFetch/*: (data:any, url:string | underfined)*/ = async (data, url?: string) => {
+export const getEmployerFetch = async () => {
+    let returnData;
     try {
-        url = url || '/personal/get';
+        const response =  await axios.get("/employer/get", {
+            headers:{
+                Authorization: 'Bearer ' + store.getState().authReducer.token
+            }
+        });
+        returnData =  {
+            name: response.data.name,
+            phone: response.data.contactDetails.phone,
+            email: response.data.contactDetails.email,
+            msgStatus: "ok",
+            about: response.data.about,
+            inn: response.data.inn,
+            ogrn: response.data.ogrn
+            //address: response.data.address,
+        };
+        //alert(JSON.stringify(returnData))
+    }
+    catch
+    {
+        alert('ошибка')
+        returnData =  {
+            msgStatus:"error",
+            error: "Какая-нибудь ошибка с сетью!"
+        };
+    }
+
+    return returnData;
+}
+
+export const changePersonalDataFetch = async (data, url?) => {
+    try {
+        url = url || '/account/set';
         const response = await axios.post(url,  {
                 ...data,
 

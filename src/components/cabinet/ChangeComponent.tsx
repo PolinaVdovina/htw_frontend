@@ -40,7 +40,7 @@ export const ChangeComponentRaw = (props : FinalProps) => {
 
     const validateAndSave = async() => {
         //alert(data)
-        if (!validFunc(data))
+        if (validFunc && !validFunc(data))
             props.enqueueSnackbar('Поле заполнено неверно', {variant: "error"})
         else {
             
@@ -65,7 +65,7 @@ export const ChangeComponentRaw = (props : FinalProps) => {
     }
 
     return (
-        <Grid item container direction='column'  spacing={1}>
+        <Grid item container direction='column' spacing={1} >
             { Component &&
                 Object.keys(changeSettings).map(key => 
                     <Grid item container direction='row'  alignItems='center'>
@@ -74,7 +74,7 @@ export const ChangeComponentRaw = (props : FinalProps) => {
                                 {changeSettings[key].title}
                             </Typography>
                         </Grid>
-                        <Grid item >
+                        <Grid item style={{flexGrow:1}} >
                             { <Component onChange={onChange} data={data} type={key}/>}
                         </Grid>
                     </Grid>

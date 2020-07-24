@@ -22,9 +22,16 @@ export const settingsAddress = {
     }
 }
 
+
 export const settingsBirth = {
     'dateBirth': {
         'title': 'Дата рождения'
+    }
+}
+
+export const settingsGender = {
+    'gender': {
+        'title': 'Пол'
     }
 }
 

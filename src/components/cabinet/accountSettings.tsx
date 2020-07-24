@@ -2,11 +2,10 @@ import { ChangeOneString } from "./changeMiniComponents/ChangeOneString";
 import { ChangeAddress } from "./changeMiniComponents/ChangeAddress";
 import { ChangeName } from "./changeMiniComponents/ChangeName";
 import { ChangeBirth } from "./changeMiniComponents/ChangeBirth";
-import { settingsEmail, settingsPhone, settingsName, settingsBirth, settingsAddress, settingsNameOrg, settingsInn, settingsOgrn, settingsDescription } from "./changeMiniComponents/changeSettings";
+import { settingsEmail, settingsPhone, settingsName, settingsBirth, settingsAddress, settingsNameOrg, settingsInn, settingsOgrn, settingsDescription, settingsGender } from "./changeMiniComponents/changeSettings";
 import { validateEmail, validatePhone, validateName, validateDate, validateAddress, validateInn, validateNameOrg, validateOgrn } from "../../utils/validateFunctions";
-import { changeJobSeekerData, changeJobSeekerAddress } from "../../utils/change-component-utils";
-
-
+import { changeJobSeekerData, changeJobSeekerAddress, changeJobSeekerContactDetails, changeGender } from "../../utils/change-component-utils";
+import { ChangeGender } from './changeMiniComponents/ChangeGender';
 
 export const SETTINGS = {
     INDIVIDUAL: {
@@ -22,14 +21,14 @@ export const SETTINGS = {
             changeComponent: ChangeOneString,
             changeSettings: settingsEmail,
             validateFunction: validateEmail,
-            changeFunction: changeJobSeekerData,      
+            changeFunction: changeJobSeekerContactDetails,      
         },
         phone: {
             title: 'Номер телефона',
             changeComponent: ChangeOneString,
             changeSettings: settingsPhone,
             validateFunction: validatePhone,
-            changeFunction: changeJobSeekerData,
+            changeFunction: changeJobSeekerContactDetails,
         },
         name: {
             title: 'ФИО',
@@ -51,6 +50,13 @@ export const SETTINGS = {
             changeSettings: settingsBirth,
             validateFunction: validateDate,
             changeFunction: changeJobSeekerData,
+        },
+        gender: {
+            title: 'Пол',
+            changeComponent: ChangeGender,
+            changeSettings: settingsGender,
+            validateFunction: null,
+            changeFunction: changeGender,
         }
     },
     LEGAL: {
@@ -58,38 +64,43 @@ export const SETTINGS = {
             title: 'Наименование',
             changeComponent: ChangeOneString,
             changeSettings: settingsNameOrg,
-            validateFunction: validateNameOrg
+            validateFunction: validateNameOrg,
+            changeFunction: changeJobSeekerData
         },
         inn: {
             title: 'ИНН',
             changeComponent: ChangeOneString,
             changeSettings: settingsInn,
-            validateFunction: validateInn
+            validateFunction: validateInn,
+            changeFunction: changeJobSeekerData
         },
         ogrn: {
             title: 'ОГРН',
             changeComponent: ChangeOneString,
             changeSettings: settingsOgrn,
-            validateFunction: validateOgrn
+            validateFunction: validateOgrn,
+            changeFunction: changeJobSeekerData
         },
         address: {
             title: 'Адрес',
             changeComponent: ChangeAddress,
             changeSettings: settingsAddress,
             validateFunction: validateAddress,
-            
+            changeFunction: changeJobSeekerAddress
         },
         email: {
             title: 'Электронная почта',
             changeComponent: ChangeOneString,
             changeSettings: settingsEmail,
-            validateFunction: validateEmail          
+            validateFunction: validateEmail,
+            changeFunction: changeJobSeekerContactDetails          
         },
         phone: {
             title: 'Номер телефона',
             changeComponent: ChangeOneString,
             changeSettings: settingsPhone,
-            validateFunction: validatePhone
+            validateFunction: validatePhone,
+            changeFunction: changeJobSeekerContactDetails
         }
     }
 }
