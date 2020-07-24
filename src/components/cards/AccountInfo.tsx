@@ -87,8 +87,28 @@ class AccountInfoComp extends React.Component<IPropsAccountInfo, IStateAccountIn
                             <Typography style={{'color': '#808080'}}>
                                 {SETTINGS[this.props.role][key].title}
                             </Typography> 
-                        
+                            {this.props.data[key].isArray() && 
+                                this.props.data[key].map(element =>
+                                    <Grid item container direction='row' spacing={2} justify='space-between' style={{flexWrap:"nowrap"}}>
+                                        <Grid item>
+                                            <Typography>
+                                                {element}                                                  
+                                            </Typography>
+                                        </Grid>
+                                        <Grid item>
+                                            <Link 
+                                                component='button'
+                                                onClick={() => this.handleClickOpen(key)}
+                                            >
+                                                Изменить
+                                            </Link>
+                                        </Grid>
+                                    </Grid>
+                                )
+                            }
                             <Grid item container direction='row' spacing={2} justify='space-between' style={{flexWrap:"nowrap"}}>                             
+                                
+                                
                                 <Grid item>
                                     <Typography>
                                         {
@@ -106,6 +126,8 @@ class AccountInfoComp extends React.Component<IPropsAccountInfo, IStateAccountIn
                                         Изменить
                                     </Link>
                                 </Grid>
+                            
+                            
                             </Grid>                        
                         </Grid>
 
