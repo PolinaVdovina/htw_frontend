@@ -33,7 +33,8 @@ function strParser(str/*: string*/) {
 
 export const ChangeAddress = (props/* : IChangeAddress*/) => {
     return(
-        <AddressSuggestions 
+        <AddressSuggestions
+            style={{width:"100%"}} 
             token="552dfb218ca6ea603908fc2391f8da0fa97a6cd6" 
             onChange={(object) => {if (object) props.onChange(strParser(object.value))}}  
             //filterFromBound='city'//{props.type}

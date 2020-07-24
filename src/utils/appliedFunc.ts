@@ -21,3 +21,21 @@ export function addressGlue(data?) : string | null {
 
     return address;
 }
+
+const genderLabels = ["Мужской", "Женский", "Другое"]
+
+export function genderIntToStr(gender: number | null) {
+    if(gender != null) {
+        return genderLabels[gender];
+    }
+    return null;
+}
+
+
+export function genderStrToInt(gender: string | null) {
+    if(gender != null) {
+        return genderLabels.findIndex((value) => value==gender);
+    }
+    return null;
+}
+

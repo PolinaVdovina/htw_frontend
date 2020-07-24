@@ -37,7 +37,8 @@ const useStyles = makeStyles((theme: Theme) =>
       marginRight:theme.spacing(2)
     },
     descriptionAndTitleBlock: {
-      flexGrow:1
+      flexGrow:1,
+      paddingRight: theme.spacing(2)
     },
     titleBlock: {
         width:"max-content"
@@ -57,7 +58,8 @@ interface IAccountCommonInfo {
     login?: string | null,
     about?: string | null,
     middlename?: string | null,
-    role: string,
+    roleSettings: string,
+    role?: string | null,
 }
 
 function mapStateToProps(state : RootState) {
@@ -67,7 +69,8 @@ function mapStateToProps(state : RootState) {
     login: state.authReducer.login,
     token: state.authReducer.token,
     about: state.userPersonalsReducer.about,
-    middlename: state.userPersonalsReducer.middlename
+    middlename: state.userPersonalsReducer.middlename,
+    role: state.authReducer.entityType,
   }
 }
 
@@ -76,14 +79,25 @@ const AccountCommonInfoComp = (props: IAccountCommonInfo) => {
     const theme = useTheme();
     const [openName, setOpenName] = React.useState(false);
     const [openAbout, setOpenAbout] = React.useState(false);
-
+    let name = '';
+    //alert(props.role)
+    switch(props.role) {
+      case "ROLE_JOBSEEKER" || "ROLE_EMPLOYEE":
+        name = ((props.name && props.surname) ? props.name + ' ' + props.surname + ' ' + props.middlename  : "ФИО не указано");
+        break
+      case "ROLE_INSTITUTION" || "ROLE_INSTITUTION":
+        name = (props.name) ? props.name: "Название не указано";
+        break
+    }
+    
     return (
             <Grid container alignItems="center" direction="row" className={classes.avatarGrid}>
                 <Avatar className={classes.avatar} />
                 <Grid item container direction="column" className={classes.descriptionAndTitleBlock}>
                     <Typography className={classes.titleBlock}>
-                    { props.role == "ROLE_JOBSEEKER" || props.role == "ROLE_EMPLOYEE" &&  (props.name && props.surname) ? props.name + ' ' + props.surname + ' ' + props.middlename  : "ФИО не указано" }
-                    { (props.role == "ROLE_EMPLOYER" || props.role == "ROLE_INSTITUTION") &&  (props.name) ? props.name: "Название не указано" }
+                      { 
+                      name
+                      }
                     </Typography>
                     <Typography className={classes.descriptionBlock}>
                     <Link
@@ -98,7 +112,14 @@ const AccountCommonInfoComp = (props: IAccountCommonInfo) => {
                       handleClickClose={() => {setOpenName(false)}}
                       handleClickSave={() => {setOpenName(false)}}
                       type="name"
-                      role={props.role}
+                      role={props.roleSettings}
+                      />
+                    <ChangeComponentDialog 
+                      open={openAbout}
+                      handleClickClose={() => {setOpenAbout(false)}}
+                      handleClickSave={() => {setOpenAbout(false)}}
+                      type="about"
+                      role={props.roleSettings}
                       />
                     
                 </Grid>

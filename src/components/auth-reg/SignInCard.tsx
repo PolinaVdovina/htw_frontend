@@ -8,7 +8,7 @@ import { connect, useDispatch } from 'react-redux';
 //import { login as handleLogin } from '../../redux/reducers/auth-reducers';
 
 
-import { login as loginFetch, getJobSeekerFetch, getEmployerFetch } from './../../utils/fetchFunctions';
+import { login as loginFetch, getPersonalDataFetch } from './../../utils/fetchFunctions';
 import { loginAction } from './../../redux/actions/auth-actions';
 import { startLoadingAction, stopLoadingAction } from '../../redux/actions/dialog-actions';
 import { withSnackbar, useSnackbar } from 'notistack';
@@ -18,7 +18,7 @@ import { useTheme } from '@material-ui/core';
 import { Link as RouterLink } from 'react-router-dom';
 import { urls } from '../../pages/urls';
 import { useStyles } from './styles';
-import { addressGlue } from '../../utils/appliedFunc';
+import { addressGlue, genderIntToStr } from '../../utils/appliedFunc';
 
 
 
@@ -67,23 +67,38 @@ const SignInCardComp = (props: ISignInCardProps) => {
             
                 switch(role) {
                     case ("ROLE_JOBSEEKER"):
-                        const jobSeekerData = await getJobSeekerFetch();
+                        const jobSeekerData = await getPersonalDataFetch();
                         let address = addressGlue(jobSeekerData.address);
+                        alert(JSON.stringify(jobSeekerData.address))
+                        alert(JSON.stringify(address));
+
+                        const data = {
+                            name: jobSeekerData.name, 
+                            surname: jobSeekerData.surname, 
+                            middlename: jobSeekerData.middlename, 
+                            dateBirth: jobSeekerData.dateBirth, 
+                            phone: jobSeekerData.contactDetails.phone, 
+                            email: jobSeekerData.contactDetails.email,
+                            about: jobSeekerData.about,
+                            address: address,
+                            gender: genderIntToStr(jobSeekerData.gender),
+                        }
 
                         await dispatch(fillPersonalDataAction({
                             name: jobSeekerData.name, 
                             surname: jobSeekerData.surname, 
                             middlename: jobSeekerData.middlename, 
                             dateBirth: jobSeekerData.dateBirth, 
-                            phone: jobSeekerData.phone, 
-                            email: jobSeekerData.email,
+                            phone: jobSeekerData.contactDetails.phone, 
+                            email: jobSeekerData.contactDetails.email,
                             about: jobSeekerData.about,
                             address: address,
+                            gender: genderIntToStr(jobSeekerData.gender),
                         }));
                         break;
 
                     case ("ROLE_EMPLOYER"):
-                        const employerData = await getEmployerFetch();
+                        const employerData = await getPersonalDataFetch();
                         let address1 = addressGlue(employerData.address);
 
                         await dispatch(fillPersonalDataAction({

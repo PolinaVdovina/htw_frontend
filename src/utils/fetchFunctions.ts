@@ -108,7 +108,7 @@ export const register = async (login, email, phone, password, role) => {
 //     name: string,
 // }
 
-export const getJobSeekerFetch = async () => {
+export const getPersonalDataFetch = async () => {
     let returnData;
     try {
         const response =  await axios.get("/personal/get", {
@@ -116,17 +116,21 @@ export const getJobSeekerFetch = async () => {
                 Authorization: 'Bearer ' + store.getState().authReducer.token
             }
         });
-        returnData =  {
-            name: response.data.name,
-            surname: response.data.surname,
-            middlename: response.data.middlename,
-            dateBirth: response.data.dateBirth,
-            phone: response.data.contactDetails.phone,
-            email: response.data.contactDetails.email,
-            msgStatus: "ok",
-            about: response.data.about,
-            address: response.data.address,
-        };
+
+        returnData = response.data; 
+        //alert(JSON.stringify(response.data))
+        returnData["msgStatus"] = "ok"
+            //{
+            // name: response.data.name,
+            // surname: response.data.surname,
+            // middlename: response.data.middlename,
+            // dateBirth: response.data.dateBirth,
+            // phone: response.data.contactDetails.phone,
+            // email: response.data.contactDetails.email,
+            // msgStatus: "ok",
+            // about: response.data.about,
+            // address: response.data.address,
+            //};
     }
     catch
     {
@@ -173,7 +177,7 @@ export const getEmployerFetch = async () => {
 
 export const changePersonalDataFetch = async (data, url?) => {
     try {
-        url = url || '/personal/setting/personal';
+        url = url || '/account/set';
         const response = await axios.post(url,  {
                 ...data,
 
@@ -198,7 +202,7 @@ export const changePersonalDataFetch = async (data, url?) => {
 }
 
 
-export const changeJobSeekerAddressFetch = async (data) => {
+/* export const changeJobSeekerAddressFetch = async (data) => {
     try {
         const response = await axios.post("/personal/setting/personal",  {
                 ...data,
@@ -222,3 +226,4 @@ export const changeJobSeekerAddressFetch = async (data) => {
         return  msgInfo;
     }
 }
+ */

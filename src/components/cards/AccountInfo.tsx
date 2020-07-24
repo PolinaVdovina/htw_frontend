@@ -6,6 +6,7 @@ import { PaddingPaper } from './PaddingPaper';
 import { RootState } from '../../redux/store';
 import { connect } from 'react-redux';
 import { AccountCommonInfo } from './../cabinet/AccountCommonInfo';
+import { genderIntToStr } from '../../utils/appliedFunc';
 
 
 interface IPropsAccountInfo{
@@ -37,7 +38,8 @@ function mapStateToProps(state : RootState) {
             email: '' + state.userPersonalsReducer.email,
             address: state.userPersonalsReducer.address,
             inn: '' + state.userPersonalsReducer.inn,
-            ogrn: '' + state.userPersonalsReducer.ogrn
+            ogrn: '' + state.userPersonalsReducer.ogrn,
+            gender: state.userPersonalsReducer.gender,
         }
     }
 }
@@ -74,7 +76,7 @@ class AccountInfoComp extends React.Component<IPropsAccountInfo, IStateAccountIn
             <PaddingPaper style={{width:"100%"}}>
                 <Grid container spacing={2} direction='column'>  
                     <Grid item>
-                        <AccountCommonInfo role={this.props.role}/>
+                        <AccountCommonInfo roleSettings={this.props.role}/>
                     </Grid>
                     <Divider/>
                     <Grid item>
