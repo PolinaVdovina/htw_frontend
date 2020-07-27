@@ -41,10 +41,12 @@ const CabinetComp = (props : ICabinetProps) => {
 
     return (
         <HCenterizingGrid>
+            <RedirectIfNotAuthorized/>
             {props.role == 'ROLE_INSTITUTION' && <InstitutionCabinet/>}
             {props.role == 'ROLE_EMPLOYER' && <EmployerCabinet/>}
             {props.role == 'ROLE_EMPLOYEE' && <EmployeeCabinet/>}
             {props.role == 'ROLE_JOBSEEKER' && <JobSeekerCabinet/>}
+            <Tape posts={testPosts} />
         </HCenterizingGrid>
         )
 }
