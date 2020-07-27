@@ -89,7 +89,7 @@ class AccountInfoComp extends React.Component<IPropsAccountInfo, IStateAccountIn
                             <Typography style={{'color': '#808080'}}>
                                 {SETTINGS[this.props.role][key].title}
                             </Typography> 
-                            {this.props.data[key].isArray() && 
+                            {(this.props.data[key] && this.props.data[key].isArray) && 
                                 this.props.data[key].map(element =>
                                     <Grid item container direction='row' spacing={2} justify='space-between' style={{flexWrap:"nowrap"}}>
                                         <Grid item>
