@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme: Theme) =>
 export const Tape = (props: ITapeProps) => {
     const classes = useStyles();
     return (
-        <Grid spacing={2} container direction="column">
+        <Grid  container direction="column">
           {
             props.posts && props.posts.map( postData =>
               <PostCard postData={postData}/> 
