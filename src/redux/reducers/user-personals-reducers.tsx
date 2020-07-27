@@ -1,4 +1,8 @@
 import * as types from '../../constants/action-types';
+import { startLoadingAction, stopLoadingAction } from '../actions/dialog-actions';
+import { getPersonalDataFetch, getEmployerFetch } from '../../utils/fetchFunctions';
+import { addressGlue, genderIntToStr } from '../../utils/appliedFunc';
+import { fillPersonalDataAction } from '../actions/user-personals';
 
 interface ICommonState {
     isFetched,
@@ -48,4 +52,60 @@ export function userPersonalsReducer(state = initialState, action) : ICommonStat
         default:
         return state;
     }
+}
+
+
+export const getPersonalData: (token: string) => void = (token) => 
+async (dispatch, getState) => {
+    dispatch(startLoadingAction());
+    const role = getState().authReducer.entityType;
+    switch(role) {
+        case ("ROLE_JOBSEEKER"):
+            const jobSeekerData = await getPersonalDataFetch(getState().authReducer.token);
+            let address = addressGlue(jobSeekerData.address);
+            //(JSON.stringify(jobSeekerData.address))
+            //alert(JSON.stringify(address));
+
+            const data = {
+                name: jobSeekerData.name, 
+                surname: jobSeekerData.surname, 
+                middlename: jobSeekerData.middlename, 
+                dateBirth: jobSeekerData.dateBirth, 
+                phone: jobSeekerData.contactDetails.phone, 
+                email: jobSeekerData.contactDetails.email,
+                about: jobSeekerData.about,
+                address: address,
+                gender: genderIntToStr(jobSeekerData.gender),
+            }
+
+            await dispatch(fillPersonalDataAction({
+                name: jobSeekerData.name, 
+                surname: jobSeekerData.surname, 
+                middlename: jobSeekerData.middlename, 
+                dateBirth: jobSeekerData.dateBirth, 
+                phone: jobSeekerData.contactDetails.phone, 
+                email: jobSeekerData.contactDetails.email,
+                about: jobSeekerData.about,
+                address: address,
+                gender: genderIntToStr(jobSeekerData.gender),
+            }));
+            break;
+
+        case ("ROLE_EMPLOYER"):
+            const employerData = await getEmployerFetch(getState().authReducer.token);
+            let address1 = addressGlue(employerData.address);
+            //alert(JSON.stringify(employerData))
+            await dispatch(fillPersonalDataAction({
+                name: employerData.name, 
+                phone: employerData.phone, 
+                email: employerData.email,
+                about: employerData.about,
+                address: address1,
+                inn: employerData.inn,
+                ogrn: employerData.ogrn
+            }));
+            break;
+    }
+    dispatch(stopLoadingAction());
+
 }

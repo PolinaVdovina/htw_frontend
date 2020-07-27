@@ -15,6 +15,7 @@ export const ChangeGender = (props : IChangeGender) => {
           
           onChange={(event) => props.onChange({[props.type]: event.target.value})}
           variant="filled"
+          size={"small"}
           style={{width:"150px"}}
         >
             <MenuItem>

@@ -11,6 +11,7 @@ import { genderIntToStr } from '../../utils/appliedFunc';
 
 interface IPropsAccountInfo{
     role: string,
+    title?: string,
     data: {
         name: string,
         dateBirth: string,
@@ -73,57 +74,54 @@ class AccountInfoComp extends React.Component<IPropsAccountInfo, IStateAccountIn
     render() {
         //alert(this.props.name)
         return( 
-            <PaddingPaper style={{width:"100%"}}>
-                <Grid container spacing={2} direction='column'>  
-                    <Grid item>
-                        <AccountCommonInfo roleSettings={this.props.role}/>
-                    </Grid>
-                    <Divider/>
-                    <Grid item>
-                        <Typography variant='h5'>
-                            Общие данные
-                        </Typography>    
-                    </Grid>          
-                    {this.props.settingsView.map(key => <>
-                        <Grid container item direction="column">
-                            <Typography style={{'color': '#808080'}}>
-                                {SETTINGS[this.props.role][key].title}
-                            </Typography> 
-                        
-                            <Grid item container direction='row' spacing={2} justify='space-between' style={{flexWrap:"nowrap"}}>                             
-                                <Grid item>
-                                    <Typography>
-                                        {
-                                            this.props.data[key] ?
-                                                (this.props.data[key].indexOf('null') == -1) ? this.props.data[key] : 'Не задано' :
-                                                'Не задано'
-                                        }
-                                    </Typography>
-                                </Grid>
-                                <Grid item>
-                                    <Link 
-                                        component='button'
-                                        onClick={() => this.handleClickOpen(key)}
-                                    >
-                                        Изменить
-                                    </Link>
-                                </Grid>
-                            </Grid>                        
-                        </Grid>
 
-                        {this.state.hidden[key] &&
-                            <ChangeComponent
-                                handleClickClose={() => this.handleClickClose(key)}
-                                handleClickSave={() => this.handleClickSave(key)}
-                                type={key}
-                                role={this.props.role}
-                                key={key}
-                            />
-                        }
-                    </>)
-                } 
-                </Grid>                                   
-            </PaddingPaper>            
+            <Grid container spacing={2} direction='column'>  
+
+                <Grid item>
+                    <Typography variant='h5'>
+                        {this.props.title ? this.props.title : "Общие данные"}
+                    </Typography>    
+                </Grid>          
+                {this.props.settingsView.map(key => <>
+                    <Grid container item direction="column">
+                        <Typography style={{'color': '#808080'}}>
+                            {SETTINGS[this.props.role][key].title}
+                        </Typography> 
+                    
+                        <Grid item container direction='row' spacing={2} justify='space-between' style={{flexWrap:"nowrap"}}>                             
+                            <Grid item>
+                                <Typography>
+                                    {
+                                        this.props.data[key] ?
+                                            (this.props.data[key].indexOf('null') == -1) ? this.props.data[key] : 'Не задано' :
+                                            'Не задано'
+                                    }
+                                </Typography>
+                            </Grid>
+                            <Grid item>
+                                <Link 
+                                    component='button'
+                                    onClick={() => this.handleClickOpen(key)}
+                                >
+                                    Изменить
+                                </Link>
+                            </Grid>
+                        </Grid>                        
+                    </Grid>
+
+                    {this.state.hidden[key] &&
+                        <ChangeComponent
+                            handleClickClose={() => this.handleClickClose(key)}
+                            handleClickSave={() => this.handleClickSave(key)}
+                            type={key}
+                            role={this.props.role}
+                            key={key}
+                        />
+                    }
+                </>)
+            } 
+            </Grid>                                   
+ 
         )
     }
 }

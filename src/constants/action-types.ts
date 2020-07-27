@@ -12,3 +12,7 @@ export const SET_PAGINATION : String = 'SET_PAGINATION';
 
 export const START_LOADING : String = 'START_LOADING'
 export const STOP_LOADING : String = 'STOP_LOADING'
+
+export const ENQUEUE_SNACKBAR = 'ENQUEUE_SNACKBAR';
+export const CLOSE_SNACKBAR = 'CLOSE_SNACKBAR';
+export const REMOVE_SNACKBAR = 'REMOVE_SNACKBAR';

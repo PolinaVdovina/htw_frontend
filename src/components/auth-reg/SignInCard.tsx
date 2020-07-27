@@ -8,23 +8,20 @@ import { connect, useDispatch } from 'react-redux';
 //import { login as handleLogin } from '../../redux/reducers/auth-reducers';
 
 
-import { login as loginFetch, getPersonalDataFetch } from './../../utils/fetchFunctions';
-import { loginAction } from './../../redux/actions/auth-actions';
-import { startLoadingAction, stopLoadingAction } from '../../redux/actions/dialog-actions';
-import { withSnackbar, useSnackbar } from 'notistack';
+
+
 //import { stopLoading } from './../../redux/reducers/dialog-reducers';
-import { fillPersonalDataAction } from './../../redux/actions/user-personals';
 import { useTheme } from '@material-ui/core';
 import { Link as RouterLink } from 'react-router-dom';
 import { urls } from '../../pages/urls';
 import { useStyles } from './styles';
-import { addressGlue, genderIntToStr } from '../../utils/appliedFunc';
+import { login } from './../../redux/reducers/auth-reducers';
 
 
 
 
 interface ISignInCardProps {
-
+    login: typeof login
 }
 
 function mapStateToProps(state : RootState) {
@@ -34,7 +31,7 @@ function mapStateToProps(state : RootState) {
   }
   
   const mapDispatchToProps = {
-
+    login,
   }
 
 
@@ -47,7 +44,7 @@ const SignInCardComp = (props: ISignInCardProps) => {
     const [errorLogin, setErrorLogin] = useState('');
     const dispatch = useDispatch();
     const theme = useTheme();
-    const snackBar = useSnackbar();
+
     async function validate() {
         const preValidatePassword = validateRegPasword(password);
         const preValidateLogin = validateLogin(login);
@@ -58,99 +55,7 @@ const SignInCardComp = (props: ISignInCardProps) => {
 
         //alert(JSON.stringify(result))
         if (preValidatePassword == '' && preValidateLogin == '') {
-            dispatch(startLoadingAction());
-            const result = await loginFetch(login, password);
-           
-            if(result.msgStatus == "ok") {
-                const role = result.role;
-                await dispatch(loginAction(login, result.token, 0, role));
-            
-                switch(role) {
-                    case ("ROLE_JOBSEEKER"):
-                        const jobSeekerData = await getPersonalDataFetch();
-                        let address = addressGlue(jobSeekerData.address);
-                        alert(JSON.stringify(jobSeekerData.address))
-                        alert(JSON.stringify(address));
-
-                        const data = {
-                            name: jobSeekerData.name, 
-                            surname: jobSeekerData.surname, 
-                            middlename: jobSeekerData.middlename, 
-                            dateBirth: jobSeekerData.dateBirth, 
-                            phone: jobSeekerData.contactDetails.phone, 
-                            email: jobSeekerData.contactDetails.email,
-                            about: jobSeekerData.about,
-                            address: address,
-                            gender: genderIntToStr(jobSeekerData.gender),
-                        }
-
-                        await dispatch(fillPersonalDataAction({
-                            name: jobSeekerData.name, 
-                            surname: jobSeekerData.surname, 
-                            middlename: jobSeekerData.middlename, 
-                            dateBirth: jobSeekerData.dateBirth, 
-                            phone: jobSeekerData.contactDetails.phone, 
-                            email: jobSeekerData.contactDetails.email,
-                            about: jobSeekerData.about,
-                            address: address,
-                            gender: genderIntToStr(jobSeekerData.gender),
-                        }));
-                        break;
-
-                    case ("ROLE_EMPLOYER"):
-                        const employerData = await getPersonalDataFetch();
-                        let address1 = addressGlue(employerData.address);
-
-                        await dispatch(fillPersonalDataAction({
-                            name: employerData.name, 
-                            phone: employerData.phone, 
-                            email: employerData.email,
-                            about: employerData.about,
-                            address: address1,
-                            inn: employerData.inn,
-                            ogrn: employerData.ogrn
-                        }));
-                        break;
-                }
-                
-                //alert(address);
-
-                //alert(jobSeekerData.about);
-                snackBar.enqueueSnackbar("Вы успешно вошли", {variant: "success"});
-                //alert('Вход выполнен');
-
-            } else {
-                snackBar.enqueueSnackbar("Неверный логин или пароль", {variant: "error"});
-                //alert("Неверный логин или пароль")
-            }
-            dispatch(stopLoadingAction());
-            
-            //props.handleStartLoading();
-            // const postGet = {
-            //     method: 'POST',
-            //     headers: {
-            //         'Accept': 'application/json',
-            //         'Content-Type': 'application/json'
-            //     },
-            //     body: JSON.stringify(body)
-            // };
-
-            // fetch('auth/login', postGet)
-            //     .catch(error => alert(error))
-            //     .then(response=>{
-            //         if (response) 
-            //             return response.json();
-            //     })
-            //     .then(resp => {
-            //         if (resp.error) {
-            //             alert("Неверный логин или пароль")
-            //         }
-            //         else {
-            //             alert('Вход выполнен')  
-            //             localStorage.setItem('token', resp.token); 
-            //             localStorage.setItem('login', resp.accountLogin)  
-            //         }                                                            
-            //     })
+            props.login(login,password)
         }       
     }
     
@@ -209,4 +114,4 @@ const SignInCardComp = (props: ISignInCardProps) => {
     )
 }
 
-export const SignInCard = withSnackbar( connect(mapStateToProps, mapDispatchToProps)(SignInCardComp) );
+export const SignInCard = connect(mapStateToProps, mapDispatchToProps)(SignInCardComp);
