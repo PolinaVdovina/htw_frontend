@@ -7,11 +7,13 @@ import { urls } from '../../pages/urls';
 
 interface IRedirectIfNotAuthorized {
     authorized: boolean,
+    isAuthFetched: boolean,
 }
 
 function mapStateToProps(state : RootState) {
     return {
       authorized: state.authReducer.loggedIn,
+      isAuthFetched: state.authReducer.isFetched,
     }
 }
 
@@ -20,10 +22,11 @@ const RedirectIfNotAuthorizedComp = (props: IRedirectIfNotAuthorized) => {
     return (
     <>
         {
+        props.isAuthFetched &&
         props.authorized != true && 
         currentUrl != urls.authentication.shortPath &&
         currentUrl != urls.registration.shortPath &&
-         <Redirect to={urls.cabinet.shortPath+"1"}/>
+         <Redirect to={urls.authentication.shortPath}/>
         }
     </>)
 }

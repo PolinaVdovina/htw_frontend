@@ -80,13 +80,18 @@ const AccountCommonInfoComp = (props: IAccountCommonInfo) => {
     const [openName, setOpenName] = React.useState(false);
     const [openAbout, setOpenAbout] = React.useState(false);
     let name = '';
-    //alert(props.role)
     switch(props.role) {
-      case "ROLE_JOBSEEKER" || "ROLE_EMPLOYEE":
+      case ("ROLE_JOBSEEKER"):
         name = ((props.name && props.surname) ? props.name + ' ' + props.surname + ' ' + props.middlename  : "ФИО не указано");
         break
-      case "ROLE_INSTITUTION" || "ROLE_INSTITUTION":
-        name = (props.name) ? props.name: "Название не указано";
+      case ("ROLE_EMPLOYEE"):
+        name = ((props.name && props.surname) ? props.name + ' ' + props.surname + ' ' + props.middlename  : "ФИО не указано");
+        break
+      case "ROLE_INSTITUTION":
+        name = (props.name) ? props.name : "Название не указано";
+        break
+      case "ROLE_EMPLOYER":
+        name = (props.name) ? props.name : "Название не указано";
         break
     }
     

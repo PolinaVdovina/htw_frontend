@@ -67,6 +67,13 @@ export const SETTINGS = {
             validateFunction: validateNameOrg,
             changeFunction: changeJobSeekerData
         },
+        about: {
+            title: 'О себе',
+            changeComponent: ChangeOneString,
+            changeSettings: settingsDescription,
+            validateFunction: validateDate,
+            changeFunction: changeJobSeekerData,      
+        },
         inn: {
             title: 'ИНН',
             changeComponent: ChangeOneString,

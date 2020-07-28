@@ -14,6 +14,7 @@ interface IDrawerElement {
   IconComponent?: any,
   title?: string,
   url?: string,
+  func?: (...arg) => void,
 }
 
 const drawerElementsDict: Array<IDrawerElement> = [
@@ -41,6 +42,12 @@ const drawerElementsDict: Array<IDrawerElement> = [
       IconComponent: ChatIcon,
       title: "Сообщения",
       url: "/"
+    },
+    {
+      IconComponent: ChatIcon,
+      title: "Выйти",
+      url: "/auth",
+      func: () => {}
     },
   ]
 

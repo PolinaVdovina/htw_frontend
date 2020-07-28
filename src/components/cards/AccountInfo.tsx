@@ -14,6 +14,7 @@ import { withSnackbar, WithSnackbarProps } from 'notistack';
 
 interface IPropsAccountInfo extends WithSnackbarProps{
     role: string,
+    title?: string,
     data: {
         name: string,
         dateBirth: string,
@@ -97,99 +98,54 @@ class AccountInfoComp extends React.Component<IPropsAccountInfo, IStateAccountIn
         //alert(this.props.name)
         //alert(JSON.stringify(this.props.data.address))
         return( 
-            <PaddingPaper style={{width:"100%"}}>
-                <Grid container spacing={2} direction='column'>  
-                    <Grid item>
-                        <AccountCommonInfo roleSettings={this.props.role}/>
-                    </Grid>
-                    <Divider/>
-                    <Grid item>
-                        <Typography variant='h5'>
-                            Общие данные
-                        </Typography>    
-                    </Grid>          
-                    { this.props.settingsView.map(key => <>
-                        <Grid container item direction="column">
-                            <Grid item container direction='row' style={{flexWrap:"nowrap"}}>
-                                <Typography style={{'color': '#808080'}}>
-                                    {SETTINGS[this.props.role][key].title}
-                                </Typography> 
-                                { Array.isArray(this.props.data[key]) &&
-                                    <Link 
-                                        component='button'
-                                        onClick={() => this.handleClickOpen(key)}
-                                        style={{marginLeft: '10px'}}
-                                    >
-                                        Добавить
-                                    </Link>
-                                }
-                            </Grid>
-                            { (this.props.data[key] && Array.isArray(this.props.data[key])) && 
-                                this.props.data[key].map(element =>
-                                    <Grid item container direction='row' spacing={2} style={{flexWrap:"nowrap"}}>
-                                       
-                                        <Grid item style={{flexGrow:1}}>
-                                            <Typography>
-                                                {key == 'address' ? addressGlue(element) : element}                                                  
-                                            </Typography>
-                                        </Grid>
-                                        <Grid item>
-                                            <Link 
-                                                component='button'
-                                                onClick={() => this.handleClickDelete(key)}
-                                            >
-                                                Удалить
-                                            </Link>
-                                        </Grid>
-                                    </Grid>
-                                )
-                            }
-                           { !Array.isArray(this.props.data[key]) && 
-                            <Grid item container direction='row' spacing={2}  style={{flexWrap:"nowrap"}}>                             
-                                
-                                <Grid item style={{flexGrow:1}}>
-                                    <Typography>
-                                        {
-                                            this.props.data[key] ?
-                                                (this.props.data[key].indexOf('null') == -1) ? this.props.data[key] : 'Не задано' :
-                                                'Не задано'
-                                        }
-                                    </Typography>
-                                </Grid>
-                                <Grid item>
-                                    <Link 
-                                        component='button'
-                                        onClick={() => this.handleClickOpen(key)}
-                                    >
-                                        Изменить
-                                    </Link>
-                                </Grid>
-                                <Grid item>
-                                    <Link 
-                                        component='button'
-                                        onClick={() => this.handleClickDelete(key)}
-                                    >
-                                        Удалить
-                                    </Link>
-                                </Grid>
-                            
-                            
-                            </Grid> }                       
-                        </Grid>
 
-                        {this.state.hidden[key] &&
-                            <ChangeComponent
-                                handleClickClose={() => this.handleClickClose(key)}
-                                handleClickSave={() => this.handleClickSave(key)}
-                                type={key}
-                                role={this.props.role}
-                                //key={key}
-                            />
-                        }
-                    </>)
-                } 
-                </Grid>                                   
-            </PaddingPaper>            
+            <Grid container spacing={2} direction='column'>  
+
+                <Grid item>
+                    <Typography variant='h5'>
+                        {this.props.title ? this.props.title : "Общие данные"}
+                    </Typography>    
+                </Grid>          
+                {this.props.settingsView.map(key => <>
+                    <Grid container item direction="column">
+                        <Typography style={{'color': '#808080'}}>
+                            {SETTINGS[this.props.role][key].title}
+                        </Typography> 
+                    
+                        <Grid item container direction='row' spacing={2} justify='space-between' style={{flexWrap:"nowrap"}}>                             
+                            <Grid item>
+                                <Typography>
+                                    {
+                                        this.props.data[key] ?
+                                            (this.props.data[key].indexOf('null') == -1) ? this.props.data[key] : 'Не задано' :
+                                            'Не задано'
+                                    }
+                                </Typography>
+                            </Grid>
+                            <Grid item>
+                                <Link 
+                                    component='button'
+                                    onClick={() => this.handleClickOpen(key)}
+                                >
+                                    Изменить
+                                </Link>
+                            </Grid>
+                        </Grid>                        
+                    </Grid>
+
+                    {this.state.hidden[key] &&
+                        <ChangeComponent
+                            handleClickClose={() => this.handleClickClose(key)}
+                            handleClickSave={() => this.handleClickSave(key)}
+                            type={key}
+                            role={this.props.role}
+                            key={key}
+                        />
+                    }
+                </>)
+            } 
+            </Grid>                                   
+ 
         )
     }
 }

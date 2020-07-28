@@ -1,4 +1,4 @@
-import { FILL_PERSONAL_DATA, FILL_JOBSEEKER_NAME } from './../../constants/action-types';
+import { FILL_PERSONAL_DATA, FILL_JOBSEEKER_NAME } from '../../constants/action-types';
 
 export function fillPersonalDataAction(data) {
     return {

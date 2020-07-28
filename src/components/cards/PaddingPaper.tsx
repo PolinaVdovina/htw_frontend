@@ -4,7 +4,7 @@ import { theme } from './../../theme';
 const styles = (theme: Theme) => ({
     root: {
       padding: theme.spacing(2),
-
+      marginBottom: theme.spacing(2)
     },
   });
 

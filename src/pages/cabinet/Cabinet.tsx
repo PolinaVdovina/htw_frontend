@@ -14,6 +14,8 @@ import { EmployeeCabinet } from './employee/EmployeeCabinet';
 import { EmployerCabinet } from './employer/EmployerCabinet';
 import { InstitutionCabinet } from './institution/InstitutionCabinet';
 import { connect } from 'react-redux';
+import { AccountCommonInfo } from './../../components/cabinet/AccountCommonInfo';
+import { PaddingPaper } from './../../components/cards/PaddingPaper';
 
 interface ICabinetProps {
     role?: string | null
@@ -23,7 +25,8 @@ const testPosts: Array<IPostData> = [
     {
       title: "Пост о себе",
       body: "Я прекрасен, завидуйте молча. Сами вы уроды!",
-      owner: "Прекрасный"
+      owner: "Прекрасный",
+      createdAt: "2019-21-21",
     }
 ]
 
@@ -46,7 +49,7 @@ const CabinetComp = (props : ICabinetProps) => {
             {props.role == 'ROLE_EMPLOYER' && <EmployerCabinet/>}
             {props.role == 'ROLE_EMPLOYEE' && <EmployeeCabinet/>}
             {props.role == 'ROLE_JOBSEEKER' && <JobSeekerCabinet/>}
-            <Tape posts={testPosts} />
+            
         </HCenterizingGrid>
         )
 }

@@ -3,23 +3,32 @@ import { Grid, Paper, List, ListItem, makeStyles, Theme, createStyles } from '@m
 import { JobSeekerFeedMenu } from './../../../components/feed-menu/job-seeker/JobSeekerFeedMenu';
 import { RedirectIfNotAuthorized } from './../../../components/redirects/RedirectIfNotAuthorized';
 import AccountInfo from '../../../components/cards/AccountInfo';
+import { ITabData, TabsPaper } from './../../../components/cards/TabsPaper';
+import { PaddingPaper } from './../../../components/cards/PaddingPaper';
+import { AccountCommonInfo } from '../../../components/cabinet/AccountCommonInfo';
 
 interface IInstitutionCabinet {
 
 }
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      height: "297px",
-      flex: 1,
-    },
-  }),
-);
+const tabs: Array<ITabData> = [
+  {
+    label: "Общая информация",
+    //IconComponent: <PersonPinIcon/>,
+    TabPanel: <AccountInfo role='LEGAL' title="Общая информация" settingsView={['inn', 'ogrn', 'address', 'email', 'phone']}/>
+  },
+  {
+    label: "Студенты",
+    //IconComponent: <PersonPinIcon/>,
+    TabPanel: <AccountInfo role='LEGAL' title="Студенты" settingsView={[]}/>
+  },
+]
 
 export const InstitutionCabinet = (props: IInstitutionCabinet) => {
-    const classes = useStyles();
     return (
-            <AccountInfo role='LEGAL' settingsView={['inn', 'ogrn', 'address', 'email', 'phone']}/>
+      <>   
+        <PaddingPaper style={{width:"100%"}}><AccountCommonInfo roleSettings={"LEGAL"}/></PaddingPaper>   
+        <TabsPaper paperStyle={{width:"100%"}} tabs={tabs} />
+      </>  
     )
 }

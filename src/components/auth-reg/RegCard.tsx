@@ -3,20 +3,31 @@ import React, { useState } from 'react';
 import { validateRegPasword, validateRegLoginConnect, validateLogin } from '../../utils/validateFunctions';
 import { startLoadingAction, stopLoadingAction } from '../../redux/actions/dialog-actions';
 import { loginAction } from '../../redux/actions/auth-actions';
-import { useDispatch } from 'react-redux';
-import { login as loginFetch, register as registerFetch } from './../../utils/fetchFunctions';
+import { useDispatch, connect } from 'react-redux';
+import { loginFetch as loginFetch, registerFetch as registerFetch } from './../../utils/fetchFunctions';
 import { useSnackbar } from 'notistack';
 import { fillPersonalDataAction } from '../../redux/actions/user-personals';
 import { useStyles } from './styles';
 import { urls } from '../../pages/urls';
 import { Link as RouterLink } from 'react-router-dom';
+import { register } from './../../redux/reducers/auth-reducers';
+import { RootState } from '../../redux/store';
 
 interface IRegCardProps {
-
+    register: typeof register
 }
 
+function mapStateToProps(state : RootState) {
+    return {
+     
+    }
+}
 
-export const RegCard = (props: IRegCardProps) => {
+const mapDispatchToProps = {
+    register,
+}
+
+const RegCardComp = (props: IRegCardProps) => {
     const classes = useStyles();
     const [login, setLogin] = useState('');
     const [role, setRole] = useState('');
@@ -52,71 +63,7 @@ export const RegCard = (props: IRegCardProps) => {
         setErrorRole(preRoleErrorValidate);
         setErrorConfirmPassword(preConfirmPasswordErrorValidate);
         if (prePasswordErrorValidate == '' && preLoginErrorValidate == '' && preLoginConnectErrorValidate == '' && preConfirmPasswordErrorValidate == '' && preRoleErrorValidate =='') {
-            dispatch(startLoadingAction());
-            const result = await registerFetch(login, typeLoginConnect=='email' ? loginConnect : null, 
-            typeLoginConnect=='phone' ? loginConnect : null
-            , password, role);
-     
-            await dispatch(fillPersonalDataAction({
-
-            }));
-
-            if(result.msgStatus == "ok") {
-                dispatch(loginAction(login, result.token, 0, role));
-                snackBar.enqueueSnackbar("Пользователь успешно зарегистрирован", {variant: "success"});
-
-            } else {
-                snackBar.enqueueSnackbar("Такой пользователь уже существует", {variant: "error"});
-            }
-            dispatch(stopLoadingAction());
-                   
-            // let body = {
-            //     login: login,
-            //     password: password
-            // }
-
-            // if (typeLoginConnect) 
-            //     body[typeLoginConnect] = loginConnect;
-
-            // const postGet = {
-            //     method: 'POST',
-            //     headers: {
-            //         'Accept': 'application/json',
-            //         'Content-Type': 'application/json'
-            //     },
-            //     body: JSON.stringify(body)
-            // };
-
-            // fetch('auth/create', postGet)
-            //     .catch(error => alert(error))
-            //     .then(response=>{
-            //         if (response) 
-            //             return response.json();
-            //     })
-            //     .then(resp => {
-            //         if (resp.error) {
-            //             alert("Такой пользователь уже существует")
-            //         }
-            //         else {
-            //             alert('Пользователь успешно зарегистрирован');
-            //             localStorage.setItem('token', resp.token); 
-            //             localStorage.setItem('login', resp.accountLogin);
-            //             let params = (new URL(window.location.href)).searchParams; 
-            //             localStorage.setItem('role', params.get("role") || '')                       
-            //         }                  
-            //     })
-            
-            //const axios = require('axios');
-            /*axios({
-                method: 'post',
-                url: 'localhost:8080/api/auth/create',
-                data: {
-                login: login,
-                password: password
-                }
-            }).then(response => {
-                alert(response);
-            }).catch(error => alert(error))*/
+            props.register(login, password, role, typeLoginConnect=='phone' ? loginConnect : null, typeLoginConnect=='email' ? loginConnect : null )
         }
         else {
             snackBar.enqueueSnackbar("Форма регистрации заполнена некорректно!", {variant: "error"});
@@ -226,3 +173,5 @@ export const RegCard = (props: IRegCardProps) => {
         </Card>
     )
 }
+
+export const RegCard = connect(mapStateToProps, mapDispatchToProps)(RegCardComp);

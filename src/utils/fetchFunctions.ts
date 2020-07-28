@@ -1,5 +1,5 @@
 import axios from "axios";
-import { store } from './../redux/store';
+
 import { IMessageInfo, MessageStatus } from "./fetchInterfaces";
 
 interface ILoginResponse {
@@ -12,7 +12,7 @@ interface ILoginResponse {
 
 
 
-export const login = async (identity, password) => {
+export const loginFetch = async (identity, password) => {
     let returnData: ILoginResponse;
     try {
         const response =  await axios.post("/auth/login", {
@@ -56,7 +56,7 @@ interface IRegisterResponse {
 
 
 
-export const register = async (login, email, phone, password, role) => {
+export const registerFetch = async (login, email, phone, password, role) => {
     let returnData: IRegisterResponse;
     try {
         const response =  await axios.post("/auth/create", {
@@ -108,12 +108,12 @@ export const register = async (login, email, phone, password, role) => {
 //     name: string,
 // }
 
-export const getPersonalDataFetch = async () => {
+export const getPersonalDataFetch = async (token) => {
     let returnData;
     try {
         const response =  await axios.get("/personal/get", {
             headers:{
-                Authorization: 'Bearer ' + store.getState().authReducer.token
+                Authorization: 'Bearer ' + token
             }
         });
 
@@ -143,12 +143,12 @@ export const getPersonalDataFetch = async () => {
     return returnData;
 }
 
-export const getEmployerFetch = async () => {
+export const getEmployerFetch = async (token) => {
     let returnData;
     try {
         const response =  await axios.get("/employer/get", {
             headers:{
-                Authorization: 'Bearer ' + store.getState().authReducer.token
+                Authorization: 'Bearer ' + token
             }
         });
         returnData =  {
@@ -165,7 +165,7 @@ export const getEmployerFetch = async () => {
     }
     catch
     {
-        alert('ошибка')
+        //alert('ошибка')
         returnData =  {
             msgStatus:"error",
             error: "Какая-нибудь ошибка с сетью!"
@@ -175,7 +175,7 @@ export const getEmployerFetch = async () => {
     return returnData;
 }
 
-export const changePersonalDataFetch = async (data, url?) => {
+export const changePersonalDataFetch = async (token, data, url?) => {
     try {
         url = url || '/account/set';
         const response = await axios.post(url,  {
@@ -183,7 +183,7 @@ export const changePersonalDataFetch = async (data, url?) => {
 
             },
             {
-                headers: {Authorization: 'Bearer ' + store.getState().authReducer.token},
+                headers: {Authorization: 'Bearer ' + token},
             }
         );
         
@@ -202,6 +202,24 @@ export const changePersonalDataFetch = async (data, url?) => {
 }
 
 
+export const isValidTokenFetch = async (token: string) => {
+    try {
+        const response = await axios.post("/account/set",  {},
+            {
+                headers: {Authorization: 'Bearer ' + token},
+            }
+        );
+
+        if(response.status == 200) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    catch {
+        return false;
+    }
+}
 /* export const changeJobSeekerAddressFetch = async (data) => {
     try {
         const response = await axios.post("/personal/setting/personal",  {

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import './App.css';
 import { Routes } from './pages/Routes';
@@ -11,6 +11,10 @@ import { useDispatch, connect } from 'react-redux';
 import { AppMenuList } from './components/app-menu/AppMenuList';
 import { RedirectIfNotAuthorized } from './components/redirects/RedirectIfNotAuthorized';
 import { HCenterizingGrid } from './pages/grid-containers/HCenterizingGrid';
+import Notifier from './components/notistack/Notifier';
+// import { isValidTokenFetch } from './utils/fetchFunctions';
+// import { startLoadingAction, stopLoadingAction } from './redux/actions/dialog-actions';
+import { reloadAuthData } from './redux/reducers/auth-reducers';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -71,6 +75,7 @@ interface IAppProps {
   startLoading: () => void,
   authorized: boolean,
   isPersonalDataFetched: boolean,
+  reloadAuthData: typeof reloadAuthData
 }
 
 function mapStateToProps(state : RootState) {
@@ -82,19 +87,24 @@ function mapStateToProps(state : RootState) {
 }
 
 const mapDispatchToProps = {
-    //startLoading: startLoading
+    reloadAuthData: reloadAuthData,
 }
+
 
 function App(props: IAppProps) {
   const classes = useStyles();
   const theme = useTheme();
   const dispatch = useDispatch();
 
-  //dispatch( startLoading() );
-  //dispatch( stopLoading() );
+  useEffect(() => {
+    props.reloadAuthData(); 
+  },[])
+  
+  
   //props.startLoading();
   return (
       <div>
+        <Notifier/>
         <Backdrop className={classes.backdrop} open={props.isLoading}>
           <CircularProgress/>
         </Backdrop>
@@ -115,8 +125,8 @@ function App(props: IAppProps) {
               </>
               }
               <Routes/>
-              {<RedirectIfNotAuthorized/> 
-              }
+              <RedirectIfNotAuthorized/> 
+              
             </BrowserRouter>
           </Grid>
           <Divider/>
