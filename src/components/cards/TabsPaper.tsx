@@ -34,7 +34,7 @@ export const TabsPaper = (props: ITabsPaperProps) => {
                     )
                 }
             </Tabs>
-            <Grid style={{padding: theme.spacing(2)}}>
+            <Grid >
                 {props.tabs[activeTab].TabPanel}
                 {/* АНИМАЦИИ ХЕХЕ <SwipeableViews        
                 axis={'x-reverse'}

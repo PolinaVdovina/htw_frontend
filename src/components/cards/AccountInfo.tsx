@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Typography, Card, TextField, CardContent, Grid, Paper, Link, FormControl, Input, Button, Divider } from '@material-ui/core';
+import { Typography, Card, TextField, CardContent, Grid, Paper, Link, FormControl, Input, Button, Divider, withTheme } from '@material-ui/core';
 import { ChangeComponent } from '../cabinet/ChangeComponent';
 import { SETTINGS } from '../cabinet/accountSettings';
 import { PaddingPaper } from './PaddingPaper';
@@ -21,7 +21,8 @@ interface IPropsAccountInfo extends WithSnackbarProps{
         address: any
     },
     settingsView: any,
-    enqueueSnackbar: any
+    enqueueSnackbar: any,
+    theme?: any,
 }
 
 interface IStateAccountInfo{
@@ -103,7 +104,7 @@ class AccountInfoComp extends React.Component<IPropsAccountInfo, IStateAccountIn
         //alert(JSON.stringify(this.props.data.address))
         return( 
 
-            <Grid container spacing={2} direction='column'>  
+            <Grid style={{padding:this.props.theme.spacing(2)}} container spacing={2} direction='column'>  
 
                 <Grid item>
                     <Typography variant='h5'>
@@ -197,4 +198,4 @@ class AccountInfoComp extends React.Component<IPropsAccountInfo, IStateAccountIn
 }
 
 
-export default connect(mapStateToProps)(withSnackbar(AccountInfoComp));
+export default withTheme( connect(mapStateToProps)(withSnackbar(AccountInfoComp)));

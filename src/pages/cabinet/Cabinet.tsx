@@ -4,8 +4,8 @@ import { JobSeekerCabinet } from './job-seeker/JobSeekerCabinet';
 import { AppMenuDivider } from '../grid-containers/AppMenuDivider';
 import AccountInfo from '../../components/cards/AccountInfo';
 import { RedirectIfNotAuthorized } from './../../components/redirects/RedirectIfNotAuthorized';
-import { Tape } from '../../components/cards/tape/Tape';
-import { IPostData } from './../../components/cards/tape/PostCard';
+import { Tape } from '../../components/tape/Tape';
+import { IPostData } from '../../components/tape/posts/PostCard';
 import { Grid } from '@material-ui/core';
 import { getPersonalDataFetch } from '../../utils/fetchFunctions';
 import { RootState } from '../../redux/store';
@@ -21,14 +21,7 @@ interface ICabinetProps {
     role?: string | null
 }
 
-const testPosts: Array<IPostData> = [
-    {
-      title: "Пост о себе",
-      body: "Я прекрасен, завидуйте молча. Сами вы уроды!",
-      owner: "Прекрасный",
-      createdAt: "2019-21-21",
-    }
-]
+
 
 function mapStateToProps(state : RootState) {
     return {
@@ -48,8 +41,7 @@ const CabinetComp = (props : ICabinetProps) => {
             {props.role == 'ROLE_INSTITUTION' && <InstitutionCabinet/>}
             {props.role == 'ROLE_EMPLOYER' && <EmployerCabinet/>}
             {props.role == 'ROLE_EMPLOYEE' && <EmployeeCabinet/>}
-            {props.role == 'ROLE_JOBSEEKER' && <JobSeekerCabinet/>}
-            
+            {props.role == 'ROLE_JOBSEEKER' && <JobSeekerCabinet/>}   
         </HCenterizingGrid>
         )
 }
