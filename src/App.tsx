@@ -90,20 +90,6 @@ const mapDispatchToProps = {
     reloadAuthData: reloadAuthData,
 }
 
-// const reloadData = async () => {
-//   const token = localStorage.getItem("token");
-
-//   if(token) {
-//       const isValidToken = await isValidTokenFetch(token);
-//     if(isValidToken) {
-//       alert("КЛАССНО!");
-//     }
-//     else {
-//       alert("ПИЗДЕЦ");
-      
-//     }
-//   }
-// }
 
 function App(props: IAppProps) {
   const classes = useStyles();
@@ -111,9 +97,7 @@ function App(props: IAppProps) {
   const dispatch = useDispatch();
 
   useEffect(() => {
-      const token = localStorage.getItem("token");
-      if(token)
-        props.reloadAuthData(token);
+    props.reloadAuthData(); 
   },[])
   
   
@@ -141,8 +125,8 @@ function App(props: IAppProps) {
               </>
               }
               <Routes/>
-              {<RedirectIfNotAuthorized/> 
-              }
+              <RedirectIfNotAuthorized/> 
+              
             </BrowserRouter>
           </Grid>
           <Divider/>
