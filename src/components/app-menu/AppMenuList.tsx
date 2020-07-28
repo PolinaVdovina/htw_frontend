@@ -7,9 +7,10 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 import ChatIcon from '@material-ui/icons/Chat';
 import { urls } from '../../pages/urls';
 import { Link as RouterLink, LinkProps as RouterLinkProps, NavLink } from 'react-router-dom';
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import { RootState } from '../../redux/store';
-
+import { logout } from '../../redux/reducers/auth-reducers';
+import TransitEnterexitIcon from '@material-ui/icons/TransitEnterexit';
 interface IDrawerElement {
   IconComponent?: any,
   title?: string,
@@ -44,10 +45,9 @@ const drawerElementsDict: Array<IDrawerElement> = [
       url: "/"
     },
     {
-      IconComponent: ChatIcon,
+      IconComponent: TransitEnterexitIcon,
       title: "Выйти",
-      url: "/auth",
-      func: () => {}
+      func: async(dispatch) => {await dispatch(logout)(dispatch)}
     },
   ]
 
@@ -81,17 +81,21 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const DrawerListButtons = () => {
+  const dispatch = useDispatch();
   const classes = useStyles();
     return ( 
         <List className={classes.listButtons}>
         {
           drawerElementsDict.map(el => 
-              <ListItem button component={NavLink} to={el.url || '/'}>
+              <>
+              <ListItem button {...{component:el.url&&NavLink, to:el.url || null}} onClick={()=>{el.func && el.func(dispatch)}}>
                   <ListItemIcon>
                       <el.IconComponent/>
                   </ListItemIcon>
                   <ListItemText primary={el.title}/>
-              </ListItem>)
+              </ListItem>
+              </>
+          )
         }
         </List>
     )

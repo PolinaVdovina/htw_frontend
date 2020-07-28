@@ -47,7 +47,10 @@ export function authReducer(state = initialState, action): IAuthState {
             
         }
         case types.LOG_OUT:
-            return initialState;
+            return {
+                ...initialState,
+                isFetched: true,
+            }
         case types.AUTH_FETCH_NOT_REQUIRED: 
             return {
                 loggedIn: false,
