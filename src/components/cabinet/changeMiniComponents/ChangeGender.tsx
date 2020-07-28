@@ -11,10 +11,9 @@ export const ChangeGender = (props : IChangeGender) => {
     return(
         <TextField
           select
-          label="Пол"
-          
+          size='small'
           onChange={(event) => props.onChange({[props.type]: event.target.value})}
-          variant="filled"
+          variant='outlined'
           style={{width:"150px"}}
         >
             <MenuItem>

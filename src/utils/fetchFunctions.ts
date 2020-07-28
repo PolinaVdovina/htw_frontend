@@ -158,8 +158,8 @@ export const getEmployerFetch = async () => {
             msgStatus: "ok",
             about: response.data.about,
             inn: response.data.inn,
-            ogrn: response.data.ogrn
-            //address: response.data.address,
+            ogrn: response.data.ogrn,
+            address: response.data.address,
         };
         //alert(JSON.stringify(returnData))
     }

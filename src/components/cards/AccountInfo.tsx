@@ -3,20 +3,24 @@ import { Typography, Card, TextField, CardContent, Grid, Paper, Link, FormContro
 import { ChangeComponent } from '../cabinet/ChangeComponent';
 import { SETTINGS } from '../cabinet/accountSettings';
 import { PaddingPaper } from './PaddingPaper';
-import { RootState } from '../../redux/store';
-import { connect } from 'react-redux';
+import { RootState, store } from '../../redux/store';
+import { connect, useDispatch } from 'react-redux';
 import { AccountCommonInfo } from './../cabinet/AccountCommonInfo';
-import { genderIntToStr } from '../../utils/appliedFunc';
+import { genderIntToStr, addressGlue } from '../../utils/appliedFunc';
+import { startLoadingAction, stopLoadingAction } from '../../redux/actions/dialog-actions';
+import { MessageStatus } from '../../utils/fetchInterfaces';
+import { withSnackbar, WithSnackbarProps } from 'notistack';
 
 
-interface IPropsAccountInfo{
+interface IPropsAccountInfo extends WithSnackbarProps{
     role: string,
     data: {
         name: string,
         dateBirth: string,
-
+        address: any
     },
-    settingsView: any
+    settingsView: any,
+    enqueueSnackbar: any
 }
 
 interface IStateAccountInfo{
@@ -70,8 +74,28 @@ class AccountInfoComp extends React.Component<IPropsAccountInfo, IStateAccountIn
         this.setState({'hidden': {[key]: true}})
     }
 
+    handleClickDelete = async(key: string) => {
+        const changeFunc = SETTINGS[this.props.role][key]['changeFunction'];
+        
+        if(changeFunc) {
+            await store.dispatch(startLoadingAction());
+            const result = await changeFunc(store.dispatch, {[key]: null});
+            await store.dispatch(stopLoadingAction());
+            if(result.msgStatus == MessageStatus.OK) {
+                this.props.enqueueSnackbar('Данные сохранены', {variant: "success"});
+            }
+            else {
+                this.props.enqueueSnackbar('Не удалось изменить данные из-за проблем с соединением', {variant: "error"})
+            }
+        }
+        else {
+            this.props.enqueueSnackbar('Ошибка функции', {variant: "error"});
+        }
+    }
+
     render() {
         //alert(this.props.name)
+        //alert(JSON.stringify(this.props.data.address))
         return( 
             <PaddingPaper style={{width:"100%"}}>
                 <Grid container spacing={2} direction='column'>  
@@ -84,34 +108,46 @@ class AccountInfoComp extends React.Component<IPropsAccountInfo, IStateAccountIn
                             Общие данные
                         </Typography>    
                     </Grid>          
-                    {this.props.settingsView.map(key => <>
+                    { this.props.settingsView.map(key => <>
                         <Grid container item direction="column">
-                            <Typography style={{'color': '#808080'}}>
-                                {SETTINGS[this.props.role][key].title}
-                            </Typography> 
-                            {(this.props.data[key] && this.props.data[key].isArray) && 
+                            <Grid item container direction='row' style={{flexWrap:"nowrap"}}>
+                                <Typography style={{'color': '#808080'}}>
+                                    {SETTINGS[this.props.role][key].title}
+                                </Typography> 
+                                { Array.isArray(this.props.data[key]) &&
+                                    <Link 
+                                        component='button'
+                                        onClick={() => this.handleClickOpen(key)}
+                                        style={{marginLeft: '10px'}}
+                                    >
+                                        Добавить
+                                    </Link>
+                                }
+                            </Grid>
+                            { (this.props.data[key] && Array.isArray(this.props.data[key])) && 
                                 this.props.data[key].map(element =>
-                                    <Grid item container direction='row' spacing={2} justify='space-between' style={{flexWrap:"nowrap"}}>
-                                        <Grid item>
+                                    <Grid item container direction='row' spacing={2} style={{flexWrap:"nowrap"}}>
+                                       
+                                        <Grid item style={{flexGrow:1}}>
                                             <Typography>
-                                                {element}                                                  
+                                                {key == 'address' ? addressGlue(element) : element}                                                  
                                             </Typography>
                                         </Grid>
                                         <Grid item>
                                             <Link 
                                                 component='button'
-                                                onClick={() => this.handleClickOpen(key)}
+                                                onClick={() => this.handleClickDelete(key)}
                                             >
-                                                Изменить
+                                                Удалить
                                             </Link>
                                         </Grid>
                                     </Grid>
                                 )
                             }
-                            <Grid item container direction='row' spacing={2} justify='space-between' style={{flexWrap:"nowrap"}}>                             
+                           { !Array.isArray(this.props.data[key]) && 
+                            <Grid item container direction='row' spacing={2}  style={{flexWrap:"nowrap"}}>                             
                                 
-                                
-                                <Grid item>
+                                <Grid item style={{flexGrow:1}}>
                                     <Typography>
                                         {
                                             this.props.data[key] ?
@@ -128,9 +164,17 @@ class AccountInfoComp extends React.Component<IPropsAccountInfo, IStateAccountIn
                                         Изменить
                                     </Link>
                                 </Grid>
+                                <Grid item>
+                                    <Link 
+                                        component='button'
+                                        onClick={() => this.handleClickDelete(key)}
+                                    >
+                                        Удалить
+                                    </Link>
+                                </Grid>
                             
                             
-                            </Grid>                        
+                            </Grid> }                       
                         </Grid>
 
                         {this.state.hidden[key] &&
@@ -139,7 +183,7 @@ class AccountInfoComp extends React.Component<IPropsAccountInfo, IStateAccountIn
                                 handleClickSave={() => this.handleClickSave(key)}
                                 type={key}
                                 role={this.props.role}
-                                key={key}
+                                //key={key}
                             />
                         }
                     </>)
@@ -151,4 +195,4 @@ class AccountInfoComp extends React.Component<IPropsAccountInfo, IStateAccountIn
 }
 
 
-export default connect(mapStateToProps)(AccountInfoComp);
+export default connect(mapStateToProps)(withSnackbar(AccountInfoComp));

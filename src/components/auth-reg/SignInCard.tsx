@@ -69,8 +69,8 @@ const SignInCardComp = (props: ISignInCardProps) => {
                     case ("ROLE_JOBSEEKER"):
                         const jobSeekerData = await getPersonalDataFetch();
                         let address = addressGlue(jobSeekerData.address);
-                        alert(JSON.stringify(jobSeekerData.address))
-                        alert(JSON.stringify(address));
+                        //alert(JSON.stringify(jobSeekerData.address))
+                        //alert(JSON.stringify(address));
 
                         const data = {
                             name: jobSeekerData.name, 
@@ -99,14 +99,15 @@ const SignInCardComp = (props: ISignInCardProps) => {
 
                     case ("ROLE_EMPLOYER"):
                         const employerData = await getEmployerFetch();
-                        let address1 = addressGlue(employerData.address);
+                        //let address1 = addressGlue(employerData.address);
+                        //alert(JSON.stringify(employerData.address))
 
                         await dispatch(fillPersonalDataAction({
                             name: employerData.name, 
                             phone: employerData.phone, 
                             email: employerData.email,
                             about: employerData.about,
-                            address: address1,
+                            address: employerData.address,
                             inn: employerData.inn,
                             ogrn: employerData.ogrn
                         }));
