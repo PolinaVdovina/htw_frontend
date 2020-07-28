@@ -95,7 +95,7 @@ class AccountInfoComp extends React.Component<IPropsAccountInfo, IStateAccountIn
     }
 
     handleClickDeleteMass = async(key: string) => {
-        
+
     }
 
     render() {

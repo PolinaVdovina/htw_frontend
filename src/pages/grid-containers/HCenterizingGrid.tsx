@@ -21,9 +21,7 @@ export const HCenterizingGrid = (props : IHCenterizingGridProps) => {
     const classes = useStyles();
     return (
         <Grid container direction="row" className={classes.root}>
-          
             {props.children}
-          
         </Grid>
     )
 }

@@ -45,7 +45,8 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     descriptionBlock: {
         fontSize:"12px", 
-        width:"max-content"
+        
+        //width:"max-content"
     }
   }),
 );
@@ -106,6 +107,7 @@ const AccountCommonInfoComp = (props: IAccountCommonInfo) => {
                     </Typography>
                     <Typography className={classes.descriptionBlock}>
                     <Link
+                    style={{textAlign:"left", wordBreak:"break-word"}}
                     component='button' 
                     onClick={()=>setOpenAbout(true)}>
                       {props.about ? props.about : "Расскажите о себе"}
