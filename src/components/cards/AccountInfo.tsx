@@ -94,8 +94,24 @@ class AccountInfoComp extends React.Component<IPropsAccountInfo, IStateAccountIn
         }
     }
 
-    handleClickDeleteMass = async(key: string) => {
+    handleClickDeleteMass = async(key: string, index: number) => {
+        const deleteData = this.props.data[key][index];
+        const deleteFunc = SETTINGS[this.props.role][key]['deleteFunction'];
 
+        if(deleteFunc) {
+            await store.dispatch(startLoadingAction());
+            const result = await deleteFunc(store.dispatch, deleteData);
+            await store.dispatch(stopLoadingAction());
+            if(result.msgStatus == MessageStatus.OK) {
+                this.props.enqueueSnackbar('Данные сохранены', {variant: "success"});
+            }
+            else {
+                this.props.enqueueSnackbar('Не удалось изменить данные из-за проблем с соединением', {variant: "error"})
+            }
+        }
+        else {
+            this.props.enqueueSnackbar('Ошибка функции', {variant: "error"});
+        }
     }
 
     render() {
@@ -127,7 +143,7 @@ class AccountInfoComp extends React.Component<IPropsAccountInfo, IStateAccountIn
                             }
                         </Grid>
                         { (this.props.data[key] && Array.isArray(this.props.data[key])) && 
-                            this.props.data[key].map(element =>
+                            this.props.data[key].map((element, index) =>
                                 <Grid item container direction='row' spacing={2} style={{flexWrap:"nowrap"}}>
                                     
                                     <Grid item style={{flexGrow:1}}>
@@ -138,7 +154,7 @@ class AccountInfoComp extends React.Component<IPropsAccountInfo, IStateAccountIn
                                     <Grid item>
                                         <Link 
                                             component='button'
-                                            onClick={() => this.handleClickDeleteMass(key)}
+                                            onClick={() => this.handleClickDeleteMass(key, index)}
                                         >
                                             Удалить
                                         </Link>

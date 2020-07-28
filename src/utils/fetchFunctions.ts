@@ -201,6 +201,28 @@ export const changePersonalDataFetch = async (token, data, url?) => {
     }
 }
 
+export const deletePersonalDataFetch = async (token, data, url?) => {
+    try {
+        url = url || '/account/address';
+        const response = await axios.delete(url,  {
+                data: data,
+                headers: {Authorization: 'Bearer ' + token},
+            }
+        );
+        
+        const msgInfo: IMessageInfo = {
+            msgStatus: response.data.error || (response.data.status && response.data.status == 'error') ?  MessageStatus.ERROR : MessageStatus.OK,
+        };
+        return  msgInfo;
+    }
+    catch {
+        const msgInfo: IMessageInfo = {
+            msgStatus: MessageStatus.ERROR,
+            error: "Проблемы с соединением",
+        };
+        return  msgInfo;
+    }
+}
 
 export const isValidTokenFetch = async (token: string) => {
     try {
