@@ -220,28 +220,4 @@ export const isValidTokenFetch = async (token: string) => {
         return false;
     }
 }
-/* export const changeJobSeekerAddressFetch = async (data) => {
-    try {
-        const response = await axios.post("/personal/setting/personal",  {
-                ...data,
 
-            },
-            {
-                headers: {Authorization: 'Bearer ' + store.getState().authReducer.token},
-            }
-        );
-        
-        const msgInfo: IMessageInfo = {
-            msgStatus: response.data.error ?  MessageStatus.ERROR : MessageStatus.OK,
-        };
-        return  msgInfo;
-    }
-    catch {
-        const msgInfo: IMessageInfo = {
-            msgStatus: MessageStatus.ERROR,
-            error: "Проблемы с соединением",
-        };
-        return  msgInfo;
-    }
-}
- */

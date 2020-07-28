@@ -94,6 +94,10 @@ class AccountInfoComp extends React.Component<IPropsAccountInfo, IStateAccountIn
         }
     }
 
+    handleClickDeleteMass = async(key: string) => {
+        
+    }
+
     render() {
         //alert(this.props.name)
         //alert(JSON.stringify(this.props.data.address))
@@ -106,14 +110,46 @@ class AccountInfoComp extends React.Component<IPropsAccountInfo, IStateAccountIn
                         {this.props.title ? this.props.title : "Общие данные"}
                     </Typography>    
                 </Grid>          
-                {this.props.settingsView.map(key => <>
+                { this.props.settingsView.map(key => <>
                     <Grid container item direction="column">
-                        <Typography style={{'color': '#808080'}}>
-                            {SETTINGS[this.props.role][key].title}
-                        </Typography> 
-                    
-                        <Grid item container direction='row' spacing={2} justify='space-between' style={{flexWrap:"nowrap"}}>                             
-                            <Grid item>
+                        <Grid item container direction='row' style={{flexWrap:"nowrap"}}>
+                            <Typography style={{'color': '#808080'}}>
+                                {SETTINGS[this.props.role][key].title}
+                            </Typography> 
+                            { Array.isArray(this.props.data[key]) &&
+                                <Link 
+                                    component='button'
+                                    onClick={() => this.handleClickOpen(key)}
+                                    style={{marginLeft: '10px'}}
+                                >
+                                    Добавить
+                                </Link>
+                            }
+                        </Grid>
+                        { (this.props.data[key] && Array.isArray(this.props.data[key])) && 
+                            this.props.data[key].map(element =>
+                                <Grid item container direction='row' spacing={2} style={{flexWrap:"nowrap"}}>
+                                    
+                                    <Grid item style={{flexGrow:1}}>
+                                        <Typography>
+                                            {key == 'address' ? addressGlue(element) : element}                                                  
+                                        </Typography>
+                                    </Grid>
+                                    <Grid item>
+                                        <Link 
+                                            component='button'
+                                            onClick={() => this.handleClickDeleteMass(key)}
+                                        >
+                                            Удалить
+                                        </Link>
+                                    </Grid>
+                                </Grid>
+                            )
+                        }
+                        { !Array.isArray(this.props.data[key]) && 
+                        <Grid item container direction='row' spacing={2}  style={{flexWrap:"nowrap"}}>                             
+                            
+                            <Grid item style={{flexGrow:1}}>
                                 <Typography>
                                     {
                                         this.props.data[key] ?
@@ -130,7 +166,17 @@ class AccountInfoComp extends React.Component<IPropsAccountInfo, IStateAccountIn
                                     Изменить
                                 </Link>
                             </Grid>
-                        </Grid>                        
+                            <Grid item>
+                                <Link 
+                                    component='button'
+                                    onClick={() => this.handleClickDelete(key)}
+                                >
+                                    Удалить
+                                </Link>
+                            </Grid>
+                        
+                        
+                        </Grid> }                       
                     </Grid>
 
                     {this.state.hidden[key] &&

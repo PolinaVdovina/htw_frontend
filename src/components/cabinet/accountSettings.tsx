@@ -4,7 +4,7 @@ import { ChangeName } from "./changeMiniComponents/ChangeName";
 import { ChangeBirth } from "./changeMiniComponents/ChangeBirth";
 import { settingsEmail, settingsPhone, settingsName, settingsBirth, settingsAddress, settingsNameOrg, settingsInn, settingsOgrn, settingsDescription, settingsGender } from "./changeMiniComponents/changeSettings";
 import { validateEmail, validatePhone, validateName, validateDate, validateAddress, validateInn, validateNameOrg, validateOgrn } from "../../utils/validateFunctions";
-import { changeJobSeekerData, changeJobSeekerAddress, changeJobSeekerContactDetails, changeGender } from "../../utils/change-component-utils";
+import { changeJobSeekerData, changeJobSeekerAddress, changeJobSeekerContactDetails, changeGender, changeEmployerAddress, deleteEmployerAddress } from "../../utils/change-component-utils";
 import { ChangeGender } from './changeMiniComponents/ChangeGender';
 
 export const SETTINGS = {
@@ -93,7 +93,8 @@ export const SETTINGS = {
             changeComponent: ChangeAddress,
             changeSettings: settingsAddress,
             validateFunction: validateAddress,
-            changeFunction: changeJobSeekerAddress
+            changeFunction: changeEmployerAddress,
+            deleteFunction: deleteEmployerAddress
         },
         email: {
             title: 'Электронная почта',

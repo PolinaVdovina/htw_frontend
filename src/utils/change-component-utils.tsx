@@ -34,6 +34,19 @@ export const changeJobSeekerAddress = async ( dispatch, data ) => {
     return msgInfo;
 }
 
+export const changeEmployerAddress = async ( dispatch, data ) => {
+    const msgInfo: IMessageInfo = await changePersonalDataFetch(store.getState().authReducer.token, data, '/account/address');
+    if(msgInfo.msgStatus == MessageStatus.OK) {
+        const address = [...store.getState().userPersonalsReducer.address, data.address]
+        await dispatch( fillPersonalDataAction({address: address}));
+    }
+    return msgInfo;
+}
+
+export const deleteEmployerAddress = async ( dispatch, data ) => {
+    const msgInfo: IMessageInfo = await changePersonalDataFetch(store.getState().authReducer.token, data, '/account/address');
+}
+
 export const changeGender = async (dispatch, data) => {
     //alert(JSON.stringify(data.gender));
     //alert(JSON.stringify(genderIntToStr(data.gender)));
