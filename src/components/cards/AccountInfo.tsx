@@ -79,7 +79,7 @@ class AccountInfoComp extends React.Component<IPropsAccountInfo, IStateAccountIn
     }
 
     handleClickDelete = async(key: string) => {
-        const changeFunc = SETTINGS[this.context.role][key]['changeFunction'];
+        const changeFunc = SETTINGS[this.props.role][key]['changeFunction'];
         
         if(changeFunc) {
             await store.dispatch(startLoadingAction());
@@ -178,7 +178,7 @@ class AccountInfoComp extends React.Component<IPropsAccountInfo, IStateAccountIn
                                     }
                                 </Typography>
                             </Grid>
-                            { /*SETTINGS[this.context.role][key].changeComponent &&*/ <>
+                            { SETTINGS[this.props.role][key].changeComponent && <>
                                 <Grid item>
                                     <Link 
                                         component='button'

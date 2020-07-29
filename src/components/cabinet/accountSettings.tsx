@@ -2,11 +2,12 @@ import { ChangeOneString } from "./changeMiniComponents/ChangeOneString";
 import { ChangeAddress } from "./changeMiniComponents/ChangeAddress";
 import { ChangeName } from "./changeMiniComponents/ChangeName";
 import { ChangeBirth } from "./changeMiniComponents/ChangeBirth";
-import { settingsEmail, settingsPhone, settingsName, settingsBirth, settingsAddress, settingsNameOrg, settingsInn, settingsOgrn, settingsDescription, settingsGender, settingsTypesEdu } from "./changeMiniComponents/changeSettings";
+import { settingsEmail, settingsPhone, settingsName, settingsBirth, settingsAddress, settingsNameOrg, settingsInn, settingsOgrn, settingsDescription, settingsGender, settingsTypesEdu, settingsExperience } from "./changeMiniComponents/changeSettings";
 import { validateEmail, validatePhone, validateName, validateDate, validateAddress, validateInn, validateNameOrg, validateOgrn } from "../../utils/validateFunctions";
 import { changeJobSeekerData, changeJobSeekerAddress, changeJobSeekerContactDetails, changeGender, changeEmployerAddress, deleteEmployerAddress } from "../../utils/change-component-utils";
 import { ChangeGender } from './changeMiniComponents/ChangeGender';
 import { ChangeTypesEdu } from "./changeMiniComponents/ChangeTypesEdu";
+import { ChangeExperience } from "./changeMiniComponents/ChangeExperience";
 
 export const SETTINGS = {
     INDIVIDUAL: {
@@ -60,9 +61,14 @@ export const SETTINGS = {
             changeFunction: changeGender,
         },
         employer: {
-            title: 'Работодатель',
-            //changeComponent: ChangeOneString,
-            //changeSettings:
+            title: 'Работодатель'
+        },
+        experience: {
+            title: 'Опыт работы',
+            changeComponent: ChangeExperience,
+            changeSettings: settingsExperience,
+            validateFunction: null,
+            changeFunction: changeJobSeekerData
         }
     },
     LEGAL: {

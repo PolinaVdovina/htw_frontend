@@ -73,17 +73,17 @@ const tabs: Array<ITabData> = [
   {
     label: "Общая информация",
     //IconComponent: <PersonPinIcon/>,
-    TabPanel: <AccountInfo role='INDIVIDUAL' title="Общая информация" settingsView={['email', 'phone', 'address', 'dateBirth', 'gender']}/>
+    TabPanel: <AccountInfo role='INDIVIDUAL' settingsView={['email', 'phone', 'address', 'dateBirth', 'gender']}/>
   },
   {
     label: "Образование",
     //IconComponent: <PersonPinIcon/>,
-    TabPanel: <AccountInfo role='INDIVIDUAL' title="Образование" settingsView={[]}/>
+    TabPanel: <AccountInfo role='INDIVIDUAL' settingsView={[]}/>
   },
   {
     label: "Работа",
     //IconComponent: <PersonPinIcon/>,
-    TabPanel: <AccountInfo role='INDIVIDUAL' title="Работа" settingsView={[]}/>
+    TabPanel: <AccountInfo role='INDIVIDUAL' settingsView={['experience']}/>
   },
   {
     label: "Достижения",

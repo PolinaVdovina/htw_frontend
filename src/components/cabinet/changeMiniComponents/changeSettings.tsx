@@ -41,6 +41,12 @@ export const settingsTypesEdu = {
     }
 }
 
+export const settingsExperience = {
+    'experience': {
+        'title': 'Выберите период'
+    }
+}
+
 export const settingsName = {
     'surname': {
         'title': 'Фамилия'

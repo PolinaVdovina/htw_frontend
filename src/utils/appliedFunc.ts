@@ -53,7 +53,8 @@ export function accountRequestToEntityDictionary(data, role) {
                 about: data.about,
                 address: addressGlue(data.address),
                 gender: genderIntToStr(data.gender),
-                id: data.id
+                experience: data.experience,
+                //id: data.id
             }
         case "ROLE_EMPLOYER":
             return {

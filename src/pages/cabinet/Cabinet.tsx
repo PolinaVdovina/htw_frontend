@@ -52,7 +52,8 @@ function mapStateToProps(state : RootState) {
             inn: '' + state.userPersonalsReducer.inn,
             ogrn: '' + state.userPersonalsReducer.ogrn,
             gender: state.userPersonalsReducer.gender,
-            types: state.userPersonalsReducer.types
+            types: state.userPersonalsReducer.types,
+            experience: state.userPersonalsReducer.experience
         }
     }
     data.reduxPersonalData['name'] = '';
