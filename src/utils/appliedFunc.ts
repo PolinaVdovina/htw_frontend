@@ -43,7 +43,7 @@ export function accountRequestToEntityDictionary(data, role) {
     
     switch(role) {
         case "ROLE_JOBSEEKER":
-            return {
+            let parsedData = {
                 name: data.name, 
                 surname: data.surname, 
                 middlename: data.middlename, 
@@ -55,6 +55,14 @@ export function accountRequestToEntityDictionary(data, role) {
                 gender: genderIntToStr(data.gender),
                 id: data.id
             }
+            // parsedData['name'] = '';
+            // if(data.name)
+            //     parsedData['name'] += data.name + " ";
+            // if(data.surname)
+            //     parsedData['name'] += data.surname + " ";
+            // if(data.middlename)
+            //     parsedData['name'] += data.middlename;
+            return parsedData;
         case "ROLE_EMPLOYER":
             return {
                 name: data.name, 
