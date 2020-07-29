@@ -23,7 +23,7 @@ interface IJobSeekerTabs {
 
 const testPosts: Array<IPostData> = [
   {
-    shortDescription:"Требуется senior-разработчик за 100 рублей в месяц",
+    shortDescription:"senior-разработчик за 100 рублей в месяц",
     title: "Пост о себе",
     body: [
       {
@@ -45,7 +45,7 @@ const testPosts: Array<IPostData> = [
     createdAt: "2019-21-21",
   },
   {
-    shortDescription:"Требуется senior-адаптатор за 1000000 рублей в месяц",
+    shortDescription:"senior-адаптатор за 1000000 рублей в месяц",
     title: "Пост о себе",
     body: [
       {

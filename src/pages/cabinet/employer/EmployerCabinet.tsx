@@ -6,10 +6,63 @@ import AccountInfo from '../../../components/cards/AccountInfo';
 import { ITabData, TabsPaper } from './../../../components/cards/TabsPaper';
 import { PaddingPaper } from '../../../components/cards/PaddingPaper';
 import { AccountCommonInfo } from '../../../components/cabinet/AccountCommonInfo';
+import { Tape } from '../../../components/tape/Tape';
+import { ParagraphInPost } from './../../../components/tape/posts/post-body-elements/ParagraphInPost';
+import { ListInPost } from '../../../components/tape/posts/post-body-elements/ListInPost';
+
+import { PostCard,IPostData } from './../../../components/tape/posts/PostCard';
+
 
 interface IEmployerCabinet {
 
 }
+
+const testPosts: Array<IPostData> = [
+  {
+    shortDescription:"senior-разработчик за 100 рублей в месяц",
+    title: "Пост о себе",
+    body: [
+      {
+        Component: ParagraphInPost,
+        data: {
+          title: "Работа вашей мечты",
+          description: "Здесь вы можете творить любую хуйню! Добро пожаловать в ИП Петухов. И для наполнения еще напишу в описании тупой херни: огурец, реакт, хлеб, булка, лягушка, и так далее...",
+        }
+      },
+      {
+        Component: ListInPost,
+        data: {
+          title: "Требуемые навыки",
+          items: ["Программирование", "Администрирование", "Троллинг", "Адаптирование"]
+        },
+      },
+    ],
+    owner: "Прекрасный",
+    createdAt: "2019-21-21",
+  },
+  {
+    shortDescription:"senior-адаптатор за 1000000 рублей в месяц",
+    title: "Пост о себе",
+    body: [
+      {
+        Component: ParagraphInPost,
+        data: {
+          title: "Работа вашей мечты",
+          description: "Здесь вы можете творить любую хуйню! Добро пожаловать в ИП Петухов. И для наполнения еще напишу в описании тупой херни: огурец, реакт, хлеб, булка, лягушка, и так далее...",
+        }
+      },
+      {
+        Component: ListInPost,
+        data: {
+          title: "Требуемые навыки",
+          items: ["Программирование", "Администрирование", "Троллинг", "Адаптирование"]
+        },
+      },
+    ],
+    owner: "Прекрасный",
+    createdAt: "2019-21-21",
+  }
+]
 
 const tabs: Array<ITabData> = [
   {
@@ -20,7 +73,7 @@ const tabs: Array<ITabData> = [
   {
     label: "Вакансии",
     //IconComponent: <PersonPinIcon/>,
-    TabPanel: <AccountInfo role='LEGAL' title="Вакансии" settingsView={[]}/>
+    TabPanel: <Tape posts={testPosts}/>
   },
   {
     label: "Мероприятия",

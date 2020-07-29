@@ -5,6 +5,7 @@ import { PaddingPaper } from '../../cards/PaddingPaper';
 import { BodyElementComp } from './post-body-elements/post-body-element';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
+import { useTheme } from '@material-ui/core';
 
 export interface IBodyElement {
   data?: any,
@@ -32,7 +33,6 @@ const useStyles = makeStyles((theme: Theme) =>
     aboutGrid: {
       alignItems: "center",
       flexWrap: "nowrap",
-      marginBottom: theme.spacing(1)
     },
     avatar: {
       marginRight: theme.spacing(1),
@@ -57,12 +57,13 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export const PostCard = (props: IPostProps) => {
     const classes = useStyles();
+    const theme = useTheme();
     const [open, setOpen] = React.useState(props.isOpenedDefaut == true)
     return (
         <div style={props.style}>
           <Grid container direction="row" className={classes.aboutGrid}>
             <Avatar className={classes.avatar} />
-            <Grid item style={{flexGrow:1}}>
+            <Grid item style={{flexGrow:1, marginRight: theme.spacing(2)}}>
               <Grid container direction="column" >
                 <Typography>
                   {props.postData.owner}
@@ -72,7 +73,9 @@ export const PostCard = (props: IPostProps) => {
             </Grid>
             {props.postData.shortDescription &&
             <Grid item>
-              <Typography>{props.postData.shortDescription}</Typography>
+              <Typography style={{fontSize:"14px"}}>
+                {props.postData.shortDescription}
+              </Typography>
             </Grid>
             }
             <Grid item>
@@ -81,16 +84,16 @@ export const PostCard = (props: IPostProps) => {
               </IconButton>
             </Grid>
           </Grid>
-          <div>
             <Collapse in={open}>
-              {props.postData.body?.map(
-                (el, index) => <>
-                    <el.Component key={index} data={el.data}/>
-                    {index+1 != props.postData.body?.length && <br/>}
-                  </>
-              )}
+              <div style={{marginTop:theme.spacing(2)}}>
+                {props.postData.body?.map(
+                  (el, index) => <>
+                      <el.Component key={index} data={el.data}/>
+                      {index+1 != props.postData.body?.length && <br/>}
+                    </>
+                )}
+              </div>
             </Collapse>
-          </div>
         </div>
     )
 }

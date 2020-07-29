@@ -16,7 +16,7 @@ export const urls = {
     },
     cabinet: {
         title: 'Кабинет',
-        path: '/cabinet/:id',
+        path: '/cabinet/:login',
         shortPath: '/cabinet/',
     }
 }

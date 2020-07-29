@@ -10,15 +10,16 @@ import { genderIntToStr, addressGlue } from '../../utils/appliedFunc';
 import { startLoadingAction, stopLoadingAction } from '../../redux/actions/dialog-actions';
 import { MessageStatus } from '../../utils/fetchInterfaces';
 import { withSnackbar, WithSnackbarProps } from 'notistack';
+import { CabinetContext } from './../cabinet/cabinet-context';
 
 
 interface IPropsAccountInfo extends WithSnackbarProps{
     role: string,
     title?: string,
     data: {
-        name: string,
-        dateBirth: string,
-        address: any
+        // name: string,
+        // dateBirth: string,
+        // address: any
     },
     settingsView: any,
     enqueueSnackbar: any,
@@ -38,19 +39,20 @@ interface IStateAccountInfo{
 function mapStateToProps(state : RootState) {
     return {
         data: { 
-            name: state.userPersonalsReducer.surname + ' ' + state.userPersonalsReducer.name + ' ' + state.userPersonalsReducer.middlename,
-            dateBirth: '' + state.userPersonalsReducer.dateBirth,
-            phone: '' + state.userPersonalsReducer.phone,
-            email: '' + state.userPersonalsReducer.email,
-            address: state.userPersonalsReducer.address,
-            inn: '' + state.userPersonalsReducer.inn,
-            ogrn: '' + state.userPersonalsReducer.ogrn,
-            gender: state.userPersonalsReducer.gender,
+            // name: state.userPersonalsReducer.surname + ' ' + state.userPersonalsReducer.name + ' ' + state.userPersonalsReducer.middlename,
+            // dateBirth: '' + state.userPersonalsReducer.dateBirth,
+            // phone: '' + state.userPersonalsReducer.phone,
+            // email: '' + state.userPersonalsReducer.email,
+            // address: state.userPersonalsReducer.address,
+            // inn: '' + state.userPersonalsReducer.inn,
+            // ogrn: '' + state.userPersonalsReducer.ogrn,
+            // gender: state.userPersonalsReducer.gender,
         }
     }
 }
 
 class AccountInfoComp extends React.Component<IPropsAccountInfo, IStateAccountInfo> {
+    static contextType = CabinetContext
     constructor(props) {       
         super(props);
         this.state = {
@@ -77,7 +79,7 @@ class AccountInfoComp extends React.Component<IPropsAccountInfo, IStateAccountIn
     }
 
     handleClickDelete = async(key: string) => {
-        const changeFunc = SETTINGS[this.props.role][key]['changeFunction'];
+        const changeFunc = SETTINGS[this.context.role][key]['changeFunction'];
         
         if(changeFunc) {
             await store.dispatch(startLoadingAction());
@@ -100,6 +102,7 @@ class AccountInfoComp extends React.Component<IPropsAccountInfo, IStateAccountIn
     }
 
     render() {
+        
         //alert(this.props.name)
         //alert(JSON.stringify(this.props.data.address))
         return( 
@@ -117,7 +120,7 @@ class AccountInfoComp extends React.Component<IPropsAccountInfo, IStateAccountIn
                             <Typography style={{'color': '#808080'}}>
                                 {SETTINGS[this.props.role][key].title}
                             </Typography> 
-                            { Array.isArray(this.props.data[key]) &&
+                            { Array.isArray(this.context[key]) &&
                                 <Link 
                                     component='button'
                                     onClick={() => this.handleClickOpen(key)}
@@ -127,8 +130,8 @@ class AccountInfoComp extends React.Component<IPropsAccountInfo, IStateAccountIn
                                 </Link>
                             }
                         </Grid>
-                        { (this.props.data[key] && Array.isArray(this.props.data[key])) && 
-                            this.props.data[key].map(element =>
+                        { (this.context[key] && Array.isArray(this.context[key])) && 
+                            this.context[key].map(element =>
                                 <Grid item container direction='row' spacing={2} style={{flexWrap:"nowrap"}}>
                                     
                                     <Grid item style={{flexGrow:1}}>
@@ -147,14 +150,14 @@ class AccountInfoComp extends React.Component<IPropsAccountInfo, IStateAccountIn
                                 </Grid>
                             )
                         }
-                        { !Array.isArray(this.props.data[key]) && 
+                        { !Array.isArray(this.context[key]) && 
                         <Grid item container direction='row' spacing={2}  style={{flexWrap:"nowrap"}}>                             
                             
                             <Grid item style={{flexGrow:1}}>
                                 <Typography>
                                     {
-                                        this.props.data[key] ?
-                                            (this.props.data[key].indexOf('null') == -1) ? this.props.data[key] : 'Не задано' :
+                                        this.context[key] ?
+                                            (this.context[key].indexOf('null') == -1) ? this.context[key] : 'Не задано' :
                                             'Не задано'
                                     }
                                 </Typography>
