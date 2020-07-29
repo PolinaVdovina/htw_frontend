@@ -1,7 +1,7 @@
 import * as types from '../../constants/action-types';
 import { startLoadingAction, stopLoadingAction } from '../actions/dialog-actions';
-import { getPersonalDataFetch, getEmployerFetch, getInstitutionFetch } from '../../utils/fetchFunctions';
-import { addressGlue, genderIntToStr, accountRequestToEntityDictionary } from '../../utils/appliedFunc';
+import { getPersonalDataFetch } from '../../utils/fetchFunctions';
+import { accountRequestToEntityDictionary } from '../../utils/appliedFunc';
 import { fillPersonalDataAction } from '../actions/user-personals';
 
 interface ICommonState {
@@ -63,41 +63,27 @@ async (dispatch, getState) => {
     const role = getState().authReducer.entityType;
     switch(role) {
         case ("ROLE_JOBSEEKER"):
-            const jobSeekerData = await getPersonalDataFetch(getState().authReducer.token);
-            let address = addressGlue(jobSeekerData.address);
-            //(JSON.stringify(jobSeekerData.address))
-            //alert(JSON.stringify(address));
-            
+            const jobSeekerData = await getPersonalDataFetch(getState().authReducer.token, 'jobseeker');           
             const jobSeekerDict = accountRequestToEntityDictionary(jobSeekerData, role);
-            //alert(JSON.stringify(jobSeekerDict))
-            await dispatch(fillPersonalDataAction(
-                jobSeekerDict
-            ));
+            await dispatch(fillPersonalDataAction(jobSeekerDict));           
             break;
 
         case ("ROLE_EMPLOYER"):
-            const employerData = await getEmployerFetch(getState().authReducer.token);
-            //let address1 = addressGlue(employerData.address);
-            //alert(JSON.stringify(employerData))
+            const employerData = await getPersonalDataFetch(getState().authReducer.token, 'employer');
             const employerDict = accountRequestToEntityDictionary(employerData, role);
-            await dispatch(fillPersonalDataAction(
-                employerDict
-            ));
+            await dispatch(fillPersonalDataAction(employerDict));            
             break;
+            
         case ("ROLE_INSTITUTION"):
-            const institutionData = await getInstitutionFetch(getState().authReducer.token);
-            //let address1 = addressGlue(employerData.address);
-            //alert(JSON.stringify(institutionData))
-            await dispatch(fillPersonalDataAction({
-                name: institutionData.name, 
-                phone: institutionData.phone, 
-                email: institutionData.email,
-                about: institutionData.about,
-                address: institutionData.address,
-                inn: institutionData.inn,
-                ogrn: institutionData.ogrn,
-                types: institutionData.types
-            }));
+            const institutionData = await getPersonalDataFetch(getState().authReducer.token, 'institution');
+            const institutionDict = accountRequestToEntityDictionary(institutionData, role);
+            await dispatch(fillPersonalDataAction(institutionDict));
+            break;
+
+        case ("ROLE_EMPLOYEE"):
+            const employeeData = await getPersonalDataFetch(getState().authReducer.token, 'employee');
+            const employeeDict = accountRequestToEntityDictionary(employeeData, role);
+            await dispatch(fillPersonalDataAction(employeeDict));
             break;
     }
     dispatch(stopLoadingAction());

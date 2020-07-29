@@ -2,7 +2,7 @@ import * as types from '../../constants/action-types';
 import axios from 'axios';
 import { loginAction, errorAction, logoutAction, AuthFetchNotRequiredAction } from './../actions/auth-actions';
 import { startLoadingAction, stopLoadingAction } from '../actions/dialog-actions';
-import { getPersonalDataFetch, getEmployerFetch, registerFetch, isValidTokenFetch } from '../../utils/fetchFunctions';
+import { registerFetch, isValidTokenFetch } from '../../utils/fetchFunctions';
 import { addressGlue, genderIntToStr } from '../../utils/appliedFunc';
 import { fillPersonalDataAction } from '../actions/user-personals';
 import {loginFetch} from '../../utils/fetchFunctions'

@@ -58,6 +58,11 @@ export const SETTINGS = {
             changeSettings: settingsGender,
             validateFunction: null,
             changeFunction: changeGender,
+        },
+        employer: {
+            title: 'Работодатель',
+            //changeComponent: ChangeOneString,
+            //changeSettings:
         }
     },
     LEGAL: {

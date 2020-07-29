@@ -58,8 +58,8 @@ export function accountRequestToEntityDictionary(data, role) {
         case "ROLE_EMPLOYER":
             return {
                 name: data.name, 
-                phone: data.phone, 
-                email: data.email,
+                phone: data.contactDetails.phone, 
+                email: data.contactDetails.email,
                 about: data.about,
                 address: data.address,
                 inn: data.inn,
@@ -67,6 +67,26 @@ export function accountRequestToEntityDictionary(data, role) {
 
             }
         case "ROLE_INSTITUTION":
+            return {
+                name: data.name, 
+                phone: data.contactDetails.phone, 
+                email: data.contactDetails.email,
+                about: data.about,
+                address: data.address,
+                inn: data.inn,
+                ogrn: data.ogrn,
+                types: data.types
+            }
+            break
+
+        case "ROLE_EMPLOYEE":
+            return {
+                name: data.name, 
+                surname: data.surname, 
+                middlename: data.middlename, 
+                phone: data.contactDetails.phone, 
+                email: data.contactDetails.email,
+            }
             break
     }
 }

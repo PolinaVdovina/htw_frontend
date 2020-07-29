@@ -125,11 +125,11 @@ class AccountInfoComp extends React.Component<IPropsAccountInfo, IStateAccountIn
 
             <Grid style={{padding:this.props.theme.spacing(2)}} container spacing={2} direction='column'>  
 
-                <Grid item>
+                {/*<Grid item>
                     <Typography variant='h5'>
                         {this.props.title ? this.props.title : "Общие данные"}
                     </Typography>    
-                </Grid>          
+                </Grid>  */}        
                 { this.props.settingsView.map(key => <>
                     <Grid container item direction="column">
                         <Grid item container direction='row' style={{flexWrap:"nowrap"}}>
@@ -178,22 +178,24 @@ class AccountInfoComp extends React.Component<IPropsAccountInfo, IStateAccountIn
                                     }
                                 </Typography>
                             </Grid>
-                            <Grid item>
-                                <Link 
-                                    component='button'
-                                    onClick={() => this.handleClickOpen(key)}
-                                >
-                                    Изменить
-                                </Link>
-                            </Grid>
-                            <Grid item>
-                                <Link 
-                                    component='button'
-                                    onClick={() => this.handleClickDelete(key)}
-                                >
-                                    Удалить
-                                </Link>
-                            </Grid>
+                            { /*SETTINGS[this.context.role][key].changeComponent &&*/ <>
+                                <Grid item>
+                                    <Link 
+                                        component='button'
+                                        onClick={() => this.handleClickOpen(key)}
+                                    >
+                                        Изменить
+                                    </Link>
+                                </Grid>
+                                <Grid item>
+                                    <Link 
+                                        component='button'
+                                        onClick={() => this.handleClickDelete(key)}
+                                    >
+                                        Удалить
+                                    </Link>
+                                </Grid>
+                            </>}
                         
                         
                         </Grid> }                       

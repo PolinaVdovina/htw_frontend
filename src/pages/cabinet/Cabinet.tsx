@@ -52,6 +52,7 @@ function mapStateToProps(state : RootState) {
             inn: '' + state.userPersonalsReducer.inn,
             ogrn: '' + state.userPersonalsReducer.ogrn,
             gender: state.userPersonalsReducer.gender,
+            types: state.userPersonalsReducer.types
         }
     }
     data.reduxPersonalData['name'] = '';
@@ -83,7 +84,22 @@ const CabinetComp = (props : ICabinetProps) => {
         const fetchData = async() => {
             if(props.myToken) {
                 const requestData = await getAccountDataFetch(props.myToken, urlLogin);
-                const parsedData = accountRequestToEntityDictionary(requestData.jobseeker, requestData.roles);
+                let field = ""
+                switch(requestData.roles) {
+                    case "ROLE_JOBSEEKER":
+                        field = "jobseeker";
+                        break;
+                    case "ROLE_EMPLOYER":
+                        field = "employer";
+                        break;
+                    case "ROLE_INSTITUTION":
+                        field = "institution";
+                        break;
+                    case "ROLE_EMPLOYEE":
+                        field = "employee";
+                        break;
+                }
+                const parsedData = accountRequestToEntityDictionary(requestData[field], requestData.roles);
                 //alert(JSON.stringify(requestData.roles))
                 
                 await setCardData({

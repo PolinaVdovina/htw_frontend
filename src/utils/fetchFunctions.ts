@@ -108,29 +108,17 @@ export const registerFetch = async (login, email, phone, password, role) => {
 //     name: string,
 // }
 
-export const getPersonalDataFetch = async (token) => {
+export const getPersonalDataFetch = async (token, role: string) => {
     let returnData;
     try {
-        const response =  await axios.get("/personal/get", {
+        const response =  await axios.get("/" + role + "/get", {
             headers:{
                 Authorization: 'Bearer ' + token
             }
         });
 
         returnData = response.data; 
-        //alert(JSON.stringify(response.data))
         returnData["msgStatus"] = "ok"
-            //{
-            // name: response.data.name,
-            // surname: response.data.surname,
-            // middlename: response.data.middlename,
-            // dateBirth: response.data.dateBirth,
-            // phone: response.data.contactDetails.phone,
-            // email: response.data.contactDetails.email,
-            // msgStatus: "ok",
-            // about: response.data.about,
-            // address: response.data.address,
-            //};
     }
     catch
     {
@@ -143,70 +131,6 @@ export const getPersonalDataFetch = async (token) => {
     return returnData;
 }
 
-export const getEmployerFetch = async (token) => {
-    let returnData;
-    try {
-        const response =  await axios.get("/employer/get", {
-            headers:{
-                Authorization: 'Bearer ' + token
-            }
-        });
-        returnData =  {
-            name: response.data.name,
-            phone: response.data.contactDetails.phone,
-            email: response.data.contactDetails.email,
-            msgStatus: "ok",
-            about: response.data.about,
-            inn: response.data.inn,
-            ogrn: response.data.ogrn,
-            address: response.data.address,
-        };
-        //alert(JSON.stringify(returnData))
-    }
-    catch
-    {
-        //alert('ошибка')
-        returnData =  {
-            msgStatus:"error",
-            error: "Какая-нибудь ошибка с сетью!"
-        };
-    }
-
-    return returnData;
-}
-
-export const getInstitutionFetch = async (token) => {
-    let returnData;
-    try {
-        const response =  await axios.get("/institution/get", {
-            headers:{
-                Authorization: 'Bearer ' + token
-            }
-        });
-        returnData =  {
-            name: response.data.name,
-            phone: response.data.contactDetails.phone,
-            email: response.data.contactDetails.email,
-            msgStatus: "ok",
-            about: response.data.about,
-            inn: response.data.inn,
-            ogrn: response.data.ogrn,
-            address: response.data.address,
-            types: response.data.types
-        };
-        //alert(JSON.stringify(returnData))
-    }
-    catch
-    {
-        //alert('ошибка')
-        returnData =  {
-            msgStatus:"error",
-            error: "Какая-нибудь ошибка с сетью!"
-        };
-    }
-
-    return returnData;
-}
 
 export const changePersonalDataFetch = async (token, data, url?) => {
     try {
