@@ -105,13 +105,14 @@ const CabinetComp = (props : ICabinetProps) => {
                 await setCardData({
                     ...parsedData,
                     role: requestData.roles,
+                    isMine: false,
                 })
             }
         }
         if(props.myLogin) {
             if(isMine()) {
                 //alert(JSON.stringify(props.reduxPersonalData))
-                setCardData(props.reduxPersonalData);
+                setCardData({...props.reduxPersonalData, isMine:true});
                 
             }
             else {

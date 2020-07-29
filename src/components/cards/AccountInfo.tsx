@@ -136,7 +136,7 @@ class AccountInfoComp extends React.Component<IPropsAccountInfo, IStateAccountIn
                             <Typography style={{'color': '#808080'}}>
                                 {SETTINGS[this.props.role][key].title}
                             </Typography> 
-                            { Array.isArray(this.context[key]) &&
+                            { this.context.isMine && Array.isArray(this.context[key]) &&
                                 <Link 
                                     component='button'
                                     onClick={() => this.handleClickOpen(key)}
@@ -155,6 +155,8 @@ class AccountInfoComp extends React.Component<IPropsAccountInfo, IStateAccountIn
                                             {key == 'address' ? addressGlue(element) : element}                                                  
                                         </Typography>
                                     </Grid>
+                                    {
+                                    this.context.isMine &&
                                     <Grid item>
                                         <Link 
                                             component='button'
@@ -163,6 +165,7 @@ class AccountInfoComp extends React.Component<IPropsAccountInfo, IStateAccountIn
                                             Удалить
                                         </Link>
                                     </Grid>
+                                    }
                                 </Grid>
                             )
                         }
@@ -179,22 +182,27 @@ class AccountInfoComp extends React.Component<IPropsAccountInfo, IStateAccountIn
                                 </Typography>
                             </Grid>
                             { /*SETTINGS[this.context.role][key].changeComponent &&*/ <>
-                                <Grid item>
-                                    <Link 
-                                        component='button'
-                                        onClick={() => this.handleClickOpen(key)}
-                                    >
-                                        Изменить
-                                    </Link>
-                                </Grid>
-                                <Grid item>
-                                    <Link 
-                                        component='button'
-                                        onClick={() => this.handleClickDelete(key)}
-                                    >
-                                        Удалить
-                                    </Link>
-                                </Grid>
+                                {
+                                this.context.isMine &&
+                                <>
+                                    <Grid item>
+                                        <Link 
+                                            component='button'
+                                            onClick={() => this.handleClickOpen(key)}
+                                        >
+                                            Изменить
+                                        </Link>
+                                    </Grid>
+                                    <Grid item>
+                                        <Link 
+                                            component='button'
+                                            onClick={() => this.handleClickDelete(key)}
+                                        >
+                                            Удалить
+                                        </Link>
+                                    </Grid>
+                                </>
+                                }
                             </>}
                         
                         
