@@ -35,6 +35,12 @@ export const settingsGender = {
     }
 }
 
+export const settingsTypesEdu = {
+    'types': {
+        'title': 'Типы образования'
+    }
+}
+
 export const settingsName = {
     'surname': {
         'title': 'Фамилия'

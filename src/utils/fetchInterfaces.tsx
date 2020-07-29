@@ -6,4 +6,5 @@ export enum MessageStatus {
 export interface IMessageInfo {
     msgStatus?: MessageStatus,
     error?: string,
+    id?: number
 }

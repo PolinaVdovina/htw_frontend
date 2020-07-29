@@ -45,6 +45,7 @@ function mapStateToProps(state : RootState) {
             inn: '' + state.userPersonalsReducer.inn,
             ogrn: '' + state.userPersonalsReducer.ogrn,
             gender: state.userPersonalsReducer.gender,
+            types: state.userPersonalsReducer.types
         }
     }
 }

@@ -2,10 +2,11 @@ import { ChangeOneString } from "./changeMiniComponents/ChangeOneString";
 import { ChangeAddress } from "./changeMiniComponents/ChangeAddress";
 import { ChangeName } from "./changeMiniComponents/ChangeName";
 import { ChangeBirth } from "./changeMiniComponents/ChangeBirth";
-import { settingsEmail, settingsPhone, settingsName, settingsBirth, settingsAddress, settingsNameOrg, settingsInn, settingsOgrn, settingsDescription, settingsGender } from "./changeMiniComponents/changeSettings";
+import { settingsEmail, settingsPhone, settingsName, settingsBirth, settingsAddress, settingsNameOrg, settingsInn, settingsOgrn, settingsDescription, settingsGender, settingsTypesEdu } from "./changeMiniComponents/changeSettings";
 import { validateEmail, validatePhone, validateName, validateDate, validateAddress, validateInn, validateNameOrg, validateOgrn } from "../../utils/validateFunctions";
 import { changeJobSeekerData, changeJobSeekerAddress, changeJobSeekerContactDetails, changeGender, changeEmployerAddress, deleteEmployerAddress } from "../../utils/change-component-utils";
 import { ChangeGender } from './changeMiniComponents/ChangeGender';
+import { ChangeTypesEdu } from "./changeMiniComponents/ChangeTypesEdu";
 
 export const SETTINGS = {
     INDIVIDUAL: {
@@ -109,6 +110,13 @@ export const SETTINGS = {
             changeSettings: settingsPhone,
             validateFunction: validatePhone,
             changeFunction: changeJobSeekerContactDetails
+        },
+        types: {
+            title: 'Тип образования',
+            changeComponent: ChangeTypesEdu,
+            changeSettings: settingsTypesEdu,
+            validateFunction: validateDate,
+            //changeFunction:
         }
     }
 }

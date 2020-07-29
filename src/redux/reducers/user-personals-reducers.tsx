@@ -1,6 +1,6 @@
 import * as types from '../../constants/action-types';
 import { startLoadingAction, stopLoadingAction } from '../actions/dialog-actions';
-import { getPersonalDataFetch, getEmployerFetch } from '../../utils/fetchFunctions';
+import { getPersonalDataFetch, getEmployerFetch, getInstitutionFetch } from '../../utils/fetchFunctions';
 import { addressGlue, genderIntToStr } from '../../utils/appliedFunc';
 import { fillPersonalDataAction } from '../actions/user-personals';
 
@@ -17,6 +17,7 @@ interface ICommonState {
     inn?,
     ogrn?,
     gender?,
+    types?
 }
 
 const initialState : ICommonState = {
@@ -31,7 +32,8 @@ const initialState : ICommonState = {
     address: null,
     inn: null,
     ogrn: null,
-    gender: null
+    gender: null,
+    types: null
 };
 
 export function userPersonalsReducer(state = initialState, action) : ICommonState {
@@ -103,6 +105,21 @@ async (dispatch, getState) => {
                 address: employerData.address,
                 inn: employerData.inn,
                 ogrn: employerData.ogrn
+            }));
+            break;
+        case ("ROLE_INSTITUTION"):
+            const institutionData = await getInstitutionFetch(getState().authReducer.token);
+            //let address1 = addressGlue(employerData.address);
+            //alert(JSON.stringify(institutionData))
+            await dispatch(fillPersonalDataAction({
+                name: institutionData.name, 
+                phone: institutionData.phone, 
+                email: institutionData.email,
+                about: institutionData.about,
+                address: institutionData.address,
+                inn: institutionData.inn,
+                ogrn: institutionData.ogrn,
+                types: institutionData.types
             }));
             break;
     }

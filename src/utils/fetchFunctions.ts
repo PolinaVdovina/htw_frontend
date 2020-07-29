@@ -175,6 +175,39 @@ export const getEmployerFetch = async (token) => {
     return returnData;
 }
 
+export const getInstitutionFetch = async (token) => {
+    let returnData;
+    try {
+        const response =  await axios.get("/institution/get", {
+            headers:{
+                Authorization: 'Bearer ' + token
+            }
+        });
+        returnData =  {
+            name: response.data.name,
+            phone: response.data.contactDetails.phone,
+            email: response.data.contactDetails.email,
+            msgStatus: "ok",
+            about: response.data.about,
+            inn: response.data.inn,
+            ogrn: response.data.ogrn,
+            address: response.data.address,
+            types: response.data.types
+        };
+        //alert(JSON.stringify(returnData))
+    }
+    catch
+    {
+        //alert('ошибка')
+        returnData =  {
+            msgStatus:"error",
+            error: "Какая-нибудь ошибка с сетью!"
+        };
+    }
+
+    return returnData;
+}
+
 export const changePersonalDataFetch = async (token, data, url?) => {
     try {
         url = url || '/account/set';
@@ -189,6 +222,33 @@ export const changePersonalDataFetch = async (token, data, url?) => {
         
         const msgInfo: IMessageInfo = {
             msgStatus: response.data.error || (response.data.status && response.data.status == 'error') ?  MessageStatus.ERROR : MessageStatus.OK,
+        };
+        return  msgInfo;
+    }
+    catch {
+        const msgInfo: IMessageInfo = {
+            msgStatus: MessageStatus.ERROR,
+            error: "Проблемы с соединением",
+        };
+        return  msgInfo;
+    }
+}
+
+export const changeEmployerAddressFetch = async (token, data, url?) => {
+    try {
+        url = url || '/account/address';
+        const response = await axios.post(url,  {
+                ...data,
+
+            },
+            {
+                headers: {Authorization: 'Bearer ' + token},
+            }
+        );
+        
+        const msgInfo: IMessageInfo = {
+            msgStatus: response.data.error || (response.data.status && response.data.status == 'error') ?  MessageStatus.ERROR : MessageStatus.OK,
+            id: response.data
         };
         return  msgInfo;
     }
