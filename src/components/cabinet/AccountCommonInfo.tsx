@@ -11,6 +11,7 @@ import { connect } from 'react-redux';
 import { RootState } from '../../redux/store';
 import { ChangeComponent } from './ChangeComponent';
 import { ChangeComponentDialog } from './ChangeComponentDialog';
+import { CabinetContext } from './cabinet-context';
 
 interface IDrawerElement {
   IconComponent?: any,
@@ -54,24 +55,24 @@ const useStyles = makeStyles((theme: Theme) =>
 interface IAccountCommonInfo {
     open?: boolean,
     onClose?: (event) => void,
-    name: string,
-    surname: string,
-    login?: string | null,
-    about?: string | null,
-    middlename?: string | null,
+    // name: string,
+    // surname: string,
+    // login?: string | null,
+    // about?: string | null,
+    // middlename?: string | null,
     roleSettings: string,
     role?: string | null,
 }
 
 function mapStateToProps(state : RootState) {
   return {
-    name: state.userPersonalsReducer.name,
-    surname: state.userPersonalsReducer.surname,
-    login: state.authReducer.login,
-    token: state.authReducer.token,
-    about: state.userPersonalsReducer.about,
-    middlename: state.userPersonalsReducer.middlename,
-    role: state.authReducer.entityType,
+    // name: state.userPersonalsReducer.name,
+    // surname: state.userPersonalsReducer.surname,
+    // login: state.authReducer.login,
+    // token: state.authReducer.token,
+    // about: state.userPersonalsReducer.about,
+    // middlename: state.userPersonalsReducer.middlename,
+    // role: state.authReducer.entityType,
   }
 }
 
@@ -80,22 +81,24 @@ const AccountCommonInfoComp = (props: IAccountCommonInfo) => {
     const theme = useTheme();
     const [openName, setOpenName] = React.useState(false);
     const [openAbout, setOpenAbout] = React.useState(false);
+    const context = React.useContext(CabinetContext);
     let name = '';
-    switch(props.role) {
+    //alert(JSON.stringify(context))
+    switch(context.role) {
       case ("ROLE_JOBSEEKER"):
-        name = ((props.name && props.surname) ? props.name + ' ' + props.surname + ' ' + props.middlename  : "ФИО не указано");
+        name = ((context.name && context.surname) ? context.name + ' ' + context.surname + ' ' + context.middlename  : "ФИО не указано");
         break
       case ("ROLE_EMPLOYEE"):
-        name = ((props.name && props.surname) ? props.name + ' ' + props.surname + ' ' + props.middlename  : "ФИО не указано");
+        name = ((context.name && context.surname) ? context.name + ' ' + context.surname + ' ' + context.middlename  : "ФИО не указано");
         break
       case "ROLE_INSTITUTION":
-        name = (props.name) ? props.name : "Название не указано";
+        name = (context.name) ? context.name : "Название не указано";
         break
       case "ROLE_EMPLOYER":
-        name = (props.name) ? props.name : "Название не указано";
+        name = (context.name) ? context.name : "Название не указано";
         break
     }
-    
+
     return (
             <Grid container alignItems="center" direction="row" className={classes.avatarGrid}>
                 <Avatar className={classes.avatar} />
@@ -110,7 +113,7 @@ const AccountCommonInfoComp = (props: IAccountCommonInfo) => {
                     style={{textAlign:"left", wordBreak:"break-word"}}
                     component='button' 
                     onClick={()=>setOpenAbout(true)}>
-                      {props.about ? props.about : "Расскажите о себе"}
+                      {context.about ? context.about : "Расскажите о себе"}
                     </Link>
                     </Typography>
 

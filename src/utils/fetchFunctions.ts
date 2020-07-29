@@ -304,3 +304,17 @@ export const isValidTokenFetch = async (token: string) => {
 }
 
 
+export const getAccountDataFetch = async (token: string, login: string) => {
+    try {
+        const userData = await axios.get("/account/login?login="+login,
+        {
+            headers: {Authorization: 'Bearer ' + token},
+        });
+        alert(JSON.stringify(userData.data))
+        return userData.data;
+    }
+    catch {
+        return null;
+    }
+}
+

@@ -39,3 +39,34 @@ export function genderStrToInt(gender: string | null) {
     return null;
 }
 
+export function accountRequestToEntityDictionary(data, role) {
+    
+    switch(role) {
+        case "ROLE_JOBSEEKER":
+            return {
+                name: data.name, 
+                surname: data.surname, 
+                middlename: data.middlename, 
+                dateBirth: data.dateBirth, 
+                phone: data.contactDetails.phone, 
+                email: data.contactDetails.email,
+                about: data.about,
+                address: addressGlue(data.address),
+                gender: genderIntToStr(data.gender),
+                id: data.id
+            }
+        case "ROLE_EMPLOYER":
+            return {
+                name: data.name, 
+                phone: data.phone, 
+                email: data.email,
+                about: data.about,
+                address: data.address,
+                inn: data.inn,
+                ogrn: data.ogrn
+
+            }
+        case "ROLE_INSTITUTION":
+            break
+    }
+}
