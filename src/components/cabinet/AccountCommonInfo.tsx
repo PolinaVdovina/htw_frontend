@@ -109,12 +109,17 @@ const AccountCommonInfoComp = (props: IAccountCommonInfo) => {
                       }
                     </Typography>
                     <Typography className={classes.descriptionBlock}>
+                    {context.isMine &&
                     <Link
                     style={{textAlign:"left", wordBreak:"break-word"}}
                     component='button' 
                     onClick={()=>setOpenAbout(true)}>
                       {context.about ? context.about : "Расскажите о себе"}
                     </Link>
+                    }
+                    {
+                      !context.isMine && context.about
+                    }
                     </Typography>
 
                     <ChangeComponentDialog 
@@ -133,14 +138,17 @@ const AccountCommonInfoComp = (props: IAccountCommonInfo) => {
                       />
                     
                 </Grid>
+                {
+                context.isMine &&
                 <Grid item>
                     <Link 
                         component='button'  
-                        onClick={()=>setOpenName(true)}
+                        onClick={context.isMine ? ()=>setOpenName(true) : ()=>{}}
                     >
                         Изменить
                     </Link>
                 </Grid>
+                }
             </Grid>
     )
 }
