@@ -58,9 +58,9 @@ function mapStateToProps(state : RootState) {
     data.reduxPersonalData['name'] = '';
     if(state.userPersonalsReducer.name)
         data.reduxPersonalData['name'] += state.userPersonalsReducer.name + " ";
-    if(state.userPersonalsReducer.name)
+    if(state.userPersonalsReducer.surname)
         data.reduxPersonalData['name'] += state.userPersonalsReducer.surname + " ";
-    if(state.userPersonalsReducer.name)
+    if(state.userPersonalsReducer.middlename)
         data.reduxPersonalData['name'] += state.userPersonalsReducer.middlename;
         
     return data;

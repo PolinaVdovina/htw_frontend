@@ -123,7 +123,7 @@ class AccountInfoComp extends React.Component<IPropsAccountInfo, IStateAccountIn
         //alert(JSON.stringify(this.props.data.address))
         return( 
 
-            <Grid style={{padding:this.props.theme.spacing(2)}} container spacing={2} direction='column'>  
+            <Grid style={{padding:this.props.theme.spacing(2)}} container direction='column'>  
 
                 {/*<Grid item>
                     <Typography variant='h5'>
@@ -131,7 +131,7 @@ class AccountInfoComp extends React.Component<IPropsAccountInfo, IStateAccountIn
                     </Typography>    
                 </Grid>  */}        
                 { this.props.settingsView.map(key => <>
-                    <Grid container item direction="column">
+                    <Grid container item direction="column" style={{marginBottom: this.props.theme.spacing(2)}}>
                         <Grid item container direction='row' style={{flexWrap:"nowrap"}}>
                             <Typography style={{'color': '#808080'}}>
                                 {SETTINGS[this.props.role][key].title}
@@ -172,8 +172,8 @@ class AccountInfoComp extends React.Component<IPropsAccountInfo, IStateAccountIn
                         { !Array.isArray(this.context[key]) && 
                         <Grid item container direction='row' spacing={2}  style={{flexWrap:"nowrap"}}>                             
                             
-                            <Grid item style={{flexGrow:1}}>
-                                <Typography>
+                            <Grid item style={{flexGrow:1, overflowX:"auto"}}>
+                                <Typography >
                                     {
                                         this.context[key] ?
                                             (this.context[key].indexOf('null') == -1) ? this.context[key] : 'Не задано' :
