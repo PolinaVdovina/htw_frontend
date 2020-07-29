@@ -42,7 +42,7 @@ const useStyles = makeStyles((theme: Theme) =>
       paddingRight: theme.spacing(2)
     },
     titleBlock: {
-        width:"max-content"
+        
     },
     descriptionBlock: {
         fontSize:"12px", 
@@ -51,7 +51,7 @@ const useStyles = makeStyles((theme: Theme) =>
     }
   }),
 );
-
+//пидорасы
 interface IAccountCommonInfo {
     open?: boolean,
     onClose?: (event) => void,
@@ -86,16 +86,16 @@ const AccountCommonInfoComp = (props: IAccountCommonInfo) => {
     //alert(JSON.stringify(context))
     switch(context.role) {
       case ("ROLE_JOBSEEKER"):
-        name = ((context.name && context.surname) ? context.name + ' ' + context.surname + ' ' + context.middlename  : "ФИО не указано");
+        name = (context.name  ? context.name : "Название не указано");
         break
       case ("ROLE_EMPLOYEE"):
-        name = ((context.name && context.surname) ? context.name + ' ' + context.surname + ' ' + context.middlename  : "ФИО не указано");
+        name = (context.name ? context.name : "Название не указано" );
         break
       case "ROLE_INSTITUTION":
-        name = (context.name) ? context.name : "Название не указано";
+        name = (context.name ? context.name : "Название не указано");
         break
       case "ROLE_EMPLOYER":
-        name = (context.name) ? context.name : "Название не указано";
+        name = (context.name ? context.name : "Название не указано");
         break
     }
 

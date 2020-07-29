@@ -11,19 +11,22 @@ import { connect, useDispatch } from 'react-redux';
 import { RootState } from '../../redux/store';
 import { logout } from '../../redux/reducers/auth-reducers';
 import TransitEnterexitIcon from '@material-ui/icons/TransitEnterexit';
+import { store } from './../../redux/store';
 
 interface IDrawerElement {
   IconComponent?: any,
   title?: string,
   url?: string,
   func?: (...arg) => void,
+  addLogin?: boolean,
 }
 
 const drawerElementsDict: Array<IDrawerElement> = [
     {
       IconComponent: AccountCircleIcon,
       title: "Личный кабинет",
-      url: urls.cabinet.shortPath+"1",
+      url: urls.cabinet.shortPath,
+      addLogin: true,
     },
     {
       IconComponent: LibraryBooksIcon,
@@ -81,7 +84,9 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-const DrawerListButtons = () => {
+
+
+const DrawerListButtons = (props) => {
   const dispatch = useDispatch();
   const classes = useStyles();
     return ( 
@@ -89,7 +94,9 @@ const DrawerListButtons = () => {
         {
           drawerElementsDict.map(el => 
               <>
-              <ListItem button {...{component:el.url&&NavLink, to:el.url || null}} onClick={()=>{el.func && el.func(dispatch)}}>
+              <ListItem button 
+              {...{component:el.url&&NavLink, to:el.url + (el.addLogin ? props.login : '') || null}} 
+              onClick={()=>{el.func && el.func(dispatch)}}>
                   <ListItemIcon>
                       <el.IconComponent/>
                   </ListItemIcon>
@@ -122,7 +129,7 @@ function mapStateToProps(state : RootState) {
 const AppMenuListComp = (props: IAppMenuList) => {
     const classes = useStyles();
     const theme = useTheme();
-
+  const login = 10;
     return (
         <Grid container direction="column" className={classes.rootGrid}>
             <Grid container item alignItems="center" direction="row" className={classes.avatarGrid}>
@@ -138,7 +145,7 @@ const AppMenuListComp = (props: IAppMenuList) => {
         
             </Grid>
             <Grid item container className={classes.listButtonsGrid}>
-                <DrawerListButtons/>
+                <DrawerListButtons login={props.login}/>
             </Grid>
         </Grid>
     )

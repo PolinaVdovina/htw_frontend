@@ -44,7 +44,7 @@ function mapStateToProps(state : RootState) {
         myToken: state.authReducer.token,
         reduxPersonalData: { 
             role: state.authReducer.entityType,
-            
+            about: state.userPersonalsReducer.about,
             dateBirth: '' + state.userPersonalsReducer.dateBirth,
             phone: '' + state.userPersonalsReducer.phone,
             email: '' + state.userPersonalsReducer.email,
@@ -57,11 +57,11 @@ function mapStateToProps(state : RootState) {
     }
     data.reduxPersonalData['name'] = '';
     if(state.userPersonalsReducer.name)
-        data.reduxPersonalData['name'] += state.userPersonalsReducer.name;
+        data.reduxPersonalData['name'] += state.userPersonalsReducer.name + " ";
     if(state.userPersonalsReducer.name)
-        data.reduxPersonalData['surname'] += state.userPersonalsReducer.surname;
+        data.reduxPersonalData['name'] += state.userPersonalsReducer.surname + " ";
     if(state.userPersonalsReducer.name)
-        data.reduxPersonalData['middlename'] += state.userPersonalsReducer.middlename;
+        data.reduxPersonalData['name'] += state.userPersonalsReducer.middlename;
         
     return data;
     

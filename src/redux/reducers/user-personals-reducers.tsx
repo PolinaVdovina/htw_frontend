@@ -63,7 +63,7 @@ async (dispatch, getState) => {
     const role = getState().authReducer.entityType;
     switch(role) {
         case ("ROLE_JOBSEEKER"):
-            const jobSeekerData = await getPersonalDataFetch(getState().authReducer.token, 'jobseeker');           
+            const jobSeekerData = await getPersonalDataFetch(getState().authReducer.token, 'personal');           
             const jobSeekerDict = accountRequestToEntityDictionary(jobSeekerData, role);
             await dispatch(fillPersonalDataAction(jobSeekerDict));           
             break;
