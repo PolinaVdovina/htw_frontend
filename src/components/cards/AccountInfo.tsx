@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Typography, Card, TextField, CardContent, Grid, Paper, Link, FormControl, Input, Button, Divider, withTheme } from '@material-ui/core';
+import { Typography, Card, TextField, CardContent, Grid, Paper, Link, FormControl, Input, Button, Divider, withTheme, Radio } from '@material-ui/core';
 import { ChangeComponent } from '../cabinet/ChangeComponent';
 import { SETTINGS } from '../cabinet/accountSettings';
 import { PaddingPaper } from './PaddingPaper';
@@ -98,7 +98,7 @@ class AccountInfoComp extends React.Component<IPropsAccountInfo, IStateAccountIn
     }
 
     handleClickDeleteMass = async(key: string, index: number) => {
-        const deleteData = this.props.data[key][index];
+        const deleteData = this.context[key][index];
         const deleteFunc = SETTINGS[this.props.role][key]['deleteFunction'];
 
         if(deleteFunc) {
@@ -147,9 +147,8 @@ class AccountInfoComp extends React.Component<IPropsAccountInfo, IStateAccountIn
                             }
                         </Grid>
                         { (this.context[key] && Array.isArray(this.context[key])) && 
-                            this.context[key].map((element, index) =>
+                            this.context[key].map((element, index) => 
                                 <Grid item container direction='row' spacing={2} style={{flexWrap:"nowrap"}}>
-                                    
                                     <Grid item style={{flexGrow:1}}>
                                         <Typography>
                                             {key == 'address' ? addressGlue(element) : element}                                                  
@@ -167,7 +166,7 @@ class AccountInfoComp extends React.Component<IPropsAccountInfo, IStateAccountIn
                                     </Grid>
                                     }
                                 </Grid>
-                            )
+                            ) 
                         }
                         { !Array.isArray(this.context[key]) && 
                         <Grid item container direction='row' spacing={2}  style={{flexWrap:"nowrap"}}>                             
