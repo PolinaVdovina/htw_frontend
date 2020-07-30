@@ -16,6 +16,7 @@ import Notifier from './components/notistack/Notifier';
 // import { startLoadingAction, stopLoadingAction } from './redux/actions/dialog-actions';
 import { reloadAuthData } from './redux/reducers/auth-reducers';
 
+
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     gridVerticalContainer: {
@@ -90,7 +91,6 @@ const mapDispatchToProps = {
     reloadAuthData: reloadAuthData,
 }
 
-
 function App(props: IAppProps) {
   const classes = useStyles();
   const theme = useTheme();
@@ -100,7 +100,7 @@ function App(props: IAppProps) {
     props.reloadAuthData(); 
   },[])
   
-  
+
   //props.startLoading();
   return (
       <div>
@@ -126,8 +126,8 @@ function App(props: IAppProps) {
               }
               <Routes/>
               <RedirectIfNotAuthorized/> 
-              
             </BrowserRouter>
+
           </Grid>
           <Divider/>
           <AppFooter/>

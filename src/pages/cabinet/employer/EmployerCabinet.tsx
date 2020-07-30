@@ -11,6 +11,7 @@ import { ParagraphInPost } from './../../../components/tape/posts/post-body-elem
 import { ListInPost } from '../../../components/tape/posts/post-body-elements/ListInPost';
 
 import { PostCard,IPostData } from './../../../components/tape/posts/PostCard';
+import { VacancyEditorForm } from '../../../components/vacancy-editor/VacancyEditorForm';
 
 
 interface IEmployerCabinet {
@@ -79,6 +80,11 @@ const tabs: Array<ITabData> = [
     label: "Мероприятия",
     //IconComponent: <PersonPinIcon/>,
     TabPanel: <AccountInfo role='LEGAL' title="Мероприятия" settingsView={[]}/>
+  },
+  {
+    label: "Добаблять вакансию",
+    //IconComponent: <PersonPinIcon/>,
+    TabPanel: <VacancyEditorForm/>
   },
 ]
 
