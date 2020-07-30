@@ -72,6 +72,11 @@ const tabs: Array<ITabData> = [
     TabPanel: <AccountInfo role='LEGAL' title="Общая информация" settingsView={['inn', 'ogrn', 'address', 'email', 'phone']}/>
   },
   {
+    label: "Сотрудники",
+    //IconComponent: <PersonPinIcon/>,
+    TabPanel: <Tape posts={testPosts}/>
+  },
+  {
     label: "Вакансии",
     //IconComponent: <PersonPinIcon/>,
     TabPanel: <Tape posts={testPosts}/>

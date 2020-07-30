@@ -2,11 +2,11 @@ import { ChangeOneString } from "./changeMiniComponents/ChangeOneString";
 import { ChangeAddress } from "./changeMiniComponents/ChangeAddress";
 import { ChangeName } from "./changeMiniComponents/ChangeName";
 import { ChangeBirth } from "./changeMiniComponents/ChangeBirth";
-import { settingsEmail, settingsPhone, settingsName, settingsBirth, settingsAddress, settingsNameOrg, settingsInn, settingsOgrn, settingsDescription, settingsGender, settingsTypesEdu, settingsExperience } from "./changeMiniComponents/changeSettings";
+import { settingsEmail, settingsPhone, settingsName, settingsBirth, settingsAddress, settingsNameOrg, settingsInn, settingsOgrn, settingsDescription, settingsGender, settingsTypesEdu, settingsExperience, settingsCompetenceSet } from "./changeMiniComponents/changeSettings";
 import { validateEmail, validatePhone, validateName, validateDate, validateAddress, validateInn, validateNameOrg, validateOgrn } from "../../utils/validateFunctions";
-import { changeJobSeekerData, changeJobSeekerAddress, changeJobSeekerContactDetails, changeGender, changeEmployerAddress, deleteEmployerAddress } from "../../utils/change-component-utils";
+import { changeJobSeekerData, changeJobSeekerAddress, changeJobSeekerContactDetails, changeGender, changeEmployerAddress, deleteEmployerAddress, changeCompetenceSet, deleteCompetence } from "../../utils/change-component-utils";
 import { ChangeGender } from './changeMiniComponents/ChangeGender';
-import { ChangeTypesEdu } from "./changeMiniComponents/ChangeTypesEdu";
+import { ChangeMultiSelect } from "./changeMiniComponents/ChangeMultiSelect";
 import { ChangeExperience } from "./changeMiniComponents/ChangeExperience";
 
 export const SETTINGS = {
@@ -69,6 +69,14 @@ export const SETTINGS = {
             changeSettings: settingsExperience,
             validateFunction: null,
             changeFunction: changeJobSeekerData
+        },
+        competenceSet: {
+            title: 'Компетенции',
+            changeComponent: ChangeMultiSelect,
+            changeSettings: settingsCompetenceSet,
+            validateFunction: null,
+            changeFunction: changeCompetenceSet,
+            deleteFunction: deleteCompetence      
         }
     },
     LEGAL: {
@@ -124,7 +132,7 @@ export const SETTINGS = {
         },
         types: {
             title: 'Тип образования',
-            changeComponent: ChangeTypesEdu,
+            changeComponent: ChangeMultiSelect,
             changeSettings: settingsTypesEdu,
             validateFunction: validateDate,
             //changeFunction:

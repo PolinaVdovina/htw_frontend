@@ -18,7 +18,8 @@ interface ICommonState {
     ogrn?,
     gender?,
     types?,
-    experience?
+    experience?,
+    competenceSet?
 }
 
 const initialState : ICommonState = {
@@ -35,7 +36,8 @@ const initialState : ICommonState = {
     ogrn: null,
     gender: null,
     types: null,
-    experience: null
+    experience: null,
+    competenceSet: null
 };
 
 export function userPersonalsReducer(state = initialState, action) : ICommonState {

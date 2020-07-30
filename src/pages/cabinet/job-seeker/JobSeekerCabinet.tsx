@@ -78,7 +78,7 @@ const tabs: Array<ITabData> = [
   {
     label: "Образование",
     //IconComponent: <PersonPinIcon/>,
-    TabPanel: <AccountInfo role='INDIVIDUAL' settingsView={[]}/>
+    TabPanel: <AccountInfo role='INDIVIDUAL' settingsView={['competenceSet']}/>
   },
   {
     label: "Работа",
