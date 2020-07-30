@@ -234,7 +234,7 @@ export const getAccountDataFetch = async (token: string, login: string) => {
         {
             headers: {Authorization: 'Bearer ' + token},
         });
-        alert(JSON.stringify(userData.data))
+        //alert(JSON.stringify(userData.data))
         return userData.data;
     }
     catch {

@@ -86,7 +86,14 @@ const AccountCommonInfoComp = (props: IAccountCommonInfo) => {
     //alert(JSON.stringify(context))
     switch(context.role) {
       case ("ROLE_JOBSEEKER"):
-        name = (context.name  ? context.name : "Название не указано");
+        
+        if(context.name)
+          name = name + context.name + " ";
+        if(context.surname)
+          name = name + context.surname + " ";
+        if(context.middlename)
+          name = name + context.middlename;
+        name = (name != '' ? name : "Название не указано");
         break
       case ("ROLE_EMPLOYEE"):
         name = (context.name ? context.name : "Название не указано" );

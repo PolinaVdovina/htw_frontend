@@ -44,6 +44,9 @@ function mapStateToProps(state : RootState) {
         myToken: state.authReducer.token,
         reduxPersonalData: { 
             role: state.authReducer.entityType,
+            name: state.userPersonalsReducer.name,
+            surname: state.userPersonalsReducer.surname,
+            middlename: state.userPersonalsReducer.middlename,
             about: state.userPersonalsReducer.about,
             dateBirth: '' + state.userPersonalsReducer.dateBirth,
             phone: '' + state.userPersonalsReducer.phone,
@@ -56,13 +59,13 @@ function mapStateToProps(state : RootState) {
             experience: state.userPersonalsReducer.experience
         }
     }
-    data.reduxPersonalData['name'] = '';
-    if(state.userPersonalsReducer.name)
-        data.reduxPersonalData['name'] += state.userPersonalsReducer.name + " ";
-    if(state.userPersonalsReducer.name)
-        data.reduxPersonalData['name'] += state.userPersonalsReducer.surname + " ";
-    if(state.userPersonalsReducer.name)
-        data.reduxPersonalData['name'] += state.userPersonalsReducer.middlename;
+    // data.reduxPersonalData['name'] = '';
+    // if(state.userPersonalsReducer.name)
+    //     data.reduxPersonalData['name'] += state.userPersonalsReducer.name + " ";
+    // if(state.userPersonalsReducer.surname)
+    //     data.reduxPersonalData['name'] += state.userPersonalsReducer.surname + " ";
+    // if(state.userPersonalsReducer.middlename)
+    //     data.reduxPersonalData['name'] += state.userPersonalsReducer.middlename;
         
     return data;
     
