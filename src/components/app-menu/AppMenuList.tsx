@@ -92,17 +92,15 @@ const DrawerListButtons = (props) => {
     return ( 
         <List className={classes.listButtons}>
         {
-          drawerElementsDict.map(el => 
-              <>
-              <ListItem button 
+          drawerElementsDict.map((el,index) => 
+              <ListItem  key={index} button 
               {...{component:el.url&&NavLink, to:el.url + (el.addLogin ? props.login : '') || null}} 
               onClick={()=>{el.func && el.func(dispatch)}}>
                   <ListItemIcon>
                       <el.IconComponent/>
                   </ListItemIcon>
                   <ListItemText primary={el.title}/>
-              </ListItem>
-              </>
+              </ListItem >
           )
         }
         </List>
@@ -129,7 +127,7 @@ function mapStateToProps(state : RootState) {
 const AppMenuListComp = (props: IAppMenuList) => {
     const classes = useStyles();
     const theme = useTheme();
-  const login = 10;
+    const login = 10;
     return (
         <Grid container direction="column" className={classes.rootGrid}>
             <Grid container item alignItems="center" direction="row" className={classes.avatarGrid}>
@@ -140,7 +138,7 @@ const AppMenuListComp = (props: IAppMenuList) => {
                 style={{marginRight:theme.spacing(2)}}/>
         
                 <Typography style={{flexGrow:1, width:"min-content", color:"white"}}>
-                  {(props.name && props.surname) ? props.name + ' ' + props.surname : props.login}
+                  {(props.name && props.surname) ? props.surname + ' ' + props.name : props.login}
                 </Typography>
         
             </Grid>

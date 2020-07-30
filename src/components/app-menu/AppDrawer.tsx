@@ -68,8 +68,8 @@ const DrawerListButtons = () => {
     return ( 
         <List className={classes.listButtons}>
         {
-          drawerElementsDict.map(el => 
-              <ListItem button>
+          drawerElementsDict.map((el,index) => 
+              <ListItem key={index} button>
                   <ListItemIcon>
                       <el.IconComponent/>
                   </ListItemIcon>

@@ -87,10 +87,10 @@ const AccountCommonInfoComp = (props: IAccountCommonInfo) => {
     switch(context.role) {
       case ("ROLE_JOBSEEKER"):
         
-        if(context.name)
-          name = name + context.name + " ";
         if(context.surname)
           name = name + context.surname + " ";
+        if(context.name)
+          name = name + context.name + " ";
         if(context.middlename)
           name = name + context.middlename;
         name = (name != '' ? name : "Название не указано");

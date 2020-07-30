@@ -2,22 +2,22 @@ import * as React from 'react';
 import { FormControl, Select, MenuItem, Checkbox, ListItemText } from '@material-ui/core';
 
 interface IChangeMultiSelect {
-    data: string[],
     onChange: (any) => void,
-    type: string,
-    list: string[]
+    list: string[],
+    fullWidth?: boolean,
 }
 
 export const ChangeMultiSelect = (props : IChangeMultiSelect) => {
     const [personName, setPersonName] = React.useState<string[]>([]);
-
     return(      
         <FormControl 
             variant='outlined' 
             size='small' 
-            style={{width:"250px"}}
+            
+            style={{width: props.fullWidth ? "100%" : "250px"}}
         >
-            <Select                
+            <Select      
+                multiline
                 multiple               
                 value={personName}
                 onChange={(event: React.ChangeEvent<{ value: unknown }>) => {
