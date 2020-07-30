@@ -75,7 +75,12 @@ export const ChangeComponentRaw = (props : FinalProps) => {
                             </Typography>
                         </Grid>
                         <Grid item style={{flexGrow:1}} >
-                            { <Component onChange={onChange} data={data} type={key}/>}
+                            { <Component 
+                                onChange={onChange} 
+                                data={data} 
+                                type={key} 
+                                list={changeSettings[key].listItemsSelect}
+                            />}
                         </Grid>
                     </Grid>
                 )

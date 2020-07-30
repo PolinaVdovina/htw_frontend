@@ -24,6 +24,28 @@ export const changeJobSeekerContactDetails = async ( dispatch, data ) => {
     return msgInfo;
 }
 
+export const changeCompetenceSet = async ( dispatch, data ) => {
+    const msgInfo: IMessageInfo = await changePersonalDataFetch(store.getState().authReducer.token, data, '/personal/competence/attach');
+    //alert(msgInfo.msgStatus==MessageStatus.OK)
+    if(msgInfo.msgStatus == MessageStatus.OK) {
+        const competenceSet: string[] = [...store.getState().userPersonalsReducer.competenceSet, ...data]
+        await dispatch( fillPersonalDataAction({competenceSet: competenceSet}));
+    }
+    return msgInfo;
+}
+
+export const deleteCompetence = async ( dispatch, data ) => {
+    const msgInfo: IMessageInfo = await changePersonalDataFetch(store.getState().authReducer.token, [data], '/personal/competence/detach');
+    if(msgInfo.msgStatus == MessageStatus.OK) {
+        const competenceSet = [...store.getState().userPersonalsReducer.competenceSet]
+        for (let i = 0; i < competenceSet.length; i++)
+            if (competenceSet[i] == data) 
+            competenceSet.splice(i, 1);
+        await dispatch( fillPersonalDataAction({competenceSet: competenceSet}));
+    }
+    return msgInfo;
+}
+
 export const changeJobSeekerAddress = async ( dispatch, data ) => {
     const msgInfo: IMessageInfo = await changePersonalDataFetch(store.getState().authReducer.token,data);
     //alert(msgInfo.msgStatus==MessageStatus.OK)

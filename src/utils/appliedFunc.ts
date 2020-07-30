@@ -54,6 +54,7 @@ export function accountRequestToEntityDictionary(data, role) {
                 address: addressGlue(data.address),
                 gender: genderIntToStr(data.gender),
                 experience: data.experience,
+                competenceSet: data.competenceSet.map(elem => elem.name)
                 //id: data.id
             }
             // parsedData['name'] = '';

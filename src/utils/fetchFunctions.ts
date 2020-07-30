@@ -135,10 +135,10 @@ export const getPersonalDataFetch = async (token, role: string) => {
 export const changePersonalDataFetch = async (token, data, url?) => {
     try {
         url = url || '/account/set';
-        const response = await axios.post(url,  {
-                ...data,
+        const response = await axios.post(url,  //{
+                /*...*/data,
 
-            },
+            //},
             {
                 headers: {Authorization: 'Bearer ' + token},
             }

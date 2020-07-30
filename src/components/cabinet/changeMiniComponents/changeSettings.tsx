@@ -36,8 +36,29 @@ export const settingsGender = {
 }
 
 export const settingsTypesEdu = {
-    'types': {
-        'title': 'Типы образования'
+    types: {
+        title: 'Типы образования',
+        listItemsSelect: [
+            'среднее профессиональное',
+            'бакалавриат',
+            'специалитет',
+            'магистратура',
+            'подготовка кадров высшей квалификации',
+            'повышение квалификации',
+            'курсы',
+        ]
+    }
+}
+
+export const settingsCompetenceSet = {
+    competenceSet: {
+        title: 'Выберите компетенции',
+        listItemsSelect: [
+            'пиздить',
+            'адаптировать',
+            'кодить',
+            'чай пить',
+        ]
     }
 }
 
