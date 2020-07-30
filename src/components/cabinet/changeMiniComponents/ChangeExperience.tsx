@@ -2,7 +2,6 @@ import * as React from 'react';
 import { Grid, Typography, TextField, MenuItem } from '@material-ui/core';
 
 interface IChangeExperience {
-    data: number,
     onChange: (any) => void,
     type: string
 }

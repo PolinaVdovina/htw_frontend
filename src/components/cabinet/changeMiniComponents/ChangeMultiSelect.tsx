@@ -2,9 +2,8 @@ import * as React from 'react';
 import { FormControl, Select, MenuItem, Checkbox, ListItemText } from '@material-ui/core';
 
 interface IChangeMultiSelect {
-    data: string[],
+    //data: string[],
     onChange: (any) => void,
-    type: string,
     list: string[]
 }
 

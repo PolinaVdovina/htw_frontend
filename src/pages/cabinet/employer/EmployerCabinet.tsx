@@ -11,6 +11,7 @@ import { ParagraphInPost } from './../../../components/tape/posts/post-body-elem
 import { ListInPost } from '../../../components/tape/posts/post-body-elements/ListInPost';
 
 import { PostCard,IPostData } from './../../../components/tape/posts/PostCard';
+import { EmployeeList } from '../../../components/entityList/EmployeesList';
 
 
 interface IEmployerCabinet {
@@ -73,7 +74,7 @@ const tabs: Array<ITabData> = [
   {
     label: "Сотрудники",
     //IconComponent: <PersonPinIcon/>,
-    TabPanel: <Tape posts={testPosts}/>
+    TabPanel: <EmployeeList/>
   },
   {
     label: "Вакансии",

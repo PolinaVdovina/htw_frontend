@@ -40,63 +40,67 @@ export function genderStrToInt(gender: string | null) {
 }
 
 export function accountRequestToEntityDictionary(data, role) {
+    try {
+        switch(role) {
+            case "ROLE_JOBSEEKER":
+                let parsedData = {
+                    name: data.name, 
+                    surname: data.surname, 
+                    middlename: data.middlename, 
+                    dateBirth: data.dateBirth, 
+                    phone: data.contactDetails.phone, 
+                    email: data.contactDetails.email,
+                    about: data.about,
+                    address: addressGlue(data.address),
+                    gender: genderIntToStr(data.gender),
+                    experience: data.experience,
+                    competenceSet: data.competenceSet.map(elem => elem.name)
+                    //id: data.id
+                }
+                // parsedData['name'] = '';
+                // if(data.name)
+                //     parsedData['name'] += data.name + " ";
+                // if(data.surname)
+                //     parsedData['name'] += data.surname + " ";
+                // if(data.middlename)
+                //     parsedData['name'] += data.middlename;
+                return parsedData;
+            case "ROLE_EMPLOYER":
+                return {
+                    name: data.name, 
+                    phone: data.contactDetails.phone, 
+                    email: data.contactDetails.email,
+                    about: data.about,
+                    address: data.address,
+                    inn: data.inn,
+                    ogrn: data.ogrn
     
-    switch(role) {
-        case "ROLE_JOBSEEKER":
-            let parsedData = {
-                name: data.name, 
-                surname: data.surname, 
-                middlename: data.middlename, 
-                dateBirth: data.dateBirth, 
-                phone: data.contactDetails.phone, 
-                email: data.contactDetails.email,
-                about: data.about,
-                address: addressGlue(data.address),
-                gender: genderIntToStr(data.gender),
-                experience: data.experience,
-                competenceSet: data.competenceSet.map(elem => elem.name)
-                //id: data.id
-            }
-            // parsedData['name'] = '';
-            // if(data.name)
-            //     parsedData['name'] += data.name + " ";
-            // if(data.surname)
-            //     parsedData['name'] += data.surname + " ";
-            // if(data.middlename)
-            //     parsedData['name'] += data.middlename;
-            return parsedData;
-        case "ROLE_EMPLOYER":
-            return {
-                name: data.name, 
-                phone: data.contactDetails.phone, 
-                email: data.contactDetails.email,
-                about: data.about,
-                address: data.address,
-                inn: data.inn,
-                ogrn: data.ogrn
-
-            }
-        case "ROLE_INSTITUTION":
-            return {
-                name: data.name, 
-                phone: data.contactDetails.phone, 
-                email: data.contactDetails.email,
-                about: data.about,
-                address: data.address,
-                inn: data.inn,
-                ogrn: data.ogrn,
-                types: data.types
-            }
-            break
-
-        case "ROLE_EMPLOYEE":
-            return {
-                name: data.name, 
-                surname: data.surname, 
-                middlename: data.middlename, 
-                phone: data.contactDetails.phone, 
-                email: data.contactDetails.email,
-            }
-            break
+                }
+            case "ROLE_INSTITUTION":
+                return {
+                    name: data.name, 
+                    phone: data.contactDetails.phone, 
+                    email: data.contactDetails.email,
+                    about: data.about,
+                    address: data.address,
+                    inn: data.inn,
+                    ogrn: data.ogrn,
+                    types: data.types
+                }
+                break
+    
+            case "ROLE_EMPLOYEE":
+                return {
+                    name: data.name, 
+                    surname: data.surname, 
+                    middlename: data.middlename, 
+                    phone: data.contactDetails.phone, 
+                    email: data.contactDetails.email,
+                }
+                break
+        }
     }
+    catch {
+        alert('Что-то сдохло, ничего не загрузилось')
+    }   
 }
