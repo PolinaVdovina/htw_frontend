@@ -132,6 +132,29 @@ export const getPersonalDataFetch = async (token, role: string) => {
 }
 
 
+export const getEmployeesListFetch = async (token) => {
+    let returnData;
+    try {
+        const response =  await axios.get("/employer/employee", {
+            headers:{
+                Authorization: 'Bearer ' + token
+            }
+        });
+
+        returnData = response.data; 
+        returnData["msgStatus"] = "ok"
+    }
+    catch
+    {
+        returnData =  {
+            msgStatus:"error",
+            error: "Какая-нибудь ошибка с сетью!"
+        };
+    }
+
+    return returnData;
+}
+
 export const changePersonalDataFetch = async (token, data, url?) => {
     try {
         url = url || '/account/set';

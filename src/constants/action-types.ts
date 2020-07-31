@@ -4,6 +4,7 @@ export const LOG_IN_ERROR : String = 'LOG_OUT';
 export const AUTH_FETCH_NOT_REQUIRED = 'AUTH_FETCH_NOT_REQUIRED'
 
 export const FILL_PERSONAL_DATA: String = 'FILL_PERSONAL_DATA';
+export const FILL_BONDMANS: String = 'FILL_BONDMANS';
 export const FILL_JOBSEEKER_NAME: String = 'FILL_JOBSEEKER_NAME';
 export const FILL_JOBSEEKER_BIRTHDAY: String = 'FILL_JOBSEEKER_BIRTDAY';
 

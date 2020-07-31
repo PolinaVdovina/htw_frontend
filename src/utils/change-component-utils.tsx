@@ -28,7 +28,9 @@ export const changeCompetenceSet = async ( dispatch, data ) => {
     const msgInfo: IMessageInfo = await changePersonalDataFetch(store.getState().authReducer.token, data, '/personal/competence/attach');
     //alert(msgInfo.msgStatus==MessageStatus.OK)
     if(msgInfo.msgStatus == MessageStatus.OK) {
-        const competenceSet: string[] = [...store.getState().userPersonalsReducer.competenceSet, ...data]
+        const competenceSetRaw: string[] = [...store.getState().userPersonalsReducer.competenceSet, ...data]
+        const uniqueSet = new Set(competenceSetRaw);
+        const competenceSet = Array.from(uniqueSet);
         await dispatch( fillPersonalDataAction({competenceSet: competenceSet}));
     }
     return msgInfo;
