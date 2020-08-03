@@ -155,6 +155,37 @@ export const getEmployeesListFetch = async (token) => {
     return returnData;
 }
 
+export const addEmployeeFetch = async (token, data) => {
+    let returnData;
+    try {
+        const response =  await axios.post("/employer/employee",             
+            
+                data,
+                
+                {
+                    headers: {
+                        Authorization: 'Bearer ' + token
+                    }
+                }           
+        
+        );
+
+        const msgInfo: IMessageInfo = {
+            msgStatus: response.data.error || (response.data.status && response.data.status == 'error') ?  MessageStatus.ERROR : MessageStatus.OK,
+            id: response.data
+        };
+        return  msgInfo;
+    }
+    catch
+    {
+        const msgInfo: IMessageInfo = {
+            msgStatus: MessageStatus.ERROR,
+            error: "Проблемы с соединением",
+        };
+        return  msgInfo;
+    }
+}
+
 export const changePersonalDataFetch = async (token, data, url?) => {
     try {
         url = url || '/account/set';
