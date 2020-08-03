@@ -42,6 +42,9 @@ const initialState : ICommonState = {
 
 export function userPersonalsReducer(state = initialState, action) : ICommonState {
     switch (action.type) {
+        case types.RESET_PERSONAL_DATA: 
+            return initialState
+
         case types.FILL_PERSONAL_DATA:
             return {
                 ...state,

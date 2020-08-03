@@ -5,6 +5,7 @@ interface IChangeExperience {
     onChange: (any) => void,
     type: string
     fullWidth?: boolean,
+    value?: any
 }
 
 export const listItems = (maxNum: number): string[] => {
@@ -39,7 +40,7 @@ export const ChangeExperience = (props : IChangeExperience) => {
         <TextField
           select
           size='small'
-          
+          value={props.value}
           onChange={(event) => props.onChange({[props.type]: event.target.value})}
           variant='outlined'
           style={{width: props.fullWidth ? "100%" : "150px"}}

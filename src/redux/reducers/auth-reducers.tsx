@@ -4,7 +4,7 @@ import { loginAction, errorAction, logoutAction, AuthFetchNotRequiredAction } fr
 import { startLoadingAction, stopLoadingAction } from '../actions/dialog-actions';
 import { registerFetch, isValidTokenFetch } from '../../utils/fetchFunctions';
 import { addressGlue, genderIntToStr } from '../../utils/appliedFunc';
-import { fillPersonalDataAction } from '../actions/user-personals';
+import { fillPersonalDataAction, resetPersonalDataAction } from '../actions/user-personals';
 import {loginFetch} from '../../utils/fetchFunctions'
 import { enqueueSnackbar as enqueueSnackbarAction} from '../actions/snackbar-action';
 import { getPersonalData } from './user-personals-reducers';
@@ -109,7 +109,8 @@ async (dispatch, getState) => {
     const result = await registerFetch(identity, email, phone, password, role);
 
     await dispatch(fillPersonalDataAction({
-
+        email,
+        phone
     }));
 
     if(result.msgStatus == "ok" && result.token) {
@@ -170,8 +171,8 @@ async (dispatch, getState) => {
 export const logout: () => void = () => 
 async (dispatch, getState) => {
     await dispatch(startLoadingAction());
-    
     await dispatch(logoutAction());
+    await dispatch(resetPersonalDataAction());
     clearAuth();
     await dispatch(stopLoadingAction());
 

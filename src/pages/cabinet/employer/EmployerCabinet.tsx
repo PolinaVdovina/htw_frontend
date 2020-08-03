@@ -74,7 +74,9 @@ export const VacancyTab = () => {
       <Grid container direction="row-reverse"  style={{padding: theme.spacing(2)}}>
         <VacancyEditorDialog
         onClose={() => setOpenVacancyDialog(false)} 
-        onSubmit={() => {}} 
+        onSubmitSuccess={() => {
+          setOpenVacancyDialog(false);
+        }} 
         open={openVacancyDialog}/>
         <Link component='button' onClick={()=>setOpenVacancyDialog(true)}>Добавить вакансию</Link>
       </Grid>

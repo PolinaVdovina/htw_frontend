@@ -82,7 +82,7 @@ export const ListEditor = (props: IListEditorProps) => {
             {
             props.elementValues && 
             props.elementValues.map((elementValue, index) => 
-                <Grid key={elementValue.id} container item direction="row">
+                <Grid key={elementValue.id} container item direction="row" style={{flexWrap:"nowrap"}}>
                     {index+1})
                     <TextField
                     onChange={

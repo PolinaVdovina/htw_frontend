@@ -84,19 +84,16 @@ const AccountCommonInfoComp = (props: IAccountCommonInfo) => {
     const context = React.useContext(CabinetContext);
     let name = '';
     //alert(JSON.stringify(context))
+    //alert(context.role)
     switch(context.role) {
-      case ("ROLE_JOBSEEKER"):
-        
+      default:
         if(context.surname)
           name = name + context.surname + " ";
         if(context.name)
           name = name + context.name + " ";
         if(context.middlename)
           name = name + context.middlename;
-        name = (name != '' ? name : "Название не указано");
-        break
-      case ("ROLE_EMPLOYEE"):
-        name = (context.name ? context.name : "Название не указано" );
+        name = (name != '' ? name : "ФИО не указано");
         break
       case "ROLE_INSTITUTION":
         name = (context.name ? context.name : "Название не указано");

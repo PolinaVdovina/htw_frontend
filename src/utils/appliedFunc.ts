@@ -22,6 +22,25 @@ export function addressGlue(data?) : string | null {
     return address;
 }
 
+export function strToAddressDictionary(str: string/*: string*/) {
+    let strArray = str.split(', ');
+    for (let i = 0; i<strArray.length; i++) {
+        if (strArray[i].endsWith('р-н'))
+            strArray.splice(i, 1);
+    }
+    let data = {
+        address: {
+            country: 'Россия',
+            region: strArray[0] ? strArray[0] : null,
+            city: strArray[1] ? strArray[1].replace('г ', '') : null,
+            street: strArray[2] ? strArray[2] : null,
+            house: strArray[3] ? strArray[3].replace('д ', '') : null,
+            flat: strArray[4] ? strArray[4].replace('кв ', '') : null,
+        }
+    };
+    return data;
+}
+
 const genderLabels = ["Мужской", "Женский", "Другое"]
 
 export function genderIntToStr(gender: number | null) {
