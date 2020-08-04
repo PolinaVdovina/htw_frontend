@@ -37,7 +37,6 @@ interface ICabinetProps {
     }
 }
 
-
 function mapStateToProps(state : RootState) {
     let data =  {
         myLogin: state.authReducer.login,
@@ -91,6 +90,7 @@ const CabinetComp = (props : ICabinetProps) => {
         const fetchData = async() => {
             if(props.myToken) {
                 const requestData = await getAccountDataFetch(props.myToken, urlLogin);
+                alert("Я У МАМЫ ФЕТЧЕР")
                 let field = ""
                 switch(requestData.roles) {
                     case "ROLE_JOBSEEKER":
@@ -123,11 +123,10 @@ const CabinetComp = (props : ICabinetProps) => {
                 
             }
             else {
-                
                 fetchData();
             }
         }
-      }, [isMine(), props.reduxPersonalData])
+      }, [props.myLogin, isMine()])
     //alert(JSON.stringify(props.reduxPersonalData));
     return (
         <HCenterizingGrid>
