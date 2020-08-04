@@ -47,13 +47,15 @@ export const EmployeeListRaw = (props : IEmployeeList) => {
 
     return(
         <Grid style={{padding: theme.spacing(2)}} container direction='column'> 
-        {props.employees.map(employee => 
+        {props.employees[0] &&
+        props.employees.map(employee => 
             <Grid item container style={{padding: theme.spacing(1)}} direction='row' alignItems='center'>
                 <Avatar></Avatar>
                 <Link 
-                    component='button' 
+                    //component='button' 
                     style={{marginLeft: theme.spacing(2)}} 
-                    //href={'cabinet/'+employee.login}
+                    href={employee.login}
+                    //href='/vfv'
                     color='inherit'
                     underline='none'
                     variant='h6'
@@ -63,7 +65,7 @@ export const EmployeeListRaw = (props : IEmployeeList) => {
                         ((employee.name ? employee.name : '') + ' ' +
                         (employee.middlename ? employee.middlename : '') + ' ' +
                         (employee.surname ? employee.surname : ''))
-                        : 'Не задано'
+                        : employee.login
                     }
                 </Link>
             </Grid>

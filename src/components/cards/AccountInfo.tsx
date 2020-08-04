@@ -170,15 +170,23 @@ class AccountInfoComp extends React.Component<IPropsAccountInfo, IStateAccountIn
                         }
                         { !Array.isArray(this.context[key]) && 
                         <Grid item container direction='row' spacing={2}  style={{flexWrap:"nowrap"}}>                             
-                            
                             <Grid item style={{flexGrow:1, overflowX:"auto"}}>
-                                <Typography >
-                                    {
-                                        this.context[key] ?
+                                {!this.context.links[key] &&
+                                    <Typography>
+                                        {
+                                            (this.context[key] ?
+                                                (this.context[key].indexOf('null') == -1) ? this.context[key] : 'Не задано' :
+                                                'Не задано')
+                                        }
+                                    </Typography>
+                                }
+                                {this.context.links[key] &&
+                                    <Link>
+                                        {this.context[key] ?
                                             (this.context[key].indexOf('null') == -1) ? this.context[key] : 'Не задано' :
-                                            'Не задано'
-                                    }
-                                </Typography>
+                                            'Не задано'}
+                                    </Link>
+                                }                                
                             </Grid>
                             { SETTINGS[this.props.role][key].changeComponent && <>
                                 {
