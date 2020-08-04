@@ -109,7 +109,7 @@ export function accountRequestToEntityDictionary(data, role) {
                     address: data.address,
                     inn: data.inn,
                     ogrn: data.ogrn,
-                    types: data.types
+                    types: data.types ? data.types.map(type => type.name) : null
                 }
                 break
     
@@ -119,9 +119,11 @@ export function accountRequestToEntityDictionary(data, role) {
                     surname: data.surname, 
                     middlename: data.middlename, 
                     phone: data.contactDetails ? data.contactDetails.phone : null, 
-                    email: data.contactDetails ? data.contactDetails.email : null,
-                    employerName: data.employer ? data.employer.name : null,
-                    employerLogin: data.employer ? data.employer.login : null
+                    email: data.contactDetails ? data.contactDetails.email : null, 
+                    employer: data.employer ? data.employer.name : null,
+                    links: {
+                        employer: data.employer ? data.employer.login : null
+                    }
                 }
                 break
         }

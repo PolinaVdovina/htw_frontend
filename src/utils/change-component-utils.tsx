@@ -36,6 +36,17 @@ export const changeCompetenceSet = async ( dispatch, data ) => {
     return msgInfo;
 }
 
+export const changeTypesEdu = async ( dispatch, data ) => {
+    const msgInfo: IMessageInfo = await changePersonalDataFetch(store.getState().authReducer.token, data, '/institution/type');
+    if(msgInfo.msgStatus == MessageStatus.OK) {
+        const typesEduMassRaw: string[] = [...store.getState().userPersonalsReducer.types, ...data]
+        const uniqueSet = new Set(typesEduMassRaw);
+        const typesEduMass = Array.from(uniqueSet);
+        await dispatch( fillPersonalDataAction({types: typesEduMass}));
+    }
+    return msgInfo;
+}
+
 export const deleteCompetence = async ( dispatch, data ) => {
     const msgInfo: IMessageInfo = await changePersonalDataFetch(store.getState().authReducer.token, [data], '/personal/competence/detach');
     if(msgInfo.msgStatus == MessageStatus.OK) {
@@ -44,6 +55,18 @@ export const deleteCompetence = async ( dispatch, data ) => {
             if (competenceSet[i] == data) 
             competenceSet.splice(i, 1);
         await dispatch( fillPersonalDataAction({competenceSet: competenceSet}));
+    }
+    return msgInfo;
+}
+
+export const deleteTypeEdu = async ( dispatch, data ) => {
+    const msgInfo: IMessageInfo = await deletePersonalDataFetch(store.getState().authReducer.token, [data], '/institution/type');
+    if(msgInfo.msgStatus == MessageStatus.OK) {
+        const typesEduMassRaw = [...store.getState().userPersonalsReducer.types]
+        for (let i = 0; i < typesEduMassRaw.length; i++)
+            if (typesEduMassRaw[i] == data) 
+            typesEduMassRaw.splice(i, 1);
+        await dispatch( fillPersonalDataAction({types: typesEduMassRaw}));
     }
     return msgInfo;
 }

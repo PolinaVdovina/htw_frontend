@@ -58,10 +58,8 @@ function mapStateToProps(state : RootState) {
             types: state.userPersonalsReducer.types,
             experience: state.userPersonalsReducer.experience,
             competenceSet: state.userPersonalsReducer.competenceSet,
-            employer: state.userPersonalsReducer.employerName,
-            links: {
-                employer: state.userPersonalsReducer.employerLogin
-            }    
+            employer: state.userPersonalsReducer.employer,
+            links: state.userPersonalsReducer.links                 
         }
     }
     // data.reduxPersonalData['name'] = '';

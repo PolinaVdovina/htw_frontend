@@ -4,7 +4,7 @@ import { ChangeName } from "./changeMiniComponents/ChangeName";
 import { ChangeBirth } from "./changeMiniComponents/ChangeBirth";
 import { settingsEmail, settingsPhone, settingsName, settingsBirth, settingsAddress, settingsNameOrg, settingsInn, settingsOgrn, settingsDescription, settingsGender, settingsTypesEdu, settingsExperience, settingsCompetenceSet } from "./changeMiniComponents/changeSettings";
 import { validateEmail, validatePhone, validateName, validateDate, validateAddress, validateInn, validateNameOrg, validateOgrn } from "../../utils/validateFunctions";
-import { changeJobSeekerData, changeJobSeekerAddress, changeJobSeekerContactDetails, changeGender, changeEmployerAddress, deleteEmployerAddress, changeCompetenceSet, deleteCompetence } from "../../utils/change-component-utils";
+import { changeJobSeekerData, changeJobSeekerAddress, changeJobSeekerContactDetails, changeGender, changeEmployerAddress, deleteEmployerAddress, changeCompetenceSet, deleteCompetence, changeTypesEdu, deleteTypeEdu } from "../../utils/change-component-utils";
 import { ChangeGender } from './changeMiniComponents/ChangeGender';
 import { ChangeMultiSelect } from "./changeMiniComponents/ChangeMultiSelect";
 import { ChangeExperience } from "./changeMiniComponents/ChangeExperience";
@@ -135,7 +135,8 @@ export const SETTINGS = {
             changeComponent: ChangeMultiSelect,
             changeSettings: settingsTypesEdu,
             validateFunction: validateDate,
-            //changeFunction:
+            changeFunction: changeTypesEdu,
+            deleteFunction: deleteTypeEdu
         }
     }
 }

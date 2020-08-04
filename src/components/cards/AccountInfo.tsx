@@ -118,18 +118,8 @@ class AccountInfoComp extends React.Component<IPropsAccountInfo, IStateAccountIn
     }
 
     render() {
-        
-        //alert(this.props.name)
-        //alert(JSON.stringify(this.props.data.address))
         return( 
-
-            <Grid style={{padding:this.props.theme.spacing(2)}} container direction='column'>  
-{alert(JSON.stringify(this.context))}
-                {/*<Grid item>
-                    <Typography variant='h5'>
-                        {this.props.title ? this.props.title : "Общие данные"}
-                    </Typography>    
-                </Grid>  */}        
+            <Grid style={{padding:this.props.theme.spacing(2)}} container direction='column'>        
                 { this.props.settingsView.map(key => <>
                     <Grid container item direction="column" style={{marginBottom: this.props.theme.spacing(2)}}>
                         <Grid item container direction='row' style={{flexWrap:"nowrap"}}>
@@ -171,7 +161,7 @@ class AccountInfoComp extends React.Component<IPropsAccountInfo, IStateAccountIn
                         { !Array.isArray(this.context[key]) && 
                         <Grid item container direction='row' spacing={2}  style={{flexWrap:"nowrap"}}>                             
                             <Grid item style={{flexGrow:1, overflowX:"auto"}}>
-                                {!this.context.links[key] &&
+                                {(!this.context.links || !this.context.links[key]) &&
                                     <Typography>
                                         {
                                             (this.context[key] ?
@@ -180,7 +170,7 @@ class AccountInfoComp extends React.Component<IPropsAccountInfo, IStateAccountIn
                                         }
                                     </Typography>
                                 }
-                                {this.context.links[key] &&
+                                {(this.context.links && this.context.links[key]) &&
                                     <Link>
                                         {this.context[key] ?
                                             (this.context[key].indexOf('null') == -1) ? this.context[key] : 'Не задано' :
