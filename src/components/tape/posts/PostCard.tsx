@@ -84,16 +84,18 @@ export const PostCard = (props: IPostProps) => {
               </IconButton>
             </Grid>
           </Grid>
-            <Collapse in={open}>
-              <div style={{marginTop:theme.spacing(2)}}>
-                {props.postData.body?.map(
-                  (el, index) => <>
-                      <el.Component key={index} data={el.data}/>
-                      {index+1 != props.postData.body?.length && <br/>}
-                    </>
-                )}
-              </div>
-            </Collapse>
+          {props.postData.body && props.postData.body.length > 1 && 
+          <Collapse in={open}>
+            <div style={{marginTop:theme.spacing(2)}}>
+              {props.postData.body?.map(
+                (el, index) => <>
+                    <el.Component key={index} data={el.data}/>
+                    {index+1 != props.postData.body?.length && <br/>}
+                  </>
+              )}
+            </div>
+          </Collapse>
+          }
         </div>
     )
 }

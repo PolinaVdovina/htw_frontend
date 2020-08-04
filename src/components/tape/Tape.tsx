@@ -4,7 +4,7 @@ import { Redirect } from 'react-router';
 import { IPostData, PostCard } from './posts/PostCard';
 
 interface ITapeProps {
-  posts?: Array<IPostData>
+  posts?: Array<IPostData> | null
 }
 
 

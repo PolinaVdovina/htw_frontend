@@ -13,6 +13,8 @@ import { ListInPost } from '../../../components/tape/posts/post-body-elements/Li
 import { PostCard,IPostData } from './../../../components/tape/posts/PostCard';
 import { VacancyEditorDialog } from '../../../components/vacancy-editor/VacancyEditorDialog';
 import { theme } from '../../../theme';
+import { EmployeeList } from '../../../components/entityList/EmployeesList';
+import { VacancyTab } from './../../../components/vacancy-editor/VacancyTab';
 
 
 interface IEmployerCabinet {
@@ -66,24 +68,24 @@ const testPosts: Array<IPostData> = [
   }
 ]
 
-export const VacancyTab = () => {
-  const theme = useTheme();
-  const [openVacancyDialog, setOpenVacancyDialog] = React.useState(false);
-  return (
-    <>
-      <Grid container direction="row-reverse"  style={{padding: theme.spacing(2)}}>
-        <VacancyEditorDialog
-        onClose={() => setOpenVacancyDialog(false)} 
-        onSubmitSuccess={() => {
-          setOpenVacancyDialog(false);
-        }} 
-        open={openVacancyDialog}/>
-        <Link component='button' onClick={()=>setOpenVacancyDialog(true)}>Добавить вакансию</Link>
-      </Grid>
-      <Divider/>
-      <Tape posts={testPosts}/>
-    </>)
-}
+// export const VacancyTab = () => {
+//   const theme = useTheme();
+//   const [openVacancyDialog, setOpenVacancyDialog] = React.useState(false);
+//   return (
+//     <>
+//       <Grid container direction="row-reverse"  style={{padding: theme.spacing(2)}}>
+//         <VacancyEditorDialog
+//         onClose={() => setOpenVacancyDialog(false)} 
+//         onSubmitSuccess={() => {
+//           setOpenVacancyDialog(false);
+//         }} 
+//         open={openVacancyDialog}/>
+//         <Link component='button' onClick={()=>setOpenVacancyDialog(true)}>Добавить вакансию</Link>
+//       </Grid>
+//       <Divider/>
+//       <Tape posts={testPosts}/>
+//     </>)
+// }
 
 
 
@@ -96,7 +98,7 @@ const tabs: Array<ITabData> = [
   {
     label: "Сотрудники",
     //IconComponent: <PersonPinIcon/>,
-    TabPanel: <Tape posts={testPosts}/>
+    TabPanel: <EmployeeList/>
   },
   {
     label: "Вакансии",

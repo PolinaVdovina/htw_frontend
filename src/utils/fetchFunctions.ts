@@ -123,6 +123,60 @@ export const getPersonalDataFetch = async (token, role: string) => {
 }
 
 
+export const getEmployeesListFetch = async (token) => {
+    let returnData;
+    try {
+        const response =  await axios.get("/employer/employee", {
+            headers:{
+                Authorization: 'Bearer ' + token
+            }
+        });
+
+        returnData = response.data; 
+        returnData["msgStatus"] = "ok"
+    }
+    catch
+    {
+        returnData =  {
+            msgStatus:"error",
+            error: "Какая-нибудь ошибка с сетью!"
+        };
+    }
+
+    return returnData;
+}
+
+export const addEmployeeFetch = async (token, data) => {
+    let returnData;
+    try {
+        const response =  await axios.post("/employer/employee",             
+            
+                data,
+                
+                {
+                    headers: {
+                        Authorization: 'Bearer ' + token
+                    }
+                }           
+        
+        );
+
+        const msgInfo: IMessageInfo = {
+            msgStatus: response.data.error || (response.data.status && response.data.status == 'error') ?  MessageStatus.ERROR : MessageStatus.OK,
+            id: response.data
+        };
+        return  msgInfo;
+    }
+    catch
+    {
+        const msgInfo: IMessageInfo = {
+            msgStatus: MessageStatus.ERROR,
+            error: "Проблемы с соединением",
+        };
+        return  msgInfo;
+    }
+}
+
 export const changePersonalDataFetch = async (token, data, url?) => {
     try {
         url = url || '/account/set';
@@ -254,5 +308,20 @@ export const addVacancyFetch = async(token: string, vacancyData) => {
             error: "Проблемы с соединением",
         };
         return  msgInfo;
+    }
+}
+
+
+export const getOwnVacanciesFetch = async (token: string) => {
+    try {
+        const result = await axios.get("/vacancy/getOwn",
+        {
+            headers: {Authorization: 'Bearer ' + token},
+        });
+        //alert(JSON.stringify(userData.data))
+        return result.data;
+    }
+    catch {
+        return null;
     }
 }

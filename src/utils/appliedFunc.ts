@@ -1,3 +1,8 @@
+import { IPostData } from "../components/tape/posts/PostCard";
+import { IBodyElement } from './../components/tape/posts/PostCard';
+import { ParagraphInPost } from './../components/tape/posts/post-body-elements/ParagraphInPost';
+import { ListInPost } from './../components/tape/posts/post-body-elements/ListInPost';
+
 export function addressGlue(data?) : string | null {
     let address: string | null = null;
 
@@ -59,63 +64,132 @@ export function genderStrToInt(gender: string | null) {
 }
 
 export function accountRequestToEntityDictionary(data, role) {
+    try {
+        switch(role) {
+            case "ROLE_JOBSEEKER":
+                let parsedData = {
+                    name: data.name, 
+                    surname: data.surname, 
+                    middlename: data.middlename, 
+                    dateBirth: data.dateBirth, 
+                    phone: data.contactDetails.phone, 
+                    email: data.contactDetails.email,
+                    about: data.about,
+                    address: addressGlue(data.address),
+                    gender: genderIntToStr(data.gender),
+                    experience: data.experience,
+                    competenceSet: data.competenceSet.map(elem => elem.name)
+                    //id: data.id
+                }
+                // parsedData['name'] = '';
+                // if(data.name)
+                //     parsedData['name'] += data.name + " ";
+                // if(data.surname)
+                //     parsedData['name'] += data.surname + " ";
+                // if(data.middlename)
+                //     parsedData['name'] += data.middlename;
+                return parsedData;
+            case "ROLE_EMPLOYER":
+                return {
+                    name: data.name, 
+                    phone: data.contactDetails.phone, 
+                    email: data.contactDetails.email,
+                    about: data.about,
+                    address: data.address,
+                    inn: data.inn,
+                    ogrn: data.ogrn
     
-    switch(role) {
-        case "ROLE_JOBSEEKER":
-            let parsedData = {
-                name: data.name, 
-                surname: data.surname, 
-                middlename: data.middlename, 
-                dateBirth: data.dateBirth, 
-                phone: data.contactDetails.phone, 
-                email: data.contactDetails.email,
-                about: data.about,
-                address: addressGlue(data.address),
-                gender: genderIntToStr(data.gender),
-                experience: data.experience,
-                competenceSet: data.competenceSet.map(elem => elem.name)
-                //id: data.id
-            }
-            // parsedData['name'] = '';
-            // if(data.name)
-            //     parsedData['name'] += data.name + " ";
-            // if(data.surname)
-            //     parsedData['name'] += data.surname + " ";
-            // if(data.middlename)
-            //     parsedData['name'] += data.middlename;
-            return parsedData;
-        case "ROLE_EMPLOYER":
-            return {
-                name: data.name, 
-                phone: data.contactDetails.phone, 
-                email: data.contactDetails.email,
-                about: data.about,
-                address: data.address,
-                inn: data.inn,
-                ogrn: data.ogrn
-
-            }
-        case "ROLE_INSTITUTION":
-            return {
-                name: data.name, 
-                phone: data.contactDetails.phone, 
-                email: data.contactDetails.email,
-                about: data.about,
-                address: data.address,
-                inn: data.inn,
-                ogrn: data.ogrn,
-                types: data.types
-            }
-            break
-
-        case "ROLE_EMPLOYEE":
-            return {
-                name: data.name, 
-                surname: data.surname, 
-                middlename: data.middlename, 
-                phone: data.contactDetails.phone, 
-                email: data.contactDetails.email,
-            }
-            break
+                }
+            case "ROLE_INSTITUTION":
+                return {
+                    name: data.name, 
+                    phone: data.contactDetails.phone, 
+                    email: data.contactDetails.email,
+                    about: data.about,
+                    address: data.address,
+                    inn: data.inn,
+                    ogrn: data.ogrn,
+                    types: data.types
+                }
+                break
+    
+            case "ROLE_EMPLOYEE":
+                return {
+                    name: data.name, 
+                    surname: data.surname, 
+                    middlename: data.middlename, 
+                    phone: data.contactDetails ? data.contactDetails.phone : null, 
+                    email: data.contactDetails ? data.contactDetails.email : null,
+                    //employer: data.employer
+                }
+                break
+        }
     }
+    catch {
+        alert('Что-то сдохло, ничего не загрузилось')
+    }   
+}
+
+interface IVacancy {
+    id?: number,
+    phone?: string,
+    position?: string,
+    employerAccountLogin?: string,
+    employerName?: string,
+    createdAt?: string,
+    description?: string,
+    demands?: Array<string>,
+    duties?: Array<string>,
+    competences?: Array<string>,
+    minSalary: number,
+    maxSalary: number,
+}
+
+export function vacancyToPost(vacancyData: IVacancy): IPostData {
+    let postBody : Array<IBodyElement> = [
+        {
+            Component:ParagraphInPost,
+            data: {
+                description: vacancyData.description
+            }
+        },        
+    ];
+
+    if(vacancyData.demands && vacancyData.demands.length > 0)
+        postBody.push({
+            Component:ListInPost,
+            data: {
+                title: "Требуемые навыки",
+                items: vacancyData.demands,
+            }
+        })
+
+    if(vacancyData.duties && vacancyData.duties.length > 0)
+        postBody.push({
+            Component:ListInPost,
+            data: {
+                title: "Обязанности",
+                items: vacancyData.duties,
+            }
+        })
+
+    if(vacancyData.competences && vacancyData.competences.length > 0)
+        postBody.push({
+            Component:ListInPost,
+            data: {
+                title: "Компетенции",
+                items: vacancyData.competences,
+            }
+        })
+
+    return {
+        shortDescription: vacancyData.position + (vacancyData.maxSalary ? ( ", " + vacancyData.maxSalary + "р") : ""),
+        owner: vacancyData.employerName ? vacancyData.employerName : vacancyData.employerAccountLogin,
+        createdAt: vacancyData.createdAt?.slice(0,10),
+        body: postBody
+    }
+}
+
+export function vacanciesToPostList(vacancies: Array<IVacancy>) {
+    return vacancies.map(vacancy => vacancyToPost(vacancy))
 }
