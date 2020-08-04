@@ -96,7 +96,8 @@ export function accountRequestToEntityDictionary(data, role) {
                     middlename: data.middlename, 
                     phone: data.contactDetails ? data.contactDetails.phone : null, 
                     email: data.contactDetails ? data.contactDetails.email : null,
-                    //employer: data.employer
+                    employerName: data.employer ? data.employer.name : null,
+                    employerLogin: data.employer ? data.employer.login : null
                 }
                 break
         }
