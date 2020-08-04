@@ -30,7 +30,7 @@ export const TabsPaper = (props: ITabsPaperProps) => {
             onChange={(event, value) => setActiveTab(value)}>
                 {
                     props.tabs.map(
-                        (tabData, index) => <Tab icon={tabData.IconComponent} value={index} style={{fontSize: "10px", minWidth:"0px"}} label={tabData.label}/>
+                        (tabData, index) => <Tab key={index} icon={tabData.IconComponent} value={index} style={{fontSize: "10px", minWidth:"0px"}} label={tabData.label}/>
                     )
                 }
             </Tabs>

@@ -92,17 +92,15 @@ const DrawerListButtons = (props) => {
     return ( 
         <List className={classes.listButtons}>
         {
-          drawerElementsDict.map(el => 
-              <>
-              <ListItem button 
+          drawerElementsDict.map((el,index) => 
+              <ListItem  key={index} button 
               {...{component:el.url&&NavLink, to:el.url + (el.addLogin ? props.login : '') || null}} 
               onClick={()=>{el.func && el.func(dispatch)}}>
                   <ListItemIcon>
                       <el.IconComponent/>
                   </ListItemIcon>
                   <ListItemText primary={el.title}/>
-              </ListItem>
-              </>
+              </ListItem >
           )
         }
         </List>
@@ -115,6 +113,7 @@ interface IAppMenuList {
     name: string,
     surname: string,
     login?: string | null,
+    role?: string | null
 }
 
 function mapStateToProps(state : RootState) {
@@ -123,13 +122,14 @@ function mapStateToProps(state : RootState) {
     surname: state.userPersonalsReducer.surname,
     login: state.authReducer.login,
     token: state.authReducer.token,
+    role: state.authReducer.entityType,
   }
 }
 
 const AppMenuListComp = (props: IAppMenuList) => {
     const classes = useStyles();
     const theme = useTheme();
-  const login = 10;
+    const login = 10;
     return (
         <Grid container direction="column" className={classes.rootGrid}>
             <Grid container item alignItems="center" direction="row" className={classes.avatarGrid}>
@@ -140,7 +140,8 @@ const AppMenuListComp = (props: IAppMenuList) => {
                 style={{marginRight:theme.spacing(2)}}/>
         
                 <Typography style={{flexGrow:1, width:"min-content", color:"white"}}>
-                  {(props.name && props.surname) ? props.name + ' ' + props.surname : props.login}
+                  {(props.role == "ROLE_JOBSEEKER" || props.role == "EMPLOYEE") && ((props.name && props.surname) ? props.surname + ' ' + props.name : props.login)}
+                  {(props.role == "ROLE_EMPLOYER" || props.role == "ROLE_INSTITUTION") && (props.name ? props.name : props.login)}
                 </Typography>
         
             </Grid>

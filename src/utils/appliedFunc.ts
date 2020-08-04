@@ -1,3 +1,8 @@
+import { IPostData } from "../components/tape/posts/PostCard";
+import { IBodyElement } from './../components/tape/posts/PostCard';
+import { ParagraphInPost } from './../components/tape/posts/post-body-elements/ParagraphInPost';
+import { ListInPost } from './../components/tape/posts/post-body-elements/ListInPost';
+
 export function addressGlue(data?) : string | null {
     let address: string | null = null;
 
@@ -20,6 +25,25 @@ export function addressGlue(data?) : string | null {
     }
 
     return address;
+}
+
+export function strToAddressDictionary(str: string/*: string*/) {
+    let strArray = str.split(', ');
+    for (let i = 0; i<strArray.length; i++) {
+        if (strArray[i].endsWith('р-н'))
+            strArray.splice(i, 1);
+    }
+    let data = {
+        address: {
+            country: 'Россия',
+            region: strArray[0] ? strArray[0] : null,
+            city: strArray[1] ? strArray[1].replace('г ', '') : null,
+            street: strArray[2] ? strArray[2] : null,
+            house: strArray[3] ? strArray[3].replace('д ', '') : null,
+            flat: strArray[4] ? strArray[4].replace('кв ', '') : null,
+        }
+    };
+    return data;
 }
 
 const genderLabels = ["Мужской", "Женский", "Другое"]
@@ -105,4 +129,68 @@ export function accountRequestToEntityDictionary(data, role) {
     catch {
         alert('Что-то сдохло, ничего не загрузилось')
     }   
+}
+
+interface IVacancy {
+    id?: number,
+    phone?: string,
+    position?: string,
+    employerAccountLogin?: string,
+    employerName?: string,
+    createdAt?: string,
+    description?: string,
+    demands?: Array<string>,
+    duties?: Array<string>,
+    competences?: Array<string>,
+    minSalary: number,
+    maxSalary: number,
+}
+
+export function vacancyToPost(vacancyData: IVacancy): IPostData {
+    let postBody : Array<IBodyElement> = [
+        {
+            Component:ParagraphInPost,
+            data: {
+                description: vacancyData.description
+            }
+        },        
+    ];
+
+    if(vacancyData.demands && vacancyData.demands.length > 0)
+        postBody.push({
+            Component:ListInPost,
+            data: {
+                title: "Требуемые навыки",
+                items: vacancyData.demands,
+            }
+        })
+
+    if(vacancyData.duties && vacancyData.duties.length > 0)
+        postBody.push({
+            Component:ListInPost,
+            data: {
+                title: "Обязанности",
+                items: vacancyData.duties,
+            }
+        })
+
+    if(vacancyData.competences && vacancyData.competences.length > 0)
+        postBody.push({
+            Component:ListInPost,
+            data: {
+                title: "Компетенции",
+                items: vacancyData.competences,
+            }
+        })
+
+    return {
+        shortDescription: vacancyData.position + (vacancyData.maxSalary ? ( ", " + vacancyData.maxSalary + "р") : ""),
+        owner: vacancyData.employerName ? vacancyData.employerName : vacancyData.employerAccountLogin,
+        createdAt: vacancyData.createdAt?.slice(0,10),
+        body: postBody
+    }
+}
+
+export function vacanciesToPostList(vacancies: Array<IVacancy>) {
+    return vacancies.map(vacancy => vacancyToPost(vacancy))
 }

@@ -4,7 +4,7 @@ import { Redirect } from 'react-router';
 import { IPostData, PostCard } from './posts/PostCard';
 
 interface ITapeProps {
-  posts?: Array<IPostData>
+  posts?: Array<IPostData> | null
 }
 
 
@@ -24,8 +24,8 @@ export const Tape = (props: ITapeProps) => {
     return (
         <Grid  container direction="column">
           {
-            props.posts && props.posts.map( postData =>
-              <><PostCard postData={postData} style={{padding: theme.spacing(2)}}/> <Divider/> </> 
+            props.posts && props.posts.map( (postData, index) =>
+              <><PostCard key={"a"+index} postData={postData} style={{padding: theme.spacing(2)}}/> <Divider key={"b"+index}/> </> 
             )
           }
         </Grid>

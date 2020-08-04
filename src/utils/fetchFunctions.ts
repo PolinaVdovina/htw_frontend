@@ -10,8 +10,6 @@ interface ILoginResponse {
     role?: string
 }
 
-
-
 export const loginFetch = async (identity, password) => {
     let returnData: ILoginResponse;
     try {
@@ -19,8 +17,6 @@ export const loginFetch = async (identity, password) => {
             login: identity,
             password: password,
         });
-
-       
 
         if(response.data.token && response.data.accountLogin) {
             returnData =  {
@@ -46,15 +42,12 @@ export const loginFetch = async (identity, password) => {
     return returnData;
 }
 
-
 interface IRegisterResponse {
     login?: string,
     token?: string,
     msgStatus?: string,
     error?: string,
 }
-
-
 
 export const registerFetch = async (login, email, phone, password, role) => {
     let returnData: IRegisterResponse;
@@ -66,8 +59,6 @@ export const registerFetch = async (login, email, phone, password, role) => {
             password,
             roles:role,
         });
-
-        
 
         if(response.data.token) {
             returnData =  {
@@ -296,3 +287,41 @@ export const getAccountDataFetch = async (token: string, login: string) => {
     }
 }
 
+
+export const addVacancyFetch = async(token: string, vacancyData) => {
+    try {
+        const response = await axios.post("/vacancy/add",  vacancyData,
+            {
+                headers: {Authorization: 'Bearer ' + token},
+            }
+        );
+        
+        const msgInfo: IMessageInfo = {
+            msgStatus: response.data.error || (response.data.status && response.data.status == 'error') ?  MessageStatus.ERROR : MessageStatus.OK,
+            id: response.data
+        };
+        return  msgInfo;
+    }
+    catch {
+        const msgInfo: IMessageInfo = {
+            msgStatus: MessageStatus.ERROR,
+            error: "Проблемы с соединением",
+        };
+        return  msgInfo;
+    }
+}
+
+
+export const getOwnVacanciesFetch = async (token: string) => {
+    try {
+        const result = await axios.get("/vacancy/getOwn",
+        {
+            headers: {Authorization: 'Bearer ' + token},
+        });
+        //alert(JSON.stringify(userData.data))
+        return result.data;
+    }
+    catch {
+        return null;
+    }
+}

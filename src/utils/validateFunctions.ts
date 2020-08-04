@@ -100,6 +100,21 @@ export function validateInn(data: any): boolean {
     else return false;
 }
 
+export function validateNumber(data: any): boolean {
+    let value;
+    if (data.value) value = data.value;
+    else value = data;
+    if (value) {
+        if(value.length > 1 && value[0]=='0')
+            return false;
+        else if (!value.match(/^[0-9]+$/)) return false;
+            else return true;
+    }
+    else return false;
+}
+
+
+
 export function validateOgrn(data: any): boolean {
     let ogrn;
     if (data.ogrn) ogrn = data.ogrn;
