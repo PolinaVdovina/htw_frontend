@@ -124,7 +124,7 @@ class AccountInfoComp extends React.Component<IPropsAccountInfo, IStateAccountIn
         return( 
 
             <Grid style={{padding:this.props.theme.spacing(2)}} container direction='column'>  
-
+{alert(JSON.stringify(this.context))}
                 {/*<Grid item>
                     <Typography variant='h5'>
                         {this.props.title ? this.props.title : "Общие данные"}
