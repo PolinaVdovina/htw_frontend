@@ -79,15 +79,7 @@ export function accountRequestToEntityDictionary(data, role) {
                     gender: genderIntToStr(data.gender),
                     experience: data.experience,
                     competenceSet: data.competenceSet.map(elem => elem.name)
-                    //id: data.id
                 }
-                // parsedData['name'] = '';
-                // if(data.name)
-                //     parsedData['name'] += data.name + " ";
-                // if(data.surname)
-                //     parsedData['name'] += data.surname + " ";
-                // if(data.middlename)
-                //     parsedData['name'] += data.middlename;
                 return parsedData;
             case "ROLE_EMPLOYER":
                 return {

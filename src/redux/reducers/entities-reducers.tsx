@@ -29,8 +29,15 @@ export function entitiesReducer(state = initialState, action) : ICommonState {
 
 export const getEmployeesData: (token: string) => void = (token) => 
 async (dispatch, getState) => {
-
     dispatch(startLoadingAction());
+    const role = getState().authReducer.entityType;
+    switch (role) {
+        case "ROLE_EMPLOYER":
+            const employeesListData = await getEmployeesListFetch(getState().authReducer.token);  
+            await dispatch(fillEntityDataAction({
+                employees: employeesListData
+            }));
+    }
 
     const employeesListData = await getEmployeesListFetch(getState().authReducer.token);           
 

@@ -52,10 +52,8 @@ export const EmployeeListRaw = (props : IEmployeeList) => {
             <Grid item container style={{padding: theme.spacing(1)}} direction='row' alignItems='center'>
                 <Avatar></Avatar>
                 <Link 
-                    //component='button' 
                     style={{marginLeft: theme.spacing(2)}} 
                     href={employee.login}
-                    //href='/vfv'
                     color='inherit'
                     underline='none'
                     variant='h6'
