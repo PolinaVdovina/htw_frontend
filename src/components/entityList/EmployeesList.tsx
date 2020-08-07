@@ -6,6 +6,7 @@ import { getEmployeesData } from '../../redux/reducers/entities-reducers';
 import AddIcon from '@material-ui/icons/Add';
 import { RegMiniComponent } from './RegMiniComponent';
 
+import { Link as RouterLink, LinkProps as RouterLinkProps, NavLink } from 'react-router-dom';
 interface IEmployeeList {
     token,
     employees,
@@ -54,7 +55,8 @@ export const EmployeeListRaw = (props : IEmployeeList) => {
                 <Link 
                     //component='button' 
                     style={{marginLeft: theme.spacing(2)}} 
-                    href={employee.login}
+                    component={NavLink}
+                    to={employee.login}
                     //href='/vfv'
                     color='inherit'
                     underline='none'

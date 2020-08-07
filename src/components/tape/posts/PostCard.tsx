@@ -6,26 +6,35 @@ import { BodyElementComp } from './post-body-elements/post-body-element';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import { useTheme } from '@material-ui/core';
+import DeleteIcon from '@material-ui/icons/Delete';
 
 export interface IBodyElement {
   data?: any,
   Component: BodyElementComp,
 }
 
+type SubButtonType = {
+  IconComponent: any,
+  key: string
+}
+
 export interface IPostData {
+  id?: any,
   title?: string,
   body?: Array<IBodyElement>,
   fileList?: FileList,
   createdAt?: string,
   lastChange?: string,
   owner?: string,    
-  shortDescription?: string
+  shortDescription?: string,
 }
 
-interface IPostProps {
+export interface IPostProps {
   postData: IPostData,
   style: any,
-  isOpenedDefaut?: boolean
+  isOpenedDefaut?: boolean,
+  onDeleteClick?: (postId: any ) => void,
+  onChangeClick?: (postId: any ) => void
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -49,6 +58,10 @@ const useStyles = makeStyles((theme: Theme) =>
       maxHeight: "0px",
       overflow:"hidden",
       transition: "all 1s ease-out",
+    },
+    button: {
+      width: "32px",
+      height: "32px",
     }
   }),
 );
@@ -73,13 +86,22 @@ export const PostCard = (props: IPostProps) => {
             </Grid>
             {props.postData.shortDescription &&
             <Grid item>
-              <Typography style={{fontSize:"14px"}}>
+              <Typography style={{fontSize:"12px"}}>
                 {props.postData.shortDescription}
               </Typography>
             </Grid>
             }
             <Grid item>
-              <IconButton onClick={() => setOpen(!open)}>
+              {  props.onDeleteClick &&
+                <IconButton
+                className={classes.button} 
+                onClick = {() => props.onDeleteClick && props.onDeleteClick(props.postData.id)}>
+                  <DeleteIcon/>
+                </IconButton>
+              }
+              <IconButton
+              className={classes.button}  
+              onClick={() => setOpen(!open)}>
                 {open ?  <ExpandLessIcon/> : <ExpandMoreIcon/>}
               </IconButton>
             </Grid>

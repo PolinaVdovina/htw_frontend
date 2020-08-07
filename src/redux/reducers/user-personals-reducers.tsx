@@ -2,7 +2,8 @@ import * as types from '../../constants/action-types';
 import { startLoadingAction, stopLoadingAction } from '../actions/dialog-actions';
 import { getPersonalDataFetch } from '../../utils/fetchFunctions';
 import { accountRequestToEntityDictionary } from '../../utils/appliedFunc';
-import { fillPersonalDataAction } from '../actions/user-personals';
+import { fillPersonalDataAction, updateAvatarUrlUIDAction } from '../actions/user-personals';
+import { v4 as uuidv4 } from 'uuid';
 
 interface ICommonState {
     isFetched,
@@ -21,7 +22,8 @@ interface ICommonState {
     experience?,
     competenceSet?,
     employer?,
-    links?
+    links?,
+    avatarUrlUid?: any,
 }
 
 const initialState : ICommonState = {
@@ -43,8 +45,10 @@ const initialState : ICommonState = {
     employer: null,
     links: {
         employer: null
-    }
+    },
+    avatarUrlUid: null,
 };
+
 
 export function userPersonalsReducer(state = initialState, action) : ICommonState {
     switch (action.type) {
@@ -57,6 +61,12 @@ export function userPersonalsReducer(state = initialState, action) : ICommonStat
                 ...action.data,
                 isFetched: true,
             }
+        case types.UPDATE_AVATAR_URL_UID: {
+            return {
+                ...state,
+                avatarUrlUid: uuidv4()
+            }
+        }
         case types.FILL_JOBSEEKER_NAME: 
             return {
                 ...state,
@@ -67,6 +77,11 @@ export function userPersonalsReducer(state = initialState, action) : ICommonStat
         default:
         return state;
     }
+}
+
+export const updateAvatarUID: () => void = () => 
+async (dispatch, getState) => {
+    dispatch(updateAvatarUrlUIDAction());
 }
 
 

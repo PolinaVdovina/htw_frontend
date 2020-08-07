@@ -1,4 +1,4 @@
-import { FILL_PERSONAL_DATA, FILL_JOBSEEKER_NAME, RESET_PERSONAL_DATA } from '../../constants/action-types';
+import { FILL_PERSONAL_DATA, FILL_JOBSEEKER_NAME, RESET_PERSONAL_DATA, UPDATE_AVATAR_URL_UID } from '../../constants/action-types';
 
 export function fillPersonalDataAction(data) {
     return {
@@ -25,4 +25,8 @@ export function fillJobSeekerNameAction(name, surname, middlename) {
     };
 }
 
-
+export function updateAvatarUrlUIDAction() {
+    return {
+        type: UPDATE_AVATAR_URL_UID,
+    };
+}

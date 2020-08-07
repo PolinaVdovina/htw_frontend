@@ -4,6 +4,7 @@ import AccountInfo from '../../../components/cards/AccountInfo';
 import { ITabData, TabsPaper } from '../../../components/cards/TabsPaper';
 import { PaddingPaper } from '../../../components/cards/PaddingPaper';
 import { AccountCommonInfo } from '../../../components/cabinet/AccountCommonInfo';
+import { VacancyTab } from '../../../components/vacancy-editor/VacancyTab';
 
 interface IEmployeeCabinet {
 
@@ -19,7 +20,7 @@ const tabs: Array<ITabData> = [
   {
     label: "Вакансии",
     //IconComponent: <PersonPinIcon/>,
-    TabPanel: <AccountInfo role='INDIVIDUAL' title="Мероприятия" settingsView={[]}/>
+    TabPanel: <VacancyTab/>
   },
   {
     label: "Мероприятия",
