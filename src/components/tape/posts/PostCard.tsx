@@ -7,6 +7,11 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import { useTheme } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
+import { Link as RouterLink, NavLink } from 'react-router-dom';
+import { urls } from '../../../pages/urls';
+import { getAvatarUrl } from '../../../utils/fetchFunctions';
+import { connect } from 'react-redux';
+import { RootState } from '../../../redux/store';
 
 export interface IBodyElement {
   data?: any,
@@ -20,20 +25,21 @@ type SubButtonType = {
 
 export interface IPostData {
   id?: any,
-  title?: string,
   body?: Array<IBodyElement>,
   fileList?: FileList,
   createdAt?: string,
   lastChange?: string,
-  owner?: string,    
+  title?: string,    
   shortDescription?: string,
+  ownerLogin?: string,
 }
 
 export interface IPostProps {
   postData: IPostData,
+  avatarUrlUid: any,
   style: any,
   isOpenedDefaut?: boolean,
-  onDeleteClick?: (postId: any ) => void,
+  onDeleteClick?: ((postId: any ) => void) | null,
   onChangeClick?: (postId: any ) => void
 }
 
@@ -68,19 +74,30 @@ const useStyles = makeStyles((theme: Theme) =>
 
 
 
-export const PostCard = (props: IPostProps) => {
+const PostCardComp = (props: IPostProps) => {
     const classes = useStyles();
     const theme = useTheme();
     const [open, setOpen] = React.useState(props.isOpenedDefaut == true)
     return (
         <div style={props.style}>
           <Grid container direction="row" className={classes.aboutGrid}>
+            {
+            props.postData.ownerLogin ? 
+            <Avatar
+            src={getAvatarUrl(props.postData.ownerLogin) + "?uid=" + props.avatarUrlUid } 
+            component={RouterLink} 
+            to={urls.cabinet.shortPath + props.postData.ownerLogin} 
+            className={classes.avatar} />
+            :
             <Avatar className={classes.avatar} />
+            }
             <Grid item style={{flexGrow:1, marginRight: theme.spacing(2)}}>
               <Grid container direction="column" >
+                {props.postData.title &&
                 <Typography>
-                  {props.postData.owner}
+                  {props.postData.title}
                 </Typography>
+                }
                 <Typography className={classes.descriptionBlock}>{props.postData.createdAt}</Typography>
               </Grid>
             </Grid>
@@ -121,3 +138,5 @@ export const PostCard = (props: IPostProps) => {
         </div>
     )
 }
+
+export const PostCard = connect((state: RootState)=>({avatarUrlUid: state.userPersonalsReducer.avatarUrlUid}))(PostCardComp);

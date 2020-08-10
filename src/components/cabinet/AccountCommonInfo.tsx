@@ -66,13 +66,13 @@ const useStyles = makeStyles((theme: Theme) =>
        position: "relative",
        left: "-20px",
        top: "16px",
-       width:"32px",
-       height:"32px",
+       width:"26px",
+       height:"26px",
        background: theme.palette.primary.main,
    },
    changeAvatarIcon: {
-     width:"20px",
-     height:"20px",
+     width:"16px",
+     height:"16px",
      color: "white"
  }
   }),

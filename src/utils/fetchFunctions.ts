@@ -342,6 +342,21 @@ export const getVacanciesByLoginFetch = async (token: string, login: string) => 
 }
 
 
+export const removeVacancyFetch = async (token: string, vacancyId: number) => {
+    try {
+        const result = await axios.get("/vacancy/remove?vacancyId="+vacancyId,
+        {
+            headers: {Authorization: 'Bearer ' + token},
+        });
+        //alert(JSON.stringify(userData.data))
+        return MessageStatus.OK;
+    }
+    catch {
+        return MessageStatus.ERROR;
+    }
+}
+
+
 export const setAvatarFetch = async(token: string, file: File ) => {
     try {
         let formData = new FormData();

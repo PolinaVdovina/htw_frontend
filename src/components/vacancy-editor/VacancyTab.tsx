@@ -4,11 +4,13 @@ import { VacancyEditorDialog } from "./VacancyEditorDialog";
 import { Tape } from "../tape/Tape";
 import { RootState } from "../../redux/store";
 import { connect, useDispatch } from 'react-redux';
-import { getOwnVacanciesFetch } from "../../utils/fetchFunctions";
+import { getOwnVacanciesFetch, removeVacancyFetch } from "../../utils/fetchFunctions";
 import { startLoadingAction, stopLoadingAction } from "../../redux/actions/dialog-actions";
 import { vacanciesToPostList } from './../../utils/appliedFunc';
 import { CabinetContext } from './../cabinet/cabinet-context';
 import { getVacanciesByLoginFetch } from './../../utils/fetchFunctions';
+import { MessageStatus } from "../../utils/fetchInterfaces";
+import { useSnackbar } from 'notistack';
 
 function mapStateToProps(state : RootState) {
   return {
@@ -25,7 +27,7 @@ const VacancyTabComp = (props) => {
   const [vacancies, setVacancies] = React.useState<any>(null); 
   const dispatch = useDispatch();
   const context = React.useContext(CabinetContext);
-
+  const snackbar = useSnackbar();
   const getVacancies = async() => {
     await dispatch(startLoadingAction());
     const fetchedData = await getVacanciesByLoginFetch(props.token, context.login);
@@ -37,14 +39,33 @@ const VacancyTabComp = (props) => {
     const fetchedData = getVacancies();
   }, [])
   //alert(vacancies)
+  const onDeleteVacancy = async() => {
+    //alert(deletingId)
+    dispatch(startLoadingAction());
+    const result = await removeVacancyFetch(props.token, deletingId);
+    if(result == MessageStatus.OK) {
+      await getVacancies();
+      snackbar.enqueueSnackbar("Вакансия успешно удалена", {variant:"success"});
+    }
+    else
+      snackbar.enqueueSnackbar("Не удалось удалить вакансию", {variant:"error"});
+    
+    setDeletingId(null);
+    dispatch(stopLoadingAction());
+  }
+
   return (
     <>
+      {context.isMine && 
+      <>
       <Grid container direction="row-reverse"  style={{padding: theme.spacing(2)}}>
         <VacancyEditorDialog
         onClose={() => setOpenVacancyDialog(false)} 
-        onSubmitSuccess={() => {
-          setOpenVacancyDialog(false);
-          getVacancies();
+        onSubmitSuccess={async() => {
+          await dispatch(startLoadingAction());
+          await getVacancies();
+          await dispatch(stopLoadingAction());
+          await setOpenVacancyDialog(false);
         }} 
         open={openVacancyDialog}/>
         <Dialog 
@@ -52,7 +73,7 @@ const VacancyTabComp = (props) => {
         open={deletingId != null}>
           <DialogTitle>Вы точно хотите удалить вакансию?</DialogTitle>
           <DialogActions>
-            <Button>
+            <Button onClick={onDeleteVacancy}>
               Да
             </Button>
             <Button onClick={() => setDeletingId(null)}>
@@ -62,10 +83,11 @@ const VacancyTabComp = (props) => {
         </Dialog>
 
         <Link component='button' onClick={()=>setOpenVacancyDialog(true)}>Добавить вакансию</Link>
-      </Grid>
-      <Divider/>
+        </Grid>
+        <Divider/>
+      </>}
       <Tape
-        onDeleteClick={(id) => setDeletingId(id)}
+        onDeleteClick={context.isMine ? (id) => setDeletingId(id) : null}
         posts = {
           vacancies && vacanciesToPostList(vacancies)
         }

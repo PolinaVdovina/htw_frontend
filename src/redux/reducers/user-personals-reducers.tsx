@@ -60,6 +60,7 @@ export function userPersonalsReducer(state = initialState, action) : ICommonStat
                 ...state,
                 ...action.data,
                 isFetched: true,
+                avatarUrlUid: uuidv4()
             }
         case types.UPDATE_AVATAR_URL_UID: {
             return {
@@ -73,9 +74,10 @@ export function userPersonalsReducer(state = initialState, action) : ICommonStat
                 name: action.name,
                 surname: action.surname,
                 middlename: action.middlename,
+                avatarUrlUid: uuidv4()
             }
         default:
-        return state;
+            return state;
     }
 }
 

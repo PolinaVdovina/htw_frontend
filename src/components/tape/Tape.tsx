@@ -6,7 +6,7 @@ import { CabinetContext } from './../cabinet/cabinet-context';
 
 interface ITapeProps {
   posts?: Array<IPostData> | null,
-  onDeleteClick?: (id:any) => void,
+  onDeleteClick?: ((id:any) => void) | null,
 }
 
 

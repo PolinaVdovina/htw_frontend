@@ -144,7 +144,7 @@ const AppMenuListComp = (props: IAppMenuList) => {
                 style={{marginRight:theme.spacing(2)}}/>
         
                 <Typography style={{flexGrow:1, width:"min-content", color:"white"}}>
-                  {(props.role == "ROLE_JOBSEEKER" || props.role == "EMPLOYEE") && ((props.name && props.surname) ? props.surname + ' ' + props.name : props.login)}
+                  {(props.role == "ROLE_JOBSEEKER" || props.role == "ROLE_EMPLOYEE") && ((props.name && props.surname) ? props.surname + ' ' + props.name : props.login)}
                   {(props.role == "ROLE_EMPLOYER" || props.role == "ROLE_INSTITUTION") && (props.name ? props.name : props.login)}
                 </Typography>
         
