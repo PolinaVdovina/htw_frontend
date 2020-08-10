@@ -23,11 +23,8 @@ interface ICommonState {
     competenceSet?,
     employer?,
     links?,
-<<<<<<< HEAD
     avatarUrlUid?: any,
-=======
     jobApplicantSet?
->>>>>>> d235e6ad9c65679c17595e3882ecdf88a75bd7a0
 }
 
 const initialState : ICommonState = {

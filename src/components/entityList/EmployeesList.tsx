@@ -54,13 +54,8 @@ export const EmployeeListRaw = (props : IEmployeeList) => {
                 <Avatar></Avatar>
                 <Link 
                     style={{marginLeft: theme.spacing(2)}} 
-<<<<<<< HEAD
+                    to={entity.login}
                     component={NavLink}
-                    to={employee.login}
-                    //href='/vfv'
-=======
-                    href={entity.login}
->>>>>>> d235e6ad9c65679c17595e3882ecdf88a75bd7a0
                     color='inherit'
                     underline='none'
                     variant='h6'
