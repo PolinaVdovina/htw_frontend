@@ -6,7 +6,7 @@ import { PaddingPaper } from '../cards/PaddingPaper';
 import { RootState, store } from '../../redux/store';
 import { connect, useDispatch } from 'react-redux';
 import { AccountCommonInfo } from './AccountCommonInfo';
-import { genderIntToStr, addressGlue, jobApplGlue } from '../../utils/appliedFunc';
+import { genderIntToStr, addressGlue } from '../../utils/appliedFunc';
 import { startLoadingAction, stopLoadingAction } from '../../redux/actions/dialog-actions';
 import { MessageStatus } from '../../utils/fetchInterfaces';
 import { withSnackbar, WithSnackbarProps } from 'notistack';
@@ -141,10 +141,7 @@ class AccountInfoComp extends React.Component<IPropsAccountInfo, IStateAccountIn
                                 <Grid item container direction='row' spacing={2} style={{flexWrap:"nowrap"}}>
                                     <Grid item style={{flexGrow:1}}>
                                         <Typography>
-                                            {
-                                                key == 'address' ? addressGlue(element) : 
-                                                (key == 'jobApplicantSet' ? jobApplGlue(element) : element)
-                                            }                                                  
+                                            {key == 'address' ? addressGlue(element) : element}                                                  
                                         </Typography>
                                     </Grid>
                                     {

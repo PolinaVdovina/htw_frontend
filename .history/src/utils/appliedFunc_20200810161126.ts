@@ -140,8 +140,7 @@ export const dateParse = (dateInStr: string) => {
 }
 
 export const jobApplGlue = (jobAppl) => {
-    return (`c ${dateParse(jobAppl.startDate)} по 
-    ${jobAppl.stopDate ? dateParse(jobAppl.stopDate) : 'настоящее время'}: 
+    return (`c ${dateParse(jobAppl.startDate)} по ${dateParse(jobAppl.stopDate)}: 
     ${jobAppl.position} в \"${jobAppl.employer}\"`)
 }
 

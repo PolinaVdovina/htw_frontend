@@ -79,7 +79,11 @@ export function accountRequestToEntityDictionary(data, role) {
                     gender: genderIntToStr(data.gender),
                     experience: data.experience,
                     competenceSet: data.competenceSet.map(elem => elem.name),
-                    jobApplicantSet: data.jobApplicantSet
+                    jobApplicantSet: data.jobApplicantSet ? data.jobApplicantSet.map(elem => 
+                       `c ${dateParse(elem.startDate)} по ${dateParse(elem.stopDate)}: 
+                       ${elem.position} в \"${elem.employer}\"`
+                    ) : null,
+                    jobApplicantSetcomplementary: data.jobApplicantSet
                 }
                 return parsedData;
             case "ROLE_EMPLOYER":
@@ -137,12 +141,6 @@ export const dateParse = (dateInStr: string) => {
     const year = date.getFullYear();
     let result = `${day}.${month}.${year}`
     return result;
-}
-
-export const jobApplGlue = (jobAppl) => {
-    return (`c ${dateParse(jobAppl.startDate)} по 
-    ${jobAppl.stopDate ? dateParse(jobAppl.stopDate) : 'настоящее время'}: 
-    ${jobAppl.position} в \"${jobAppl.employer}\"`)
 }
 
 interface IVacancy {
