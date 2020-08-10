@@ -1,43 +1,13 @@
-import { 
-    settingsEmail, 
-    settingsPhone, 
-    settingsName, 
-    settingsBirth, 
-    settingsAddress, 
-    settingsNameOrg, 
-    settingsInn, 
-    settingsOgrn, 
-    settingsDescription, 
-    settingsGender, 
-    settingsTypesEdu, 
-    settingsExperience, 
-    settingsCompetenceSet, 
-    settingsJobs, 
-    settingsEdu 
-} from "./changeMiniComponents/changeSettings";
-import { 
-    validateEmail, 
-    validatePhone, 
-    validateName, 
-    validateDate, 
-    validateAddress, 
-    validateInn, 
-    validateNameOrg, 
-    validateOgrn 
-} from "../../utils/validateFunctions";
-import { 
-    changeJobSeekerData, 
-    changeJobSeekerAddress, 
-    changeJobSeekerContactDetails, 
-    changeGender, 
-    changeEmployerAddress, 
-    deleteEmployerAddress, 
-    changeCompetenceSet, 
-    deleteCompetence, 
-    changeTypesEdu, 
-    deleteTypeEdu, 
-    changeJobApplicance 
-} from "../../utils/change-component-utils";
+import { ChangeOneString } from "./changeMiniComponents/ChangeOneString";
+import { ChangeAddress } from "./changeMiniComponents/ChangeAddress";
+import { ChangeName } from "./changeMiniComponents/ChangeName";
+import { ChangeBirth } from "./changeMiniComponents/ChangeBirth";
+import { settingsEmail, settingsPhone, settingsName, settingsBirth, settingsAddress, settingsNameOrg, settingsInn, settingsOgrn, settingsDescription, settingsGender, settingsTypesEdu, settingsExperience, settingsCompetenceSet, settingsJobs, settingsEdu } from "./changeMiniComponents/changeSettings";
+import { validateEmail, validatePhone, validateName, validateDate, validateAddress, validateInn, validateNameOrg, validateOgrn } from "../../utils/validateFunctions";
+import { changeJobSeekerData, changeJobSeekerAddress, changeJobSeekerContactDetails, changeGender, changeEmployerAddress, deleteEmployerAddress, changeCompetenceSet, deleteCompetence, changeTypesEdu, deleteTypeEdu, changeJobApplicance } from "../../utils/change-component-utils";
+import { ChangeGender } from './changeMiniComponents/ChangeGender';
+import { ChangeMultiSelect } from "./changeMiniComponents/ChangeMultiSelect";
+import { ChangeExperience } from "./changeMiniComponents/ChangeExperience";
 
 export const SETTINGS = {
     INDIVIDUAL: {
@@ -120,6 +90,7 @@ export const SETTINGS = {
         },
         about: {
             title: 'О себе',
+            changeComponent: ChangeOneString,
             changeSettings: settingsDescription,
             validateFunction: validateDate,
             changeFunction: changeJobSeekerData,      

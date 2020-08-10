@@ -21,7 +21,8 @@ interface ICommonState {
     experience?,
     competenceSet?,
     employer?,
-    links?
+    links?,
+    jobApplicantSet?
 }
 
 const initialState : ICommonState = {
@@ -41,6 +42,7 @@ const initialState : ICommonState = {
     experience: null,
     competenceSet: null,
     employer: null,
+    jobApplicantSet: null,
     links: {
         employer: null
     }

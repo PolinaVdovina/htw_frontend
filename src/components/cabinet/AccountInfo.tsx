@@ -1,16 +1,16 @@
 import * as React from 'react';
 import { Typography, Card, TextField, CardContent, Grid, Paper, Link, FormControl, Input, Button, Divider, withTheme, Radio } from '@material-ui/core';
-import { ChangeComponent } from '../cabinet/ChangeComponent';
-import { SETTINGS } from '../cabinet/accountSettings';
-import { PaddingPaper } from './PaddingPaper';
+import { ChangeComponent } from './ChangeComponent';
+import { SETTINGS } from './accountSettings';
+import { PaddingPaper } from '../cards/PaddingPaper';
 import { RootState, store } from '../../redux/store';
 import { connect, useDispatch } from 'react-redux';
-import { AccountCommonInfo } from './../cabinet/AccountCommonInfo';
+import { AccountCommonInfo } from './AccountCommonInfo';
 import { genderIntToStr, addressGlue } from '../../utils/appliedFunc';
 import { startLoadingAction, stopLoadingAction } from '../../redux/actions/dialog-actions';
 import { MessageStatus } from '../../utils/fetchInterfaces';
 import { withSnackbar, WithSnackbarProps } from 'notistack';
-import { CabinetContext } from './../cabinet/cabinet-context';
+import { CabinetContext } from './cabinet-context';
 
 
 interface IPropsAccountInfo extends WithSnackbarProps{
@@ -126,7 +126,7 @@ class AccountInfoComp extends React.Component<IPropsAccountInfo, IStateAccountIn
                             <Typography style={{'color': '#808080'}}>
                                 {SETTINGS[this.props.role][key].title}
                             </Typography> 
-                            { this.context.isMine && Array.isArray(this.context[key]) &&
+                            { (this.context.isMine && SETTINGS[this.props.role][key]['type'] && SETTINGS[this.props.role][key]['type'] == 'mass') &&
                                 <Link 
                                     component='button'
                                     onClick={() => this.handleClickOpen(key)}
@@ -136,7 +136,7 @@ class AccountInfoComp extends React.Component<IPropsAccountInfo, IStateAccountIn
                                 </Link>
                             }
                         </Grid>
-                        { (this.context[key] && Array.isArray(this.context[key])) && 
+                        { (this.context[key] && SETTINGS[this.props.role][key]['type'] && SETTINGS[this.props.role][key]['type'] == 'mass') && 
                             this.context[key].map((element, index) => 
                                 <Grid item container direction='row' spacing={2} style={{flexWrap:"nowrap"}}>
                                     <Grid item style={{flexGrow:1}}>
@@ -158,7 +158,7 @@ class AccountInfoComp extends React.Component<IPropsAccountInfo, IStateAccountIn
                                 </Grid>
                             ) 
                         }
-                        { !Array.isArray(this.context[key]) && 
+                        { (!SETTINGS[this.props.role][key]['type'] || SETTINGS[this.props.role][key]['type'] != 'mass') && 
                         <Grid item container direction='row' spacing={2}  style={{flexWrap:"nowrap"}}>                             
                             <Grid item style={{flexGrow:1, overflowX:"auto"}}>
                                 {(!this.context.links || !this.context.links[key]) &&
@@ -171,14 +171,18 @@ class AccountInfoComp extends React.Component<IPropsAccountInfo, IStateAccountIn
                                     </Typography>
                                 }
                                 {(this.context.links && this.context.links[key]) &&
-                                    <Link>
+                                    <Link
+                                        color='inherit'
+                                        underline='none'
+                                        href={this.context.links[key]}
+                                    >
                                         {this.context[key] ?
                                             (this.context[key].indexOf('null') == -1) ? this.context[key] : 'Не задано' :
                                             'Не задано'}
                                     </Link>
                                 }                                
                             </Grid>
-                            { SETTINGS[this.props.role][key].changeComponent && <>
+                            { SETTINGS[this.props.role][key].changeSettings && <>
                                 {
                                 this.context.isMine &&
                                 <>

@@ -2,7 +2,7 @@ import * as React from 'react';
 import { HCenterizingGrid } from './../grid-containers/HCenterizingGrid';
 import { JobSeekerCabinet } from './job-seeker/JobSeekerCabinet';
 import { AppMenuDivider } from '../grid-containers/AppMenuDivider';
-import AccountInfo from '../../components/cards/AccountInfo';
+import AccountInfo from '../../components/cabinet/AccountInfo';
 import { RedirectIfNotAuthorized } from './../../components/redirects/RedirectIfNotAuthorized';
 import { Tape } from '../../components/tape/Tape';
 import { IPostData } from '../../components/tape/posts/PostCard';
@@ -59,7 +59,8 @@ function mapStateToProps(state : RootState) {
             experience: state.userPersonalsReducer.experience,
             competenceSet: state.userPersonalsReducer.competenceSet,
             employer: state.userPersonalsReducer.employer,
-            links: state.userPersonalsReducer.links                 
+            links: state.userPersonalsReducer.links,
+            jobApplicantSet: state.userPersonalsReducer.jobApplicantSet          
         }
     }
     // data.reduxPersonalData['name'] = '';

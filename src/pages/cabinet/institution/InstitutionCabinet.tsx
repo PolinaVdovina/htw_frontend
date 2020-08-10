@@ -2,7 +2,7 @@ import React from 'react'
 import { Grid, Paper, List, ListItem, makeStyles, Theme, createStyles } from '@material-ui/core'
 import { JobSeekerFeedMenu } from './../../../components/feed-menu/job-seeker/JobSeekerFeedMenu';
 import { RedirectIfNotAuthorized } from './../../../components/redirects/RedirectIfNotAuthorized';
-import AccountInfo from '../../../components/cards/AccountInfo';
+import AccountInfo from '../../../components/cabinet/AccountInfo';
 import { ITabData, TabsPaper } from './../../../components/cards/TabsPaper';
 import { PaddingPaper } from './../../../components/cards/PaddingPaper';
 import { AccountCommonInfo } from '../../../components/cabinet/AccountCommonInfo';

@@ -1,5 +1,5 @@
 import { ChangeAddress } from "./ChangeAddress"
-import { ChangeDate } from "./ChangeDate"
+import { ChangeBirth } from "./ChangeDate"
 import { ChangeGender } from "./ChangeGender"
 import { ChangeMultiSelect } from "./ChangeMultiSelect"
 import { ChangeExperience } from "./ChangeExperience"
@@ -34,7 +34,7 @@ export const settingsAddress = {
 export const settingsBirth = {
     dateBirth: {
         title: 'Дата рождения',
-        changeComponent: ChangeDate
+        changeComponent: ChangeBirth
     }
 }
 
@@ -140,20 +140,16 @@ export const settingsNameOrg = {
 
 export const settingsJobs = {
     employer: {
-        title: 'Компания',
-        changeComponent: ChangeOneString
+        title: 'Компания'
     },
     position: {
-        title: 'Должность',
-        changeComponent: ChangeOneString
+        title: 'Должность'
     },
     startDate: {
-        title: 'Дата начала',
-        changeComponent: ChangeDate
+        title: 'Дата начала'
     },
     stopDate: {
-        title: 'Дата окончания',
-        changeComponent: ChangeDate
+        title: 'Дата окончания'
     }
 }
 

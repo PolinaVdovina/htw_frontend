@@ -2,7 +2,7 @@ import React from 'react'
 import { Grid, Paper, List, ListItem, makeStyles, Theme, createStyles, Divider, Link, useTheme, Dialog } from '@material-ui/core'
 import { JobSeekerFeedMenu } from './../../../components/feed-menu/job-seeker/JobSeekerFeedMenu';
 import { RedirectIfNotAuthorized } from './../../../components/redirects/RedirectIfNotAuthorized';
-import AccountInfo from '../../../components/cards/AccountInfo';
+import AccountInfo from '../../../components/cabinet/AccountInfo';
 import { ITabData, TabsPaper } from './../../../components/cards/TabsPaper';
 import { PaddingPaper } from '../../../components/cards/PaddingPaper';
 import { AccountCommonInfo } from '../../../components/cabinet/AccountCommonInfo';
@@ -93,7 +93,7 @@ const tabs: Array<ITabData> = [
   {
     label: "Общая информация",
     //IconComponent: <PersonPinIcon/>,
-    TabPanel: <AccountInfo role='LEGAL' title="Общая информация" settingsView={['inn', 'ogrn', 'address', 'email', 'phone']}/>
+    TabPanel: <AccountInfo role='LEGAL' title="Общая информация" settingsView={['inn', 'ogrn', 'branch', 'address', 'email', 'phone']}/>
   },
   {
     label: "Сотрудники",

@@ -80,7 +80,7 @@ export function accountRequestToEntityDictionary(data, role) {
                     experience: data.experience,
                     competenceSet: data.competenceSet.map(elem => elem.name),
                     jobApplicantSet: data.jobApplicantSet ? data.jobApplicantSet.map(elem => 
-                       `c ${dateParse(elem.startDate)} по ${dateParse(elem.stopDate)}: 
+                       `c ${dateParse(elem.startDate)} до ${dateParse(elem.stopDate)}: 
                        ${elem.position} в \"${elem.employer}\"`
                     ) : null
                 }

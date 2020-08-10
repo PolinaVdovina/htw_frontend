@@ -48,9 +48,11 @@ export const changeTypesEdu = async ( dispatch, data ) => {
 }
 
 export const changeJobApplicance = async ( dispatch, data ) => {
-    const msgInfo: IMessageInfo = await changePersonalDataFetch(store.getState().authReducer.token, data, '/personal/jobappll');
+    const msgInfo: IMessageInfo = await changePersonalDataFetch(store.getState().authReducer.token, [data], '/personal/jobappll');
     if(msgInfo.msgStatus == MessageStatus.OK) {
-        const jobApplicantSet = [...store.getState().userPersonalsReducer.jobApplicantSet, `c ${data.startDate} по ${data.stopDate}: ${data.position} в \"${data.employer}\"`]
+        const jobApplicantSetRaw = [...store.getState().userPersonalsReducer.jobApplicantSet, ...data]
+        const uniqueSet = new Set(jobApplicantSetRaw);
+        const jobApplicantSet = Array.from(uniqueSet);
         await dispatch( fillPersonalDataAction({jobApplicantSet: jobApplicantSet}));
     }
     return msgInfo;

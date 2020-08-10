@@ -80,7 +80,7 @@ export function accountRequestToEntityDictionary(data, role) {
                     experience: data.experience,
                     competenceSet: data.competenceSet.map(elem => elem.name),
                     jobApplicantSet: data.jobApplicantSet ? data.jobApplicantSet.map(elem => 
-                       `c ${dateParse(elem.startDate)} по ${dateParse(elem.stopDate)}: 
+                       `c ${dateParse(elem.startDate)} до ${dateParse(elem.stopDate)}: 
                        ${elem.position} в \"${elem.employer}\"`
                     ) : null
                 }
@@ -131,12 +131,8 @@ export function accountRequestToEntityDictionary(data, role) {
 
 export const dateParse = (dateInStr: string) => {
     const date = new Date(Date.parse(dateInStr));
-    let day = '' + date.getDate();
-    if (day.length == 1) 
-        day = '0' + day;
-    let month = '' + (date.getMonth() + 1);
-    if (month.length == 1) 
-        month = '0' + month;
+    const day = date.getDay();
+    const month = date.getMonth();
     const year = date.getFullYear();
     let result = `${day}.${month}.${year}`
     return result;

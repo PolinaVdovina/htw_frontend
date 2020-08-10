@@ -47,13 +47,8 @@ export const changeTypesEdu = async ( dispatch, data ) => {
     return msgInfo;
 }
 
-export const changeJobApplicance = async ( dispatch, data ) => {
-    const msgInfo: IMessageInfo = await changePersonalDataFetch(store.getState().authReducer.token, data, '/personal/jobappll');
-    if(msgInfo.msgStatus == MessageStatus.OK) {
-        const jobApplicantSet = [...store.getState().userPersonalsReducer.jobApplicantSet, `c ${data.startDate} по ${data.stopDate}: ${data.position} в \"${data.employer}\"`]
-        await dispatch( fillPersonalDataAction({jobApplicantSet: jobApplicantSet}));
-    }
-    return msgInfo;
+export const changeJobApplicance = async ( dispach, data ) => {
+    alert(JSON.stringify(data))
 }
 
 export const deleteCompetence = async ( dispatch, data ) => {
@@ -116,7 +111,10 @@ export const deleteEmployerAddress = async ( dispatch, data ) => {
 }
 
 export const changeGender = async (dispatch, data) => {
+    //alert(JSON.stringify(data.gender));
+    //alert(JSON.stringify(genderIntToStr(data.gender)));
     const msgInfo: IMessageInfo = await changePersonalDataFetch(store.getState().authReducer.token, data );
+    //alert(msgInfo.msgStatus==MessageStatus.OK)
     if(msgInfo.msgStatus == MessageStatus.OK) {
         await dispatch( fillPersonalDataAction( {gender: genderIntToStr(data.gender)} ));
     }

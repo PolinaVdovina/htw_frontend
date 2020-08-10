@@ -8,14 +8,14 @@ import { RegMiniComponent } from './RegMiniComponent';
 
 interface IEmployeeList {
     token,
-    employees,
+    entities,
     getEmployeesData: typeof getEmployeesData
 }
 
 function mapStateToProps(state : RootState) {
     let data =  {
         token: state.authReducer.token,
-        employees: state.entitiesReducer.employees
+        entities: state.entitiesReducer.entities
     }       
     return data;
     
@@ -47,23 +47,23 @@ export const EmployeeListRaw = (props : IEmployeeList) => {
 
     return(
         <Grid style={{padding: theme.spacing(2)}} container direction='column'> 
-        {props.employees[0] &&
-        props.employees.map(employee => 
+        {props.entities[0] &&
+        props.entities.map(entity => 
             <Grid item container style={{padding: theme.spacing(1)}} direction='row' alignItems='center'>
                 <Avatar></Avatar>
                 <Link 
                     style={{marginLeft: theme.spacing(2)}} 
-                    href={employee.login}
+                    href={entity.login}
                     color='inherit'
                     underline='none'
                     variant='h6'
                 >
                     {
-                        (employee.name || employee.surname || employee.middlename) ?
-                        ((employee.name ? employee.name : '') + ' ' +
-                        (employee.middlename ? employee.middlename : '') + ' ' +
-                        (employee.surname ? employee.surname : ''))
-                        : employee.login
+                        (entity.name || entity.surname || entity.middlename) ?
+                        ((entity.name ? entity.name : '') + ' ' +
+                        (entity.middlename ? entity.middlename : '') + ' ' +
+                        (entity.surname ? entity.surname : ''))
+                        : entity.login
                     }
                 </Link>
             </Grid>

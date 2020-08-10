@@ -1,8 +1,9 @@
 import { ChangeAddress } from "./ChangeAddress"
-import { ChangeDate } from "./ChangeDate"
+import { ChangeBirth } from "./ChangeBirth"
 import { ChangeGender } from "./ChangeGender"
 import { ChangeMultiSelect } from "./ChangeMultiSelect"
 import { ChangeExperience } from "./ChangeExperience"
+import { ChangeName } from "./ChangeName"
 import { ChangeOneString } from "./ChangeOneString"
 
 export const settingsAddress = {
@@ -25,23 +26,20 @@ export const settingsAddress = {
         'title': 'Квартира/офис'
     }*/
     address: {
-        title: 'Новый адрес',
-        changeComponent: ChangeAddress
+        title: 'Новый адрес'
     }
 }
 
 
 export const settingsBirth = {
     dateBirth: {
-        title: 'Дата рождения',
-        changeComponent: ChangeDate
+        title: 'Дата рождения'
     }
 }
 
 export const settingsGender = {
     gender: {
-        title: 'Пол',
-        changeComponent: ChangeGender
+        title: 'Пол'
     }
 }
 
@@ -56,8 +54,7 @@ export const settingsTypesEdu = {
             'подготовка кадров высшей квалификации',
             'повышение квалификации',
             'курсы',
-        ],
-        changeComponent: ChangeMultiSelect
+        ]
     }
 }
 
@@ -69,15 +66,13 @@ export const settingsCompetenceSet = {
             'адаптировать',
             'кодить',
             'чай пить',
-        ],
-        changeComponent: ChangeMultiSelect
+        ]
     }
 }
 
 export const settingsExperience = {
     experience: {
-        title: 'Выберите период',
-        changeComponent: ChangeExperience
+        title: 'Выберите период'
     }
 }
 
@@ -98,62 +93,52 @@ export const settingsName = {
 
 export const settingsDescription = {
     about: {
-        title: "О себе",
-        changeComponent: ChangeOneString
+        title: "О себе"
     }
 }
 
 export const settingsPhone = {
     phone: {
-        title: 'Новый номер',
-        changeComponent: ChangeOneString
+        title: 'Новый номер'
     }
 }
 
 export const settingsEmail = {
     email: {
-        title: 'Новый адрес',
-        changeComponent: ChangeOneString
+        title: 'Новый адрес'
     }
 }
 
 export const settingsInn = {
     inn: {
-        title: 'Новый ИНН',
-        changeComponent: ChangeOneString
+        title: 'Новый ИНН'
     }
 }
 
 export const settingsOgrn = {
     ogrn: {
-        title: 'Новый ОГРН',
-        changeComponent: ChangeOneString
+        title: 'Новый ОГРН'
     }
 }
 
 export const settingsNameOrg = {
     name: {
-        title: 'Новое наименование',
-        changeComponent: ChangeOneString
+        title: 'Новое наименование'
     }
 }
 
 export const settingsJobs = {
     employer: {
-        title: 'Компания',
-        changeComponent: ChangeOneString
+        title: 'Компания'
     },
     position: {
-        title: 'Должность',
-        changeComponent: ChangeOneString
+        title: 'Должность'
     },
     startDate: {
-        title: 'Дата начала',
-        changeComponent: ChangeDate
+        title: 'Дата начала'
     },
     stopDate: {
-        title: 'Дата окончания',
-        changeComponent: ChangeDate
+        title: 'Дата окончания'
     }
 }
 

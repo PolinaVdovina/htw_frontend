@@ -80,8 +80,7 @@ export function accountRequestToEntityDictionary(data, role) {
                     experience: data.experience,
                     competenceSet: data.competenceSet.map(elem => elem.name),
                     jobApplicantSet: data.jobApplicantSet ? data.jobApplicantSet.map(elem => 
-                       `c ${dateParse(elem.startDate)} по ${dateParse(elem.stopDate)}: 
-                       ${elem.position} в \"${elem.employer}\"`
+                       `c ${elem.startDate} до ${elem.stopDate}: ${elem.position} в \"${elem.employer}\"`
                     ) : null
                 }
                 return parsedData;
@@ -127,19 +126,6 @@ export function accountRequestToEntityDictionary(data, role) {
     catch {
         alert('Что-то сдохло, ничего не загрузилось')
     }   
-}
-
-export const dateParse = (dateInStr: string) => {
-    const date = new Date(Date.parse(dateInStr));
-    let day = '' + date.getDate();
-    if (day.length == 1) 
-        day = '0' + day;
-    let month = '' + (date.getMonth() + 1);
-    if (month.length == 1) 
-        month = '0' + month;
-    const year = date.getFullYear();
-    let result = `${day}.${month}.${year}`
-    return result;
 }
 
 interface IVacancy {

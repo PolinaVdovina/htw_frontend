@@ -6,11 +6,11 @@ import { fillPersonalDataAction } from '../actions/user-personals';
 import { fillEntityDataAction } from '../actions/entity-actions';
 
 interface ICommonState {
-    employees?
+    entities?
 }
 
 const initialState : ICommonState = {
-    employees: []
+    entities: []
 };
 
 
@@ -35,15 +35,16 @@ async (dispatch, getState) => {
         case "ROLE_EMPLOYER":
             const employeesListData = await getEmployeesListFetch(getState().authReducer.token);  
             await dispatch(fillEntityDataAction({
-                employees: employeesListData
+                entities: employeesListData
             }));
-    }
-
-    const employeesListData = await getEmployeesListFetch(getState().authReducer.token);           
-
-    await dispatch(fillEntityDataAction({
-        employees: employeesListData
-    }));    
+            break;
+        /*case "ROLE_INSTITUTION":
+            const employeesListData = await getEmployeesListFetch(getState().authReducer.token);  
+            await dispatch(fillEntityDataAction({
+                entities: employeesListData
+            }));
+            break;*/
+    }  
             
     dispatch(stopLoadingAction());
 
