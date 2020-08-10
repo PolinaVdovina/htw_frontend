@@ -36,8 +36,7 @@ import {
     deleteCompetence, 
     changeTypesEdu, 
     deleteTypeEdu, 
-    changeJobApplicance, 
-    deleteJobApplicant
+    changeJobApplicance 
 } from "../../utils/change-component-utils";
 
 export const SETTINGS = {
@@ -104,8 +103,7 @@ export const SETTINGS = {
             title: 'Место работы',
             type: 'mass',
             changeSettings: settingsJobs,
-            changeFunction: changeJobApplicance,
-            deleteFunction: deleteJobApplicant
+            changeFunction: changeJobApplicance
         },
         institutions: {
             title: 'Образование',

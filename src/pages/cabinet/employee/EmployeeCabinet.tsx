@@ -1,6 +1,6 @@
 import React from 'react'
 import { Paper, makeStyles, Theme, createStyles } from '@material-ui/core'
-import AccountInfo from '../../../components/cards/AccountInfo';
+import AccountInfo from '../../../components/cabinet/AccountInfo';
 import { ITabData, TabsPaper } from '../../../components/cards/TabsPaper';
 import { PaddingPaper } from '../../../components/cards/PaddingPaper';
 import { AccountCommonInfo } from '../../../components/cabinet/AccountCommonInfo';

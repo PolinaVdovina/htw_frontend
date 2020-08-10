@@ -2,7 +2,7 @@ import React from 'react'
 import { Grid, Paper, List, ListItem, makeStyles, Theme, createStyles, Tabs, Tab } from '@material-ui/core'
 import { JobSeekerFeedMenu } from './../../../components/feed-menu/job-seeker/JobSeekerFeedMenu';
 import { RedirectIfNotAuthorized } from './../../../components/redirects/RedirectIfNotAuthorized';
-import AccountInfo from '../../../components/cards/AccountInfo';
+import AccountInfo from '../../../components/cabinet/AccountInfo';
 import { Tape } from '../../../components/tape/Tape';
 import { IPostData } from '../../../components/tape/posts/PostCard';
 import { AccountCommonInfo } from '../../../components/cabinet/AccountCommonInfo';
@@ -32,12 +32,12 @@ const tabs: Array<ITabData> = [
   {
     label: "Образование",
     //IconComponent: <PersonPinIcon/>,
-    TabPanel: <AccountInfo role='INDIVIDUAL' settingsView={['competenceSet']}/>
+    TabPanel: <AccountInfo role='INDIVIDUAL' settingsView={['institutions', 'competenceSet']}/>
   },
   {
     label: "Работа",
     //IconComponent: <PersonPinIcon/>,
-    TabPanel: <AccountInfo role='INDIVIDUAL' settingsView={['experience']}/>
+    TabPanel: <AccountInfo role='INDIVIDUAL' settingsView={['experience', 'jobApplicantSet']}/>
   },
   {
     label: "Достижения",

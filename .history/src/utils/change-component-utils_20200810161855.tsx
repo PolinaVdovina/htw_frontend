@@ -51,8 +51,8 @@ export const changeJobApplicance = async ( dispatch, data ) => {
     const msgInfo: IMessageInfo = await changePersonalDataFetch(store.getState().authReducer.token, data, '/personal/jobappll');
     if(msgInfo.msgStatus == MessageStatus.OK) {
         const jobApplicantSet = [
-            ...store.getState().userPersonalsReducer.jobApplicantSet,
-            data
+            ...store.getState().userPersonalsReducer.jobApplicantSet, 
+            jobApplGlue(data)
         ]
         await dispatch( fillPersonalDataAction({
             jobApplicantSet: jobApplicantSet

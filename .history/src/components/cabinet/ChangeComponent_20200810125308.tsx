@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 export const ChangeComponentRaw = (props : FinalProps) => {
-    //const Component = SETTINGS[props.role][props.type].changeComponent;
+    const Component = SETTINGS[props.role][props.type].changeComponent;
     const changeSettings = SETTINGS[props.role][props.type].changeSettings;
     const validFunc = SETTINGS[props.role][props.type].validateFunction;
     const changeFunc = SETTINGS[props.role][props.type]['changeFunction'];
@@ -39,7 +39,7 @@ export const ChangeComponentRaw = (props : FinalProps) => {
     } 
 
     const validateAndSave = async() => {
-        //alert(JSON.stringify(data))
+        alert(JSON.stringify(data))
         if (validFunc && !validFunc(data))
             props.enqueueSnackbar('Поле заполнено неверно', {variant: "error"})
         else {
@@ -66,29 +66,26 @@ export const ChangeComponentRaw = (props : FinalProps) => {
 
     return (
         <Grid item container direction='column' spacing={1} >
-            { changeSettings &&
-                Object.keys(changeSettings).map(key => {
-                    const Component = changeSettings[key].changeComponent;
-                    return(
-                        <Grid item container direction='row'  alignItems='center'>
-                            <Grid item >
-                                <Typography style={{overflowWrap:"normal", width:"150px"}} >
-                                    {changeSettings[key].title}
-                                </Typography>
-                            </Grid>
-                            <Grid item style={{flexGrow:1}} >
-                                { Component &&
-                                    <Component 
-                                        onChange={onChange} 
-                                        data={data} 
-                                        type={key} 
-                                        list={changeSettings[key].listItemsSelect}
-                                    />
-                                }
-                            </Grid>
+            { Component &&
+                Object.keys(changeSettings).map(key => 
+                    <Grid item container direction='row'  alignItems='center'>
+                        <Grid item >
+                            <Typography style={{overflowWrap:"normal", width:"150px"}} >
+                                {changeSettings[key].title}
+                            </Typography>
                         </Grid>
-                    )
-                })
+                        <Grid item style={{flexGrow:1}} >
+                            { Component &&
+                                <Component 
+                                    onChange={onChange} 
+                                    data={data} 
+                                    type={key} 
+                                    list={changeSettings[key].listItemsSelect}
+                                />
+                            }
+                        </Grid>
+                    </Grid>
+                )
             }            
             <Grid item style={{'paddingTop': theme.spacing(2)}}>
                 <Button 

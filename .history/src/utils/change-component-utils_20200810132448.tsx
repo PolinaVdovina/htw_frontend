@@ -1,7 +1,7 @@
 import { fillPersonalDataAction } from "../redux/actions/user-personals"
 import { changePersonalDataFetch as changePersonalDataFetch, deletePersonalDataFetch, changeEmployerAddressFetch } from "./fetchFunctions";
 import { IMessageInfo, MessageStatus } from "./fetchInterfaces";
-import { addressGlue, genderIntToStr, jobApplGlue } from "./appliedFunc";
+import { addressGlue, genderIntToStr } from "./appliedFunc";
 import { store } from './../redux/store';
 
 
@@ -48,27 +48,11 @@ export const changeTypesEdu = async ( dispatch, data ) => {
 }
 
 export const changeJobApplicance = async ( dispatch, data ) => {
-    const msgInfo: IMessageInfo = await changePersonalDataFetch(store.getState().authReducer.token, data, '/personal/jobappll');
+    alert(JSON.stringify(data))
+    const msgInfo: IMessageInfo = await changePersonalDataFetch(store.getState().authReducer.token, [data], '/personal/jobappll');
     if(msgInfo.msgStatus == MessageStatus.OK) {
-        const jobApplicantSet = [
-            ...store.getState().userPersonalsReducer.jobApplicantSet,
-            data
-        ]
-        await dispatch( fillPersonalDataAction({
-            jobApplicantSet: jobApplicantSet
-        }));
-    }
-    return msgInfo;
-}
-
-export const deleteJobApplicant = async ( dispatch, data ) => {
-    const msgInfo: IMessageInfo = await deletePersonalDataFetch(store.getState().authReducer.token, data, '/personal/jobappll');
-    if(msgInfo.msgStatus == MessageStatus.OK) {
-        const jobAppl = [...store.getState().userPersonalsReducer.jobApplicantSet]
-        for (let i = 0; i < jobAppl.length; i++)
-            if (jobAppl[i].id == data.id) 
-                jobAppl.splice(i, 1);
-        await dispatch( fillPersonalDataAction({jobAppl: jobAppl}));
+        const jobApplicantSet = [...store.getState().userPersonalsReducer.jobApplicantSet, data]
+        await dispatch( fillPersonalDataAction({jobApplicantSet: jobApplicantSet}));
     }
     return msgInfo;
 }

@@ -9,14 +9,14 @@ import { RegMiniComponent } from './RegMiniComponent';
 import { Link as RouterLink, LinkProps as RouterLinkProps, NavLink } from 'react-router-dom';
 interface IEmployeeList {
     token,
-    employees,
+    entities,
     getEmployeesData: typeof getEmployeesData
 }
 
 function mapStateToProps(state : RootState) {
     let data =  {
         token: state.authReducer.token,
-        employees: state.entitiesReducer.employees
+        entities: state.entitiesReducer.entities
     }       
     return data;
     
@@ -48,26 +48,29 @@ export const EmployeeListRaw = (props : IEmployeeList) => {
 
     return(
         <Grid style={{padding: theme.spacing(2)}} container direction='column'> 
-        {props.employees[0] &&
-        props.employees.map(employee => 
+        {props.entities[0] &&
+        props.entities.map(entity => 
             <Grid item container style={{padding: theme.spacing(1)}} direction='row' alignItems='center'>
                 <Avatar></Avatar>
                 <Link 
-                    //component='button' 
                     style={{marginLeft: theme.spacing(2)}} 
+<<<<<<< HEAD
                     component={NavLink}
                     to={employee.login}
                     //href='/vfv'
+=======
+                    href={entity.login}
+>>>>>>> d235e6ad9c65679c17595e3882ecdf88a75bd7a0
                     color='inherit'
                     underline='none'
                     variant='h6'
                 >
                     {
-                        (employee.name || employee.surname || employee.middlename) ?
-                        ((employee.name ? employee.name : '') + ' ' +
-                        (employee.middlename ? employee.middlename : '') + ' ' +
-                        (employee.surname ? employee.surname : ''))
-                        : employee.login
+                        (entity.name || entity.surname || entity.middlename) ?
+                        ((entity.name ? entity.name : '') + ' ' +
+                        (entity.middlename ? entity.middlename : '') + ' ' +
+                        (entity.surname ? entity.surname : ''))
+                        : entity.login
                     }
                 </Link>
             </Grid>
