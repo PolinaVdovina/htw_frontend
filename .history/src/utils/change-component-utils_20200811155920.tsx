@@ -74,7 +74,8 @@ export const deleteJobApplicant = async ( dispatch, data ) => {
                 jobAppl.splice(i, 1);
             }
         }
-        await dispatch( fillPersonalDataAction({jobApplicantSet: jobAppl}));
+        alert(JSON.stringify(jobAppl))
+        await dispatch( fillPersonalDataAction({jobAppl: jobAppl}));
     }
     return msgInfo;
 }

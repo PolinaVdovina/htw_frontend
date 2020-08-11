@@ -84,7 +84,7 @@ export function validateNameOrg(data: any): boolean {
     let name;
     if (data.name) name = data.name;
     else name = data;
-    if (name && name != '' && name.replace(/\s/g,"") != "")
+    if (name && name != '')
         return true;
     else return false;
 }

@@ -70,11 +70,12 @@ export const deleteJobApplicant = async ( dispatch, data ) => {
     if(msgInfo.msgStatus == MessageStatus.OK) {
         let jobAppl = [...store.getState().userPersonalsReducer.jobApplicantSet]
         for (let i = 0; i < jobAppl.length; i++) {
+            alert(jobAppl[i].id)
             if (jobAppl[i].id == data.id) {
                 jobAppl.splice(i, 1);
             }
         }
-        await dispatch( fillPersonalDataAction({jobApplicantSet: jobAppl}));
+        await dispatch( fillPersonalDataAction({jobAppl: jobAppl}));
     }
     return msgInfo;
 }

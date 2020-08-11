@@ -48,15 +48,11 @@ export const changeTypesEdu = async ( dispatch, data ) => {
 }
 
 export const changeJobApplicance = async ( dispatch, data ) => {
-    const msgInfo: IMessageInfo = await changeEmployerAddressFetch(store.getState().authReducer.token, data, '/personal/jobappll');
+    const msgInfo: IMessageInfo = await changePersonalDataFetch(store.getState().authReducer.token, data, '/personal/jobappll');
     if(msgInfo.msgStatus == MessageStatus.OK) {
-        const newJobAppl = {
-            ...data,
-            id: msgInfo.id
-        }
         const jobApplicantSet = [
             ...store.getState().userPersonalsReducer.jobApplicantSet,
-            newJobAppl
+            data
         ]
         await dispatch( fillPersonalDataAction({
             jobApplicantSet: jobApplicantSet
@@ -66,15 +62,17 @@ export const changeJobApplicance = async ( dispatch, data ) => {
 }
 
 export const deleteJobApplicant = async ( dispatch, data ) => {
+    alert(JSON.stringify(data))
     const msgInfo: IMessageInfo = await deletePersonalDataFetch(store.getState().authReducer.token, data, '/personal/jobappll');
     if(msgInfo.msgStatus == MessageStatus.OK) {
         let jobAppl = [...store.getState().userPersonalsReducer.jobApplicantSet]
         for (let i = 0; i < jobAppl.length; i++) {
+            alert(jobAppl[i].id)
             if (jobAppl[i].id == data.id) {
                 jobAppl.splice(i, 1);
             }
         }
-        await dispatch( fillPersonalDataAction({jobApplicantSet: jobAppl}));
+        await dispatch( fillPersonalDataAction({jobAppl: jobAppl}));
     }
     return msgInfo;
 }

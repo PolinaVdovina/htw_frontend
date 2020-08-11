@@ -126,7 +126,7 @@ class AccountInfoComp extends React.Component<IPropsAccountInfo, IStateAccountIn
                         </Grid>
                         { (this.context[key] && SETTINGS[this.props.role][key]['type'] && SETTINGS[this.props.role][key]['type'] == 'mass') && 
                             this.context[key].map((element, index) => 
-                                <Grid item container direction='row' spacing={2} style={{flexWrap:"nowrap", marginBottom: '2px'}}>
+                                <Grid item container direction='row' spacing={2} style={{flexWrap:"nowrap", marginBottom: '5px'}}>
                                     <Grid item style={{flexGrow:1}}>
                                         <Typography>
                                             {
