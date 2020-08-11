@@ -16,7 +16,11 @@ import { CabinetContext } from './cabinet-context';
 interface IPropsAccountInfo extends WithSnackbarProps{
     role: string,
     title?: string,
-    data: {},
+    data: {
+        // name: string,
+        // dateBirth: string,
+        // address: any
+    },
     settingsView: any,
     enqueueSnackbar: any,
     theme?: any,
@@ -130,9 +134,8 @@ class AccountInfoComp extends React.Component<IPropsAccountInfo, IStateAccountIn
                                     <Grid item style={{flexGrow:1}}>
                                         <Typography>
                                             {
-                                                ((key == 'address') ? addressGlue(element) : 
-                                                ((key == 'jobApplicantSet') ? jobApplGlue(element) : 
-                                                element))
+                                                key == 'address' ? addressGlue(element) : 
+                                                (key == 'jobApplicantSet' ? jobApplGlue(element) : element)
                                             }                                                  
                                         </Typography>
                                     </Grid>

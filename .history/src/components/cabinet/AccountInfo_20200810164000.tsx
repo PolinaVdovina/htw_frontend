@@ -32,13 +32,6 @@ interface IStateAccountInfo{
     }
 }
 
-function mapStateToProps(state : RootState) {
-    return {
-        data: { 
-        }
-    }
-}
-
 class AccountInfoComp extends React.Component<IPropsAccountInfo, IStateAccountInfo> {
     static contextType = CabinetContext
     constructor(props) {       
@@ -130,9 +123,8 @@ class AccountInfoComp extends React.Component<IPropsAccountInfo, IStateAccountIn
                                     <Grid item style={{flexGrow:1}}>
                                         <Typography>
                                             {
-                                                ((key == 'address') ? addressGlue(element) : 
-                                                ((key == 'jobApplicantSet') ? jobApplGlue(element) : 
-                                                element))
+                                                key == 'address' ? addressGlue(element) : 
+                                                (key == 'jobApplicantSet' ? jobApplGlue(element) : element)
                                             }                                                  
                                         </Typography>
                                     </Grid>
@@ -220,4 +212,4 @@ class AccountInfoComp extends React.Component<IPropsAccountInfo, IStateAccountIn
 }
 
 
-export default withTheme( connect(mapStateToProps)(withSnackbar(AccountInfoComp)));
+export default withTheme(withSnackbar(AccountInfoComp));

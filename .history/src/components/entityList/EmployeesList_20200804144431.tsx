@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import { getEmployeesData } from '../../redux/reducers/entities-reducers';
 import AddIcon from '@material-ui/icons/Add';
 import { RegMiniComponent } from './RegMiniComponent';
-import { CabinetContext } from '../cabinet/cabinet-context';
 
 interface IEmployeeList {
     token,
@@ -29,7 +28,6 @@ const mapDispatchToProps = {
 export const EmployeeListRaw = (props : IEmployeeList) => {
     const theme = useTheme();
     const [hiddenChangeComponent, setHiddenChangeComponent] = React.useState(false)
-    const context = React.useContext(CabinetContext);
 
     React.useEffect(() => {
         props.getEmployeesData(props.token)
@@ -70,14 +68,12 @@ export const EmployeeListRaw = (props : IEmployeeList) => {
                 </Link>
             </Grid>
         )} 
-        { context.isMine &&    
             <Grid item container justify='center'>
                 <IconButton style={{width: '50px'}} onClick={() => handleClickOpen()}>
                     <AddIcon/>
                 </IconButton> 
-            </Grid> 
-        } 
-        { hiddenChangeComponent &&
+            </Grid>  
+        {hiddenChangeComponent &&
             <RegMiniComponent
                 handleClickClose={handleClickClose}
                 handleClickSave={handleClickSave}
