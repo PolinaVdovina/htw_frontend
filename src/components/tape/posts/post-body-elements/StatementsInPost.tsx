@@ -23,7 +23,7 @@ export const StatementInPost = (props: IStatementsInPostProps) => {
     return (
         <div>
             {props.data.statements.map(statement =>
-                <Typography style={{paddingLeft: theme.spacing(2)}}>
+                <Typography style={{paddingLeft: theme.spacing(2), wordBreak: "break-word",}}>
                     {statement.title}: {statement.value}
                 </Typography>
             )}

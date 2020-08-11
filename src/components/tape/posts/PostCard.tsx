@@ -48,6 +48,8 @@ const useStyles = makeStyles((theme: Theme) =>
     aboutGrid: {
       alignItems: "center",
       flexWrap: "nowrap",
+      wordBreak: "break-word"
+      
     },
     avatar: {
       marginRight: theme.spacing(1),
