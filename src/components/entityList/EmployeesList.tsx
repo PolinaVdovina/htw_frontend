@@ -7,6 +7,7 @@ import AddIcon from '@material-ui/icons/Add';
 import { RegMiniComponent } from './RegMiniComponent';
 import { CabinetContext } from '../cabinet/cabinet-context';
 
+import { Link as RouterLink, LinkProps as RouterLinkProps, NavLink } from 'react-router-dom';
 interface IEmployeeList {
     token,
     entities,
@@ -55,7 +56,8 @@ export const EmployeeListRaw = (props : IEmployeeList) => {
                 <Avatar></Avatar>
                 <Link 
                     style={{marginLeft: theme.spacing(2)}} 
-                    href={entity.login}
+                    to={entity.login}
+                    component={NavLink}
                     color='inherit'
                     underline='none'
                     variant='h6'

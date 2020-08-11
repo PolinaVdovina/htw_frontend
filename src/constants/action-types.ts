@@ -8,6 +8,7 @@ export const FILL_BONDMANS: String = 'FILL_BONDMANS';
 export const FILL_JOBSEEKER_NAME: String = 'FILL_JOBSEEKER_NAME';
 export const FILL_JOBSEEKER_BIRTHDAY: String = 'FILL_JOBSEEKER_BIRTDAY';
 export const RESET_PERSONAL_DATA: String = "RESET_PERSONAL_DATA"
+export const UPDATE_AVATAR_URL_UID: String = "UPDATE_URL_UID"
 
 export const SET_FILTER : String = 'SET_FILTER';
 export const SET_PAGINATION : String = 'SET_PAGINATION';

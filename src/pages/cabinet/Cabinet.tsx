@@ -13,7 +13,7 @@ import { RootState } from '../../redux/store';
 import { EmployeeCabinet } from './employee/EmployeeCabinet';
 import { EmployerCabinet } from './employer/EmployerCabinet';
 import { InstitutionCabinet } from './institution/InstitutionCabinet';
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import { AccountCommonInfo } from './../../components/cabinet/AccountCommonInfo';
 import { PaddingPaper } from './../../components/cards/PaddingPaper';
 import { useRouteMatch } from 'react-router';
@@ -21,6 +21,7 @@ import { getAccountDataFetch } from './../../utils/fetchFunctions';
 import { accountRequestToEntityDictionary } from '../../utils/appliedFunc';
 import { CabinetContext } from '../../components/cabinet/cabinet-context';
 import { authReducer } from '../../redux/reducers/auth-reducers';
+import { startLoadingAction, stopLoadingAction } from './../../redux/actions/dialog-actions';
 
 interface ICabinetProps {
     myLogin?: string | null,
@@ -34,9 +35,10 @@ interface ICabinetProps {
         inn,
         ogrn,
         gender,
+        name,
+        about,
     }
 }
-
 
 function mapStateToProps(state : RootState) {
     let data =  {
@@ -85,12 +87,13 @@ const CabinetComp = (props : ICabinetProps) => {
 
     const routeMatch = useRouteMatch();
     const urlLogin = routeMatch.params['login'];
-    
+    const dispatch = useDispatch();
     const isMine = () => props.myLogin == urlLogin;
     const [cardData, setCardData] = React.useState<any>(null);
     React.useEffect(() => {
         const fetchData = async() => {
             if(props.myToken) {
+                await dispatch(startLoadingAction());
                 const requestData = await getAccountDataFetch(props.myToken, urlLogin);
                 let field = ""
                 switch(requestData.roles) {
@@ -113,14 +116,17 @@ const CabinetComp = (props : ICabinetProps) => {
                 await setCardData({
                     ...parsedData,
                     role: requestData.roles,
+                    login: urlLogin,
                     isMine: false,
                 })
+                await dispatch(stopLoadingAction());
+
             }
         }
         if(props.myLogin) {
             if(isMine()) {
                 //alert(JSON.stringify(props.reduxPersonalData))
-                setCardData({...props.reduxPersonalData, isMine:true});
+                setCardData({...props.reduxPersonalData, isMine:true, login: urlLogin});
                 
             }
             else {
@@ -128,7 +134,7 @@ const CabinetComp = (props : ICabinetProps) => {
                 fetchData();
             }
         }
-      }, [isMine(), props.reduxPersonalData])
+      }, [...Object.keys(props.reduxPersonalData).map(key => props.reduxPersonalData[key]), isMine()])
     //alert(JSON.stringify(props.reduxPersonalData));
     return (
         <HCenterizingGrid>

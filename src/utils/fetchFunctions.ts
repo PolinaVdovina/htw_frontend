@@ -325,3 +325,54 @@ export const getOwnVacanciesFetch = async (token: string) => {
         return null;
     }
 }
+
+
+export const getVacanciesByLoginFetch = async (token: string, login: string) => {
+    try {
+        const result = await axios.get("/vacancy/getByLogin?login="+login,
+        {
+            headers: {Authorization: 'Bearer ' + token},
+        });
+        //alert(JSON.stringify(userData.data))
+        return result.data;
+    }
+    catch {
+        return null;
+    }
+}
+
+
+export const removeVacancyFetch = async (token: string, vacancyId: number) => {
+    try {
+        const result = await axios.get("/vacancy/remove?vacancyId="+vacancyId,
+        {
+            headers: {Authorization: 'Bearer ' + token},
+        });
+        //alert(JSON.stringify(userData.data))
+        return MessageStatus.OK;
+    }
+    catch {
+        return MessageStatus.ERROR;
+    }
+}
+
+
+export const setAvatarFetch = async(token: string, file: File ) => {
+    try {
+        let formData = new FormData();
+        formData.append("avatar", file);
+        const result = await axios.post("/account/setAvatar", formData,
+            {
+                headers: {Authorization: 'Bearer ' + token},
+            }
+        );
+        return MessageStatus.OK;
+        }
+    catch {
+        return MessageStatus.ERROR;
+    }
+}
+
+export const getAvatarUrl = (login: string):string => {
+    return "/account/avatars/"+login
+}

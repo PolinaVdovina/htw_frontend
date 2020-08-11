@@ -21,52 +21,6 @@ interface IJobSeekerTabs {
   value?: any,
 }
 
-const testPosts: Array<IPostData> = [
-  {
-    shortDescription:"senior-разработчик за 100 рублей в месяц",
-    title: "Пост о себе",
-    body: [
-      {
-        Component: ParagraphInPost,
-        data: {
-          title: "Работа вашей мечты",
-          description: "Здесь вы можете творить любую хуйню! Добро пожаловать в ИП Петухов. И для наполнения еще напишу в описании тупой херни: огурец, реакт, хлеб, булка, лягушка, и так далее...",
-        }
-      },
-      {
-        Component: ListInPost,
-        data: {
-          title: "Требуемые навыки",
-          items: ["Программирование", "Администрирование", "Троллинг", "Адаптирование"]
-        },
-      },
-    ],
-    owner: "Прекрасный",
-    createdAt: "2019-21-21",
-  },
-  {
-    shortDescription:"senior-адаптатор за 1000000 рублей в месяц",
-    title: "Пост о себе",
-    body: [
-      {
-        Component: ParagraphInPost,
-        data: {
-          title: "Работа вашей мечты",
-          description: "Здесь вы можете творить любую хуйню! Добро пожаловать в ИП Петухов. И для наполнения еще напишу в описании тупой херни: огурец, реакт, хлеб, булка, лягушка, и так далее...",
-        }
-      },
-      {
-        Component: ListInPost,
-        data: {
-          title: "Требуемые навыки",
-          items: ["Программирование", "Администрирование", "Троллинг", "Адаптирование"]
-        },
-      },
-    ],
-    owner: "Прекрасный",
-    createdAt: "2019-21-21",
-  }
-]
 
 
 const tabs: Array<ITabData> = [
@@ -88,7 +42,7 @@ const tabs: Array<ITabData> = [
   {
     label: "Достижения",
     //IconComponent: <PersonPinIcon/>,
-    TabPanel: <Tape posts={testPosts}/>
+    TabPanel: <Tape/>
   },
 ]
 

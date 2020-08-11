@@ -2,6 +2,8 @@ import { IPostData } from "../components/tape/posts/PostCard";
 import { IBodyElement } from './../components/tape/posts/PostCard';
 import { ParagraphInPost } from './../components/tape/posts/post-body-elements/ParagraphInPost';
 import { ListInPost } from './../components/tape/posts/post-body-elements/ListInPost';
+import { StatementInPost } from './../components/tape/posts/post-body-elements/StatementsInPost';
+import { v4 as uuidv4 } from 'uuid';
 
 export function addressGlue(data?) : string | null {
     let address: string | null = null;
@@ -155,9 +157,12 @@ interface IVacancy {
     description?: string,
     demands?: Array<string>,
     duties?: Array<string>,
-    competences?: Array<string>,
+    competencies?: Array<string>,
     minSalary: number,
     maxSalary: number,
+    experience: string,
+    address: any,
+    email: string,
 }
 
 export function vacancyToPost(vacancyData: IVacancy): IPostData {
@@ -169,6 +174,15 @@ export function vacancyToPost(vacancyData: IVacancy): IPostData {
             }
         },        
     ];
+
+    if(vacancyData.experience)
+    postBody.push({
+        Component:StatementInPost,
+        data: {
+            statements: [{title: "Опыт работы", value: vacancyData.experience}],
+        }
+    })
+
 
     if(vacancyData.demands && vacancyData.demands.length > 0)
         postBody.push({
@@ -188,23 +202,74 @@ export function vacancyToPost(vacancyData: IVacancy): IPostData {
             }
         })
 
-    if(vacancyData.competences && vacancyData.competences.length > 0)
+    if(vacancyData.competencies && vacancyData.competencies.length > 0)
         postBody.push({
             Component:ListInPost,
             data: {
                 title: "Компетенции",
-                items: vacancyData.competences,
+                items: vacancyData.competencies,
+            }
+        })
+
+    let contactDetailsItems: Array<string> = [];
+    if(vacancyData.phone)
+        contactDetailsItems.push("Телефон: " + vacancyData.phone);
+    if(vacancyData.email)
+        contactDetailsItems.push("Электронная почта: " + vacancyData.email)
+    if(vacancyData.address) 
+        contactDetailsItems.push("Адрес: " + addressGlue(vacancyData.address))
+    if(contactDetailsItems.length > 0)
+        postBody.push({
+            Component:ListInPost,
+            data: {
+                title: "Контактные данные",
+                items: contactDetailsItems
             }
         })
 
     return {
-        shortDescription: vacancyData.position + (vacancyData.maxSalary ? ( ", " + vacancyData.maxSalary + "р") : ""),
-        owner: vacancyData.employerName ? vacancyData.employerName : vacancyData.employerAccountLogin,
+        shortDescription: vacancyData.minSalary + "р - "+ vacancyData.maxSalary + "р", //vacancyData.position + (vacancyData.maxSalary ? ( ", " + vacancyData.maxSalary + "р") : ""),
+        title: vacancyData.position,
         createdAt: vacancyData.createdAt?.slice(0,10),
-        body: postBody
+        body: postBody,
+        id: vacancyData.id,
+        ownerLogin: vacancyData.employerAccountLogin,
     }
 }
 
 export function vacanciesToPostList(vacancies: Array<IVacancy>) {
     return vacancies.map(vacancy => vacancyToPost(vacancy))
+}
+
+
+
+
+export const resize = (imgFile, maxWidth, onload) => {
+    let canvas = document.createElement('canvas');
+
+    var img = new Image;
+    img.onload = () =>
+    {
+        if(canvas) {
+            let k = 1;
+            if(img.width > maxWidth) 
+                k = 1.0 *  maxWidth / img.width;
+            canvas.width = img.width * k;
+            canvas.height = img.height*k;
+            const context = canvas.getContext('2d');
+            context && context.drawImage(img, 0, 0, img.width * k, img.height*k);
+            
+            let imgurl= canvas.toDataURL( )
+            var byteString = atob(imgurl.split(',')[1]);
+            var ab = new ArrayBuffer(byteString.length);
+            var ia = new Uint8Array(ab);
+            for (var i = 0; i < byteString.length; i++) {
+                ia[i] = byteString.charCodeAt(i);
+            }
+            var blob = new Blob([ia], { type: 'image/jpeg' });
+            var file = new File([blob], "image.jpg");
+            onload(file, URL.createObjectURL(file))
+        }
+    }
+    img.src = URL.createObjectURL(imgFile);
 }

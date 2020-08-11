@@ -6,26 +6,41 @@ import { BodyElementComp } from './post-body-elements/post-body-element';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import { useTheme } from '@material-ui/core';
+import DeleteIcon from '@material-ui/icons/Delete';
+import { Link as RouterLink, NavLink } from 'react-router-dom';
+import { urls } from '../../../pages/urls';
+import { getAvatarUrl } from '../../../utils/fetchFunctions';
+import { connect } from 'react-redux';
+import { RootState } from '../../../redux/store';
 
 export interface IBodyElement {
   data?: any,
   Component: BodyElementComp,
 }
 
+type SubButtonType = {
+  IconComponent: any,
+  key: string
+}
+
 export interface IPostData {
-  title?: string,
+  id?: any,
   body?: Array<IBodyElement>,
   fileList?: FileList,
   createdAt?: string,
   lastChange?: string,
-  owner?: string,    
-  shortDescription?: string
+  title?: string,    
+  shortDescription?: string,
+  ownerLogin?: string,
 }
 
-interface IPostProps {
+export interface IPostProps {
   postData: IPostData,
+  avatarUrlUid: any,
   style: any,
-  isOpenedDefaut?: boolean
+  isOpenedDefaut?: boolean,
+  onDeleteClick?: ((postId: any ) => void) | null,
+  onChangeClick?: (postId: any ) => void
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -49,37 +64,61 @@ const useStyles = makeStyles((theme: Theme) =>
       maxHeight: "0px",
       overflow:"hidden",
       transition: "all 1s ease-out",
+    },
+    button: {
+      width: "32px",
+      height: "32px",
     }
   }),
 );
 
 
 
-export const PostCard = (props: IPostProps) => {
+const PostCardComp = (props: IPostProps) => {
     const classes = useStyles();
     const theme = useTheme();
     const [open, setOpen] = React.useState(props.isOpenedDefaut == true)
     return (
         <div style={props.style}>
           <Grid container direction="row" className={classes.aboutGrid}>
+            {
+            props.postData.ownerLogin ? 
+            <Avatar
+            src={getAvatarUrl(props.postData.ownerLogin) + "?uid=" + props.avatarUrlUid } 
+            component={RouterLink} 
+            to={urls.cabinet.shortPath + props.postData.ownerLogin} 
+            className={classes.avatar} />
+            :
             <Avatar className={classes.avatar} />
+            }
             <Grid item style={{flexGrow:1, marginRight: theme.spacing(2)}}>
               <Grid container direction="column" >
+                {props.postData.title &&
                 <Typography>
-                  {props.postData.owner}
+                  {props.postData.title}
                 </Typography>
+                }
                 <Typography className={classes.descriptionBlock}>{props.postData.createdAt}</Typography>
               </Grid>
             </Grid>
             {props.postData.shortDescription &&
             <Grid item>
-              <Typography style={{fontSize:"14px"}}>
+              <Typography style={{fontSize:"12px"}}>
                 {props.postData.shortDescription}
               </Typography>
             </Grid>
             }
             <Grid item>
-              <IconButton onClick={() => setOpen(!open)}>
+              {  props.onDeleteClick &&
+                <IconButton
+                className={classes.button} 
+                onClick = {() => props.onDeleteClick && props.onDeleteClick(props.postData.id)}>
+                  <DeleteIcon/>
+                </IconButton>
+              }
+              <IconButton
+              className={classes.button}  
+              onClick={() => setOpen(!open)}>
                 {open ?  <ExpandLessIcon/> : <ExpandMoreIcon/>}
               </IconButton>
             </Grid>
@@ -99,3 +138,5 @@ export const PostCard = (props: IPostProps) => {
         </div>
     )
 }
+
+export const PostCard = connect((state: RootState)=>({avatarUrlUid: state.userPersonalsReducer.avatarUrlUid}))(PostCardComp);

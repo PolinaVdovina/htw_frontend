@@ -18,6 +18,7 @@ export interface IAuthState {
     error?: string | null,
     msgStatus?: string | null,
     isFetched: boolean,
+    
 }
 
 const initialState: IAuthState = {
@@ -29,7 +30,6 @@ const initialState: IAuthState = {
     error: null,
     msgStatus: null,
     isFetched: false,
-    
   };
 
 

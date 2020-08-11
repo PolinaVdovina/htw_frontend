@@ -12,6 +12,7 @@ import { RootState } from '../../redux/store';
 import { logout } from '../../redux/reducers/auth-reducers';
 import TransitEnterexitIcon from '@material-ui/icons/TransitEnterexit';
 import { store } from './../../redux/store';
+import { getAvatarUrl } from '../../utils/fetchFunctions';
 
 interface IDrawerElement {
   IconComponent?: any,
@@ -113,7 +114,8 @@ interface IAppMenuList {
     name: string,
     surname: string,
     login?: string | null,
-    role?: string | null
+    role?: string | null,
+    avatarUID: any
 }
 
 function mapStateToProps(state : RootState) {
@@ -123,6 +125,7 @@ function mapStateToProps(state : RootState) {
     login: state.authReducer.login,
     token: state.authReducer.token,
     role: state.authReducer.entityType,
+    avatarUID: state.userPersonalsReducer.avatarUrlUid,
   }
 }
 
@@ -135,12 +138,13 @@ const AppMenuListComp = (props: IAppMenuList) => {
             <Grid container item alignItems="center" direction="row" className={classes.avatarGrid}>
 
                 <Avatar 
+                src={props.login ? getAvatarUrl(props.login) + ("?" + props.avatarUID) : ""}
                 className={classes.avatar}
-                component={NavLink} to={urls.cabinet.shortPath+"1"}
+                component={NavLink} to={urls.cabinet.shortPath+props.login}
                 style={{marginRight:theme.spacing(2)}}/>
         
                 <Typography style={{flexGrow:1, width:"min-content", color:"white"}}>
-                  {(props.role == "ROLE_JOBSEEKER" || props.role == "EMPLOYEE") && ((props.name && props.surname) ? props.surname + ' ' + props.name : props.login)}
+                  {(props.role == "ROLE_JOBSEEKER" || props.role == "ROLE_EMPLOYEE") && ((props.name && props.surname) ? props.surname + ' ' + props.name : props.login)}
                   {(props.role == "ROLE_EMPLOYER" || props.role == "ROLE_INSTITUTION") && (props.name ? props.name : props.login)}
                 </Typography>
         

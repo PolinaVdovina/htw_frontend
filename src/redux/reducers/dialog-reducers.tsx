@@ -25,10 +25,10 @@ export function dialogReducer(state = initialState, action) : IDialogState {
 }
 
 
-// export const startLoading: () => void = () => async (dispatch, getState) => {
-//     dispatch(startLoadingAction () );
-// } 
+export const startLoading: () => void = () => async (dispatch, getState) => {
+     dispatch(startLoadingAction () );
+ } 
 
-// export const stopLoading: () => void = () => async (dispatch, getState) => {
-//     dispatch(stopLoadingAction () );
-// } 
+export const stopLoading: () => void = () => async (dispatch, getState) => {
+     dispatch(stopLoadingAction () );
+} 

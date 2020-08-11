@@ -10,7 +10,6 @@ interface IListInPostProps extends BodyElementCompProps  {
     }
 }
 
-
 export const ListInPost = (props: IListInPostProps) => {
     const theme = useTheme();
     return (
@@ -18,7 +17,7 @@ export const ListInPost = (props: IListInPostProps) => {
             <Typography style={{fontWeight:"bold", paddingLeft: theme.spacing(2)}}>
                 {props.data.title + ":"}
             </Typography>
-            <List>
+            <List style={{padding:0}}>
                 {props.data.items.map(
                     (item, index) => 
                     <ListItem key={index}>
@@ -29,3 +28,14 @@ export const ListInPost = (props: IListInPostProps) => {
         </div>
     )
 } 
+
+// export const createListInPost = (string) => {
+//     return {
+//         {
+//             data: {
+//                 title: props.data.title,
+
+//             }
+//         }
+//     }
+// }
