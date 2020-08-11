@@ -5,9 +5,7 @@ import { connect } from 'react-redux';
 import { getEmployeesData } from '../../redux/reducers/entities-reducers';
 import AddIcon from '@material-ui/icons/Add';
 import { RegMiniComponent } from './RegMiniComponent';
-import { CabinetContext } from '../cabinet/cabinet-context';
 
-import { Link as RouterLink, LinkProps as RouterLinkProps, NavLink } from 'react-router-dom';
 interface IEmployeeList {
     token,
     entities,
@@ -30,7 +28,6 @@ const mapDispatchToProps = {
 export const EmployeeListRaw = (props : IEmployeeList) => {
     const theme = useTheme();
     const [hiddenChangeComponent, setHiddenChangeComponent] = React.useState(false)
-    const context = React.useContext(CabinetContext);
 
     React.useEffect(() => {
         props.getEmployeesData(props.token)
@@ -56,8 +53,7 @@ export const EmployeeListRaw = (props : IEmployeeList) => {
                 <Avatar></Avatar>
                 <Link 
                     style={{marginLeft: theme.spacing(2)}} 
-                    to={entity.login}
-                    component={NavLink}
+                    href={entity.login}
                     color='inherit'
                     underline='none'
                     variant='h6'
@@ -72,14 +68,12 @@ export const EmployeeListRaw = (props : IEmployeeList) => {
                 </Link>
             </Grid>
         )} 
-        { context.isMine &&    
             <Grid item container justify='center'>
                 <IconButton style={{width: '50px'}} onClick={() => handleClickOpen()}>
                     <AddIcon/>
                 </IconButton> 
-            </Grid> 
-        } 
-        { hiddenChangeComponent &&
+            </Grid>  
+        {hiddenChangeComponent &&
             <RegMiniComponent
                 handleClickClose={handleClickClose}
                 handleClickSave={handleClickSave}

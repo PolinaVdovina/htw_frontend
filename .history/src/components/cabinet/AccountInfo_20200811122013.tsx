@@ -128,6 +128,7 @@ class AccountInfoComp extends React.Component<IPropsAccountInfo, IStateAccountIn
                             this.context[key].map((element, index) => 
                                 <Grid item container direction='row' spacing={2} style={{flexWrap:"nowrap"}}>
                                     <Grid item style={{flexGrow:1}}>
+                                        {alert(JSON.stringify(this.context[key]))}
                                         <Typography>
                                             {
                                                 ((key == 'address') ? addressGlue(element) : 

@@ -130,9 +130,10 @@ class AccountInfoComp extends React.Component<IPropsAccountInfo, IStateAccountIn
                                     <Grid item style={{flexGrow:1}}>
                                         <Typography>
                                             {
-                                                ((key == 'address') ? addressGlue(element) : 
+                                                /*((key == 'address') ? addressGlue(element) : 
                                                 ((key == 'jobApplicantSet') ? jobApplGlue(element) : 
-                                                element))
+                                                element))*/
+                                                key == 'address' ? addressGlue(element) : element
                                             }                                                  
                                         </Typography>
                                     </Grid>

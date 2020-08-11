@@ -85,7 +85,6 @@ const RegMiniComponentRaw = (props : IRegMiniComponent) => {
                         variant='outlined' 
                         size='small'
                         value={password}
-                        type="password"
                         onChange={(event) => setPassword(event.target.value)}
                     />
                 </Grid>
