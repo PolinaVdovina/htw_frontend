@@ -159,32 +159,18 @@ export const settingsJobs = {
 
 export const settingsEdu = {
     institution: {
-        title: 'Образовательная организация',
-        changeComponent: ChangeOneString
+        title: 'Образовательная организация'
     },
     education: {
-        title: 'Тип образования',
-        listItemsSelect: [
-            'среднее профессиональное',
-            'бакалавриат',
-            'специалитет',
-            'магистратура',
-            'подготовка кадров высшей квалификации',
-            'повышение квалификации',
-            'курсы',
-        ],
-        changeComponent: ChangeMultiSelect
+        title: 'Тип образования'
     },
     specialty: {
-        title: 'Специальность',
-        changeComponent: ChangeOneString
+        title: 'Специальность'
     },
     dateStart: {
-        title: 'Дата начала',
-        changeComponent: ChangeDate
+        title: 'Дата начала'
     },
     dateReceiving: {
-        title: 'Дата окончания',
-        changeComponent: ChangeDate
+        title: 'Дата окончания'
     }
 }

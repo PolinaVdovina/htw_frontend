@@ -23,8 +23,7 @@ import {
     validateAddress, 
     validateInn, 
     validateNameOrg, 
-    validateOgrn, 
-    validateAbout
+    validateOgrn 
 } from "../../utils/validateFunctions";
 import { 
     changeJobSeekerData, 
@@ -109,7 +108,7 @@ export const SETTINGS = {
             changeFunction: changeJobApplicance,
             deleteFunction: deleteJobApplicant
         },
-        education: {
+        institutions: {
             title: 'Образование',
             type: 'mass',
             changeSettings: settingsEdu
@@ -125,7 +124,7 @@ export const SETTINGS = {
         about: {
             title: 'О себе',
             changeSettings: settingsDescription,
-            validateFunction: validateAbout,
+            validateFunction: validateNameOrg,
             changeFunction: changeJobSeekerData,      
         },
         inn: {

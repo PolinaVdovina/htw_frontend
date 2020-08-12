@@ -25,7 +25,7 @@ interface ICommonState {
     links?,
     avatarUrlUid?: any,
     jobApplicantSet?,
-    education?
+    jobSeekerEducationInInstitutionDto?
 }
 
 const initialState : ICommonState = {
@@ -50,7 +50,7 @@ const initialState : ICommonState = {
         employer: null
     },
     avatarUrlUid: null,
-    education: null
+    jobSeekerEducationInInstitutionDto: null
 };
 
 

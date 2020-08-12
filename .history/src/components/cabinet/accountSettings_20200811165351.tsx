@@ -109,7 +109,7 @@ export const SETTINGS = {
             changeFunction: changeJobApplicance,
             deleteFunction: deleteJobApplicant
         },
-        education: {
+        institutions: {
             title: 'Образование',
             type: 'mass',
             changeSettings: settingsEdu

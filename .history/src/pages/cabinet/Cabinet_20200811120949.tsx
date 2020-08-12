@@ -62,8 +62,7 @@ function mapStateToProps(state : RootState) {
             competenceSet: state.userPersonalsReducer.competenceSet,
             employer: state.userPersonalsReducer.employer,
             links: state.userPersonalsReducer.links,
-            jobApplicantSet: state.userPersonalsReducer.jobApplicantSet,
-            education: state.userPersonalsReducer.education          
+            jobApplicantSet: state.userPersonalsReducer.jobApplicantSet          
         }
     }
     // data.reduxPersonalData['name'] = '';
