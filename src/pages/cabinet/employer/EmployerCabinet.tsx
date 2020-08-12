@@ -14,7 +14,8 @@ import { PostCard,IPostData } from './../../../components/tape/posts/PostCard';
 import { VacancyEditorDialog } from '../../../components/vacancy-editor/VacancyEditorDialog';
 import { theme } from '../../../theme';
 import { EmployeeList } from '../../../components/entityList/EmployeesList';
-import { VacancyTab } from './../../../components/vacancy-editor/VacancyTab';
+import { VacancyTab } from '../../../components/cabinet/employer/VacancyTab';
+import { EmployeesTab } from '../../../components/cabinet/employer/EmployeesTab';
 
 
 interface IEmployerCabinet {
@@ -32,7 +33,7 @@ const tabs: Array<ITabData> = [
   {
     label: "Сотрудники",
     //IconComponent: <PersonPinIcon/>,
-    TabPanel: <EmployeeList/>
+    TabPanel: <EmployeesTab/>
   },
   {
     label: "Вакансии",

@@ -229,9 +229,9 @@ export function vacancyToPost(vacancyData: IVacancy): IPostData {
         })
 
     return {
-        shortDescription: vacancyData.minSalary + "р - "+ vacancyData.maxSalary + "р", //vacancyData.position + (vacancyData.maxSalary ? ( ", " + vacancyData.maxSalary + "р") : ""),
+        rightText: vacancyData.minSalary + "р - "+ vacancyData.maxSalary + "р", //vacancyData.position + (vacancyData.maxSalary ? ( ", " + vacancyData.maxSalary + "р") : ""),
         title: vacancyData.position,
-        createdAt: vacancyData.createdAt?.slice(0,10),
+        bottomText: vacancyData.createdAt?.slice(0,10),
         body: postBody,
         id: vacancyData.id,
         ownerLogin: vacancyData.employerAccountLogin,

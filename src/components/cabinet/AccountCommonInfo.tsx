@@ -58,6 +58,9 @@ const useStyles = makeStyles((theme: Theme) =>
     input: {
       display: 'none',
     },
+    changeName: {
+      alignSelf: "flex-start"
+    },
     changeAvatarButton: {
       "&:hover, &.Mui-focusVisible": { 
        color: "white", 
@@ -178,7 +181,7 @@ const AccountCommonInfoComp = (props: IAccountCommonInfo) => {
               style={{textAlign:"left", wordBreak:"break-word"}}
               component='button' 
               onClick={()=>setOpenAbout(true)}>
-                {context.about ? context.about : "Расскажите о себе"}
+                { (context.about && (context.about.replace(/\s/g,"") != "")) ? context.about : "Расскажите о себе"}
               </Link>
               }
               {
@@ -202,17 +205,30 @@ const AccountCommonInfoComp = (props: IAccountCommonInfo) => {
                 />
               
           </Grid>
-          {
-          context.isMine &&
-          <Grid item>
-              <Link 
-                  component='button'  
-                  onClick={context.isMine ? ()=>setOpenName(true) : ()=>{}}
-              >
-                  Изменить
-              </Link>
+          
+          
+          <Grid item className={classes.changeName}>
+            {
+            context.isMine &&
+            <Link 
+                component='button'  
+                onClick={context.isMine ? ()=>setOpenName(true) : ()=>{}}
+            >
+              
+                Изменить
+            </Link>
+            }
+            {
+            !context.isMine &&
+            <Link 
+                component='button'  
+            >
+              
+                Подписаться
+            </Link>
+            }
           </Grid>
-          }
+          
       </Grid>
     )
 }

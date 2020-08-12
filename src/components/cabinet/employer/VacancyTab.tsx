@@ -1,16 +1,17 @@
 import { useTheme, Grid, Link, Divider, Dialog, DialogTitle, DialogActions, Button } from "@material-ui/core";
 import React from "react";
-import { VacancyEditorDialog } from "./VacancyEditorDialog";
-import { Tape } from "../tape/Tape";
-import { RootState } from "../../redux/store";
+import { VacancyEditorDialog } from "../../vacancy-editor/VacancyEditorDialog";
+import { Tape } from "../../tape/Tape";
+import { RootState } from "../../../redux/store";
 import { connect, useDispatch } from 'react-redux';
-import { getOwnVacanciesFetch, removeVacancyFetch } from "../../utils/fetchFunctions";
-import { startLoadingAction, stopLoadingAction } from "../../redux/actions/dialog-actions";
-import { vacanciesToPostList } from './../../utils/appliedFunc';
-import { CabinetContext } from './../cabinet/cabinet-context';
-import { getVacanciesByLoginFetch } from './../../utils/fetchFunctions';
-import { MessageStatus } from "../../utils/fetchInterfaces";
+import { getOwnVacanciesFetch, removeVacancyFetch } from "../../../utils/fetchFunctions";
+import { startLoadingAction, stopLoadingAction } from "../../../redux/actions/dialog-actions";
+import { vacanciesToPostList } from '../../../utils/appliedFunc';
+import { CabinetContext } from '../cabinet-context';
+import { getVacanciesByLoginFetch } from '../../../utils/fetchFunctions';
+import { MessageStatus } from "../../../utils/fetchInterfaces";
 import { useSnackbar } from 'notistack';
+import AddEntityBlock from "../AddEntityBlock";
 
 function mapStateToProps(state : RootState) {
   return {
@@ -82,7 +83,7 @@ const VacancyTabComp = (props) => {
           </DialogActions>
         </Dialog>
 
-        <Link component='button' onClick={()=>setOpenVacancyDialog(true)}>Добавить вакансию</Link>
+        <AddEntityBlock handleClickOpen={()=>setOpenVacancyDialog(true)}/>
         </Grid>
         <Divider/>
       </>}

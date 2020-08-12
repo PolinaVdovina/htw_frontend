@@ -27,10 +27,10 @@ export interface IPostData {
   id?: any,
   body?: Array<IBodyElement>,
   fileList?: FileList,
-  createdAt?: string,
+  bottomText?: string,
   lastChange?: string,
   title?: string,    
-  shortDescription?: string,
+  rightText?: string,
   ownerLogin?: string,
 }
 
@@ -48,6 +48,8 @@ const useStyles = makeStyles((theme: Theme) =>
     aboutGrid: {
       alignItems: "center",
       flexWrap: "nowrap",
+      wordBreak: "break-word"
+      
     },
     avatar: {
       marginRight: theme.spacing(1),
@@ -98,13 +100,13 @@ const PostCardComp = (props: IPostProps) => {
                   {props.postData.title}
                 </Typography>
                 }
-                <Typography className={classes.descriptionBlock}>{props.postData.createdAt}</Typography>
+                <Typography className={classes.descriptionBlock}>{props.postData.bottomText}</Typography>
               </Grid>
             </Grid>
-            {props.postData.shortDescription &&
+            {props.postData.rightText &&
             <Grid item>
               <Typography style={{fontSize:"12px"}}>
-                {props.postData.shortDescription}
+                {props.postData.rightText}
               </Typography>
             </Grid>
             }

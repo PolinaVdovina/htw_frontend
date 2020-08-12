@@ -1,12 +1,12 @@
 import * as React from 'react';
 import { Grid, Typography, TextField, useTheme, Button } from '@material-ui/core';
-import { RootState } from '../../redux/store';
+import { RootState } from '../../../redux/store';
 import { connect, useDispatch } from 'react-redux';
 import { useSnackbar } from 'notistack';
-import { validateLogin, validateRegPasword } from '../../utils/validateFunctions';
-import { IMessageInfo, MessageStatus } from '../../utils/fetchInterfaces';
-import { addEmployeeFetch } from '../../utils/fetchFunctions';
-import { startLoadingAction, stopLoadingAction } from '../../redux/actions/dialog-actions';
+import { validateLogin, validateRegPasword } from '../../../utils/validateFunctions';
+import { IMessageInfo, MessageStatus } from '../../../utils/fetchInterfaces';
+import { addEmployeeFetch } from '../../../utils/fetchFunctions';
+import { startLoadingAction, stopLoadingAction } from '../../../redux/actions/dialog-actions';
 
 
 interface IRegMiniComponent {
