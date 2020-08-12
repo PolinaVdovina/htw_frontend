@@ -4,7 +4,7 @@ import AccountInfo from '../../../components/cabinet/AccountInfo';
 import { ITabData, TabsPaper } from '../../../components/cards/TabsPaper';
 import { PaddingPaper } from '../../../components/cards/PaddingPaper';
 import { AccountCommonInfo } from '../../../components/cabinet/AccountCommonInfo';
-import { VacancyTab } from '../../../components/vacancy-editor/VacancyTab';
+import { VacancyTab } from '../../../components/cabinet/employer/VacancyTab';
 
 interface IEmployeeCabinet {
 
