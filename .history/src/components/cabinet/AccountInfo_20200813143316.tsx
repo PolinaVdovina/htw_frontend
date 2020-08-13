@@ -149,12 +149,7 @@ class AccountInfoComp extends React.Component<IPropsAccountInfo, IStateAccountIn
                         { (!SETTINGS[this.props.role][key]['type'] || SETTINGS[this.props.role][key]['type'] != 'mass') && 
                         <Grid item container direction='row' spacing={2}  style={{flexWrap:"nowrap"}}>                             
                             <Grid item style={{flexGrow:1, overflowX:"auto"}}>
-                                {Component && 
-                                    <Component 
-                                        element={this.context[key]} 
-                                        link={this.context.links ? this.context.links[key] : null}
-                                    />
-                                }                                    
+                                {Component && <Component type={key}/>}                                    
                             </Grid>
                             { SETTINGS[this.props.role][key].changeSettings && <>
                                 {

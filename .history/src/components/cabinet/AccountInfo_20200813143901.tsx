@@ -152,7 +152,7 @@ class AccountInfoComp extends React.Component<IPropsAccountInfo, IStateAccountIn
                                 {Component && 
                                     <Component 
                                         element={this.context[key]} 
-                                        link={this.context.links ? this.context.links[key] : null}
+                                        link={this.context.links[key]}
                                     />
                                 }                                    
                             </Grid>

@@ -43,8 +43,6 @@ import {
 } from "../../utils/change-component-utils";
 import { SimpleTypography } from "./displayMiniComponents/SimpleTypography";
 import { SimpleLink } from "./displayMiniComponents/SimpleLink";
-import { AddressGlue } from "./displayMiniComponents/AddressGlue";
-import { JobApplicant } from "./displayMiniComponents/JobApplicant";
 
 export const SETTINGS = {
     INDIVIDUAL: {
@@ -109,7 +107,6 @@ export const SETTINGS = {
             title: 'Компетенции',
             type: 'mass',
             changeSettings: settingsCompetenceSet,
-            displayComponent: SimpleTypography,
             validateFunction: null,
             changeFunction: changeCompetenceSet,
             deleteFunction: deleteCompetence      
@@ -118,7 +115,6 @@ export const SETTINGS = {
             title: 'Место работы',
             type: 'mass',
             changeSettings: settingsJobs,
-            displayComponent: JobApplicant,
             changeFunction: changeJobApplicance,
             deleteFunction: deleteJobApplicant
         },
@@ -160,7 +156,6 @@ export const SETTINGS = {
             title: 'Адрес',
             type: 'mass',
             changeSettings: settingsAddress,
-            displayComponent: AddressGlue,
             validateFunction: validateAddress,
             changeFunction: changeEmployerAddress,
             deleteFunction: deleteEmployerAddress
@@ -183,7 +178,6 @@ export const SETTINGS = {
             title: 'Тип образования',
             type: 'mass',
             changeSettings: settingsTypesEdu,
-            displayComponent: SimpleTypography,
             validateFunction: validateDate,
             changeFunction: changeTypesEdu,
             deleteFunction: deleteTypeEdu

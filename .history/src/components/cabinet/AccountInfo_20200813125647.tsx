@@ -130,7 +130,13 @@ class AccountInfoComp extends React.Component<IPropsAccountInfo, IStateAccountIn
                             this.context[key].map((element, index) => 
                                 <Grid item container direction='row' spacing={2} style={{flexWrap:"nowrap", marginBottom: '2px'}}>
                                     <Grid item style={{flexGrow:1}}>
-                                        {Component && <Component element={element}/>}
+                                        <Typography>
+                                            {
+                                                ((key == 'address') ? addressGlue(element) : 
+                                                ((key == 'jobApplicantSet') ? jobApplGlue(element) : 
+                                                element))
+                                            }                                                  
+                                        </Typography>
                                     </Grid>
                                     {
                                     this.context.isMine &&
@@ -149,12 +155,27 @@ class AccountInfoComp extends React.Component<IPropsAccountInfo, IStateAccountIn
                         { (!SETTINGS[this.props.role][key]['type'] || SETTINGS[this.props.role][key]['type'] != 'mass') && 
                         <Grid item container direction='row' spacing={2}  style={{flexWrap:"nowrap"}}>                             
                             <Grid item style={{flexGrow:1, overflowX:"auto"}}>
-                                {Component && 
-                                    <Component 
-                                        element={this.context[key]} 
-                                        link={this.context.links ? this.context.links[key] : null}
-                                    />
-                                }                                    
+                                {/*(!this.context.links || !this.context.links[key]) &&
+                                    <Typography>
+                                        {
+                                            (this.context[key] ?
+                                                (this.context[key].indexOf('null') == -1) ? this.context[key] : 'Не задано' :
+                                                'Не задано')
+                                        }
+                                    </Typography>
+                                    */}
+                                {<Component key={"domcosdmo"}/>}
+                                {(this.context.links && this.context.links[key]) &&
+                                    <Link
+                                        color='inherit'
+                                        underline='none'
+                                        href={this.context.links[key]}
+                                    >
+                                        {this.context[key] ?
+                                            (this.context[key].indexOf('null') == -1) ? this.context[key] : 'Не задано' :
+                                            'Не задано'}
+                                    </Link>
+                                }                                
                             </Grid>
                             { SETTINGS[this.props.role][key].changeSettings && <>
                                 {
