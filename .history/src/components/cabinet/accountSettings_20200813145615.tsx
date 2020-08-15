@@ -45,7 +45,6 @@ import { SimpleTypography } from "./displayMiniComponents/SimpleTypography";
 import { SimpleLink } from "./displayMiniComponents/SimpleLink";
 import { AddressGlue } from "./displayMiniComponents/AddressGlue";
 import { JobApplicant } from "./displayMiniComponents/JobApplicant";
-import { Education } from "./displayMiniComponents/Education";
 
 export const SETTINGS = {
     INDIVIDUAL: {
@@ -127,7 +126,6 @@ export const SETTINGS = {
         education: {
             title: 'Образование',
             type: 'mass',
-            displayComponent: Education,
             changeSettings: settingsEdu,
             changeFunction: changeEducations
         }

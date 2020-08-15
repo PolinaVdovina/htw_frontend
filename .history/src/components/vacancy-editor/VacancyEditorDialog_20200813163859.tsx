@@ -17,7 +17,6 @@ import { addressGlue, strToAddressDictionary } from './../../utils/appliedFunc';
 import { addVacancyFetch } from './../../utils/fetchFunctions';
 import { MessageStatus } from "../../utils/fetchInterfaces";
 import { startLoadingAction, stopLoadingAction } from './../../redux/actions/dialog-actions';
-import { settingsExperience } from "../cabinet/changeMiniComponents/changeSettings";
 
 // //Ненагло спизжено у Богини спизженности
 // function strParser(str/*: string*/) {
@@ -206,8 +205,7 @@ const VacancyEditorDialogComp = (props: IVacancyDialogProps) => {
                     <ChangeListOneSelect 
                     fullWidth type="value" 
                     value={experience} 
-                    onChange={(data)=>setExperience(data.value)}
-                    list={settingsExperience.experience.listItemsSelect}/>
+                    onChange={(data)=>setExperience(data.value)}/>
                 </Grid>
                 <Grid item container direction="column" className={classes.fieldGrid}>
                     <Typography className={classes.fieldTitle}>Описание</Typography>

@@ -4,7 +4,6 @@ import { ChangeGender } from "./ChangeGender"
 import { ChangeMultiSelect } from "./ChangeMultiSelect"
 import { ChangeListOneSelect } from "./ChangeListOneSelect"
 import { ChangeOneString } from "./ChangeOneString"
-import { listItems } from "../../../utils/appliedFunc"
 
 export const settingsAddress = {
     /*'country': {
@@ -78,7 +77,6 @@ export const settingsCompetenceSet = {
 export const settingsExperience = {
     experience: {
         title: 'Выберите период',
-        listItemsSelect: listItems(20),
         changeComponent: ChangeListOneSelect
     }
 }
@@ -160,7 +158,7 @@ export const settingsJobs = {
 }
 
 export const settingsEdu = {
-    institution: {
+    institutionName: {
         title: 'Образовательная организация',
         changeComponent: ChangeOneString
     },
@@ -175,7 +173,7 @@ export const settingsEdu = {
             'повышение квалификации',
             'курсы',
         ],
-        changeComponent: ChangeListOneSelect
+        changeComponent: ChangeMultiSelect
     },
     specialty: {
         title: 'Специальность',

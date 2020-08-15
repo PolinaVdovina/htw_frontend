@@ -66,7 +66,6 @@ export const changeJobApplicance = async ( dispatch, data ) => {
 }
 
 export const changeEducations = async ( dispatch, data ) => {
-    alert(JSON.stringify(data))
     const msgInfo: IMessageInfo = await changeEmployerAddressFetch(store.getState().authReducer.token, data, '/personal/add-institution');
     if(msgInfo.msgStatus == MessageStatus.OK) {
         /*const newEducation = {

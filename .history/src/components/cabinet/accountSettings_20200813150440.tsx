@@ -127,7 +127,7 @@ export const SETTINGS = {
         education: {
             title: 'Образование',
             type: 'mass',
-            displayComponent: Education,
+            deleteFunction: Education,
             changeSettings: settingsEdu,
             changeFunction: changeEducations
         }

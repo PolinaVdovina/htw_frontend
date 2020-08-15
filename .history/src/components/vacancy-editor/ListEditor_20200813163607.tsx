@@ -4,7 +4,7 @@ import { Button, LinearProgress, Link } from '@material-ui/core';
 import { withTheme } from 'react-jsonschema-form';
 
 import { Theme as MaterialUITheme } from '@rjsf/material-ui';
-import { ChangeListOneSelect } from '../cabinet/changeMiniComponents/ChangeListOneSelect';
+import { ChangeExperience } from '../cabinet/changeMiniComponents/ChangeListOneSelect';
 import { ChangeMultiSelect } from './../cabinet/changeMiniComponents/ChangeMultiSelect';
 import { v4 as uuidv4 } from 'uuid';
 

@@ -148,31 +148,6 @@ export const dateParseOnlyYear = (dateInStr: string) => {
     return year;
 }
 
-export const listItems = (maxNum: number): string[] => {
-    let result = ['нет опыта', 'меньше года'];
-    for (let i = 1; i <= maxNum; i++) 
-        result.push(numToStr(i));
-    return result;
-}
-
-export function numToStr(numExperience: number): string {
-	let txt;
-	let count = numExperience % 100;
-	if (count >= 5 && count <= 20) {
-		txt = 'лет';
-	} else {
-		count = count % 10;
-		if (count == 1) {
-			txt = 'год';
-		} else if (count >= 2 && count <= 4) {
-			txt = 'года';
-		} else {
-			txt = 'лет';
-		}
-	}
-	return numExperience + " " + txt;
-}
-
 export const jobApplGlue = (jobAppl) => {
     return (`c ${dateParse(jobAppl.startDate)} по 
     ${jobAppl.stopDate ? dateParse(jobAppl.stopDate) : 'настоящее время'}: 

@@ -160,7 +160,7 @@ export const settingsJobs = {
 }
 
 export const settingsEdu = {
-    institution: {
+    institutionName: {
         title: 'Образовательная организация',
         changeComponent: ChangeOneString
     },
@@ -175,7 +175,7 @@ export const settingsEdu = {
             'повышение квалификации',
             'курсы',
         ],
-        changeComponent: ChangeListOneSelect
+        changeComponent: ChangeMultiSelect
     },
     specialty: {
         title: 'Специальность',

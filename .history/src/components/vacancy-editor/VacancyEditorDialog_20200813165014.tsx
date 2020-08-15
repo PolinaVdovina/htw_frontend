@@ -207,7 +207,7 @@ const VacancyEditorDialogComp = (props: IVacancyDialogProps) => {
                     fullWidth type="value" 
                     value={experience} 
                     onChange={(data)=>setExperience(data.value)}
-                    list={settingsExperience.experience.listItemsSelect}/>
+                    list={settingsExperience.listItemsSelect}/>
                 </Grid>
                 <Grid item container direction="column" className={classes.fieldGrid}>
                     <Typography className={classes.fieldTitle}>Описание</Typography>
