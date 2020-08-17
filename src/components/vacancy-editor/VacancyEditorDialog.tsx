@@ -78,7 +78,7 @@ const VacancyEditorDialogComp = (props: IVacancyDialogProps) => {
     const [competencies, setCompetencies] = React.useState([]);
     const [address, setAddress] = React.useState<any>();
     const [phone, setPhone] = React.useState(props.phone ? props.phone : '');
-    const [experience, setExperience] = React.useState();
+    const [experience, setExperience] = React.useState<any>();
     const [minSalary, setMinSalary] = React.useState("");
     const [maxSalary, setMaxSalary] = React.useState("");
     const dispatch = useDispatch();
@@ -117,6 +117,19 @@ const VacancyEditorDialogComp = (props: IVacancyDialogProps) => {
         }
         return true;
     }
+
+    const reset = () => {
+        setDemands([]);
+        setDuties([]);
+        setPosition("");
+        setDescription("");
+        setCompetencies([]);
+        //setAddress(null);
+        //setPhone(props.phone ? props.phone : '');
+        setExperience(null);
+        setMinSalary("");
+        setMaxSalary("");
+    }
     
     const validateAndPackageFormData = async () => {
         if(!validateFormData())
@@ -149,7 +162,9 @@ const VacancyEditorDialogComp = (props: IVacancyDialogProps) => {
             const addedVacancyData = await addVacancyFetch( props.token, data );
             if(addedVacancyData.msgStatus == MessageStatus.OK) {
                 snackbar.enqueueSnackbar("Вакансия добавлена", {variant:'success'});  
+                reset();
                 props.onSubmitSuccess && props.onSubmitSuccess(data);
+
             }
             else {
                 snackbar.enqueueSnackbar("Не удалось добавить вакансию", {variant:'error'});  

@@ -1,5 +1,5 @@
-import { IPostData } from "../components/tape/posts/PostCard";
-import { IBodyElement } from './../components/tape/posts/PostCard';
+import { ITapeElementData } from "../components/tape/posts/TapeElement";
+import { IBodyElement } from '../components/tape/posts/TapeElement';
 import { ParagraphInPost } from './../components/tape/posts/post-body-elements/ParagraphInPost';
 import { ListInPost } from './../components/tape/posts/post-body-elements/ListInPost';
 import { StatementInPost } from './../components/tape/posts/post-body-elements/StatementsInPost';
@@ -147,99 +147,6 @@ export const jobApplGlue = (jobAppl) => {
     ${jobAppl.position} в \"${jobAppl.employer}\"`)
 }
 
-interface IVacancy {
-    id?: number,
-    phone?: string,
-    position?: string,
-    employerAccountLogin?: string,
-    employerName?: string,
-    createdAt?: string,
-    description?: string,
-    demands?: Array<string>,
-    duties?: Array<string>,
-    competencies?: Array<string>,
-    minSalary: number,
-    maxSalary: number,
-    experience: string,
-    address: any,
-    email: string,
-}
-
-export function vacancyToPost(vacancyData: IVacancy): IPostData {
-    let postBody : Array<IBodyElement> = [
-        {
-            Component:ParagraphInPost,
-            data: {
-                description: vacancyData.description
-            }
-        },        
-    ];
-
-    if(vacancyData.experience)
-    postBody.push({
-        Component:StatementInPost,
-        data: {
-            statements: [{title: "Опыт работы", value: vacancyData.experience}],
-        }
-    })
-
-
-    if(vacancyData.demands && vacancyData.demands.length > 0)
-        postBody.push({
-            Component:ListInPost,
-            data: {
-                title: "Требуемые навыки",
-                items: vacancyData.demands,
-            }
-        })
-
-    if(vacancyData.duties && vacancyData.duties.length > 0)
-        postBody.push({
-            Component:ListInPost,
-            data: {
-                title: "Обязанности",
-                items: vacancyData.duties,
-            }
-        })
-
-    if(vacancyData.competencies && vacancyData.competencies.length > 0)
-        postBody.push({
-            Component:ListInPost,
-            data: {
-                title: "Компетенции",
-                items: vacancyData.competencies,
-            }
-        })
-
-    let contactDetailsItems: Array<string> = [];
-    if(vacancyData.phone)
-        contactDetailsItems.push("Телефон: " + vacancyData.phone);
-    if(vacancyData.email)
-        contactDetailsItems.push("Электронная почта: " + vacancyData.email)
-    if(vacancyData.address) 
-        contactDetailsItems.push("Адрес: " + addressGlue(vacancyData.address))
-    if(contactDetailsItems.length > 0)
-        postBody.push({
-            Component:ListInPost,
-            data: {
-                title: "Контактные данные",
-                items: contactDetailsItems
-            }
-        })
-
-    return {
-        rightText: vacancyData.minSalary + "р - "+ vacancyData.maxSalary + "р", //vacancyData.position + (vacancyData.maxSalary ? ( ", " + vacancyData.maxSalary + "р") : ""),
-        title: vacancyData.position,
-        bottomText: vacancyData.createdAt?.slice(0,10),
-        body: postBody,
-        id: vacancyData.id,
-        ownerLogin: vacancyData.employerAccountLogin,
-    }
-}
-
-export function vacanciesToPostList(vacancies: Array<IVacancy>) {
-    return vacancies.map(vacancy => vacancyToPost(vacancy))
-}
 
 
 
