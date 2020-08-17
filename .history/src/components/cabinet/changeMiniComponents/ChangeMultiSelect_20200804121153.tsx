@@ -6,7 +6,6 @@ interface IChangeMultiSelect {
     list: string[],
     fullWidth?: boolean,
     value?,
-    type: string
 }
 
 export const ChangeMultiSelect = (props : IChangeMultiSelect) => {
@@ -23,7 +22,7 @@ export const ChangeMultiSelect = (props : IChangeMultiSelect) => {
                 multiple               
                 value={props.value ? props.value : personName}
                 onChange={(event: React.ChangeEvent<{ value: unknown }>) => {
-                    props.onChange({[props.type]: event.target.value as string[]})
+                    props.onChange(event.target.value as string[])
                     
                     setPersonName(event.target.value as string[])
                 }}               

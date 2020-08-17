@@ -35,7 +35,13 @@ export const ChangeComponentRaw = (props : FinalProps) => {
     const theme = useTheme();
     const dispatch = useDispatch();
     const onChange = (inputData: any) => {
-        setData({...data, ...inputData});     
+        alert(JSON.stringify(inputData))
+        /*if (Array.isArray(inputData)) {
+            setData({...data, inputData});
+        }
+        else {*/
+            setData({...data, ...inputData});
+        //}        
     } 
 
     const validateAndSave = async() => {

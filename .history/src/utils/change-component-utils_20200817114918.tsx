@@ -37,10 +37,10 @@ export const changeCompetenceSet = async ( dispatch, data ) => {
 }
 
 export const changeTypesEdu = async ( dispatch, data ) => {
-    //alert(Array.isArray(data))
-    const msgInfo: IMessageInfo = await changePersonalDataFetch(store.getState().authReducer.token, data.types, '/institution/type');
+    alert(JSON.stringify(data))
+    const msgInfo: IMessageInfo = await changePersonalDataFetch(store.getState().authReducer.token, data, '/institution/type');
     if(msgInfo.msgStatus == MessageStatus.OK) {
-        const typesEduMassRaw: string[] = [...store.getState().userPersonalsReducer.types, ...data.types]
+        const typesEduMassRaw: string[] = [...store.getState().userPersonalsReducer.types, ...data]
         const uniqueSet = new Set(typesEduMassRaw);
         const typesEduMass = Array.from(uniqueSet);
         await dispatch( fillPersonalDataAction({types: typesEduMass}));
