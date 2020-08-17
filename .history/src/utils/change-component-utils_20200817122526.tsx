@@ -67,36 +67,21 @@ export const changeJobApplicance = async ( dispatch, data ) => {
 }
 
 export const changeEducations = async ( dispatch, data ) => {
-    //alert(JSON.stringify(data))
+    alert(JSON.stringify(data))
     const msgInfo: IMessageInfo = await changeEmployerAddressFetch(store.getState().authReducer.token, data, '/personal/add-institution');
     if(msgInfo.msgStatus == MessageStatus.OK) {
-        const newEducation = {
+        /*const newEducation = {
             ...data,
-            id: msgInfo.id 
-        }
-        //alert(JSON.stringify(newEducation))
+            //id: msgInfo.id   ??????????
+        }*/
         const eduSet = [
             ...store.getState().userPersonalsReducer.education,
-            newEducation
-            //data
+            //newEducation
+            data
         ]
         await dispatch( fillPersonalDataAction({
             education: eduSet
         }));
-    }
-    return msgInfo;
-}
-
-export const deleteEducation = async ( dispatch, data ) => {
-    const msgInfo: IMessageInfo = await deletePersonalDataFetch(store.getState().authReducer.token, data, '/personal/delete-institution');
-    if(msgInfo.msgStatus == MessageStatus.OK) {
-        let eduMass = [...store.getState().userPersonalsReducer.education]
-        for (let i = 0; i < eduMass.length; i++) {
-            if (eduMass[i].id == data.id) {
-                eduMass.splice(i, 1);
-            }
-        }
-        await dispatch( fillPersonalDataAction({education: eduMass}));
     }
     return msgInfo;
 }
