@@ -26,7 +26,8 @@ export const Education = (props : IEducation) => {
                 <Link
                     color='inherit'
                     underline='none'
-                    href={props.link ? props.link : undefined}                   
+                    href={props.link ? props.link : undefined}
+                    
                     style={{fontWeight:'bold'}}
                 >
                     {props.element.institution} 

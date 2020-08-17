@@ -25,7 +25,7 @@ interface ICommonState {
     links?,
     avatarUrlUid?: any,
     jobApplicantSet?,
-    education?,
+    education?: Array<any> | null,
     subscriptionIndexes: Array<number> | null
 }
 
@@ -48,8 +48,7 @@ const initialState : ICommonState = {
     employer: null,
     jobApplicantSet: null,
     links: {
-        employer: null,
-        education: []
+        employer: null
     },
     avatarUrlUid: null,
     education: null,

@@ -22,15 +22,24 @@ export const Education = (props : IEducation) => {
                     {dateParseOnlyYear(props.element.dateStart)} - {props.element.dateReceiving ? dateParseOnlyYear(props.element.dateReceiving) : '...'}                               
                 </Typography>
             </Grid>
-            <Grid item style={{marginLeft: '20px', flexWrap:'wrap'}}> 
-                <Link
-                    color='inherit'
-                    underline='none'
-                    href={props.link ? props.link : undefined}                   
-                    style={{fontWeight:'bold'}}
-                >
-                    {props.element.institution} 
-                </Link>               
+            <Grid item style={{marginLeft: '20px', flexWrap:'wrap'}}>
+                { //props.link && 
+                    <Link
+                        color='inherit'
+                        underline='none'
+                        href={/*props.link*/undefined}
+                        
+                        style={{fontWeight:'bold'}}
+                    >
+                        {props.element.institution} 
+                    </Link>
+                }
+                {/* !props.link &&
+                    <Typography style={{fontWeight:'bold'}}>
+                        {props.element.institution}         
+                    </Typography>
+                */}
+                
                 <Typography>
                     {props.element.education}: {props.element.specialty}                                
                 </Typography>
