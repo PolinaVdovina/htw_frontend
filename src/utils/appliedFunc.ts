@@ -81,7 +81,11 @@ export function accountRequestToEntityDictionary(data, role) {
                     gender: genderIntToStr(data.gender),
                     experience: data.experience,
                     competenceSet: data.competenceSet.map(elem => elem.name),
-                    jobApplicantSet: data.jobApplicantSet
+                    jobApplicantSet: data.jobApplicantSet,
+                    education: data.jobSeekerEducations,
+                    links: {
+                        education: data.jobSeekerEducations.map(elem => elem.institutionLogin)
+                    }
                 }
                 return parsedData;
             case "ROLE_EMPLOYER":
@@ -115,7 +119,7 @@ export function accountRequestToEntityDictionary(data, role) {
                     middlename: data.middlename, 
                     phone: data.contactDetails ? data.contactDetails.phone : null, 
                     email: data.contactDetails ? data.contactDetails.email : null, 
-                    employer: data.employer ? data.employer.name : null,
+                    employer: data.employer ? (data.employer.name ? data.employer.name : data.employer.login) : null,
                     links: {
                         employer: data.employer ? data.employer.login : null
                     }
@@ -139,6 +143,37 @@ export const dateParse = (dateInStr: string) => {
     const year = date.getFullYear();
     let result = `${day}.${month}.${year}`
     return result;
+}
+
+export const dateParseOnlyYear = (dateInStr: string) => {
+    const date = new Date(Date.parse(dateInStr));
+    const year = date.getFullYear();
+    return year;
+}
+
+export const listItems = (maxNum: number): string[] => {
+    let result = ['нет опыта', 'меньше года'];
+    for (let i = 1; i <= maxNum; i++) 
+        result.push(numToStr(i));
+    return result;
+}
+
+export function numToStr(numExperience: number): string {
+	let txt;
+	let count = numExperience % 100;
+	if (count >= 5 && count <= 20) {
+		txt = 'лет';
+	} else {
+		count = count % 10;
+		if (count == 1) {
+			txt = 'год';
+		} else if (count >= 2 && count <= 4) {
+			txt = 'года';
+		} else {
+			txt = 'лет';
+		}
+	}
+	return numExperience + " " + txt;
 }
 
 export const jobApplGlue = (jobAppl) => {

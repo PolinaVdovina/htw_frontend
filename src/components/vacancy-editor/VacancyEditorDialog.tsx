@@ -4,7 +4,7 @@ import { Button, LinearProgress } from '@material-ui/core';
 import { withTheme } from 'react-jsonschema-form';
 
 import { Theme as MaterialUITheme } from '@rjsf/material-ui';
-import { ChangeExperience } from '../cabinet/changeMiniComponents/ChangeExperience';
+import { ChangeListOneSelect } from '../cabinet/changeMiniComponents/ChangeListOneSelect';
 import { ChangeMultiSelect } from '../cabinet/changeMiniComponents/ChangeMultiSelect';
 import { ListEditor } from "./ListEditor";
 import { useSnackbar } from 'notistack';
@@ -17,6 +17,7 @@ import { addressGlue, strToAddressDictionary } from './../../utils/appliedFunc';
 import { addVacancyFetch } from './../../utils/fetchFunctions';
 import { MessageStatus } from "../../utils/fetchInterfaces";
 import { startLoadingAction, stopLoadingAction } from './../../redux/actions/dialog-actions';
+import { settingsExperience } from "../cabinet/changeMiniComponents/changeSettings";
 
 // //Ненагло спизжено у Богини спизженности
 // function strParser(str/*: string*/) {
@@ -217,10 +218,11 @@ const VacancyEditorDialogComp = (props: IVacancyDialogProps) => {
                 </Grid>
                 <Grid item container direction="column" className={classes.fieldGrid}>
                     <Typography className={classes.fieldTitle}>Опыт работы</Typography>
-                    <ChangeExperience 
+                    <ChangeListOneSelect 
                     fullWidth type="value" 
                     value={experience} 
-                    onChange={(data)=>setExperience(data.value)}/>
+                    onChange={(data)=>setExperience(data.value)}
+                    list={settingsExperience.experience.listItemsSelect}/>
                 </Grid>
                 <Grid item container direction="column" className={classes.fieldGrid}>
                     <Typography className={classes.fieldTitle}>Описание</Typography>
@@ -238,7 +240,8 @@ const VacancyEditorDialogComp = (props: IVacancyDialogProps) => {
                     onChange={(data) => {setCompetencies(data)}}
                     fullWidth
                     value={competencies}
-                    list={["Пить чай", "Страдать херней"]}/>
+                    list={["Пить чай", "Страдать херней"]}
+                    type='competenceSet'/>
                 </Grid>
                 <Grid item container direction="column" className={classes.fieldGrid}>
                     <Typography className={classes.fieldTitle}>Контактный телефон</Typography>
