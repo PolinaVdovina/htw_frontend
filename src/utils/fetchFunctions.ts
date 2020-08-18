@@ -1,6 +1,7 @@
 import axios from "axios";
 
 import { IMessageInfo, MessageStatus } from "./fetchInterfaces";
+import { ITapeElementProps } from './../components/tape/posts/TapeElement';
 
 interface ILoginResponse {
     login?: string,
@@ -340,6 +341,49 @@ export const getVacanciesByLoginFetch = async (token: string, login: string) => 
         return null;
     }
 }
+
+interface IFetchResult {
+    createdDate: string,
+
+}
+
+
+export interface ITapeFetch {
+    msgInfo: IMessageInfo;
+    tapeElements?: Array<IFetchResult> | null;
+}
+
+export const getVacanciesByLoginAndMinDateFetch = async (token: string, login: string, minDate?: string | null, limit?: number) => {
+    try {
+
+        const result = await axios.post("/vacancy/getByLoginAndDate",
+        {
+            login,
+            minDate,
+            limit,
+        },
+        {
+            headers: {Authorization: 'Bearer ' + token},
+        });
+        //alert(JSON.stringify(userData.data))
+        const returnData: ITapeFetch = {
+            msgInfo: {
+                msgStatus: MessageStatus.OK
+            },
+            tapeElements: result.data
+        }
+        return returnData;
+    }
+    catch {
+        const returnData: ITapeFetch = {
+            msgInfo: {
+                msgStatus: MessageStatus.ERROR
+            },
+        }
+        return returnData;
+    }
+}
+
 
 
 export const removeVacancyFetch = async (token: string, vacancyId: number) => {

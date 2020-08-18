@@ -4,7 +4,7 @@ import { JobSeekerFeedMenu } from './../../../components/feed-menu/job-seeker/Jo
 import { RedirectIfNotAuthorized } from './../../../components/redirects/RedirectIfNotAuthorized';
 import AccountInfo from '../../../components/cabinet/AccountInfo';
 import { Tape } from '../../../components/tape/Tape';
-import { IPostData } from '../../../components/tape/posts/PostCard';
+import { ITapeElementData } from '../../../components/tape/posts/TapeElement';
 import { AccountCommonInfo } from '../../../components/cabinet/AccountCommonInfo';
 import { PaddingPaper } from './../../../components/cards/PaddingPaper';
 import PersonPinIcon from '@material-ui/icons/PersonPin';

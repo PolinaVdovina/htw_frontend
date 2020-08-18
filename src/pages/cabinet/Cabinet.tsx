@@ -5,7 +5,7 @@ import { AppMenuDivider } from '../grid-containers/AppMenuDivider';
 import AccountInfo from '../../components/cabinet/AccountInfo';
 import { RedirectIfNotAuthorized } from './../../components/redirects/RedirectIfNotAuthorized';
 import { Tape } from '../../components/tape/Tape';
-import { IPostData } from '../../components/tape/posts/PostCard';
+import { ITapeElementData } from '../../components/tape/posts/TapeElement';
 import { Grid } from '@material-ui/core';
 import { getPersonalDataFetch } from '../../utils/fetchFunctions';
 import { RootState } from '../../redux/store';

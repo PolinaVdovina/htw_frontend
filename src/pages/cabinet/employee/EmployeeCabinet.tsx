@@ -31,7 +31,7 @@ const tabs: Array<ITabData> = [
 
 export const EmployeeCabinet = (props: IEmployeeCabinet) => {
     return (<>
-      <PaddingPaper style={{width:"100%"}}><AccountCommonInfo roleSettings={"LEGAL"}/></PaddingPaper>   
+      <PaddingPaper style={{width:"100%"}}><AccountCommonInfo roleSettings={"INDIVIDUAL"}/></PaddingPaper>   
       <TabsPaper paperStyle={{width:"100%"}} tabs={tabs} />
     </>)
 }

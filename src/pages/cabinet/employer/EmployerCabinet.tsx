@@ -10,12 +10,13 @@ import { Tape } from '../../../components/tape/Tape';
 import { ParagraphInPost } from './../../../components/tape/posts/post-body-elements/ParagraphInPost';
 import { ListInPost } from '../../../components/tape/posts/post-body-elements/ListInPost';
 
-import { PostCard,IPostData } from './../../../components/tape/posts/PostCard';
+import { TapeElement,ITapeElementData } from '../../../components/tape/posts/TapeElement';
 import { VacancyEditorDialog } from '../../../components/vacancy-editor/VacancyEditorDialog';
 import { theme } from '../../../theme';
 import { EmployeeList } from '../../../components/entityList/EmployeesList';
 import { VacancyTab } from '../../../components/cabinet/employer/VacancyTab';
 import { EmployeesTab } from '../../../components/cabinet/employer/EmployeesTab';
+import { TapeFetcherProvider } from '../../../components/tape/TapeFetcherContext';
 
 
 interface IEmployerCabinet {
@@ -38,7 +39,7 @@ const tabs: Array<ITabData> = [
   {
     label: "Вакансии",
     //IconComponent: <PersonPinIcon/>,
-    TabPanel: <VacancyTab/>
+    TabPanel: <TapeFetcherProvider><VacancyTab /></TapeFetcherProvider>
   },
   {
     label: "Мероприятия",

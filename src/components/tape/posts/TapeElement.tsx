@@ -23,19 +23,20 @@ type SubButtonType = {
   key: string
 }
 
-export interface IPostData {
+export interface ITapeElementData {
   id?: any,
   body?: Array<IBodyElement>,
   fileList?: FileList,
   bottomText?: string,
   lastChange?: string,
+  createdDate?: string,
   title?: string,    
   rightText?: string,
   ownerLogin?: string,
 }
 
-export interface IPostProps {
-  postData: IPostData,
+export interface ITapeElementProps {
+  tapeElementData: ITapeElementData,
   avatarUrlUid: any,
   style: any,
   isOpenedDefaut?: boolean,
@@ -76,7 +77,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 
 
-const PostCardComp = (props: IPostProps) => {
+const TapeElementCardComp = (props: ITapeElementProps) => {
     const classes = useStyles();
     const theme = useTheme();
     const [open, setOpen] = React.useState(props.isOpenedDefaut == true)
@@ -84,29 +85,29 @@ const PostCardComp = (props: IPostProps) => {
         <div style={props.style}>
           <Grid container direction="row" className={classes.aboutGrid}>
             {
-            props.postData.ownerLogin ? 
+            props.tapeElementData.ownerLogin ? 
             <Avatar
-            src={getAvatarUrl(props.postData.ownerLogin) + "?uid=" + props.avatarUrlUid } 
+            src={getAvatarUrl(props.tapeElementData.ownerLogin) + "?uid=" + props.avatarUrlUid } 
             component={RouterLink} 
-            to={urls.cabinet.shortPath + props.postData.ownerLogin} 
+            to={urls.cabinet.shortPath + props.tapeElementData.ownerLogin} 
             className={classes.avatar} />
             :
             <Avatar className={classes.avatar} />
             }
             <Grid item style={{flexGrow:1, marginRight: theme.spacing(2)}}>
               <Grid container direction="column" >
-                {props.postData.title &&
+                {props.tapeElementData.title &&
                 <Typography>
-                  {props.postData.title}
+                  {props.tapeElementData.title}
                 </Typography>
                 }
-                <Typography className={classes.descriptionBlock}>{props.postData.bottomText}</Typography>
+                <Typography className={classes.descriptionBlock}>{props.tapeElementData.bottomText}</Typography>
               </Grid>
             </Grid>
-            {props.postData.rightText &&
+            {props.tapeElementData.rightText &&
             <Grid item>
               <Typography style={{fontSize:"12px"}}>
-                {props.postData.rightText}
+                {props.tapeElementData.rightText}
               </Typography>
             </Grid>
             }
@@ -114,7 +115,7 @@ const PostCardComp = (props: IPostProps) => {
               {  props.onDeleteClick &&
                 <IconButton
                 className={classes.button} 
-                onClick = {() => props.onDeleteClick && props.onDeleteClick(props.postData.id)}>
+                onClick = {() => props.onDeleteClick && props.onDeleteClick(props.tapeElementData.id)}>
                   <DeleteIcon/>
                 </IconButton>
               }
@@ -125,13 +126,13 @@ const PostCardComp = (props: IPostProps) => {
               </IconButton>
             </Grid>
           </Grid>
-          {props.postData.body && props.postData.body.length > 1 && 
+          {props.tapeElementData.body && props.tapeElementData.body.length > 1 && 
           <Collapse in={open}>
             <div style={{marginTop:theme.spacing(2)}}>
-              {props.postData.body?.map(
+              {props.tapeElementData.body?.map(
                 (el, index) => <>
                     <el.Component key={index} data={el.data}/>
-                    {index+1 != props.postData.body?.length && <br/>}
+                    {index+1 != props.tapeElementData.body?.length && <br/>}
                   </>
               )}
             </div>
@@ -141,4 +142,4 @@ const PostCardComp = (props: IPostProps) => {
     )
 }
 
-export const PostCard = connect((state: RootState)=>({avatarUrlUid: state.userPersonalsReducer.avatarUrlUid}))(PostCardComp);
+export const TapeElement = connect((state: RootState)=>({avatarUrlUid: state.userPersonalsReducer.avatarUrlUid}))(TapeElementCardComp);
