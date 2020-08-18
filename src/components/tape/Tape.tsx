@@ -9,7 +9,6 @@ export interface ITapeProps {
   onDeleteClick?: ((id:any) => void) | null,
 }
 
-
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
@@ -17,8 +16,6 @@ const useStyles = makeStyles((theme: Theme) =>
     },
   }),
 );
-
-
 
 export const Tape = (props: ITapeProps) => {
     const classes = useStyles();
