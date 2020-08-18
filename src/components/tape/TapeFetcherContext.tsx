@@ -46,6 +46,7 @@ export const TapeFetcherProvider = (props) => {
             
             
             const fetchResult = await dataFetchFunction(minDateForFilter, fetchCount);
+            
             if((fetchResult.msgInfo.msgStatus == MessageStatus.OK)&&(fetchResult.tapeElements)) {
                 if(dataConverterFunction) {
                     const newTapeElements = fetchResult.tapeElements.map(dataConverterFunction);

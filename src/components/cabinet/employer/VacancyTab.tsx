@@ -34,19 +34,15 @@ const VacancyTabComp = (props) => {
   const tapeFetcherContext = React.useContext(TapeFetcherContext);
 
   const snackbar = useSnackbar();
-  const getVacancies = async() => {
-    tapeFetcherContext && tapeFetcherContext.fetchNext(
+  const getNextVacancies = async() => {
+    tapeFetcherContext && await tapeFetcherContext.fetchNext(
       (lastPostDate, dataCount) => getVacanciesByLoginAndMinDateFetch(props.token, cabinetContext.login, lastPostDate, dataCount),
       vacancyToPost
     );
   }
   
   React.useEffect(() => {
-    tapeFetcherContext && tapeFetcherContext.fetchNext(
-      (lastPostDate, dataCount) => getVacanciesByLoginAndMinDateFetch(props.token, cabinetContext.login, lastPostDate, dataCount),
-      vacancyToPost
-    );
-    
+    getNextVacancies();    
   }, [])
   //alert(vacancies)
   const onDeleteVacancy = async() => {
@@ -54,8 +50,9 @@ const VacancyTabComp = (props) => {
     dispatch(startLoadingAction());
     const result = await removeVacancyFetch(props.token, deletingId);
     if(result == MessageStatus.OK) {
-      await getVacancies();
+      //await getNextVacancies();
       snackbar.enqueueSnackbar("Вакансия успешно удалена", {variant:"success"});
+      tapeFetcherContext && tapeFetcherContext.tapeElements && tapeFetcherContext.setTapeElements( tapeFetcherContext.tapeElements.filter( el => el.id != deletingId) );
     }
     else
       snackbar.enqueueSnackbar("Не удалось удалить вакансию", {variant:"error"});
@@ -77,7 +74,11 @@ const VacancyTabComp = (props) => {
             
             
             //await tapeFetcherContext?.setTapeElements(null);
-            
+            await tapeFetcherContext?.reset();
+            alert("hhh")
+            alert(JSON.stringify(tapeFetcherContext?.tapeElements))
+            alert(JSON.stringify(tapeFetcherContext?.tapeElements))
+            await getNextVacancies();
             await dispatch(stopLoadingAction());
             await setOpenVacancyDialog(false);
           }} 
@@ -108,7 +109,9 @@ const VacancyTabComp = (props) => {
             tapeFetcherContext?.tapeElements
           }
         />
-      
+        <Grid item style = {{flexGrow:1}}>
+          <Button variant="contained" color="primary" fullWidth onClick={getNextVacancies} style={{borderTopLeftRadius: 0, borderTopRightRadius:0}}>Дальше</Button>
+        </Grid>
     </TapeFetcherProvider>)
 }
 
