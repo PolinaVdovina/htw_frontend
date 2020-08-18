@@ -17,10 +17,10 @@ export const JobApplicant = (props : IJobApplicant) => {
         <Grid item container direction='column'/* alignItems='center' wrap='nowrap'*/ justify='flex-start'>
             <Grid item>
                 <Typography /*style={{width: '105px'}}*/>
-                    {dateParse(props.element.startDate)} - {props.element.stopDate ? dateParse(props.element.stopDate) : 'настоящее время'}                               
+                    с {dateParse(props.element.startDate)} по {props.element.stopDate ? dateParse(props.element.stopDate) : 'настоящее время'}                               
                 </Typography>
             </Grid>
-            <Grid item style={{marginLeft: '10px', flexWrap:'wrap'}}> 
+            <Grid item style={{/*marginLeft: '30px', */flexWrap:'wrap'}}> 
                 <Link
                     color='inherit'
                     underline='none'

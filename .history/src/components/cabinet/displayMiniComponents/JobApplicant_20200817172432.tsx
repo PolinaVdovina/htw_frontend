@@ -20,7 +20,7 @@ export const JobApplicant = (props : IJobApplicant) => {
                     {dateParse(props.element.startDate)} - {props.element.stopDate ? dateParse(props.element.stopDate) : 'настоящее время'}                               
                 </Typography>
             </Grid>
-            <Grid item style={{marginLeft: '10px', flexWrap:'wrap'}}> 
+            <Grid item style={{marginLeft: '5px', flexWrap:'wrap'}}> 
                 <Link
                     color='inherit'
                     underline='none'
