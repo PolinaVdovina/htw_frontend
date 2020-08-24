@@ -34,13 +34,11 @@ const RegMiniComponentRaw = (props : IRegMiniComponent) => {
         const errorPassword = validateRegPasword(password);
         if (errorLogin == '' && errorPassword == '') {
             await dispatch(startLoadingAction());
-            /*************/
             const msgInfo: IMessageInfo = await addEmployeeFetch(props.token, {login, password});
-            /************/
             await dispatch(stopLoadingAction());
             if(msgInfo.msgStatus == MessageStatus.OK) {
                 props.handleClickSave();
-                snackBar.enqueueSnackbar('Учетная запись создана', {variant: 'success'});
+                snackBar.enqueueSnackbar('Сотрудник добавлен', {variant: 'success'});
                 props.handleClickClose();
             }
             else {
@@ -58,7 +56,7 @@ const RegMiniComponentRaw = (props : IRegMiniComponent) => {
             <Grid item>
                 <Typography>
                     Пожалуйста, заполните данные для создания 
-                    учетной записи.
+                    учетной записи сотрудника.
                 </Typography>
             </Grid>
             <Grid item container direction='row'  alignItems='center'>

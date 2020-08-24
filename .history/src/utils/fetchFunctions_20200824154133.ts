@@ -148,11 +148,10 @@ export const getEmployeesListFetch = async (token, url?) => {
     return returnData;
 }
 
-export const addEmployeeFetch = async (token, data, url?) => {
+export const addEmployeeFetch = async (token, data) => {
     let returnData;
-    url = url || "/employer/employee";
     try {
-        const response =  await axios.post(url,             
+        const response =  await axios.post("/employer/employee",             
             
                 data,
                 

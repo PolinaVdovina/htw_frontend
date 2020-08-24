@@ -124,11 +124,10 @@ export const getPersonalDataFetch = async (token, role: string) => {
 }
 
 
-export const getEmployeesListFetch = async (token, url?) => {
+export const getEmployeesListFetch = async (token) => {
     let returnData;
-    url = url || "/employer/employee";
     try {
-        const response =  await axios.get(url, {
+        const response =  await axios.get("/employer/employee", {
             headers:{
                 Authorization: 'Bearer ' + token
             }
@@ -148,11 +147,10 @@ export const getEmployeesListFetch = async (token, url?) => {
     return returnData;
 }
 
-export const addEmployeeFetch = async (token, data, url?) => {
+export const addEmployeeFetch = async (token, data) => {
     let returnData;
-    url = url || "/employer/employee";
     try {
-        const response =  await axios.post(url,             
+        const response =  await axios.post("/employer/employee",             
             
                 data,
                 
@@ -256,10 +254,9 @@ export const deletePersonalDataFetch = async (token, data, url?) => {
     }
 }
 
-export const deleteEntity = async (token, id, url) => {
+export const deleteEntity = async (token, id, url?) => {
     try {
-        const response = await axios.delete(url+'?entityId='+id,  {
-                data: {},
+        const response = await axios.delete(url+'/id?id='+id,  {
                 headers: {Authorization: 'Bearer ' + token},
             }
         );        

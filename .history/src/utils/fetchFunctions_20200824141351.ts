@@ -124,11 +124,10 @@ export const getPersonalDataFetch = async (token, role: string) => {
 }
 
 
-export const getEmployeesListFetch = async (token, url?) => {
+export const getEmployeesListFetch = async (token) => {
     let returnData;
-    url = url || "/employer/employee";
     try {
-        const response =  await axios.get(url, {
+        const response =  await axios.get("/employer/employee", {
             headers:{
                 Authorization: 'Bearer ' + token
             }
@@ -148,11 +147,10 @@ export const getEmployeesListFetch = async (token, url?) => {
     return returnData;
 }
 
-export const addEmployeeFetch = async (token, data, url?) => {
+export const addEmployeeFetch = async (token, data) => {
     let returnData;
-    url = url || "/employer/employee";
     try {
-        const response =  await axios.post(url,             
+        const response =  await axios.post("/employer/employee",             
             
                 data,
                 
@@ -238,28 +236,6 @@ export const deletePersonalDataFetch = async (token, data, url?) => {
         url = url || '/account/address';
         const response = await axios.delete(url,  {
                 data: Number(data),
-                headers: {Authorization: 'Bearer ' + token},
-            }
-        );        
-        
-        const msgInfo: IMessageInfo = {
-            msgStatus: response.data.error || (response.data.status && response.data.status == 'error') ?  MessageStatus.ERROR : MessageStatus.OK,
-        };
-        return  msgInfo;
-    }
-    catch {
-        const msgInfo: IMessageInfo = {
-            msgStatus: MessageStatus.ERROR,
-            error: "Проблемы с соединением",
-        };
-        return  msgInfo;
-    }
-}
-
-export const deleteEntity = async (token, id, url) => {
-    try {
-        const response = await axios.delete(url+'?entityId='+id,  {
-                data: {},
                 headers: {Authorization: 'Bearer ' + token},
             }
         );        

@@ -15,7 +15,7 @@ import { VacancyEditorDialog } from '../../../components/vacancy-editor/VacancyE
 import { theme } from '../../../theme';
 import { EmployeeList } from '../../../components/entityList/EmployeesList';
 import { VacancyTab } from '../../../components/cabinet/employer/VacancyTab';
-import { EntitiesTab } from '../../../components/entityList/EntitiesTab';
+import { EntitiesTab } from '../../../components/cabinet/employer/EntitiesTab';
 import { TapeFetcherProvider } from '../../../components/tape/TapeFetcherContext';
 
 

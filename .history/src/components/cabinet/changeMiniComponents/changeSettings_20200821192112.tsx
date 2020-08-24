@@ -202,7 +202,7 @@ export const settingsEdu = {
 
 export const settingsIndustry = {
     industry: {
-        title: 'Выберите отрасли',
+        title: '',
         changeComponent: ChangeMultiSelect,
         listItemsSelect: [
             'IT и коммуникации',

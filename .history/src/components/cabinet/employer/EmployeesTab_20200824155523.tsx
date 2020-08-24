@@ -54,6 +54,7 @@ export const EmployeesTabComp = (props : EmployeesTabProps) => {
 
 
     const loadEmoloyees = async() => {
+        alert('tut')
         switch (context.role) {
             case "ROLE_EMPLOYER":
                 await dispatch(startLoadingAction());
@@ -61,6 +62,29 @@ export const EmployeesTabComp = (props : EmployeesTabProps) => {
                 
                 if(employeesListData.msgStatus && employeesListData.msgStatus == "ok") {
                     await setEmployees(employeesListData.map(
+                        entity => ({
+                            login: entity.login,
+                            id: entity.id,
+                            name: ((entity.name || entity.surname || entity.middlename) ?
+                            ((entity.name ? entity.name : '') + ' ' +
+                            (entity.middlename ? entity.middlename : '') + ' ' +
+                            (entity.surname ? entity.surname : ''))
+                            : null)
+                        })
+                    ));
+               
+                    
+                }
+
+                await dispatch(stopLoadingAction());
+                break;
+            case "ROLE_JOBSEEKER":
+                await dispatch(startLoadingAction());
+                
+                const jobseekerListData = await getEmployeesListFetch(props.token, '/institution/students');  
+                
+                if(jobseekerListData.msgStatus && jobseekerListData.msgStatus == "ok") {
+                    await setEmployees(jobseekerListData.map(
                         entity => ({
                             login: entity.login,
                             id: entity.id,

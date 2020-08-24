@@ -26,30 +26,14 @@ export const ChangeCompetences = (props : IChangeCompetences) => {
     const handleCheckGroup = (group: string) => {
         const currentIndex = checked.indexOf(group);
         const newChecked = [...checked];
-        const newResultMass = [...resultChange]
-        
         if (currentIndex === -1) {
             newChecked.push(group);
         } 
         else {
             newChecked.splice(currentIndex, 1);
         }
-        
-        localList[group].forEach(competence => {
-            const checkObject = group + ',' + competence; 
-            if (currentIndex === -1) {
-                newChecked.push(checkObject);
-                newResultMass.push({group, name: competence})
-            } 
-            else {
-                newChecked.splice(currentIndex, 1);
-                newResultMass.splice(currentIndex, 1);
-            }
-        })
-
         setChecked(newChecked);
-        setResultChange(newResultMass);
-        props.onChange({[props.type]: newResultMass});        
+        localList[group].forEach(competence => {handleToggle(group, competence)})
     }
 
     const handleToggle = (group: string, competence: string) => {        

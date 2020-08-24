@@ -15,7 +15,7 @@ import { VacancyEditorDialog } from '../../../components/vacancy-editor/VacancyE
 import { theme } from '../../../theme';
 import { EmployeeList } from '../../../components/entityList/EmployeesList';
 import { VacancyTab } from '../../../components/cabinet/employer/VacancyTab';
-import { EntitiesTab } from '../../../components/entityList/EntitiesTab';
+import { EmployeesTab } from '../../../components/cabinet/employer/EmployeesTab';
 import { TapeFetcherProvider } from '../../../components/tape/TapeFetcherContext';
 
 
@@ -34,7 +34,7 @@ const tabs: Array<ITabData> = [
   {
     label: "Сотрудники",
     //IconComponent: <PersonPinIcon/>,
-    TabPanel: <EntitiesTab/>
+    TabPanel: <EmployeesTab/>
   },
   {
     label: "Вакансии",

@@ -6,7 +6,7 @@ import AccountInfo from '../../../components/cabinet/AccountInfo';
 import { ITabData, TabsPaper } from './../../../components/cards/TabsPaper';
 import { PaddingPaper } from './../../../components/cards/PaddingPaper';
 import { AccountCommonInfo } from '../../../components/cabinet/AccountCommonInfo';
-import { EntitiesTab } from '../../../components/entityList/EntitiesTab';
+import { EmployeesTab } from '../../../components/cabinet/employer/EmployeesTab';
 
 interface IInstitutionCabinet {
 
@@ -21,7 +21,7 @@ const tabs: Array<ITabData> = [
   {
     label: "Студенты",
     //IconComponent: <PersonPinIcon/>,
-    TabPanel: <EntitiesTab/>
+    TabPanel: <EmployeesTab/>
   },
 ]
 

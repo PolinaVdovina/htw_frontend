@@ -8,7 +8,7 @@ import { RegMiniComponent } from '../cabinet/employer/RegMiniComponent';
 import { CabinetContext } from '../cabinet/cabinet-context';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { Link as RouterLink, LinkProps as RouterLinkProps, NavLink } from 'react-router-dom';
-import { getAvatarUrl, deletePersonalDataFetch, deleteEntity } from '../../utils/fetchFunctions';
+import { getAvatarUrl, deletePersonalDataFetch } from '../../utils/fetchFunctions';
 import { urls } from '../../pages/urls';
 import { Theme } from '@material-ui/core';
 import { userPersonalsReducer } from './../../redux/reducers/user-personals-reducers';

@@ -43,7 +43,9 @@ export const changeCompetenceSet = async ( dispatch, data ) => {
 }
 
 export const changeIndustrySet = async ( dispatch, data ) => {
-    const msgInfo: IMessageInfo = await changePersonalDataFetch(store.getState().authReducer.token, data.industry, '/employer/industry/attach');
+    alert(JSON.stringify(data))
+    const msgInfo: IMessageInfo = await changePersonalDataFetch(store.getState().authReducer.token, data.industry, '/11employer/industry/attach');
+    //alert(msgInfo.msgStatus==MessageStatus.OK)
     if(msgInfo.msgStatus == MessageStatus.OK) {
         let industrySetRaw: string[];
         if (store.getState().userPersonalsReducer.industry) {
@@ -150,20 +152,6 @@ export const deleteJobApplicant = async ( dispatch, data ) => {
             }
         }
         await dispatch( fillPersonalDataAction({jobApplicantSet: jobAppl}));
-    }
-    return msgInfo;
-}
-
-export const deleteIndustry = async ( dispatch, data ) => {
-    const msgInfo: IMessageInfo = await deletePersonalDataFetch(store.getState().authReducer.token, data, '/employer/industry/detach');
-    if(msgInfo.msgStatus == MessageStatus.OK) {
-        let industrySet = [...store.getState().userPersonalsReducer.industry]
-        for (let i = 0; i < industrySet.length; i++) {
-            if (industrySet[i] == data) {
-                industrySet.splice(i, 1);
-            }
-        }
-        await dispatch( fillPersonalDataAction({industry: industrySet}));
     }
     return msgInfo;
 }

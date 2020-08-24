@@ -97,7 +97,7 @@ export function accountRequestToEntityDictionary(data, role) {
                     address: data.address,
                     inn: data.inn,
                     ogrn: data.ogrn,
-                    industry: data.industry ? data.industry.map(industry => industry.name) : null
+                    industry: data.industry
     
                 }
             case "ROLE_INSTITUTION":

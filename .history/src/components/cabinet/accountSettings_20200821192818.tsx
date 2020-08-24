@@ -42,8 +42,7 @@ import {
     deleteJobApplicant,
     changeEducations,
     deleteEducation,
-    changeIndustrySet,
-    deleteIndustry
+    changeIndustrySet
 } from "../../utils/change-component-utils";
 import { SimpleTypography } from "./displayMiniComponents/SimpleTypography";
 import { SimpleLink } from "./displayMiniComponents/SimpleLink";
@@ -201,9 +200,8 @@ export const SETTINGS = {
             title: 'Отрасль',
             type: 'mass',
             changeSettings: settingsIndustry,
-            displayComponent: SimpleTypography,
+            dysplayComponent: SimpleTypography,
             changeFunction: changeIndustrySet,
-            deleteFunction: deleteIndustry
         }
     }
 }

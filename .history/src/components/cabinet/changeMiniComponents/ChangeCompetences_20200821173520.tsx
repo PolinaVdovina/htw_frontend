@@ -26,30 +26,15 @@ export const ChangeCompetences = (props : IChangeCompetences) => {
     const handleCheckGroup = (group: string) => {
         const currentIndex = checked.indexOf(group);
         const newChecked = [...checked];
-        const newResultMass = [...resultChange]
-        
         if (currentIndex === -1) {
             newChecked.push(group);
         } 
         else {
             newChecked.splice(currentIndex, 1);
         }
-        
-        localList[group].forEach(competence => {
-            const checkObject = group + ',' + competence; 
-            if (currentIndex === -1) {
-                newChecked.push(checkObject);
-                newResultMass.push({group, name: competence})
-            } 
-            else {
-                newChecked.splice(currentIndex, 1);
-                newResultMass.splice(currentIndex, 1);
-            }
-        })
-
         setChecked(newChecked);
-        setResultChange(newResultMass);
-        props.onChange({[props.type]: newResultMass});        
+        //выделение группы нормально не работает
+        //localList[group].map(competence => {handleToggle(group, competence)})
     }
 
     const handleToggle = (group: string, competence: string) => {        
@@ -130,7 +115,7 @@ export const ChangeCompetences = (props : IChangeCompetences) => {
             aria-labelledby="nested-list-subheader"
         >
             { Object.keys(localList).map((group, index) => <>
-                <ListItem style={{marginLeft: '25px', width: 'inherit'}}>
+                <ListItem /*button onClick={() => handleClick(index)} */style={{marginLeft: '25px', width: 'inherit'}}>
                     <Checkbox
                         edge="start"
                         checked={checked.indexOf(group) !== -1}
@@ -139,10 +124,7 @@ export const ChangeCompetences = (props : IChangeCompetences) => {
                         onClick={() => handleCheckGroup(group)}
                     />
                     <ListItemText primary={group}/>
-                    { open[index] ? 
-                        <ExpandLess onClick={() => handleClick(index)}/> : 
-                        <ExpandMore onClick={() => handleClick(index)}/>
-                    }
+                    {open[index] ? <ExpandLess onClick={() => handleClick(index)}/> : <ExpandMore onClick={() => handleClick(index)}/>}
                 </ListItem>
                 <Collapse in={open[index]} timeout="auto" unmountOnExit>                    
                     <List component="div" disablePadding dense style={{marginLeft: '40px'}}>

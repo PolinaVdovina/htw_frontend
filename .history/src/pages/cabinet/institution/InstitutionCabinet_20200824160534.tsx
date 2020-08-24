@@ -6,7 +6,7 @@ import AccountInfo from '../../../components/cabinet/AccountInfo';
 import { ITabData, TabsPaper } from './../../../components/cards/TabsPaper';
 import { PaddingPaper } from './../../../components/cards/PaddingPaper';
 import { AccountCommonInfo } from '../../../components/cabinet/AccountCommonInfo';
-import { EntitiesTab } from '../../../components/entityList/EntitiesTab';
+import { EntitiesTab } from '../../../components/cabinet/employer/EntitiesTab';
 
 interface IInstitutionCabinet {
 
