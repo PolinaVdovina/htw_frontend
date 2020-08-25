@@ -104,7 +104,7 @@ export const settingsName = {
     middlename: {
         title: 'Отчество',
         changeComponent: ChangeOneString
-    } 
+    }
 }
 
 export const settingsDescription = {

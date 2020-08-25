@@ -10,7 +10,7 @@ import { Tape } from '../../../components/tape/Tape';
 import { ParagraphInPost } from './../../../components/tape/posts/post-body-elements/ParagraphInPost';
 import { ListInPost } from '../../../components/tape/posts/post-body-elements/ListInPost';
 
-import { TapeElement,ITapeElementData } from '../../../components/tape/posts/TapeElement';
+import { TapeElement, ITapeElementData } from '../../../components/tape/posts/TapeElement';
 import { VacancyEditorDialog } from '../../../components/vacancy-editor/VacancyEditorDialog';
 import { theme } from '../../../theme';
 import { EmployeeList } from '../../../components/entityList/EmployeesList';
@@ -44,17 +44,17 @@ const tabs: Array<ITabData> = [
   {
     label: "Мероприятия",
     //IconComponent: <PersonPinIcon/>,
-    TabPanel: <AccountInfo role='LEGAL' title="Мероприятия" settingsView={[]}/>
+    TabPanel: <AccountInfo role='LEGAL' title="Мероприятия" settingsView={[]} />
   }
 ]
 
 
 
 export const EmployerCabinet = (props: IEmployerCabinet) => {
-    return (
-      <>   
-        <PaddingPaper style={{width:"100%"}}><AccountCommonInfo roleSettings={"LEGAL"}/></PaddingPaper>   
-        <TabsPaper paperStyle={{width:"100%"}} tabs={tabs} />
-      </>
-    )
+  return (
+    <>
+      <PaddingPaper style={{ width: "100%" }}><AccountCommonInfo roleSettings={"LEGAL"} /></PaddingPaper>
+      <TabsPaper paperStyle={{ width: "100%" }} tabs={tabs} />
+    </>
+  )
 }

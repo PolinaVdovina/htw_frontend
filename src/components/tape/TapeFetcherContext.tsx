@@ -9,8 +9,8 @@ export interface ITapeContextValue {
     //dataFetchFunction?: ((lastPostDate: string, dataCount) => Promise<ITapeFetch>) | null,
     //fetchCount?: number
     //dataConverterFunction?: (fetchedEntity) => ITapeElementData,
-    tapeElements: Array<ITapeElementData> | null, 
-    setTapeElements: (newElements: Array<ITapeElementData> ) => void,
+    tapeElements: Array<ITapeElementData> | null,
+    setTapeElements: (newElements: Array<ITapeElementData>) => void,
     fetchNext: (
         dataFetchFunction?: ((lastPostDate: string, dataCount) => Promise<ITapeFetch>) | null,
         dataConverterFunction?: (fetchedEntity) => ITapeElementData
@@ -24,7 +24,7 @@ export const TapeFetcherContext = React.createContext<ITapeContextValue | null>(
 interface ITapeFetcherProvider {
     dataFetchFunction?: ((lastPostDate: string, dataCount) => Promise<ITapeFetch>) | null,
     fetchCount?: number
-    dataConverterFunction?: (fetchedEntity) => ITapeElementData, 
+    dataConverterFunction?: (fetchedEntity) => ITapeElementData,
 }
 
 export const TapeFetcherProvider = (props) => {
@@ -33,26 +33,26 @@ export const TapeFetcherProvider = (props) => {
     const dispatch = useDispatch();
 
 
-    
-    const setTapeElementsHandler = (newElements: Array<ITapeElementData> ) => setTapeElements(newElements);
+
+    const setTapeElementsHandler = (newElements: Array<ITapeElementData>) => setTapeElements(newElements);
     const resetHandler = () => setTapeElements(null);
-    const fetchNextHandler = async(dataFetchFunction, dataConverterFunction) => {
-        if(dataFetchFunction)  {
-            dispatch( startLoadingAction() );
+    const fetchNextHandler = async (dataFetchFunction, dataConverterFunction) => {
+        if (dataFetchFunction) {
+            dispatch(startLoadingAction());
             //Если элементов нет (не было фетча) - беру текущую дату, иначе беру дату последнего поста на ленте
             let minDateForFilter;
-            if(tapeElements && tapeElements.length > 0) 
-                minDateForFilter = tapeElements[tapeElements.length-1].createdDate;
-            else 
+            if (tapeElements && tapeElements.length > 0)
+                minDateForFilter = tapeElements[tapeElements.length - 1].createdDate;
+            else
                 minDateForFilter = new Date(Date.now()).toISOString();
-            
-            const fetchResult = await dataFetchFunction(minDateForFilter, fetchCount);
-            if((fetchResult.msgInfo.msgStatus == MessageStatus.OK)&&(fetchResult.result)) {
 
-                if(dataConverterFunction) {
+            const fetchResult = await dataFetchFunction(minDateForFilter, fetchCount);
+            if ((fetchResult.msgInfo.msgStatus == MessageStatus.OK) && (fetchResult.result)) {
+
+                if (dataConverterFunction) {
                     const newTapeElements = fetchResult.result.map(dataConverterFunction);
-                    
-                    if(!tapeElements)
+
+                    if (!tapeElements)
                         setTapeElements(newTapeElements);
                     else
                         setTapeElements([...tapeElements, ...newTapeElements]);
@@ -61,13 +61,13 @@ export const TapeFetcherProvider = (props) => {
                     setTapeElements(fetchResult.tapeElements);
                 }
             }
-            dispatch( stopLoadingAction() );
+            dispatch(stopLoadingAction());
 
         }
     }
 
     return (
-        <TapeFetcherContext.Provider value = {{
+        <TapeFetcherContext.Provider value={{
             tapeElements: tapeElements,
             fetchNext: fetchNextHandler,
             //fetchCount,

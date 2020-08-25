@@ -2,6 +2,7 @@ import axios from "axios";
 
 import { IMessageInfo, MessageStatus } from "./fetchInterfaces";
 import { ITapeElementProps } from './../components/tape/posts/TapeElement';
+import { ISearchCriteriaRequest } from "./search-criteria/types";
 
 interface ILoginResponse {
     login?: string,
@@ -14,13 +15,13 @@ interface ILoginResponse {
 export const loginFetch = async (identity, password) => {
     let returnData: ILoginResponse;
     try {
-        const response =  await axios.post("/auth/login", {
+        const response = await axios.post("/auth/login", {
             login: identity,
             password: password,
         });
 
-        if(response.data.token && response.data.accountLogin) {
-            returnData =  {
+        if (response.data.token && response.data.accountLogin) {
+            returnData = {
                 login: response.data.accountLogin,
                 token: response.data.token,
                 role: response.data.role,
@@ -28,15 +29,15 @@ export const loginFetch = async (identity, password) => {
             };
         }
         else {
-            returnData =  {
-                msgStatus:"error",
+            returnData = {
+                msgStatus: "error",
                 error: "Какая-нибудь ошибка!"
             };
         }
     }
     catch {
-        returnData =  {
-            msgStatus:"error",
+        returnData = {
+            msgStatus: "error",
             error: "Какая-нибудь ошибка с сетью!"
         };
     }
@@ -53,32 +54,32 @@ interface IRegisterResponse {
 export const registerFetch = async (login, email, phone, password, role) => {
     let returnData: IRegisterResponse;
     try {
-        const response =  await axios.post("/auth/create", {
+        const response = await axios.post("/auth/create", {
             login,
             phone,
             email,
             password,
-            roles:role,
+            roles: role,
         });
 
-        if(response.data.token) {
-            returnData =  {
+        if (response.data.token) {
+            returnData = {
                 login: login,
                 token: response.data.token,
                 msgStatus: "ok"
             };
         }
         else {
-            returnData =  {
-                msgStatus:"error",
+            returnData = {
+                msgStatus: "error",
                 error: "Какая-нибудь ошибка!"
             };
         }
     }
     catch
     {
-        returnData =  {
-            msgStatus:"error",
+        returnData = {
+            msgStatus: "error",
             error: "Какая-нибудь ошибка с сетью!"
         };
     }
@@ -103,19 +104,19 @@ export const registerFetch = async (login, email, phone, password, role) => {
 export const getPersonalDataFetch = async (token, role: string) => {
     let returnData;
     try {
-        const response =  await axios.get("/" + role + "/get", {
-            headers:{
+        const response = await axios.get("/" + role + "/get", {
+            headers: {
                 Authorization: 'Bearer ' + token
             }
         });
 
-        returnData = response.data; 
+        returnData = response.data;
         returnData["msgStatus"] = "ok"
     }
     catch
     {
-        returnData =  {
-            msgStatus:"error",
+        returnData = {
+            msgStatus: "error",
             error: "Какая-нибудь ошибка с сетью!"
         };
     }
@@ -128,19 +129,19 @@ export const getEmployeesListFetch = async (token, url?) => {
     let returnData;
     url = url || "/employer/employee";
     try {
-        const response =  await axios.get(url, {
-            headers:{
+        const response = await axios.get("/employer/employee", {
+            headers: {
                 Authorization: 'Bearer ' + token
             }
         });
 
-        returnData = response.data; 
+        returnData = response.data;
         returnData["msgStatus"] = "ok"
     }
     catch
     {
-        returnData =  {
-            msgStatus:"error",
+        returnData = {
+            msgStatus: "error",
             error: "Какая-нибудь ошибка с сетью!"
         };
     }
@@ -152,23 +153,23 @@ export const addEmployeeFetch = async (token, data, url?) => {
     let returnData;
     url = url || "/employer/employee";
     try {
-        const response =  await axios.post(url,             
-            
-                data,
-                
-                {
-                    headers: {
-                        Authorization: 'Bearer ' + token
-                    }
-                }           
-        
+        const response = await axios.post("/employer/employee",
+
+            data,
+
+            {
+                headers: {
+                    Authorization: 'Bearer ' + token
+                }
+            }
+
         );
 
         const msgInfo: IMessageInfo = {
-            msgStatus: response.data.error || (response.data.status && response.data.status == 'error') ?  MessageStatus.ERROR : MessageStatus.OK,
+            msgStatus: response.data.error || (response.data.status && response.data.status == 'error') ? MessageStatus.ERROR : MessageStatus.OK,
             id: response.data
         };
-        return  msgInfo;
+        return msgInfo;
     }
     catch
     {
@@ -176,7 +177,7 @@ export const addEmployeeFetch = async (token, data, url?) => {
             msgStatus: MessageStatus.ERROR,
             error: "Проблемы с соединением",
         };
-        return  msgInfo;
+        return msgInfo;
     }
 }
 
@@ -188,48 +189,48 @@ export const changePersonalDataFetch = async (token, data, url?) => {
 
             //},
             {
-                headers: {Authorization: 'Bearer ' + token},
+                headers: { Authorization: 'Bearer ' + token },
             }
         );
-        
+
         const msgInfo: IMessageInfo = {
-            msgStatus: response.data.error || (response.data.status && response.data.status == 'error') ?  MessageStatus.ERROR : MessageStatus.OK,
+            msgStatus: response.data.error || (response.data.status && response.data.status == 'error') ? MessageStatus.ERROR : MessageStatus.OK,
         };
-        return  msgInfo;
+        return msgInfo;
     }
     catch {
         const msgInfo: IMessageInfo = {
             msgStatus: MessageStatus.ERROR,
             error: "Проблемы с соединением",
         };
-        return  msgInfo;
+        return msgInfo;
     }
 }
 
 export const changeEmployerAddressFetch = async (token, data, url?) => {
     try {
         url = url || '/account/address';
-        const response = await axios.post(url,  {
-                ...data,
+        const response = await axios.post(url, {
+            ...data,
 
-            },
+        },
             {
-                headers: {Authorization: 'Bearer ' + token},
+                headers: { Authorization: 'Bearer ' + token },
             }
         );
-        
+
         const msgInfo: IMessageInfo = {
-            msgStatus: response.data.error || (response.data.status && response.data.status == 'error') ?  MessageStatus.ERROR : MessageStatus.OK,
+            msgStatus: response.data.error || (response.data.status && response.data.status == 'error') ? MessageStatus.ERROR : MessageStatus.OK,
             id: response.data
         };
-        return  msgInfo;
+        return msgInfo;
     }
     catch {
         const msgInfo: IMessageInfo = {
             msgStatus: MessageStatus.ERROR,
             error: "Проблемы с соединением",
         };
-        return  msgInfo;
+        return msgInfo;
     }
 }
 
@@ -263,30 +264,30 @@ export const deleteEntity = async (token, id, url) => {
                 headers: {Authorization: 'Bearer ' + token},
             }
         );        
-        
+
         const msgInfo: IMessageInfo = {
-            msgStatus: response.data.error || (response.data.status && response.data.status == 'error') ?  MessageStatus.ERROR : MessageStatus.OK,
+            msgStatus: response.data.error || (response.data.status && response.data.status == 'error') ? MessageStatus.ERROR : MessageStatus.OK,
         };
-        return  msgInfo;
+        return msgInfo;
     }
     catch {
         const msgInfo: IMessageInfo = {
             msgStatus: MessageStatus.ERROR,
             error: "Проблемы с соединением",
         };
-        return  msgInfo;
+        return msgInfo;
     }
 }
 
 export const isValidTokenFetch = async (token: string) => {
     try {
-        const response = await axios.post("/account/set",  {},
+        const response = await axios.post("/account/set", {},
             {
-                headers: {Authorization: 'Bearer ' + token},
+                headers: { Authorization: 'Bearer ' + token },
             }
         );
 
-        if(response.status == 200) {
+        if (response.status == 200) {
             return true;
         } else {
             return false;
@@ -300,10 +301,10 @@ export const isValidTokenFetch = async (token: string) => {
 
 export const getAccountDataFetch = async (token: string, login: string) => {
     try {
-        const userData = await axios.get("/account/login?login="+login,
-        {
-            headers: {Authorization: 'Bearer ' + token},
-        });
+        const userData = await axios.get("/account/login?login=" + login,
+            {
+                headers: { Authorization: 'Bearer ' + token },
+            });
         //alert(JSON.stringify(userData.data))
         return userData.data;
     }
@@ -313,26 +314,26 @@ export const getAccountDataFetch = async (token: string, login: string) => {
 }
 
 
-export const addVacancyFetch = async(token: string, vacancyData) => {
+export const addVacancyFetch = async (token: string, vacancyData) => {
     try {
-        const response = await axios.post("/vacancy/add",  vacancyData,
+        const response = await axios.post("/vacancy/add", vacancyData,
             {
-                headers: {Authorization: 'Bearer ' + token},
+                headers: { Authorization: 'Bearer ' + token },
             }
         );
-        
+
         const msgInfo: IMessageInfo = {
-            msgStatus: response.data.error || (response.data.status && response.data.status == 'error') ?  MessageStatus.ERROR : MessageStatus.OK,
+            msgStatus: response.data.error || (response.data.status && response.data.status == 'error') ? MessageStatus.ERROR : MessageStatus.OK,
             id: response.data
         };
-        return  msgInfo;
+        return msgInfo;
     }
     catch {
         const msgInfo: IMessageInfo = {
             msgStatus: MessageStatus.ERROR,
             error: "Проблемы с соединением",
         };
-        return  msgInfo;
+        return msgInfo;
     }
 }
 
@@ -340,9 +341,9 @@ export const addVacancyFetch = async(token: string, vacancyData) => {
 export const getOwnVacanciesFetch = async (token: string) => {
     try {
         const result = await axios.get("/vacancy/getOwn",
-        {
-            headers: {Authorization: 'Bearer ' + token},
-        });
+            {
+                headers: { Authorization: 'Bearer ' + token },
+            });
         //alert(JSON.stringify(userData.data))
         return result.data;
     }
@@ -354,10 +355,10 @@ export const getOwnVacanciesFetch = async (token: string) => {
 
 export const getVacanciesByLoginFetch = async (token: string, login: string) => {
     try {
-        const result = await axios.get("/vacancy/getByLogin?login="+login,
-        {
-            headers: {Authorization: 'Bearer ' + token},
-        });
+        const result = await axios.get("/vacancy/getByLogin?login=" + login,
+            {
+                headers: { Authorization: 'Bearer ' + token },
+            });
         //alert(JSON.stringify(userData.data))
         return result.data;
     }
@@ -381,14 +382,14 @@ export const getVacanciesByLoginAndMinDateFetch = async (token: string, login: s
     try {
 
         const result = await axios.post("/vacancy/getByLoginAndDate",
-        {
-            login,
-            minDate,
-            limit,
-        },
-        {
-            headers: {Authorization: 'Bearer ' + token},
-        });
+            {
+                login,
+                minDate,
+                limit,
+            },
+            {
+                headers: { Authorization: 'Bearer ' + token },
+            });
         //alert(JSON.stringify(userData.data))
         const returnData: ITapeFetch = {
             msgInfo: {
@@ -412,10 +413,10 @@ export const getVacanciesByLoginAndMinDateFetch = async (token: string, login: s
 
 export const removeVacancyFetch = async (token: string, vacancyId: number) => {
     try {
-        const result = await axios.get("/vacancy/remove?vacancyId="+vacancyId,
-        {
-            headers: {Authorization: 'Bearer ' + token},
-        });
+        const result = await axios.get("/vacancy/remove?vacancyId=" + vacancyId,
+            {
+                headers: { Authorization: 'Bearer ' + token },
+            });
         //alert(JSON.stringify(userData.data))
         return MessageStatus.OK;
     }
@@ -425,61 +426,54 @@ export const removeVacancyFetch = async (token: string, vacancyId: number) => {
 }
 
 
-export const setAvatarFetch = async(token: string, file: File ) => {
+export const setAvatarFetch = async (token: string, file: File) => {
     try {
         let formData = new FormData();
         formData.append("avatar", file);
         const result = await axios.post("/account/setAvatar", formData,
             {
-                headers: {Authorization: 'Bearer ' + token},
+                headers: { Authorization: 'Bearer ' + token },
             }
         );
         return MessageStatus.OK;
-        }
+    }
     catch {
         return MessageStatus.ERROR;
     }
 }
 
-export const getAvatarUrl = (login: string):string => {
-    return "/account/avatars/"+login
+export const getAvatarUrl = (login: string): string => {
+    return "/account/avatars/" + login
 }
 
-
-export enum SearchCriteriaOperation {
-    EQUAL, LIKE, MORE, LESS, EQUAL_MORE, EQUAL_LESS, NOT_EQUAL, IN
-}
-
-export interface ISearchCriteria {
-    fieldName: string,
-    value: number | string | boolean,
-    operation?: SearchCriteriaOperation,
-}
 
 export interface ISearchCriteriaResponse<T> {
     msgInfo: IMessageInfo,
     result: Array<T> | null
 }
 
-export const searchCriteriaRequest: <T> (url: string, token: string, searchCriteria: Array<ISearchCriteria> ) => Promise<ISearchCriteriaResponse<T>> =
-async (url, token, searchCriteria ) => {
-    try {
-        const result = await axios.post(url, searchCriteria, { headers: {Authorization: 'Bearer ' + token}});
-        return {
-            msgInfo: {
-                msgStatus: MessageStatus.OK,
-            },
-            result: result.data,
+export const searchCriteriaRequest: <T> (url: string, token: string, requestData: ISearchCriteriaRequest) => Promise<ISearchCriteriaResponse<T>> =
+    async (url, token, requestData) => {
+        try {
+            const result = await axios.post(url, requestData, { headers: { Authorization: 'Bearer ' + token } });
+            return {
+                msgInfo: {
+                    msgStatus: MessageStatus.OK,
+                },
+                result: result.data,
+            }
+        }
+        catch {
+            return {
+                msgInfo: {
+                    msgStatus: MessageStatus.ERROR,
+                    error: "undefined error"        // шобы напугать
+                },
+                result: null,
+            }
         }
     }
-    catch {
-        return {
-            msgInfo: {
-                msgStatus: MessageStatus.ERROR,
-                error: "undefined error"
-            },
-            result: null,
-        }
-    }
-}
+
+
+
 

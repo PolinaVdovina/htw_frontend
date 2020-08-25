@@ -9,17 +9,17 @@ interface IChangeListOneSelect {
     value?: any
 }
 
-export const ChangeListOneSelect = (props : IChangeListOneSelect) => {
-    return(
+export const ChangeListOneSelect = (props: IChangeListOneSelect) => {
+    return (
         <TextField
             select
             size='small'
             value={props.value}
-            onChange={(event) => props.onChange({[props.type]: event.target.value})}
+            onChange={(event) => props.onChange({ [props.type]: event.target.value })}
             variant='outlined'
-            style={{width: props.fullWidth ? "100%" : "150px"}}
+            style={{ width: props.fullWidth ? "100%" : "150px" }}
         >
-            {props.list.map(element => 
+            {props.list.map(element =>
                 <MenuItem value={element}>
                     {element}
                 </MenuItem>

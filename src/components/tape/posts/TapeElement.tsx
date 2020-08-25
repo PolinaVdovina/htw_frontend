@@ -1,4 +1,4 @@
-import { Button, Card, Grid, Typography, makeStyles, Theme, createStyles, Paper, Avatar, Divider, IconButton, Collapse} from '@material-ui/core';
+import { Button, Card, Grid, Typography, makeStyles, Theme, createStyles, Paper, Avatar, Divider, IconButton, Collapse } from '@material-ui/core';
 import * as React from 'react';
 import { Redirect } from 'react-router';
 import { PaddingPaper } from '../../cards/PaddingPaper';
@@ -30,7 +30,7 @@ export interface ITapeElementData {
   bottomText?: string,
   lastChange?: string,
   createdDate?: string,
-  title?: string,    
+  title?: string,
   rightText?: string,
   ownerLogin?: string,
 }
@@ -40,8 +40,8 @@ export interface ITapeElementProps {
   avatarUrlUid: any,
   style: any,
   isOpenedDefaut?: boolean,
-  onDeleteClick?: ((postId: any ) => void) | null,
-  onChangeClick?: (postId: any ) => void
+  onDeleteClick?: ((postId: any) => void) | null,
+  onChangeClick?: (postId: any) => void
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -50,22 +50,22 @@ const useStyles = makeStyles((theme: Theme) =>
       alignItems: "center",
       flexWrap: "nowrap",
       wordBreak: "break-word"
-      
+
     },
     avatar: {
       marginRight: theme.spacing(1),
     },
     descriptionBlock: {
-      fontSize:"12px", 
+      fontSize: "12px",
     },
     openBlock: {
       maxHeight: "2000px",
-      overflow:"hidden",
+      overflow: "hidden",
       transition: "all 1s ease-out",
     },
     closedBlock: {
       maxHeight: "0px",
-      overflow:"hidden",
+      overflow: "hidden",
       transition: "all 1s ease-out",
     },
     button: {
@@ -78,68 +78,68 @@ const useStyles = makeStyles((theme: Theme) =>
 
 
 const TapeElementCardComp = (props: ITapeElementProps) => {
-    const classes = useStyles();
-    const theme = useTheme();
-    const [open, setOpen] = React.useState(props.isOpenedDefaut == true)
-    return (
-        <div style={props.style}>
-          <Grid container direction="row" className={classes.aboutGrid}>
-            {
-            props.tapeElementData.ownerLogin ? 
+  const classes = useStyles();
+  const theme = useTheme();
+  const [open, setOpen] = React.useState(props.isOpenedDefaut == true)
+  return (
+    <div style={props.style}>
+      <Grid container direction="row" className={classes.aboutGrid}>
+        {
+          props.tapeElementData.ownerLogin ?
             <Avatar
-            src={getAvatarUrl(props.tapeElementData.ownerLogin) + "?uid=" + props.avatarUrlUid } 
-            component={RouterLink} 
-            to={urls.cabinet.shortPath + props.tapeElementData.ownerLogin} 
-            className={classes.avatar} />
+              src={getAvatarUrl(props.tapeElementData.ownerLogin) + "?uid=" + props.avatarUrlUid}
+              component={RouterLink}
+              to={urls.cabinet.shortPath + props.tapeElementData.ownerLogin}
+              className={classes.avatar} />
             :
             <Avatar className={classes.avatar} />
-            }
-            <Grid item style={{flexGrow:1, marginRight: theme.spacing(2)}}>
-              <Grid container direction="column" >
-                {props.tapeElementData.title &&
-                <Typography>
-                  {props.tapeElementData.title}
-                </Typography>
-                }
-                <Typography className={classes.descriptionBlock}>{props.tapeElementData.bottomText}</Typography>
-              </Grid>
-            </Grid>
-            {props.tapeElementData.rightText &&
-            <Grid item>
-              <Typography style={{fontSize:"12px"}}>
-                {props.tapeElementData.rightText}
+        }
+        <Grid item style={{ flexGrow: 1, marginRight: theme.spacing(2) }}>
+          <Grid container direction="column" >
+            {props.tapeElementData.title &&
+              <Typography>
+                {props.tapeElementData.title}
               </Typography>
-            </Grid>
             }
-            <Grid item>
-              {  props.onDeleteClick &&
-                <IconButton
-                className={classes.button} 
-                onClick = {() => props.onDeleteClick && props.onDeleteClick(props.tapeElementData.id)}>
-                  <DeleteIcon/>
-                </IconButton>
-              }
-              <IconButton
-              className={classes.button}  
-              onClick={() => setOpen(!open)}>
-                {open ?  <ExpandLessIcon/> : <ExpandMoreIcon/>}
-              </IconButton>
-            </Grid>
+            <Typography className={classes.descriptionBlock}>{props.tapeElementData.bottomText}</Typography>
           </Grid>
-          {props.tapeElementData.body && props.tapeElementData.body.length > 1 && 
-          <Collapse in={open}>
-            <div style={{marginTop:theme.spacing(2)}}>
-              {props.tapeElementData.body?.map(
-                (el, index) => <>
-                    <el.Component key={index} data={el.data}/>
-                    {index+1 != props.tapeElementData.body?.length && <br/>}
-                  </>
-              )}
-            </div>
-          </Collapse>
+        </Grid>
+        {props.tapeElementData.rightText &&
+          <Grid item>
+            <Typography style={{ fontSize: "12px" }}>
+              {props.tapeElementData.rightText}
+            </Typography>
+          </Grid>
+        }
+        <Grid item>
+          {props.onDeleteClick &&
+            <IconButton
+              className={classes.button}
+              onClick={() => props.onDeleteClick && props.onDeleteClick(props.tapeElementData.id)}>
+              <DeleteIcon />
+            </IconButton>
           }
-        </div>
-    )
+          <IconButton
+            className={classes.button}
+            onClick={() => setOpen(!open)}>
+            {open ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+          </IconButton>
+        </Grid>
+      </Grid>
+      {props.tapeElementData.body && props.tapeElementData.body.length > 1 &&
+        <Collapse in={open}>
+          <div style={{ marginTop: theme.spacing(2) }}>
+            {props.tapeElementData.body?.map(
+              (el, index) => <>
+                <el.Component key={index} data={el.data} />
+                {index + 1 != props.tapeElementData.body?.length && <br />}
+              </>
+            )}
+          </div>
+        </Collapse>
+      }
+    </div>
+  )
 }
 
-export const TapeElement = connect((state: RootState)=>({avatarUrlUid: state.userPersonalsReducer.avatarUrlUid}))(TapeElementCardComp);
+export const TapeElement = connect((state: RootState) => ({ avatarUrlUid: state.userPersonalsReducer.avatarUrlUid }))(TapeElementCardComp);

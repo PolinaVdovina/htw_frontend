@@ -9,24 +9,24 @@ interface IChangeMultiSelect {
     type: string
 }
 
-export const ChangeMultiSelect = (props : IChangeMultiSelect) => {
+export const ChangeMultiSelect = (props: IChangeMultiSelect) => {
     const [personName, setPersonName] = React.useState<string[]>([]);
-    return(      
-        <FormControl 
-            variant='outlined' 
-            size='small' 
-            
-            style={{width: props.fullWidth ? "100%" : "250px"}}
+    return (
+        <FormControl
+            variant='outlined'
+            size='small'
+
+            style={{ width: props.fullWidth ? "100%" : "250px" }}
         >
-            <Select      
+            <Select
                 multiline
-                multiple               
+                multiple
                 value={props.value ? props.value : personName}
                 onChange={(event: React.ChangeEvent<{ value: unknown }>) => {
-                    props.onChange({[props.type]: event.target.value as string[]})
-                    
+                    props.onChange({ [props.type]: event.target.value as string[] })
+
                     setPersonName(event.target.value as string[])
-                }}               
+                }}
                 renderValue={(selected) => (selected as string[]).join(', ')}
             >
                 {props.list.map((name, index) => (

@@ -7,13 +7,13 @@ interface IChangeOneString {
     type: string
 }
 
-export const ChangeOneString = (props : IChangeOneString) => {
-    return(
-        <TextField 
-            size='small' 
-            variant='outlined' 
-            value={props.data[props.type]} 
-            onChange={(event) => props.onChange({[props.type]: event.target.value})}
+export const ChangeOneString = (props: IChangeOneString) => {
+    return (
+        <TextField
+            size='small'
+            variant='outlined'
+            value={props.data[props.type]}
+            onChange={(event) => props.onChange({ [props.type]: event.target.value })}
         />
     )
 }

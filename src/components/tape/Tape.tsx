@@ -6,29 +6,29 @@ import { CabinetContext } from './../cabinet/cabinet-context';
 
 export interface ITapeProps {
   elements?: Array<ITapeElementData> | null,
-  onDeleteClick?: ((id:any) => void) | null,
+  onDeleteClick?: ((id: any) => void) | null,
 }
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      
+
     },
   }),
 );
 
 export const Tape = (props: ITapeProps) => {
-    const classes = useStyles();
-    const theme = useTheme();
-    //alert(JSON.stringify(props.elements))
-    return (
-        <Grid  container direction="column">
-          {
-            props.elements && props.elements.map( (postData, index) =>
-              <><TapeElement onDeleteClick={props.onDeleteClick} key={postData.id} tapeElementData={postData} style={{padding: theme.spacing(2)}}/> <Divider key={"b"+index}/> </> 
-            )
-          }
+  const classes = useStyles();
+  const theme = useTheme();
+  //alert(JSON.stringify(props.elements))
+  return (
+    <Grid container direction="column">
+      {
+        props.elements && props.elements.map((postData, index) =>
+          <><TapeElement onDeleteClick={props.onDeleteClick} key={postData.id} tapeElementData={postData} style={{ padding: theme.spacing(2) }} /> <Divider key={"b" + index} /> </>
+        )
+      }
 
-        </Grid>
-    )
+    </Grid>
+  )
 }
