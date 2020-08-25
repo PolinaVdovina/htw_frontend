@@ -4,7 +4,7 @@ import { VacancyEditorDialog } from "../../vacancy-editor/VacancyEditorDialog";
 import { Tape } from "../../tape/Tape";
 import { RootState } from "../../../redux/store";
 import { connect, useDispatch } from 'react-redux';
-import { getOwnVacanciesFetch, removeVacancyFetch, getVacanciesByLoginAndMinDateFetch } from "../../../utils/fetchFunctions";
+import { getOwnVacanciesFetch, removeVacancyFetch, getVacanciesByLoginAndMinDateFetch, SearchCriteriaOperation } from "../../../utils/fetchFunctions";
 import { startLoadingAction, stopLoadingAction } from "../../../redux/actions/dialog-actions";
 import { CabinetContext } from '../cabinet-context';
 import { getVacanciesByLoginFetch } from '../../../utils/fetchFunctions';
@@ -15,6 +15,7 @@ import AddEntityBlock from "../AddEntityBlock";
 import { vacancyToPost } from "../../../utils/tape-converters/vacancy-to-tape-element";
 import { v4 as uuidv4 } from 'uuid';
 import { TapeFetcherProvider, TapeFetcherContext } from '../../tape/TapeFetcherContext';
+import { searchCriteriaRequest } from './../../../utils/fetchFunctions';
 
 function mapStateToProps(state : RootState) {
   return {
@@ -35,10 +36,16 @@ const VacancyTabComp = (props) => {
 
   const snackbar = useSnackbar();
   const getNextVacancies = async() => {
-    tapeFetcherContext && await tapeFetcherContext.fetchNext(
+/*     tapeFetcherContext && await tapeFetcherContext.fetchNext(
       (lastPostDate, dataCount) => getVacanciesByLoginAndMinDateFetch(props.token, cabinetContext.login, lastPostDate, dataCount),
       vacancyToPost
-    );
+    ); */
+    tapeFetcherContext && await tapeFetcherContext.fetchNext(
+      (lastPostDate, dataCount) => searchCriteriaRequest("/vacancy/getBySearchCriteria", props.token, [{
+        operation: SearchCriteriaOperation.LESS,
+        value: lastPostDate,
+        fieldName: "createdDate"
+      }] ), vacancyToPost);
   }
   
   React.useEffect(() => {
@@ -75,7 +82,6 @@ const VacancyTabComp = (props) => {
             
             //await tapeFetcherContext?.setTapeElements(null);
             await tapeFetcherContext?.reset();
-            alert("hhh")
             alert(JSON.stringify(tapeFetcherContext?.tapeElements))
             alert(JSON.stringify(tapeFetcherContext?.tapeElements))
             await getNextVacancies();

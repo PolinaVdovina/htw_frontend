@@ -444,3 +444,42 @@ export const setAvatarFetch = async(token: string, file: File ) => {
 export const getAvatarUrl = (login: string):string => {
     return "/account/avatars/"+login
 }
+
+
+export enum SearchCriteriaOperation {
+    EQUAL, LIKE, MORE, LESS, EQUAL_MORE, EQUAL_LESS, NOT_EQUAL, IN
+}
+
+export interface ISearchCriteria {
+    fieldName: string,
+    value: number | string | boolean,
+    operation?: SearchCriteriaOperation,
+}
+
+export interface ISearchCriteriaResponse<T> {
+    msgInfo: IMessageInfo,
+    result: Array<T> | null
+}
+
+export const searchCriteriaRequest: <T> (url: string, token: string, searchCriteria: Array<ISearchCriteria> ) => Promise<ISearchCriteriaResponse<T>> =
+async (url, token, searchCriteria ) => {
+    try {
+        const result = await axios.post(url, searchCriteria, { headers: {Authorization: 'Bearer ' + token}});
+        return {
+            msgInfo: {
+                msgStatus: MessageStatus.OK,
+            },
+            result: result.data,
+        }
+    }
+    catch {
+        return {
+            msgInfo: {
+                msgStatus: MessageStatus.ERROR,
+                error: "undefined error"
+            },
+            result: null,
+        }
+    }
+}
+
