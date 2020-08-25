@@ -119,11 +119,13 @@ const TapeElementCardComp = (props: ITapeElementProps) => {
               <DeleteIcon />
             </IconButton>
           }
-          <IconButton
-            className={classes.button}
-            onClick={() => setOpen(!open)}>
-            {open ? <ExpandLessIcon /> : <ExpandMoreIcon />}
-          </IconButton>
+          {props.tapeElementData.body && props.tapeElementData.body.length > 1 &&
+            <IconButton
+              className={classes.button}
+              onClick={() => setOpen(!open)}>
+              {open ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+            </IconButton>
+          }
         </Grid>
       </Grid>
       {props.tapeElementData.body && props.tapeElementData.body.length > 1 &&
