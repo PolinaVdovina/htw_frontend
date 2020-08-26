@@ -16,17 +16,17 @@ const tabs: Array<ITabData> = [
   {
     label: "Общая информация",
     //IconComponent: <PersonPinIcon/>,
-    TabPanel: <AccountInfo role='INDIVIDUAL' title="Общая информация" settingsView={['email', 'phone', 'employer']} />
+    TabPanel: <AccountInfo key={0} role='INDIVIDUAL' title="Общая информация" settingsView={['email', 'phone', 'employer']} />
   },
   {
     label: "Вакансии",
     //IconComponent: <PersonPinIcon/>,
-    TabPanel: <TapeFetcherProvider><VacancyTab /></TapeFetcherProvider>
+    TabPanel: <TapeFetcherProvider key={1}><VacancyTab /></TapeFetcherProvider>
   },
   {
     label: "Мероприятия",
     //IconComponent: <PersonPinIcon/>,
-    TabPanel: <AccountInfo role='INDIVIDUAL' title="Мероприятия" settingsView={[]} />
+    TabPanel: <AccountInfo key={2} role='INDIVIDUAL' title="Мероприятия" settingsView={[]} />
   },
 ]
 

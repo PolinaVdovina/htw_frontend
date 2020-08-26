@@ -1,31 +1,27 @@
-import { useTheme, Grid, Link, Divider, Dialog, DialogTitle, DialogActions, Button } from "@material-ui/core";
+import { useTheme, Grid, Divider, Dialog, DialogTitle, DialogActions, Button } from "@material-ui/core";
 import React from "react";
 import { VacancyEditorDialog } from "../../vacancy-editor/VacancyEditorDialog";
 import { Tape } from "../../tape/Tape";
 import { RootState } from "../../../redux/store";
 import { connect, useDispatch } from 'react-redux';
-import { getOwnVacanciesFetch, removeVacancyFetch, getVacanciesByLoginAndMinDateFetch } from "../../../utils/fetchFunctions";
+import { removeVacancyFetch } from "../../../utils/fetchFunctions";
 import { startLoadingAction, stopLoadingAction } from "../../../redux/actions/dialog-actions";
 import { CabinetContext } from '../cabinet-context';
-import { getVacanciesByLoginFetch } from '../../../utils/fetchFunctions';
-import { MessageStatus } from "../../../utils/fetchInterfaces";
-import { useSnackbar } from 'notistack';
 import AddEntityBlock from "../AddEntityBlock";
-//import { TapeFetcher } from '../../tape/TapeFetcher_OLD';
 import { vacancyToPost } from "../../../utils/tape-converters/vacancy-to-tape-element";
-import { v4 as uuidv4 } from 'uuid';
 import { TapeFetcherProvider, TapeFetcherContext } from '../../tape/TapeFetcherContext';
-import { searchCriteriaRequest } from './../../../utils/fetchFunctions';
-import { SearchCriteriaOperation, SortCriteriaDirection } from "../../../utils/search-criteria/types";
+import { searchCriteriaFetch } from './../../../utils/fetchFunctions';
+import { SortCriteriaDirection, SearchCriteriaOperation } from "../../../utils/search-criteria/types";
 import { searchCriteria, sortCriteria } from "../../../utils/search-criteria/builders";
 import { pagination } from './../../../utils/search-criteria/builders';
+import { useSnackbar } from "notistack";
+import { MessageStatus } from "../../../utils/fetchInterfaces";
 
 function mapStateToProps(state: RootState) {
   return {
     token: state.authReducer.token,
   }
 }
-
 
 const VacancyTabComp = (props) => {
   const theme = useTheme();
@@ -38,19 +34,22 @@ const VacancyTabComp = (props) => {
   const tapeFetcherContext = React.useContext(TapeFetcherContext);
 
   const snackbar = useSnackbar();
+
   const getNextVacancies = async () => {
     const mineCriteria = (cabinetContext.role == "ROLE_EMPLOYER") ?
       searchCriteria("employerLogin", cabinetContext.login, SearchCriteriaOperation.EQUAL)
       :
       searchCriteria("employeeLogin", cabinetContext.login, SearchCriteriaOperation.EQUAL)
 
-    tapeFetcherContext && await tapeFetcherContext.fetchNext(
-      (lastPostDate, dataCount) => searchCriteriaRequest("/vacancy/getBySearchCriteria", props.token,
+    await tapeFetcherContext?.fetchNext(
+      (lastPostDate, dataCount) => searchCriteriaFetch("/vacancy/getBySearchCriteria", props.token,
         {
-          searchCriteria: [searchCriteria("createdDate", lastPostDate, SearchCriteriaOperation.LESS), mineCriteria],
+          searchCriteria: [searchCriteria("createdDate", lastPostDate, SearchCriteriaOperation.LESS),
+          searchCriteria("active", true, SearchCriteriaOperation.EQUAL),
+            mineCriteria],
           sortCriteria: [sortCriteria("createdDate", SortCriteriaDirection.DESC)],
           pagination: pagination(5)
-        }), vacancyToPost);
+        }));
   }
 
   React.useEffect(() => {
@@ -62,7 +61,7 @@ const VacancyTabComp = (props) => {
     const result = await removeVacancyFetch(props.token, deletingId);
     if (result == MessageStatus.OK) {
       snackbar.enqueueSnackbar("Вакансия успешно удалена", { variant: "success" });
-      tapeFetcherContext && tapeFetcherContext.tapeElements && tapeFetcherContext.setTapeElements(tapeFetcherContext.tapeElements.filter(el => el.id != deletingId));
+      tapeFetcherContext?.deleteTapeElement(deletingId);
     }
     else
       snackbar.enqueueSnackbar("Не удалось удалить вакансию", { variant: "error" });
@@ -72,17 +71,16 @@ const VacancyTabComp = (props) => {
   }
 
   return (
-    <TapeFetcherProvider>
+    <div>
       {cabinetContext.isMine &&
         <>
 
           <Grid container direction="row-reverse" style={{ padding: theme.spacing(2) }}>
             <VacancyEditorDialog
               onClose={() => setOpenVacancyDialog(false)}
-              onSubmitSuccess={async () => {
+              onSubmitSuccess={async (vacancy) => {
                 await dispatch(startLoadingAction());
-                await tapeFetcherContext?.reset();
-                await getNextVacancies();
+                tapeFetcherContext?.addTapeElementAtFirst(vacancy);
                 await dispatch(stopLoadingAction());
                 await setOpenVacancyDialog(false);
               }}
@@ -106,8 +104,6 @@ const VacancyTabComp = (props) => {
           <Divider />
         </>}
       <Tape
-        //dataFetchFunction = {(lastPostDate, dataCount) => getVacanciesByLoginAndMinDateFetch(props.token, cabinetContext.login, lastPostDate, dataCount)}
-        //dataConverterFunction = {vacancyToPost}
         onDeleteClick={cabinetContext.isMine ? (id) => setDeletingId(id) : null}
         elements={
           tapeFetcherContext?.tapeElements
@@ -116,7 +112,7 @@ const VacancyTabComp = (props) => {
       <Grid item style={{ flexGrow: 1 }}>
         <Button variant="contained" color="primary" fullWidth onClick={getNextVacancies} style={{ borderTopLeftRadius: 0, borderTopRightRadius: 0 }}>Дальше</Button>
       </Grid>
-    </TapeFetcherProvider>)
+    </div>)
 }
 
 export const VacancyTab = connect(mapStateToProps)(VacancyTabComp);

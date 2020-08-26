@@ -326,14 +326,20 @@ export const addVacancyFetch = async (token: string, vacancyData) => {
             msgStatus: response.data.error || (response.data.status && response.data.status == 'error') ? MessageStatus.ERROR : MessageStatus.OK,
             id: response.data
         };
-        return msgInfo;
+        return {
+            data: response.data,
+            msgInfo
+        };
     }
     catch {
         const msgInfo: IMessageInfo = {
             msgStatus: MessageStatus.ERROR,
             error: "Проблемы с соединением",
         };
-        return msgInfo;
+        return {
+            data: null,
+            msgInfo
+        };
     }
 }
 
@@ -447,12 +453,44 @@ export const getAvatarUrl = (login: string): string => {
 }
 
 
+export const subscribeFetch = async (token: string, login: String): Promise<IMessageInfo> => {
+    try {
+        const result = await axios.get("/account/subscribe?login="+login, { headers: { Authorization: 'Bearer ' + token } });
+        return {
+            msgStatus: MessageStatus.OK
+        }
+    } 
+    catch {
+        return {
+            msgStatus: MessageStatus.ERROR,
+            error: "undefined error"        // шобы напугать
+        }
+    }
+}
+
+
+export const unsubscribeFetch = async (token: string, login: string): Promise<IMessageInfo> => {
+    try {
+        const result = await axios.get("/account/unsubscribe?login="+login, { headers: { Authorization: 'Bearer ' + token } });
+        return {
+            msgStatus: MessageStatus.OK
+        }
+    } 
+    catch {
+        return {
+            msgStatus: MessageStatus.ERROR,
+            error: "undefined error"        // шобы напугать
+        }
+    }
+}
+
+
 export interface ISearchCriteriaResponse<T> {
     msgInfo: IMessageInfo,
     result: Array<T> | null
 }
 
-export const searchCriteriaRequest: <T> (url: string, token: string, requestData: ISearchCriteriaRequest) => Promise<ISearchCriteriaResponse<T>> =
+export const searchCriteriaFetch: <T> (url: string, token: string, requestData: ISearchCriteriaRequest) => Promise<ISearchCriteriaResponse<T>> =
     async (url, token, requestData) => {
         try {
             const result = await axios.post(url, requestData, { headers: { Authorization: 'Bearer ' + token } });

@@ -17,6 +17,9 @@ import { EmployeeList } from '../../../components/entityList/EmployeesList';
 import { VacancyTab } from '../../../components/cabinet/employer/VacancyTab';
 import { EntitiesTab } from '../../../components/entityList/EntitiesTab';
 import { TapeFetcherProvider } from '../../../components/tape/TapeFetcherContext';
+import { vacancyToPost } from './../../../utils/tape-converters/vacancy-to-tape-element';
+import { userToPost } from '../../../utils/tape-converters/user-to-tape-element';
+import { EmployeesTab } from '../../../components/cabinet/employer/EmployeesTab';
 
 
 interface IEmployerCabinet {
@@ -29,22 +32,22 @@ const tabs: Array<ITabData> = [
   {
     label: "Общая информация",
     //IconComponent: <PersonPinIcon/>,
-    TabPanel: <AccountInfo role='LEGAL' title="Общая информация" settingsView={['inn', 'ogrn', 'industry', 'address', 'email', 'phone']}/>
+    TabPanel: <AccountInfo key={0} role='LEGAL' title="Общая информация" settingsView={['inn', 'ogrn', 'industry', 'address', 'email', 'phone']}/>
   },
   {
     label: "Сотрудники",
     //IconComponent: <PersonPinIcon/>,
-    TabPanel: <EntitiesTab/>
+    TabPanel: <TapeFetcherProvider key={1} dataConverterFunction = {userToPost}><EmployeesTab/></TapeFetcherProvider>
   },
   {
     label: "Вакансии",
     //IconComponent: <PersonPinIcon/>,
-    TabPanel: <TapeFetcherProvider><VacancyTab /></TapeFetcherProvider>
+    TabPanel: <TapeFetcherProvider key={2} dataConverterFunction = {vacancyToPost}><VacancyTab /></TapeFetcherProvider>
   },
   {
     label: "Мероприятия",
     //IconComponent: <PersonPinIcon/>,
-    TabPanel: <AccountInfo role='LEGAL' title="Мероприятия" settingsView={[]} />
+    TabPanel: <AccountInfo key={3} role='LEGAL' title="Мероприятия" settingsView={[]} />
   }
 ]
 

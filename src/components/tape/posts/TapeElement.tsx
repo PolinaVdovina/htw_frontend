@@ -12,6 +12,7 @@ import { urls } from '../../../pages/urls';
 import { getAvatarUrl } from '../../../utils/fetchFunctions';
 import { connect } from 'react-redux';
 import { RootState } from '../../../redux/store';
+import { Tooltip } from '@material-ui/core';
 
 export interface IBodyElement {
   data?: any,
@@ -30,7 +31,7 @@ export interface ITapeElementData {
   bottomText?: string,
   lastChange?: string,
   createdDate?: string,
-  title?: string,
+  title?: string | null,
   rightText?: string,
   ownerLogin?: string,
 }
@@ -113,18 +114,22 @@ const TapeElementCardComp = (props: ITapeElementProps) => {
         }
         <Grid item>
           {props.onDeleteClick &&
-            <IconButton
-              className={classes.button}
-              onClick={() => props.onDeleteClick && props.onDeleteClick(props.tapeElementData.id)}>
-              <DeleteIcon />
-            </IconButton>
+            <Tooltip title = "Удалить">
+              <IconButton
+                className={classes.button}
+                onClick={() => props.onDeleteClick && props.onDeleteClick(props.tapeElementData.id)}>
+                <DeleteIcon />
+              </IconButton>
+            </Tooltip>
           }
           {props.tapeElementData.body && props.tapeElementData.body.length > 1 &&
-            <IconButton
-              className={classes.button}
-              onClick={() => setOpen(!open)}>
-              {open ? <ExpandLessIcon /> : <ExpandMoreIcon />}
-            </IconButton>
+            <Tooltip title = {open ?  "Скрыть подробности" : "Показать подробности"}>
+              <IconButton
+                className={classes.button}
+                onClick={() => setOpen(!open)}>
+                {open ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+              </IconButton>
+            </Tooltip>
           }
         </Grid>
       </Grid>

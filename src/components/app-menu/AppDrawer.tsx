@@ -8,31 +8,6 @@ import ChatIcon from '@material-ui/icons/Chat';
 import { urls } from '../../pages/urls';
 import { AppMenuList } from './AppMenuList';
 
-const drawerElementsDict = [
-    {
-      IconComponent: LibraryBooksIcon,
-      title: "Новости",
-      url: urls.home,
-    },
-    {
-      IconComponent: PlaylistAddCheckIcon,
-      title: "Рекомендации",
-      url: "/"
-    },
-    {
-      IconComponent: NotificationsIcon,
-      title: "Уведомления",
-      url: "/"
-    },
-    {
-      IconComponent: ChatIcon,
-      title: "Сообщения",
-      url: "/"
-    },
-  ]
-
-
-
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
@@ -62,23 +37,6 @@ const useStyles = makeStyles((theme: Theme) =>
     }
   }),
 );
-
-const DrawerListButtons = () => {
-  const classes = useStyles();
-    return ( 
-        <List className={classes.listButtons}>
-        {
-          drawerElementsDict.map((el,index) => 
-              <ListItem key={index} button>
-                  <ListItemIcon>
-                      <el.IconComponent/>
-                  </ListItemIcon>
-                  <ListItemText primary={el.title}/>
-              </ListItem>)
-        }
-        </List>
-    )
-}
 
 interface IAppDrawerProps {
     open?: boolean,

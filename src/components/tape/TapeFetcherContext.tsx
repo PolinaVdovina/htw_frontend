@@ -15,28 +15,50 @@ export interface ITapeContextValue {
         dataFetchFunction?: ((lastPostDate: string, dataCount) => Promise<ITapeFetch>) | null,
         dataConverterFunction?: (fetchedEntity) => ITapeElementData
     ) => Promise<void>,
-    reset: () => void
+    reset: () => void,
+    deleteTapeElement: (id) => void
+    addTapeElementAtFirst: (data: ITapeElementData) => void
 }
 
 export const TapeFetcherContext = React.createContext<ITapeContextValue | null>(null);
 
-
 interface ITapeFetcherProvider {
     dataFetchFunction?: ((lastPostDate: string, dataCount) => Promise<ITapeFetch>) | null,
-    fetchCount?: number
+    fetchCount?: number,
+    children: any,
     dataConverterFunction?: (fetchedEntity) => ITapeElementData,
 }
 
-export const TapeFetcherProvider = (props) => {
+export const TapeFetcherProvider = (props: ITapeFetcherProvider) => {
     const [tapeElements, setTapeElements] = React.useState<Array<ITapeElementData> | null>(null);
     const fetchCount = props.fetchCount ? props.fetchCount : 5;
     const dispatch = useDispatch();
 
+    React.useEffect(() => {
+        
+        resetHandler();
+
+    }, [])
 
 
     const setTapeElementsHandler = (newElements: Array<ITapeElementData>) => setTapeElements(newElements);
     const resetHandler = () => setTapeElements(null);
-    const fetchNextHandler = async (dataFetchFunction, dataConverterFunction) => {
+
+    const deleteTapeElementHandler = (id) => {
+        if (tapeElements)
+            setTapeElements(tapeElements.filter(el => el.id != id));
+    }
+
+    const addTapeElementAtFirstHandler = (data) => {
+        if (tapeElements) {
+            if (props.dataConverterFunction)
+                setTapeElements([props.dataConverterFunction(data), ...(tapeElements ? tapeElements : [])]);
+            else
+                setTapeElements([data, ...(tapeElements ? tapeElements : [])]);
+        }
+    }
+
+    const fetchNextHandler = async (dataFetchFunction) => {
         if (dataFetchFunction) {
             dispatch(startLoadingAction());
             //Если элементов нет (не было фетча) - беру текущую дату, иначе беру дату последнего поста на ленте
@@ -48,10 +70,8 @@ export const TapeFetcherProvider = (props) => {
 
             const fetchResult = await dataFetchFunction(minDateForFilter, fetchCount);
             if ((fetchResult.msgInfo.msgStatus == MessageStatus.OK) && (fetchResult.result)) {
-
-                if (dataConverterFunction) {
-                    const newTapeElements = fetchResult.result.map(dataConverterFunction);
-
+                if (props.dataConverterFunction) {
+                    const newTapeElements = fetchResult.result.map(props.dataConverterFunction);
                     if (!tapeElements)
                         setTapeElements(newTapeElements);
                     else
@@ -62,12 +82,13 @@ export const TapeFetcherProvider = (props) => {
                 }
             }
             dispatch(stopLoadingAction());
-
         }
     }
 
     return (
         <TapeFetcherContext.Provider value={{
+            addTapeElementAtFirst: addTapeElementAtFirstHandler,
+            deleteTapeElement: deleteTapeElementHandler,
             tapeElements: tapeElements,
             fetchNext: fetchNextHandler,
             //fetchCount,

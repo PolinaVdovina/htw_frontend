@@ -161,10 +161,10 @@ const VacancyEditorDialogComp = (props: IVacancyDialogProps) => {
         if(props.token) {
             await dispatch(startLoadingAction())
             const addedVacancyData = await addVacancyFetch( props.token, data );
-            if(addedVacancyData.msgStatus == MessageStatus.OK) {
+            if(addedVacancyData.msgInfo.msgStatus == MessageStatus.OK) {
                 snackbar.enqueueSnackbar("Вакансия добавлена", {variant:'success'});  
                 reset();
-                props.onSubmitSuccess && props.onSubmitSuccess(data);
+                props.onSubmitSuccess && props.onSubmitSuccess(addedVacancyData.data);
 
             }
             else {
