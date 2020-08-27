@@ -136,7 +136,7 @@ const CabinetComp = (props : ICabinetProps) => {
                 fetchData();
             }
         }
-      }, [...Object.keys(props.reduxPersonalData).map(key => props.reduxPersonalData[key]), isMine()])
+      }, [...Object.keys(props.reduxPersonalData).map(key => props.reduxPersonalData[key]), isMine(), urlLogin])
     //alert(JSON.stringify(props.reduxPersonalData));
     return (
         <HCenterizingGrid>

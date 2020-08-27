@@ -72,7 +72,19 @@ const drawerGroups: Array<IDrawerGroup> = [
         url: urls.search.shortPath + "institution",
       }
     ]
-  }
+  },
+  {
+    isRoot: true,
+    title: "Корень2",
+    elements: [
+      {
+        IconComponent: TransitEnterexitIcon,
+        title: "Выход",
+
+        func: async (dispatch) => { await dispatch(logout)(dispatch) }
+      }
+    ]
+  },
 ]
 
 const drawerElementsDict: Array<IDrawerElement> = [

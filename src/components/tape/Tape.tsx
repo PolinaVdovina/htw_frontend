@@ -21,7 +21,8 @@ const useStyles = makeStyles((theme: Theme) =>
 export const Tape = (props: ITapeProps) => {
   const classes = useStyles();
   const theme = useTheme();
-  //alert(JSON.stringify(props.elements))
+
+
   return (
     <Grid container direction="column">
       <>
@@ -30,7 +31,7 @@ export const Tape = (props: ITapeProps) => {
           <><TapeElement onDeleteClick={props.onDeleteClick} key={postData.id} tapeElementData={postData} style={{ padding: theme.spacing(2) }} /> <Divider key={"b" + index} /> </>
         )
       }
-      {!props.elements || props.elements.length == 0 &&
+      {(!props.elements || props.elements.length == 0) &&
         <Typography className = {classes.centerizedText}>
           Пусто
         </Typography>

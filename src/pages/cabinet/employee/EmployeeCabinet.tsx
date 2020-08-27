@@ -6,6 +6,7 @@ import { PaddingPaper } from '../../../components/cards/PaddingPaper';
 import { AccountCommonInfo } from '../../../components/cabinet/AccountCommonInfo';
 import { VacancyTab } from '../../../components/cabinet/employer/VacancyTab';
 import { TapeFetcherProvider } from './../../../components/tape/TapeFetcherContext';
+import { vacancyToPost } from './../../../utils/tape-converters/vacancy-to-tape-element';
 
 interface IEmployeeCabinet {
 
@@ -21,7 +22,7 @@ const tabs: Array<ITabData> = [
   {
     label: "Вакансии",
     //IconComponent: <PersonPinIcon/>,
-    TabPanel: <TapeFetcherProvider key={1}><VacancyTab /></TapeFetcherProvider>
+    TabPanel: <TapeFetcherProvider key={1}  dataConverterFunction = {vacancyToPost}><VacancyTab /></TapeFetcherProvider>
   },
   {
     label: "Мероприятия",

@@ -44,9 +44,11 @@ const VacancyTabComp = (props) => {
     await tapeFetcherContext?.fetchNext(
       (lastPostDate, dataCount) => searchCriteriaFetch("/vacancy/getBySearchCriteria", props.token,
         {
-          searchCriteria: [searchCriteria("createdDate", lastPostDate, SearchCriteriaOperation.LESS),
-          searchCriteria("active", true, SearchCriteriaOperation.EQUAL),
-            mineCriteria],
+          searchCriteria: [
+            searchCriteria("createdDate", lastPostDate, SearchCriteriaOperation.LESS),
+            searchCriteria("active", true, SearchCriteriaOperation.EQUAL),
+            mineCriteria
+          ],
           sortCriteria: [sortCriteria("createdDate", SortCriteriaDirection.DESC)],
           pagination: pagination(5)
         }));
@@ -61,7 +63,9 @@ const VacancyTabComp = (props) => {
     const result = await removeVacancyFetch(props.token, deletingId);
     if (result == MessageStatus.OK) {
       snackbar.enqueueSnackbar("Вакансия успешно удалена", { variant: "success" });
-      tapeFetcherContext?.deleteTapeElement(deletingId);
+      tapeFetcherContext?.reset();
+      getNextVacancies();
+      //tapeFetcherContext?.deleteTapeElement(deletingId);
     }
     else
       snackbar.enqueueSnackbar("Не удалось удалить вакансию", { variant: "error" });
@@ -80,7 +84,9 @@ const VacancyTabComp = (props) => {
               onClose={() => setOpenVacancyDialog(false)}
               onSubmitSuccess={async (vacancy) => {
                 await dispatch(startLoadingAction());
-                tapeFetcherContext?.addTapeElementAtFirst(vacancy);
+                //tapeFetcherContext?.addTapeElementAtFirst(vacancy);
+                tapeFetcherContext?.reset();
+                await getNextVacancies();
                 await dispatch(stopLoadingAction());
                 await setOpenVacancyDialog(false);
               }}

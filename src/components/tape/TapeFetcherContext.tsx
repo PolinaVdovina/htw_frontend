@@ -30,19 +30,19 @@ interface ITapeFetcherProvider {
 }
 
 export const TapeFetcherProvider = (props: ITapeFetcherProvider) => {
-    const [tapeElements, setTapeElements] = React.useState<Array<ITapeElementData> | null>(null);
+    let [tapeElements, setTapeElements] = React.useState<Array<ITapeElementData> | null>(null);
     const fetchCount = props.fetchCount ? props.fetchCount : 5;
     const dispatch = useDispatch();
 
     React.useEffect(() => {
         
-        resetHandler();
+        //resetHandler();
 
     }, [])
 
 
     const setTapeElementsHandler = (newElements: Array<ITapeElementData>) => setTapeElements(newElements);
-    const resetHandler = () => setTapeElements(null);
+    const resetHandler = () => {tapeElements = null; setTapeElements(null)};
 
     const deleteTapeElementHandler = (id) => {
         if (tapeElements)

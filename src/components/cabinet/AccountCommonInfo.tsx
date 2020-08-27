@@ -105,6 +105,7 @@ const AccountCommonInfoComp = (props: IAccountCommonInfo) => {
   const context = React.useContext(CabinetContext);
   const openFileDialogRef: any = React.useRef();
   const snackBar = useSnackbar();
+
   let name = '';
   switch (context.role) {
     default:
@@ -117,19 +118,19 @@ const AccountCommonInfoComp = (props: IAccountCommonInfo) => {
       if (context.isMine)
         name = (name != '' ? name : "ФИО не указано");
       else
-        name = context.login;
+        name = (name != '' ? name : context.login);
       break
     case "ROLE_INSTITUTION":
       if (context.isMine)
         name = (context.name ? context.name : "Название не указано");
       else
-        name = context.login;
+        name = (context.name ? context.name : context.login);
       break
     case "ROLE_EMPLOYER":
       if (context.isMine)
         name = (context.name ? context.name : "Название не указано");
       else
-        name = context.login;
+        name = (context.name ? context.name : context.login);
       break
   }
 
@@ -152,13 +153,29 @@ const AccountCommonInfoComp = (props: IAccountCommonInfo) => {
   }
 
   const subscribeHanlder = async () => {
-    if(props.token && context && context.login)
+    if (props.token && context && context.login)
       await props.subscribe(props.token, context.login);
   }
 
   const unsubscribeHanlder = async () => {
-    if(props.token && context && context.login)
+    if (props.token && context && context.login)
       await props.unsubscribe(props.token, context.login);
+  }
+
+  let roleTitle = ""
+  switch (context.role) {
+    case "ROLE_JOBSEEKER":
+      roleTitle = "СОИСКАТЕЛЬ"
+      break;
+    case "ROLE_EMPLOYER":
+      roleTitle = "РАБОТОДАТЕЛЬ"
+      break;
+    case "ROLE_EMPLOYEE":
+      roleTitle = "СОТРУДНИК"
+      break;
+    case "ROLE_INSTITUTION":
+      roleTitle = "ОБРАЗОВАТЕЛЬНОЕ УЧР."
+      break;
   }
 
   return (
@@ -193,6 +210,11 @@ const AccountCommonInfoComp = (props: IAccountCommonInfo) => {
             <CreateIcon/>
           </IconButton> */}
       <Grid item container direction="column" className={classes.descriptionAndTitleBlock}>
+        <Typography style = {{fontWeight: "bold"}} className={classes.titleBlock}>
+          {
+            roleTitle
+          }
+        </Typography>
         <Typography className={classes.titleBlock}>
           {
             name
@@ -208,7 +230,7 @@ const AccountCommonInfoComp = (props: IAccountCommonInfo) => {
             </Link>
           }
           {
-            !context.isMine && context.about
+            !context.isMine && <Typography style={{ textAlign: "left", wordBreak: "break-word" }}>{context.about}</Typography>
           }
         </Typography>
 
@@ -232,7 +254,7 @@ const AccountCommonInfoComp = (props: IAccountCommonInfo) => {
 
       <Grid item className={classes.changeName}>
         {
-          context.isMine && 
+          context.isMine &&
           <Link
             component='button'
             onClick={context.isMine ? () => setOpenName(true) : () => { }}
@@ -249,7 +271,7 @@ const AccountCommonInfoComp = (props: IAccountCommonInfo) => {
             Подписаться
           </Link>
         }
-                {
+        {
           !context.isMine && (props.subscriptionLogins != null && props.subscriptionLogins?.includes(context.login)) &&
           <Link
             onClick={unsubscribeHanlder}

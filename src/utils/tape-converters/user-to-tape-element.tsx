@@ -4,16 +4,17 @@ export interface IAccount {
     id?: number,
     login?: string,
     name?: string | null,
-    createdAt: string,
+    createdDate: string,
 }
 
 export function userToPost(accountData: IAccount): ITapeElementData {
+
     return {
-        createdDate: accountData.createdAt,
+        createdDate: accountData.createdDate,
         id: accountData.id,
         title: accountData.name ? accountData.name : accountData.login,
         ownerLogin: accountData.login,
-
+        bottomText: accountData.createdDate?.slice(0,10),
     }
 }
 
