@@ -10,13 +10,13 @@ import { CabinetContext } from '../cabinet-context';
 import AddEntityBlock from "../AddEntityBlock";
 import { vacancyToPost } from "../../../utils/tape-converters/vacancy-to-tape-element";
 import { TapeFetcherProvider, TapeFetcherContext } from '../../tape/TapeFetcherContext';
-import { searchCriteriaFetch } from './../../../utils/fetchFunctions';
+import { searchCriteriaFetch } from '../../../utils/fetchFunctions';
 import { SortCriteriaDirection, SearchCriteriaOperation } from "../../../utils/search-criteria/types";
 import { searchCriteria, sortCriteria } from "../../../utils/search-criteria/builders";
-import { pagination } from './../../../utils/search-criteria/builders';
+import { pagination } from '../../../utils/search-criteria/builders';
 import { useSnackbar } from "notistack";
 import { MessageStatus, IMessageInfo } from "../../../utils/fetchInterfaces";
-import { RegMiniComponent } from "../RegMiniComponent";
+
 
 function mapStateToProps(state: RootState) {
     return {
@@ -24,11 +24,11 @@ function mapStateToProps(state: RootState) {
     }
 }
 
-interface IEmployeesTabProps {
+interface IStudentsTabProps {
     token?: string | null
 }
 
-const EmployeesTabComp = (props) => {
+const StudentsTabComp = (props) => {
     const theme = useTheme();
     const [openRegMiniComp, setOpenRegMiniComp] = React.useState(false);
 
@@ -42,12 +42,12 @@ const EmployeesTabComp = (props) => {
 
     const getNextEmployees = async () => {
         dispatch(startLoadingAction());
-        if (props.token) {
+        if (props.token) { 
             await tapeFetcherContext?.fetchNext(
-                (lastPostDate, count) => searchCriteriaFetch("/employee/getBySearchCriteria", props.token, {
-                        searchCriteria: [searchCriteria("employerLogin", cabinetContext.login, SearchCriteriaOperation.EQUAL),
-                        searchCriteria("customers", true, SearchCriteriaOperation.EQUAL), searchCriteria("createdDate", lastPostDate, SearchCriteriaOperation.LESS)],
-                        sortCriteria: [sortCriteria("createdDate", SortCriteriaDirection.DESC)],
+                (lastPostDate, count) => searchCriteriaFetch("/personal/getBySearchCriteria", props.token, {
+                        searchCriteria: [searchCriteria("about", cabinetContext.login, SearchCriteriaOperation.EQUAL),
+                        searchCriteria("customers", true, SearchCriteriaOperation.EQUAL)],
+                        //sortCriteria: [sortCriteria("createdDate", SortCriteriaDirection.DESC)],
                         pagination: pagination(5)
                     }
                 )
@@ -119,9 +119,9 @@ const EmployeesTabComp = (props) => {
                         </Dialog>
                         <AddEntityBlock handleClickOpen={() => setOpenRegMiniComp(true)} />
                     </Grid>
-                    {openRegMiniComp &&
+                    {/*openRegMiniComp &&
                         <RegMiniComponent handleClickClose={handleClickClose} handleClickSave={handleClickSave} />
-                    }
+                    */}
                     <Divider />
                 </>}
             <Tape
@@ -136,4 +136,4 @@ const EmployeesTabComp = (props) => {
         </div>)
 }
 
-export const EmployeesTab = connect(mapStateToProps)(EmployeesTabComp);
+export const StudentsTab = connect(mapStateToProps)(StudentsTabComp);

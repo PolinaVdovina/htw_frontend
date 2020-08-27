@@ -16,7 +16,7 @@ import { searchCriteria, sortCriteria } from "../../../utils/search-criteria/bui
 import { pagination } from './../../../utils/search-criteria/builders';
 import { useSnackbar } from "notistack";
 import { MessageStatus, IMessageInfo } from "../../../utils/fetchInterfaces";
-import { RegMiniComponent } from "../RegMiniComponent";
+import { RegMiniComponent } from "./RegMiniComponent";
 
 function mapStateToProps(state: RootState) {
     return {
