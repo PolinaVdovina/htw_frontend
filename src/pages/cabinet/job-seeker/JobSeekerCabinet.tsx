@@ -27,22 +27,22 @@ const tabs: Array<ITabData> = [
   {
     label: "Общая информация",
     //IconComponent: <PersonPinIcon/>,
-    TabPanel: <AccountInfo role='INDIVIDUAL' settingsView={['email', 'phone', 'address', 'dateBirth', 'gender']}/>
+    TabPanel: <AccountInfo key={0}  role='INDIVIDUAL' settingsView={['email', 'phone', 'address', 'dateBirth', 'gender']} />
   },
   {
     label: "Образование",
     //IconComponent: <PersonPinIcon/>,
-    TabPanel: <AccountInfo role='INDIVIDUAL' settingsView={['education', 'competenceSet']}/>
+    TabPanel: <AccountInfo key={1} role='INDIVIDUAL' settingsView={['education', 'competenceSet']} />
   },
   {
     label: "Работа",
     //IconComponent: <PersonPinIcon/>,
-    TabPanel: <AccountInfo role='INDIVIDUAL' settingsView={['experience', 'jobApplicantSet']}/>
+    TabPanel: <AccountInfo key={2} role='INDIVIDUAL' settingsView={['experience', 'jobApplicantSet']} />
   },
   {
     label: "Достижения",
     //IconComponent: <PersonPinIcon/>,
-    TabPanel: <Tape/>
+    TabPanel: <Tape />
   },
 ]
 
@@ -50,10 +50,10 @@ const tabs: Array<ITabData> = [
 
 
 export const JobSeekerCabinet = (props: IJobSeekerCabinet) => {
-    return (
-      <>   
-        <PaddingPaper style={{width:"100%"}}><AccountCommonInfo roleSettings={"INDIVIDUAL"}/></PaddingPaper>   
-        <TabsPaper paperStyle={{width:"100%"}} tabs={tabs} />
-      </>
-    )
+  return (
+    <>
+      <PaddingPaper style={{ width: "100%" }}><AccountCommonInfo roleSettings={"INDIVIDUAL"} /></PaddingPaper>
+      <TabsPaper paperStyle={{ width: "100%" }} tabs={tabs} />
+    </>
+  )
 }

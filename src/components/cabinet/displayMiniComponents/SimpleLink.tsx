@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { CabinetContext } from '../cabinet-context';
 import { Link } from '@material-ui/core';
+import { NavLink, Link as RouterLink } from 'react-router-dom';
 
 interface ISimpleLink{
     element: string,
@@ -14,7 +15,8 @@ export const SimpleLink = (props : ISimpleLink) => {
         <Link
             color='inherit'
             underline='none'
-            href={props.link}
+            component = {RouterLink}
+            to={props.link}
         >
             {props.element ?
                 (props.element.indexOf('null') == -1) ? props.element : 'Не задано' :

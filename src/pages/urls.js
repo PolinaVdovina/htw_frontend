@@ -18,5 +18,10 @@ export const urls = {
         title: 'Кабинет',
         path: '/cabinet/:login',
         shortPath: '/cabinet/',
+    },
+    search: {
+        title: 'Поиск',
+        path: '/search/:entity',
+        shortPath: '/search/',
     }
 }

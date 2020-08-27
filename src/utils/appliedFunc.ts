@@ -83,6 +83,7 @@ export function accountRequestToEntityDictionary(data, role) {
                     competenceSet: data.competenceSet,
                     jobApplicantSet: data.jobApplicantSet,
                     education: data.jobSeekerEducations,
+                    subscriptionLogins: data.subscriptionLogins,
                     links: {
                         education: data.jobSeekerEducations.map(elem => elem.institutionLogin)
                     }
@@ -97,7 +98,8 @@ export function accountRequestToEntityDictionary(data, role) {
                     address: data.address,
                     inn: data.inn,
                     ogrn: data.ogrn,
-                    industry: data.industry ? data.industry.map(industry => industry.name) : null
+                    industry: data.industry ? data.industry.map(industry => industry.name) : null,
+                    subscriptionLogins: data.subscriptionLogins,
     
                 }
             case "ROLE_INSTITUTION":
@@ -109,7 +111,8 @@ export function accountRequestToEntityDictionary(data, role) {
                     address: data.address,
                     inn: data.inn,
                     ogrn: data.ogrn,
-                    types: data.types ? data.types.map(type => type.name) : null
+                    types: data.types ? data.types.map(type => type.name) : null,
+                    subscriptionLogins: data.subscriptionLogins,
                 }
                 break
     
@@ -123,7 +126,8 @@ export function accountRequestToEntityDictionary(data, role) {
                     employer: data.employer ? (data.employer.name ? data.employer.name : data.employer.login) : null,
                     links: {
                         employer: data.employer ? data.employer.login : null
-                    }
+                    },
+                    subscriptionLogins: data.subscriptionLogins,
                 }
                 break
         }

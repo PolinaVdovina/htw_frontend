@@ -16,12 +16,12 @@ const tabs: Array<ITabData> = [
   {
     label: "Общая информация",
     //IconComponent: <PersonPinIcon/>,
-    TabPanel: <AccountInfo role='LEGAL' title="Общая информация" settingsView={['inn', 'ogrn', 'address', 'email', 'phone', 'types']}/>
+    TabPanel: <AccountInfo key={0} role='LEGAL' title="Общая информация" settingsView={['inn', 'ogrn', 'address', 'email', 'phone', 'types']}/>
   },
   {
     label: "Студенты",
     //IconComponent: <PersonPinIcon/>,
-    TabPanel: <EntitiesTab/>
+    TabPanel: <EntitiesTab key={1}/>
   },
 ]
 
