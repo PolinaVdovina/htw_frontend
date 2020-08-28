@@ -2,9 +2,9 @@ import { useTheme, Grid, Divider, Dialog, DialogTitle, DialogActions, Button } f
 import React from "react";
 import { VacancyEditorDialog } from "../../vacancy-editor/VacancyEditorDialog";
 import { Tape } from "../../tape/Tape";
-import { RootState, store } from "../../../redux/store";
+import { RootState } from "../../../redux/store";
 import { connect, useDispatch } from 'react-redux';
-import { removeVacancyFetch, deleteEntity } from "../../../utils/fetchFunctions";
+import { removeVacancyFetch } from "../../../utils/fetchFunctions";
 import { startLoadingAction, stopLoadingAction } from "../../../redux/actions/dialog-actions";
 import { CabinetContext } from '../cabinet-context';
 import AddEntityBlock from "../AddEntityBlock";
@@ -15,8 +15,8 @@ import { SortCriteriaDirection, SearchCriteriaOperation } from "../../../utils/s
 import { searchCriteria, sortCriteria } from "../../../utils/search-criteria/builders";
 import { pagination } from './../../../utils/search-criteria/builders';
 import { useSnackbar } from "notistack";
-import { MessageStatus, IMessageInfo } from "../../../utils/fetchInterfaces";
-import { RegMiniComponent } from "../RegMiniComponent";
+import { MessageStatus } from "../../../utils/fetchInterfaces";
+import { RegMiniComponent } from "./RegMiniComponent";
 
 function mapStateToProps(state: RootState) {
     return {
@@ -85,15 +85,14 @@ const EmployeesTabComp = (props) => {
     const onDeleteEmployee = async () => {
         if (props.token) {
             dispatch(startLoadingAction());
-            const result: IMessageInfo = await deleteEntity(props.token, deletingId, '/employer/employee');
-            if (result.msgStatus == MessageStatus.OK) {
-                snackbar.enqueueSnackbar("Сотрудник успешно удален", { variant: "success" });
-                tapeFetcherContext?.reset();
-                getNextEmployees();
-                //tapeFetcherContext && tapeFetcherContext.tapeElements && tapeFetcherContext.setTapeElements(tapeFetcherContext.tapeElements.filter(el => el.id != deletingId));
-            }
-            else
-                snackbar.enqueueSnackbar("Не удалось удалить сотрудника", { variant: "error" });
+            /*             const result = await removeEmploFetch(props.token, deletingId);
+                        if (result == MessageStatus.OK) {
+                            snackbar.enqueueSnackbar("Сотрудник успешно удален", { variant: "success" });
+                            tapeFetcherContext && tapeFetcherContext.tapeElements && tapeFetcherContext.setTapeElements(tapeFetcherContext.tapeElements.filter(el => el.id != deletingId));
+                        }
+                        else
+                            snackbar.enqueueSnackbar("Не удалось удалить сотрудника", { variant: "error" });
+             */
             setDeletingId(null);
             dispatch(stopLoadingAction());
         }

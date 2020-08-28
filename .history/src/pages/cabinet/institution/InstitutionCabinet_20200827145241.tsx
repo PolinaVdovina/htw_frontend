@@ -9,7 +9,6 @@ import { AccountCommonInfo } from '../../../components/cabinet/AccountCommonInfo
 import { EntitiesTab } from '../../../components/entityList/EntitiesTab';
 import { TapeFetcherProvider } from '../../../components/tape/TapeFetcherContext';
 import { userToPost } from '../../../utils/tape-converters/user-to-tape-element';
-import { StudentsTab } from '../../../components/cabinet/institution/StudentsTab';
 
 interface IInstitutionCabinet {
 

@@ -1,18 +1,19 @@
 import * as React from 'react';
 import { Grid, Typography, TextField, useTheme, Button } from '@material-ui/core';
-import { RootState } from '../../../redux/store';
+import { RootState } from '../../redux/store';
 import { connect, useDispatch } from 'react-redux';
 import { useSnackbar } from 'notistack';
-import { validateLogin, validateRegPasword } from '../../../utils/validateFunctions';
-import { IMessageInfo, MessageStatus } from '../../../utils/fetchInterfaces';
-import { addEmployeeFetch } from '../../../utils/fetchFunctions';
-import { startLoadingAction, stopLoadingAction } from '../../../redux/actions/dialog-actions';
+import { validateLogin, validateRegPasword } from '../../utils/validateFunctions';
+import { IMessageInfo, MessageStatus } from '../../utils/fetchInterfaces';
+import { addEmployeeFetch } from '../../utils/fetchFunctions';
+import { startLoadingAction, stopLoadingAction } from '../../redux/actions/dialog-actions';
 
 
 interface IRegMiniComponent {
     token,
     handleClickClose: () => any,
-    handleClickSave: () => any
+    handleClickSave: () => any,
+    role?: string
 }
 
 function mapStateToProps(state : RootState) {
@@ -35,7 +36,12 @@ const RegMiniComponentRaw = (props : IRegMiniComponent) => {
         if (errorLogin == '' && errorPassword == '') {
             await dispatch(startLoadingAction());
             /*************/
-            const msgInfo: IMessageInfo = await addEmployeeFetch(props.token, {login, password});
+            let msgInfo: IMessageInfo = null;
+            if (props.role) 
+                msgInfo = await addEmployeeFetch(props.token, {login, password});
+            else
+                //msgInfo = await addEmployeeFetch(props.token, {login, password});
+                alert("I'm student!")
             /************/
             await dispatch(stopLoadingAction());
             if(msgInfo.msgStatus == MessageStatus.OK) {

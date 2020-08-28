@@ -16,7 +16,7 @@ import { searchCriteria, sortCriteria } from "../../../utils/search-criteria/bui
 import { pagination } from './../../../utils/search-criteria/builders';
 import { useSnackbar } from "notistack";
 import { MessageStatus, IMessageInfo } from "../../../utils/fetchInterfaces";
-import { RegMiniComponent } from "../RegMiniComponent";
+import { RegMiniComponent } from "./RegMiniComponent";
 
 function mapStateToProps(state: RootState) {
     return {
@@ -86,11 +86,9 @@ const EmployeesTabComp = (props) => {
         if (props.token) {
             dispatch(startLoadingAction());
             const result: IMessageInfo = await deleteEntity(props.token, deletingId, '/employer/employee');
-            if (result.msgStatus == MessageStatus.OK) {
+            if (result == MessageStatus.OK) {
                 snackbar.enqueueSnackbar("Сотрудник успешно удален", { variant: "success" });
-                tapeFetcherContext?.reset();
-                getNextEmployees();
-                //tapeFetcherContext && tapeFetcherContext.tapeElements && tapeFetcherContext.setTapeElements(tapeFetcherContext.tapeElements.filter(el => el.id != deletingId));
+                tapeFetcherContext && tapeFetcherContext.tapeElements && tapeFetcherContext.setTapeElements(tapeFetcherContext.tapeElements.filter(el => el.id != deletingId));
             }
             else
                 snackbar.enqueueSnackbar("Не удалось удалить сотрудника", { variant: "error" });
