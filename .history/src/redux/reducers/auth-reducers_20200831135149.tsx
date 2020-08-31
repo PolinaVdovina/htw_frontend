@@ -113,12 +113,6 @@ async (dispatch, getState) => {
         phone
     }));
 
-    if (role == 'ROLE_INSTITUTION' && nameOrg && nameOrg != '')
-        await dispatch(fillPersonalDataAction({
-            name: nameOrg
-        }));
-
-
     if(result.msgStatus == "ok" && result.token) {
         if(rememberMe == undefined)
             rememberMe = true;

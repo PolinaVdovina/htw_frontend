@@ -103,21 +103,15 @@ export const login: (identity: string, password: string, rememberMe?: boolean) =
 
 export const register: (identity: string, password: string, role: string, 
     phone: string | null, email: string | null, 
-    rememberMe?: boolean, nameOrg?: string | null) => void = (identity, password, role, phone, email, rememberMe, nameOrg) => 
+    rememberMe?: boolean) => void = (identity, password, role, phone, email, rememberMe) => 
 async (dispatch, getState) => {
     dispatch(startLoadingAction());
-    const result = await registerFetch(identity, email, phone, password, role, nameOrg);
+    const result = await registerFetch(identity, email, phone, password, role);
 
     await dispatch(fillPersonalDataAction({
         email,
         phone
     }));
-
-    if (role == 'ROLE_INSTITUTION' && nameOrg && nameOrg != '')
-        await dispatch(fillPersonalDataAction({
-            name: nameOrg
-        }));
-
 
     if(result.msgStatus == "ok" && result.token) {
         if(rememberMe == undefined)

@@ -39,7 +39,6 @@ const RegCardComp = (props: IRegCardProps) => {
     const [errorRole, setErrorRole] = useState('');
     const [errorLogin, setErrorLogin] = useState('');
     const [errorLoginConnect, setErrorLoginConnect] = useState('');
-    const [nameOrg, setNameOrg] = useState('');
     const snackBar = useSnackbar();
     const dispatch = useDispatch();
     async function validate() {
@@ -64,7 +63,7 @@ const RegCardComp = (props: IRegCardProps) => {
         setErrorRole(preRoleErrorValidate);
         setErrorConfirmPassword(preConfirmPasswordErrorValidate);
         if (prePasswordErrorValidate == '' && preLoginErrorValidate == '' && preLoginConnectErrorValidate == '' && preConfirmPasswordErrorValidate == '' && preRoleErrorValidate =='') {
-            props.register(login, password, role, typeLoginConnect=='phone' ? loginConnect : null, typeLoginConnect=='email' ? loginConnect : null, undefined, nameOrg != '' ? nameOrg : null )
+            props.register(login, password, role, typeLoginConnect=='phone' ? loginConnect : null, typeLoginConnect=='email' ? loginConnect : null )
         }
         else {
             snackBar.enqueueSnackbar("Форма регистрации заполнена некорректно!", {variant: "error"});
@@ -114,23 +113,6 @@ const RegCardComp = (props: IRegCardProps) => {
                         onChange={(event) => {setLoginConnect(event.target.value)}}
                     />
                 </Grid>
-
-                { role == 'ROLE_INSTITUTION' &&
-                <Grid item className={classes.item}>
-                    <TextField className={classes.field}
-                        variant="outlined"
-                        margin="normal"
-                        required
-                        //error={errorLogin!=''}
-                        placeholder='Наименование'
-                        //id="email"
-                        //helperText={errorLogin}
-                        //autoComplete="login"                                
-                        onChange={(event) => {setNameOrg(event.target.value)}}
-                    />                            
-                </Grid>                   
-                }
-
                 <Grid item className={classes.item}>
                     <TextField className={classes.field}
                         variant="outlined"

@@ -64,7 +64,8 @@ const RegCardComp = (props: IRegCardProps) => {
         setErrorRole(preRoleErrorValidate);
         setErrorConfirmPassword(preConfirmPasswordErrorValidate);
         if (prePasswordErrorValidate == '' && preLoginErrorValidate == '' && preLoginConnectErrorValidate == '' && preConfirmPasswordErrorValidate == '' && preRoleErrorValidate =='') {
-            props.register(login, password, role, typeLoginConnect=='phone' ? loginConnect : null, typeLoginConnect=='email' ? loginConnect : null, undefined, nameOrg != '' ? nameOrg : null )
+            alert(nameOrg);
+            //props.register(login, password, role, typeLoginConnect=='phone' ? loginConnect : null, typeLoginConnect=='email' ? loginConnect : null )
         }
         else {
             snackBar.enqueueSnackbar("Форма регистрации заполнена некорректно!", {variant: "error"});
