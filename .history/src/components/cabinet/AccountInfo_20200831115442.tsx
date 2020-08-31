@@ -127,7 +127,7 @@ class AccountInfoComp extends React.Component<IPropsAccountInfo, IStateAccountIn
                             }
                         </Grid>
                         { (this.context[key] && SETTINGS[this.props.role][key]['type'] && SETTINGS[this.props.role][key]['type'] == 'mass') && 
-                            (this.context[key].length != 0 ? 
+                            this.context[key].length != 0 ? 
                             this.context[key].map((element, index) => 
                                 <Grid item container direction='row' spacing={2} style={{flexWrap:"nowrap", marginBottom: '2px'}}>
                                     <Grid item style={{flexGrow:1}}>
@@ -152,7 +152,7 @@ class AccountInfoComp extends React.Component<IPropsAccountInfo, IStateAccountIn
                                     </Grid>
                                     }
                                 </Grid>
-                            ) : "Не задано")
+                            ) : "Не задано"
                         }
                         { (!SETTINGS[this.props.role][key]['type'] || SETTINGS[this.props.role][key]['type'] != 'mass') && 
                         <Grid item container direction='row' spacing={2}  style={{flexWrap:"nowrap"}}>                             
