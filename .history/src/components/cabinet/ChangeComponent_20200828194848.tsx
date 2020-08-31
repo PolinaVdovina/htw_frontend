@@ -13,8 +13,7 @@ export interface IChangeComponent {
     handleClickClose: () => void,
     type: string,
     role: string,
-    isCancelButtonInactive?: boolean,
-    data?: any
+    isCancelButtonInactive?: boolean
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -84,8 +83,7 @@ export const ChangeComponentRaw = (props : FinalProps) => {
                                         data={data} 
                                         type={key} 
                                         list={changeSettings[key].listItemsSelect}
-                                        disabled={changeSettings[key].disabled ? changeSettings[key].disabled : false}
-                                        defaultValue={changeSettings[key].isFilled ? props.data[key] : false}
+                                        disable={changeSettings[key].disabled ? changeSettings[key].disabled : false}
                                     />
                                 }
                             </Grid>

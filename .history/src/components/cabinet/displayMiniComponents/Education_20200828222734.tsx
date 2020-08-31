@@ -22,8 +22,8 @@ export const Education = (props : IEducation) => {
 
     React.useEffect(() => {
         if (!props.element.dateStart && context.isMine)
-            setOpenDialog(true);
-    }, [])
+            setOpenDialog(false);
+    })
     
     return( <>
         <ChangeComponentDialog 

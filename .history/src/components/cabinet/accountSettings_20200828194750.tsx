@@ -45,8 +45,7 @@ import {
     changeEducations,
     deleteEducation,
     changeIndustrySet,
-    deleteIndustry,
-    changeEducationsDamaged
+    deleteIndustry
 } from "../../utils/change-component-utils";
 import { SimpleTypography } from "./displayMiniComponents/SimpleTypography";
 import { SimpleLink } from "./displayMiniComponents/SimpleLink";
@@ -143,7 +142,7 @@ export const SETTINGS = {
         },
         educationDamaged: {
             changeSettings: settingsEduDamaged,
-            changeFunction: changeEducationsDamaged,
+            changeFunction: changeEducations,
             validateFunction: validateEducation
         }
     },

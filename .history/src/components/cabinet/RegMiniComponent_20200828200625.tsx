@@ -38,9 +38,10 @@ const RegMiniComponentRaw = (props : IRegMiniComponent) => {
             /*************/
             let msgInfo: IMessageInfo;
             if (props.role) 
-                msgInfo = await addEmployeeFetch(props.token, {login, password}, "/institution/add-student");
+                msgInfo = await addEmployeeFetch(props.token, {login, password});
             else
-                msgInfo = await addEmployeeFetch(props.token, {login, password}, "/employer/employee");
+                msgInfo = await addEmployeeFetch(props.token, {login, password});
+                alert("I'm student!")
             /************/
             await dispatch(stopLoadingAction());
             if(msgInfo.msgStatus == MessageStatus.OK) {

@@ -237,12 +237,14 @@ const AccountCommonInfoComp = (props: IAccountCommonInfo) => {
         <ChangeComponentDialog
           open={openName}
           handleClickClose={() => { setOpenName(false) }}
+          handleClickSave={() => { setOpenName(false) }}
           type="name"
           role={props.roleSettings}
         />
         <ChangeComponentDialog
           open={openAbout}
           handleClickClose={() => { setOpenAbout(false) }}
+          handleClickSave={() => { setOpenAbout(false) }}
           type="about"
           role={props.roleSettings}
         />

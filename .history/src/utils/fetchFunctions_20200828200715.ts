@@ -151,6 +151,7 @@ export const getEmployeesListFetch = async (token, url?) => {
 
 export const addEmployeeFetch = async (token, data, url?) => {
     let returnData;
+    url = url || "/employer/employee";
     try {
         const response = await axios.post(url,
 

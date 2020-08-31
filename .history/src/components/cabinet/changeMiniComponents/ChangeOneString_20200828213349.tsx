@@ -11,10 +11,7 @@ interface IChangeOneString {
 }
 
 export const ChangeOneString = (props: IChangeOneString) => {
-    React.useEffect(() => {
-        if (props.disabled && props.defaultValue)
-            props.onChange({ [props.type]: props.defaultValue })
-    }, [])
+    const context = React.useContext(CabinetContext);
 
     return (
         <TextField
@@ -22,7 +19,12 @@ export const ChangeOneString = (props: IChangeOneString) => {
             variant='outlined'
             value={props.data[props.type]}
             defaultValue={props.defaultValue ? props.defaultValue : ''}
-            onChange={(event) =>  props.onChange({ [props.type]: event.target.value })}                  
+            onChange={(event) => {
+                if (props.defaultValue)
+                    props.onChange({ [props.type]: props.defaultValue })
+                else
+                    props.onChange({ [props.type]: event.target.value })
+            }}
             disabled={props.disabled ? props.disabled : false}
         />
     )

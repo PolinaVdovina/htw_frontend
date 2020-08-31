@@ -6,7 +6,6 @@ import { ChangeListOneSelect } from "./ChangeListOneSelect"
 import { ChangeOneString } from "./ChangeOneString"
 import { listItems } from "../../../utils/appliedFunc"
 import { ChangeCompetences } from "./ChangeCompetences"
-import { SimpleTypography } from "../displayMiniComponents/SimpleTypography"
 
 export const settingsAddress = {
     /*'country': {
@@ -217,8 +216,7 @@ export const settingsEduDamaged = {
     institution: {
         title: 'Образовательная организация',
         changeComponent: ChangeOneString,
-        disabled: true,
-        isFilled: true
+        disabled: true
     },
     education: {
         title: 'Тип образования',

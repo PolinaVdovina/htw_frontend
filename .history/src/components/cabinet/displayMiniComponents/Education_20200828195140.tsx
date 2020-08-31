@@ -17,14 +17,8 @@ interface IEducation{
 }
 
 export const Education = (props : IEducation) => {
-    const context = React.useContext(CabinetContext);
     const [openDialog, setOpenDialog] = React.useState(false);
 
-    React.useEffect(() => {
-        if (!props.element.dateStart && context.isMine)
-            setOpenDialog(true);
-    }, [])
-    
     return( <>
         <ChangeComponentDialog 
             open={openDialog} 
@@ -32,7 +26,6 @@ export const Education = (props : IEducation) => {
             role="INDIVIDUAL" 
             type="educationDamaged"
             handleClickClose={() => setOpenDialog(false)}
-            data={props.element}
         />
         <Grid item container direction='row' alignItems='center' wrap='nowrap'>
             <Grid item>

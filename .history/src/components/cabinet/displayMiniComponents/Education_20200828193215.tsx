@@ -17,22 +17,15 @@ interface IEducation{
 }
 
 export const Education = (props : IEducation) => {
-    const context = React.useContext(CabinetContext);
-    const [openDialog, setOpenDialog] = React.useState(false);
+    const [openDialog, setOpenDialog] = React.useState(true);
 
-    React.useEffect(() => {
-        if (!props.element.dateStart && context.isMine)
-            setOpenDialog(true);
-    }, [])
-    
     return( <>
         <ChangeComponentDialog 
             open={openDialog} 
             isCancelButtonInactive 
             role="INDIVIDUAL" 
-            type="educationDamaged"
+            type="education"
             handleClickClose={() => setOpenDialog(false)}
-            data={props.element}
         />
         <Grid item container direction='row' alignItems='center' wrap='nowrap'>
             <Grid item>

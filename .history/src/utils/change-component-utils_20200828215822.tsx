@@ -127,20 +127,11 @@ export const changeEducations = async ( dispatch, data ) => {
 }
 
 export const changeEducationsDamaged = async ( dispatch, data ) => {
-    let postData = {
-        ...data
+    const id = store.getState().userPersonalsReducer.education[0].id
+    const postData = {
+        ...data,
+        id
     }
-    
-    for (let i = 0; i < store.getState().userPersonalsReducer.education.length; i++) {
-        if (store.getState().userPersonalsReducer.education[i].startDate == null) {
-            postData.id = store.getState().userPersonalsReducer.education[i].id;
-            let eduMass = [...store.getState().userPersonalsReducer.education]
-            eduMass.splice(i, 1);
-            await dispatch( fillPersonalDataAction({education: eduMass}));
-            break;
-        }
-    }
-
     const msgInfo: IMessageInfo = await changeEmployerAddressFetch(store.getState().authReducer.token, postData, '/personal/add-institution');
     if(msgInfo.msgStatus == MessageStatus.OK) {
         const newEducation = {

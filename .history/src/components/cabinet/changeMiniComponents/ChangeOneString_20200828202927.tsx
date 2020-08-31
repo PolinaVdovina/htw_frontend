@@ -6,23 +6,21 @@ interface IChangeOneString {
     data: string,
     onChange: (any) => void,
     type: string,
-    disabled?: boolean
-    defaultValue?: any
+    disabled?: boolean,
+    isFilled?: boolean,
+    parentType: string
 }
 
 export const ChangeOneString = (props: IChangeOneString) => {
-    React.useEffect(() => {
-        if (props.disabled && props.defaultValue)
-            props.onChange({ [props.type]: props.defaultValue })
-    }, [])
+    const context = React.useContext(CabinetContext);
 
     return (
         <TextField
             size='small'
             variant='outlined'
             value={props.data[props.type]}
-            defaultValue={props.defaultValue ? props.defaultValue : ''}
-            onChange={(event) =>  props.onChange({ [props.type]: event.target.value })}                  
+            defaultValue={props.isFilled ? context[props.parentType][props.type] : ''}
+            onChange={(event) => props.onChange({ [props.type]: event.target.value })}
             disabled={props.disabled ? props.disabled : false}
         />
     )

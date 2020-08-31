@@ -217,8 +217,7 @@ export const settingsEduDamaged = {
     institution: {
         title: 'Образовательная организация',
         changeComponent: ChangeOneString,
-        disabled: true,
-        isFilled: true
+        disabled: true
     },
     education: {
         title: 'Тип образования',

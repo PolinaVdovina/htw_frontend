@@ -10,11 +10,11 @@ import { startLoadingAction, stopLoadingAction } from '../../redux/actions/dialo
 type FinalProps = IChangeComponent & WithSnackbarProps;
 
 export interface IChangeComponent {
+    handleClickSave: () => void,
     handleClickClose: () => void,
     type: string,
     role: string,
-    isCancelButtonInactive?: boolean,
-    data?: any
+    isCancelButtonInactive?: boolean
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -84,8 +84,7 @@ export const ChangeComponentRaw = (props : FinalProps) => {
                                         data={data} 
                                         type={key} 
                                         list={changeSettings[key].listItemsSelect}
-                                        disabled={changeSettings[key].disabled ? changeSettings[key].disabled : false}
-                                        defaultValue={changeSettings[key].isFilled ? props.data[key] : false}
+                                        //enable={changeSettings[key].enabled ? true : false}
                                     />
                                 }
                             </Grid>

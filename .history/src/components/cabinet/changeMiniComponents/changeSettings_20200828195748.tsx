@@ -216,9 +216,8 @@ export const settingsIndustry = {
 export const settingsEduDamaged = {
     institution: {
         title: 'Образовательная организация',
-        changeComponent: ChangeOneString,
-        disabled: true,
-        isFilled: true
+        changeComponent: SimpleTypography,
+        disabled: true
     },
     education: {
         title: 'Тип образования',

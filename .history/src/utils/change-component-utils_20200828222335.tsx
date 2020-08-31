@@ -141,6 +141,8 @@ export const changeEducationsDamaged = async ( dispatch, data ) => {
         }
     }
 
+    alert(JSON.stringify(postData))
+
     const msgInfo: IMessageInfo = await changeEmployerAddressFetch(store.getState().authReducer.token, postData, '/personal/add-institution');
     if(msgInfo.msgStatus == MessageStatus.OK) {
         const newEducation = {
