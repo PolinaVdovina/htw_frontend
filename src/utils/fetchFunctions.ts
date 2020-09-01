@@ -51,7 +51,7 @@ interface IRegisterResponse {
     error?: string,
 }
 
-export const registerFetch = async (login, email, phone, password, role) => {
+export const registerFetch = async (login, email, phone, password, role, nameOrg?) => {
     let returnData: IRegisterResponse;
     try {
         const response = await axios.post("/auth/create", {
@@ -60,6 +60,7 @@ export const registerFetch = async (login, email, phone, password, role) => {
             email,
             password,
             roles: role,
+            nameOrg
         });
 
         if (response.data.token) {
@@ -151,9 +152,8 @@ export const getEmployeesListFetch = async (token, url?) => {
 
 export const addEmployeeFetch = async (token, data, url?) => {
     let returnData;
-    url = url || "/employer/employee";
     try {
-        const response = await axios.post("/employer/employee",
+        const response = await axios.post(url,
 
             data,
 
@@ -238,7 +238,7 @@ export const deletePersonalDataFetch = async (token, data, url?) => {
     try {
         url = url || '/account/address';
         const response = await axios.delete(url,  {
-                data: Number(data),
+                data: data,
                 headers: {Authorization: 'Bearer ' + token},
             }
         );        

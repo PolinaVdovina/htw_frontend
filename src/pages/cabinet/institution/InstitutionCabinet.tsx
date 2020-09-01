@@ -8,9 +8,11 @@ import { PaddingPaper } from './../../../components/cards/PaddingPaper';
 import { AccountCommonInfo } from '../../../components/cabinet/AccountCommonInfo';
 import { EntitiesTab } from '../../../components/entityList/EntitiesTab';
 import { SubscriptionBlock } from '../../../components/cabinet/SubscriptionBlock';
-import { TapeFetcherProvider } from './../../../components/tape/TapeFetcherContext';
 import { SubscriptionDialog } from './../../../components/cabinet/SubscriptionDialog';
 import { ExecuteDialogButtons } from '../../../components/cabinet/ExecuteDialogButtons';
+import { TapeFetcherProvider } from '../../../components/tape/TapeFetcherContext';
+import { userToPost } from '../../../utils/tape-converters/user-to-tape-element';
+import { StudentsTab } from '../../../components/cabinet/institution/StudentsTab';
 
 interface IInstitutionCabinet {
 
@@ -40,7 +42,7 @@ const tabs: Array<ITabData> = [
   {
     label: "Студенты",
     //IconComponent: <PersonPinIcon/>,
-    TabPanel: <EntitiesTab key={1} />
+    TabPanel: <TapeFetcherProvider key={1} dataConverterFunction = {userToPost}><StudentsTab/></TapeFetcherProvider>
   },
 ]
 
