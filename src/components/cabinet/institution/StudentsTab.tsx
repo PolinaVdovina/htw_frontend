@@ -40,13 +40,18 @@ const StudentsTabComp = (props) => {
 
     const getNextEmployees = async () => {
         dispatch(startLoadingAction());
-        if (props.token) { 
+        if (props.token) {
             await tapeFetcherContext?.fetchNext(
-                () => searchCriteriaFetch("/personal/getBySearchCriteria", props.token, {
-                        searchCriteria: [searchCriteria("institutionLogin", cabinetContext.login, SearchCriteriaOperation.EQUAL)],
+                (lastPostDate, count) => {
+                    const searchCriteriaArray = lastPostDate ? [searchCriteria("viewName", lastPostDate, SearchCriteriaOperation.MORE)] : [];
+                    return searchCriteriaFetch("/personal/getBySearchCriteria", props.token, {
+                        searchCriteria: [...searchCriteriaArray,searchCriteria("institutionLogin", cabinetContext.login, SearchCriteriaOperation.EQUAL),
+                        searchCriteria("customers", true, SearchCriteriaOperation.EQUAL),
+                        ],
+                        sortCriteria: [sortCriteria("viewName", SortCriteriaDirection.ASC)],
                         pagination: pagination(5)
-                    }
-                )
+                    })
+                }, "title"
             )
         }
         dispatch(stopLoadingAction());
