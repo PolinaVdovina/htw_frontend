@@ -48,7 +48,6 @@ const drawerGroups: Array<IDrawerGroup> = [
 
   {
     title: "Поиск",
-
     IconComponent: SearchIcon,
     elements: [
       {
@@ -73,6 +72,36 @@ const drawerGroups: Array<IDrawerGroup> = [
       }
     ]
   },
+
+  {
+    title: "Новости",
+    IconComponent: SearchIcon,
+    elements: [
+      {
+        //IconComponent: AccountCircleIcon,
+        title: "Вакансии",
+        url: urls.search.shortPath + "vacancy",
+      },
+      {
+        //IconComponent: AccountCircleIcon,
+        title: "Соискатели",
+        url: urls.search.shortPath + "jobseeker",
+      },
+      {
+        //IconComponent: AccountCircleIcon,
+        title: "Работодатели",
+        url: urls.search.shortPath + "employer",
+      },
+      {
+        //IconComponent: AccountCircleIcon,
+        title: "Образовательные учреждения",
+        url: urls.search.shortPath + "institution",
+      }
+    ]
+  },
+
+
+
   {
     isRoot: true,
     title: "Корень2",
@@ -192,11 +221,11 @@ const GroupElements = (props) => {
             className={props.nested ? classes.nestedButtons : classes.notNestedButtons}
             {...{ component: el.url && NavLink, to: el.url + (el.addLogin ? props.login : '') || null }}
             onClick={() => { el.func && el.func(dispatch) }}>
-            
-            {el.IconComponent && 
-            <ListItemIcon>
-              <el.IconComponent />
-            </ListItemIcon>
+
+            {el.IconComponent &&
+              <ListItemIcon>
+                <el.IconComponent />
+              </ListItemIcon>
             }
             <ListItemText primary={el.title} />
           </ListItem >
@@ -213,10 +242,10 @@ const DrawerGroups = (props) => {
 
   const handleClick = (groupIndex) => {
     const isOpened = openedGroupsIndex.includes(groupIndex);
-    if(!isOpened) 
-      setOpenedGroupsIndex( [...openedGroupsIndex, groupIndex] );
+    if (!isOpened)
+      setOpenedGroupsIndex([/* ...openedGroupsIndex,  */groupIndex]);
     else
-      setOpenedGroupsIndex( openedGroupsIndex.filter( v => v!=groupIndex ));
+      setOpenedGroupsIndex(openedGroupsIndex.filter(v => v != groupIndex));
   }
 
   return (
@@ -229,10 +258,10 @@ const DrawerGroups = (props) => {
             } else {
               return (
                 <div key={groupIndex}>
-                  <ListItem button onClick = {() => handleClick(groupIndex)}>
+                  <ListItem button onClick={() => handleClick(groupIndex)}>
                     {group.IconComponent && <ListItemIcon><group.IconComponent /></ListItemIcon>}
                     <ListItemText primary={group.title} />
-                    {openedGroupsIndex.includes(groupIndex) ? <ExpandLessIcon/> : <ExpandMoreIcon/>}
+                    {openedGroupsIndex.includes(groupIndex) ? <ExpandLessIcon /> : <ExpandMoreIcon />}
                   </ListItem>
                   <Collapse in={openedGroupsIndex.includes(groupIndex)}>
                     <GroupElements login={props.login} elements={group.elements} nested={true} />

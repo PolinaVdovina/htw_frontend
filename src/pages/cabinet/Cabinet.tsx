@@ -22,6 +22,7 @@ import { accountRequestToEntityDictionary } from '../../utils/appliedFunc';
 import { CabinetContext } from '../../components/cabinet/cabinet-context';
 import { authReducer } from '../../redux/reducers/auth-reducers';
 import { startLoadingAction, stopLoadingAction } from './../../redux/actions/dialog-actions';
+import { SubscriptionBlock } from '../../components/cabinet/SubscriptionBlock';
 
 interface ICabinetProps {
     myLogin?: string | null,
@@ -37,6 +38,7 @@ interface ICabinetProps {
         gender,
         name,
         about,
+        
     }
 }
 
@@ -45,6 +47,7 @@ function mapStateToProps(state : RootState) {
         myLogin: state.authReducer.login,
         myToken: state.authReducer.token,
         reduxPersonalData: { 
+            subscriptionLogins: state.userPersonalsReducer.subscriptionLogins,
             role: state.authReducer.entityType,
             name: state.userPersonalsReducer.name,
             surname: state.userPersonalsReducer.surname,
@@ -67,14 +70,6 @@ function mapStateToProps(state : RootState) {
             industry: state.userPersonalsReducer.industry          
         }
     }
-    // data.reduxPersonalData['name'] = '';
-    // if(state.userPersonalsReducer.name)
-    //     data.reduxPersonalData['name'] += state.userPersonalsReducer.name + " ";
-    // if(state.userPersonalsReducer.surname)
-    //     data.reduxPersonalData['name'] += state.userPersonalsReducer.surname + " ";
-    // if(state.userPersonalsReducer.middlename)
-    //     data.reduxPersonalData['name'] += state.userPersonalsReducer.middlename;
-        
     return data;
     
 }

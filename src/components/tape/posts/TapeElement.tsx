@@ -1,4 +1,4 @@
-import { Button, Card, Grid, Typography, makeStyles, Theme, createStyles, Paper, Avatar, Divider, IconButton, Collapse } from '@material-ui/core';
+import { Button, Card, Grid, Typography, makeStyles, Theme, createStyles, Paper, Avatar, Divider, IconButton, Collapse, Link } from '@material-ui/core';
 import * as React from 'react';
 import { Redirect } from 'react-router';
 import { PaddingPaper } from '../../cards/PaddingPaper';
@@ -97,7 +97,15 @@ const TapeElementCardComp = (props: ITapeElementProps) => {
         }
         <Grid item style={{ flexGrow: 1, marginRight: theme.spacing(2) }}>
           <Grid container direction="column" >
-            {props.tapeElementData.title &&
+            {props.tapeElementData.title && props.tapeElementData.ownerLogin &&
+              <Typography
+                color='inherit'
+                style={{textDecoration:"none"}}
+                component={RouterLink} to={urls.cabinet.shortPath + props.tapeElementData.ownerLogin}>
+                {props.tapeElementData.title}
+              </Typography>
+            }
+            {props.tapeElementData.title && !props.tapeElementData.ownerLogin &&
               <Typography>
                 {props.tapeElementData.title}
               </Typography>
@@ -114,7 +122,7 @@ const TapeElementCardComp = (props: ITapeElementProps) => {
         }
         <Grid item>
           {props.onDeleteClick &&
-            <Tooltip title = "Удалить">
+            <Tooltip title="Удалить">
               <IconButton
                 className={classes.button}
                 onClick={() => props.onDeleteClick && props.onDeleteClick(props.tapeElementData.id)}>
@@ -123,7 +131,7 @@ const TapeElementCardComp = (props: ITapeElementProps) => {
             </Tooltip>
           }
           {props.tapeElementData.body && props.tapeElementData.body.length > 1 &&
-            <Tooltip title = {open ?  "Скрыть подробности" : "Показать подробности"}>
+            <Tooltip title={open ? "Скрыть подробности" : "Показать подробности"}>
               <IconButton
                 className={classes.button}
                 onClick={() => setOpen(!open)}>

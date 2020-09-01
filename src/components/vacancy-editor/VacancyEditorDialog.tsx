@@ -1,4 +1,4 @@
-import { makeStyles, Theme, createStyles, Grid, Avatar, TextField, Typography, useTheme, Dialog } from "@material-ui/core";
+import { makeStyles, Theme, createStyles, Grid, Avatar, TextField, Typography, useTheme, Dialog, useMediaQuery } from "@material-ui/core";
 import React from "react";
 import { Button, LinearProgress } from '@material-ui/core';
 import { withTheme } from 'react-jsonschema-form';
@@ -175,9 +175,9 @@ const VacancyEditorDialogComp = (props: IVacancyDialogProps) => {
 
        
     } 
-
+    const fullScreen = useMediaQuery(theme.breakpoints.down('xs'));
     return (
-        <Dialog  fullWidth open={props.open}>
+        <Dialog  fullWidth fullScreen={fullScreen} open={props.open}>
             <Grid container direction="column" className={classes.root}>
                 <Typography variant="h5" style={{marginBottom: theme.spacing(2), textAlign: "center"}}>Добавить вакансию</Typography>
                 <Grid item container direction="column" className={classes.fieldGrid}>

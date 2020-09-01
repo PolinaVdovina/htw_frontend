@@ -1,5 +1,5 @@
 import React from 'react'
-import { Grid, Paper, List, ListItem, makeStyles, Theme, createStyles, Tabs, Tab } from '@material-ui/core'
+import { Grid, Paper, List, ListItem, makeStyles, Theme, createStyles, Tabs, Tab, useTheme } from '@material-ui/core'
 import { JobSeekerFeedMenu } from './../../../components/feed-menu/job-seeker/JobSeekerFeedMenu';
 import { RedirectIfNotAuthorized } from './../../../components/redirects/RedirectIfNotAuthorized';
 import AccountInfo from '../../../components/cabinet/AccountInfo';
@@ -11,6 +11,11 @@ import PersonPinIcon from '@material-ui/icons/PersonPin';
 import { TabsPaper, ITabData } from './../../../components/cards/TabsPaper';
 import { ListInPost } from '../../../components/tape/posts/post-body-elements/ListInPost';
 import { ParagraphInPost } from './../../../components/tape/posts/post-body-elements/ParagraphInPost';
+import {SubscriptionBlock} from '../../../components/cabinet/SubscriptionBlock';
+import { TapeFetcherProvider } from '../../../components/tape/TapeFetcherContext';
+import { userToPost } from '../../../utils/tape-converters/user-to-tape-element';
+import { ExecuteDialogButtons } from '../../../components/cabinet/ExecuteDialogButtons';
+import { SubscriptionDialog } from './../../../components/cabinet/SubscriptionDialog';
 
 interface IJobSeekerCabinet {
 
@@ -27,7 +32,22 @@ const tabs: Array<ITabData> = [
   {
     label: "Общая информация",
     //IconComponent: <PersonPinIcon/>,
-    TabPanel: <AccountInfo key={0}  role='INDIVIDUAL' settingsView={['email', 'phone', 'address', 'dateBirth', 'gender']} />
+    TabPanel: <AccountInfo key={0} role='INDIVIDUAL' settingsView={['email', 'phone', 'address', 'dateBirth', 'gender']} />,
+    subTapPanels: [
+      <ExecuteDialogButtons executeDialogButtons={ [
+        {
+          title: "Подписки",
+          DialogComponent: SubscriptionDialog,
+          dialogProps: {subscription: true}
+        },
+        {
+          title: "Подписчики",
+          DialogComponent: SubscriptionDialog,
+          dialogProps: {subscription: false}
+        },
+      ] }/>
+      //<TapeFetcherProvider dataConverterFunction = {userToPost}><SubscriptionTab /></TapeFetcherProvider>
+    ]
   },
   {
     label: "Образование",
@@ -46,10 +66,8 @@ const tabs: Array<ITabData> = [
   },
 ]
 
-
-
-
 export const JobSeekerCabinet = (props: IJobSeekerCabinet) => {
+  const theme = useTheme();
   return (
     <>
       <PaddingPaper style={{ width: "100%" }}><AccountCommonInfo roleSettings={"INDIVIDUAL"} /></PaddingPaper>

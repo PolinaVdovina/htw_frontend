@@ -5,6 +5,7 @@ import { AppMenuDivider } from './AppMenuDivider';
 
 interface IHCenterizingGridProps {
     children: React.ReactNode,
+    fullHeight?: boolean,
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -12,7 +13,7 @@ const useStyles = makeStyles((theme: Theme) =>
     root: {
 
       justifyContent: "center",
-      height: "min-content"
+      
     },
   }),
 );
@@ -20,7 +21,7 @@ const useStyles = makeStyles((theme: Theme) =>
 export const HCenterizingGrid = (props : IHCenterizingGridProps) => {
     const classes = useStyles();
     return (
-        <Grid container direction="row" className={classes.root}>
+        <Grid container direction="row" className={classes.root} style={{height: props.fullHeight ? "auto": "min-content"}}>
             {props.children}
         </Grid>
     )

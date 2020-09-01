@@ -490,7 +490,7 @@ export interface ISearchCriteriaResponse<T> {
     result: Array<T> | null
 }
 
-export const searchCriteriaFetch: <T> (url: string, token: string, requestData: ISearchCriteriaRequest) => Promise<ISearchCriteriaResponse<T>> =
+export const searchCriteriaFetch: <T> (url: string, token: string, requestData: ISearchCriteriaRequest | null) => Promise<ISearchCriteriaResponse<T>> =
     async (url, token, requestData) => {
         try {
             const result = await axios.post(url, requestData, { headers: { Authorization: 'Bearer ' + token } });

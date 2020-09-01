@@ -11,7 +11,7 @@ import AddEntityBlock from "../AddEntityBlock";
 import { vacancyToPost } from "../../../utils/tape-converters/vacancy-to-tape-element";
 import { TapeFetcherProvider, TapeFetcherContext } from '../../tape/TapeFetcherContext';
 import { searchCriteriaFetch } from './../../../utils/fetchFunctions';
-import { SortCriteriaDirection, SearchCriteriaOperation } from "../../../utils/search-criteria/types";
+import { SortCriteriaDirection, SearchCriteriaOperation, ISearchCriteria } from "../../../utils/search-criteria/types";
 import { searchCriteria, sortCriteria } from "../../../utils/search-criteria/builders";
 import { pagination } from './../../../utils/search-criteria/builders';
 import { useSnackbar } from "notistack";
@@ -44,23 +44,26 @@ const EmployeesTabComp = (props) => {
         dispatch(startLoadingAction());
         if (props.token) {
             await tapeFetcherContext?.fetchNext(
-                (lastPostDate, count) => searchCriteriaFetch("/employee/getBySearchCriteria", props.token, {
-                        searchCriteria: [searchCriteria("employerLogin", cabinetContext.login, SearchCriteriaOperation.EQUAL),
-                        searchCriteria("customers", true, SearchCriteriaOperation.EQUAL), searchCriteria("surname", lastPostDate, SearchCriteriaOperation.MORE)],
-                        sortCriteria: [sortCriteria("surname", SortCriteriaDirection.DESC)],
+                (lastPostDate, count) => {
+                    const searchCriteriaArray = lastPostDate ? [searchCriteria("viewName", lastPostDate, SearchCriteriaOperation.MORE)] : [];
+                    return searchCriteriaFetch("/employee/getBySearchCriteria", props.token, {
+                        searchCriteria: [...searchCriteriaArray,searchCriteria("employerLogin", cabinetContext.login, SearchCriteriaOperation.EQUAL),
+                        searchCriteria("customers", true, SearchCriteriaOperation.EQUAL),
+                        ],
+                        sortCriteria: [sortCriteria("viewName", SortCriteriaDirection.ASC)],
                         pagination: pagination(5)
-                    }
-                )
+                    })
+                }, "title"
             )
         }
         dispatch(stopLoadingAction());
     }
 
-    const handleClickSave = async() => {
-        
+    const handleClickSave = async () => {
+
         tapeFetcherContext?.reset();
         await getNextEmployees();
-        
+
     }
 
     const handleClickClose = () => {
@@ -78,7 +81,6 @@ const EmployeesTabComp = (props) => {
     }, [])
 
     React.useEffect(() => {
-
         getNextEmployees();
     }, [])
 

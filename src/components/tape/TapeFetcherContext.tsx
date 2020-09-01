@@ -1,9 +1,10 @@
 import React from 'react'
 import { ITapeElementData } from './posts/TapeElement';
-import { ITapeFetch } from '../../utils/fetchFunctions';
+import { ITapeFetch, ISearchCriteriaResponse } from '../../utils/fetchFunctions';
 import { useDispatch } from 'react-redux';
 import { startLoadingAction, stopLoadingAction } from '../../redux/actions/dialog-actions';
 import { MessageStatus } from '../../utils/fetchInterfaces';
+import { sortCriteria } from '../../utils/search-criteria/builders';
 
 export interface ITapeContextValue {
     //dataFetchFunction?: ((lastPostDate: string, dataCount) => Promise<ITapeFetch>) | null,
@@ -12,9 +13,9 @@ export interface ITapeContextValue {
     tapeElements: Array<ITapeElementData> | null,
     setTapeElements: (newElements: Array<ITapeElementData>) => void,
     fetchNext: (
-        dataFetchFunction?: ((lastPostDate: string, dataCount) => Promise<ITapeFetch>) | null,
-        dataConverterFunction?: (fetchedEntity) => ITapeElementData
-    ) => Promise<void>,
+        dataFetchFunction?: null | ((lastPostDate: string, dataCount) => Promise<ISearchCriteriaResponse<any>>),
+        sortingKey?: string
+    ) => Promise<ISearchCriteriaResponse<any>>,
     reset: () => void,
     deleteTapeElement: (id) => void
     addTapeElementAtFirst: (data: ITapeElementData) => void
@@ -22,8 +23,7 @@ export interface ITapeContextValue {
 
 export const TapeFetcherContext = React.createContext<ITapeContextValue | null>(null);
 
-interface ITapeFetcherProvider {
-    dataFetchFunction?: ((lastPostDate: string, dataCount) => Promise<ITapeFetch>) | null,
+export interface ITapeFetcherProvider {
     fetchCount?: number,
     children: any,
     dataConverterFunction?: (fetchedEntity) => ITapeElementData,
@@ -34,12 +34,9 @@ export const TapeFetcherProvider = (props: ITapeFetcherProvider) => {
     const fetchCount = props.fetchCount ? props.fetchCount : 5;
     const dispatch = useDispatch();
 
-    React.useEffect(() => {
-        
-        //resetHandler();
 
-    }, [])
 
+    
 
     const setTapeElementsHandler = (newElements: Array<ITapeElementData>) => setTapeElements(newElements);
     const resetHandler = () => {tapeElements = null; setTapeElements(null)};
@@ -58,16 +55,19 @@ export const TapeFetcherProvider = (props: ITapeFetcherProvider) => {
         }
     }
 
-    const fetchNextHandler = async (dataFetchFunction) => {
+    const fetchNextHandler = async (dataFetchFunction, keyForFindingLastElement? ) => {
+        const sortingKey = keyForFindingLastElement ? keyForFindingLastElement : "createdDate"
         if (dataFetchFunction) {
             dispatch(startLoadingAction());
             //Если элементов нет (не было фетча) - беру текущую дату, иначе беру дату последнего поста на ленте
-            let minDateForFilter;
-            if (tapeElements && tapeElements.length > 0)
-                minDateForFilter = tapeElements[tapeElements.length - 1].createdDate;
-            else
-                minDateForFilter = new Date(Date.now()).toISOString();
-
+            let minDateForFilter: string | null = null;
+            if (tapeElements && tapeElements.length > 0) {
+                minDateForFilter = tapeElements[tapeElements.length - 1][sortingKey];
+            }
+            else {
+                if(sortingKey == "createdDate")
+                    minDateForFilter = new Date(Date.now()).toISOString();
+            }
             const fetchResult = await dataFetchFunction(minDateForFilter, fetchCount);
             if ((fetchResult.msgInfo.msgStatus == MessageStatus.OK) && (fetchResult.result)) {
                 if (props.dataConverterFunction) {
@@ -81,7 +81,8 @@ export const TapeFetcherProvider = (props: ITapeFetcherProvider) => {
                     setTapeElements(fetchResult.tapeElements);
                 }
             }
-            dispatch(stopLoadingAction());
+            await dispatch(stopLoadingAction());
+            return fetchResult;
         }
     }
 

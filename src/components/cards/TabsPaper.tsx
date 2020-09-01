@@ -6,6 +6,7 @@ import SwipeableViews from 'react-swipeable-views';
 export interface ITabData { 
     label?: string,
     TabPanel: React.ReactNode,
+    subTapPanels?: Array<React.ReactNode>,
     IconComponent?:string | React.ReactElement
 }
 
@@ -20,36 +21,45 @@ export const TabsPaper = (props: ITabsPaperProps) => {
     const [activeTab, setActiveTab] = React.useState(props.defaultActiveTabIndex != undefined ? 
         props.defaultActiveTabIndex : 0);
     return (
-        <Paper style={{marginBottom: theme.spacing(2), ...props.paperStyle}}>
-            <Tabs 
-            variant="fullWidth"
-            indicatorColor="primary"
-            textColor="primary"
-            centered  
-            value={activeTab}  
-            onChange={(event, value) => setActiveTab(value)}>
-                {
-                    props.tabs.map(
-                        (tabData, index) => <Tab key={index} icon={tabData.IconComponent} value={index} style={{fontSize: "10px", minWidth:"0px"}} label={tabData.label}/>
-                    )
-                }
-            </Tabs>
-            <Grid >
-                {props.tabs[activeTab].TabPanel}
-                {/* АНИМАЦИИ ХЕХЕ <SwipeableViews        
-                axis={'x-reverse'}
-                index={activeTab}
-                onChangeIndex={setActiveTab}
-                slideStyle={{ overflow: 'hidden'}} >
+        <div style={{marginBottom: theme.spacing(2), ...props.paperStyle}}>
+            <Paper style={{marginBottom: theme.spacing(2),  overflow: "hidden"}}>
+                <Tabs 
+                variant="fullWidth"
+                indicatorColor="primary"
+                textColor="primary"
+                centered  
+                value={activeTab}  
+                onChange={(event, value) => setActiveTab(value)}>
                     {
                         props.tabs.map(
-                            tabData => <div >{tabData.TabPanel}</div>
+                            (tabData, index) => <Tab key={index} icon={tabData.IconComponent} value={index} style={{fontSize: "10px", minWidth:"0px"}} label={tabData.label}/>
                         )
                     }
-                </SwipeableViews> */}
-          
-            </Grid>
-        </Paper>
+                </Tabs>
+                <Grid >
+                    {props.tabs[activeTab].TabPanel}
+                    {/* АНИМАЦИИ ХЕХЕ <SwipeableViews        
+                    axis={'x-reverse'}
+                    index={activeTab}
+                    onChangeIndex={setActiveTab}
+                    slideStyle={{ overflow: 'hidden'}} >
+                        {
+                            props.tabs.map(
+                                tabData => <div >{tabData.TabPanel}</div>
+                            )
+                        }
+                    </SwipeableViews> */}
+            
+                </Grid>
+            </Paper>
+            <Paper style={{marginBottom: theme.spacing(2), overflow: "hidden"}}>
+            {
+               props.tabs[activeTab].subTapPanels?.map(
+                   Panel => Panel
+               )
+            }
+            </Paper>
+        </div>
     )
 };
 

@@ -106,7 +106,7 @@ export const AppBarComp = (props : IAppBarProps) => {
                     {context?.title}
                 </Typography>
 
-                {
+                {/* {
                 props.authorized &&
                 <div className={classes.search}>
                   <div className={classes.searchIcon}>
@@ -121,7 +121,7 @@ export const AppBarComp = (props : IAppBarProps) => {
                     inputProps={{ 'aria-label': 'search' }}
                   />
                 </div>
-                }
+                } */}
             </Toolbar>
             </Container>
         </MuiAppBar>
