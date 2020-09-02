@@ -6,7 +6,6 @@ import { Registration } from './registration/Registration';
 import { Cabinet } from "./cabinet/Cabinet"
 import { Home } from './home/Home';
 import { Search } from './search/Search';
-import { NewsComponent } from "../components/news/NewsComponent";
 
 export const Routes = () =>
     <>
@@ -15,6 +14,5 @@ export const Routes = () =>
         <Route path={urls.registration.path} component={Registration}></Route>
         <Route path={urls.cabinet.path} component={Cabinet}></Route>
         <Route path={urls.search.path} component={Search}></Route>
-        <Route path={urls.news.path} component={NewsComponent}></Route>
     </>
 

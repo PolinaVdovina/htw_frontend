@@ -23,10 +23,5 @@ export const urls = {
         title: 'Поиск',
         path: '/search/:entity',
         shortPath: '/search/',
-    },
-    news: {
-        title: 'Новости',
-        path: '/news/:entity',
-        shortPath: '/news/'
     }
 }

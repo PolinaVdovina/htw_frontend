@@ -80,7 +80,7 @@ const drawerGroups: Array<IDrawerGroup> = [
       {
         //IconComponent: AccountCircleIcon,
         title: "Вакансии",
-        url: urls.news.shortPath + "vacancy",
+        url: urls.search.shortPath + "vacancy",
       },
       {
         //IconComponent: AccountCircleIcon,
