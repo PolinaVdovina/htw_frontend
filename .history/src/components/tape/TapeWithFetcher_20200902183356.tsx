@@ -1,7 +1,7 @@
 import { TapeFetcher } from "./TapeFetcher_OLD"
 import { Tape } from "./Tape"
 import * as React from 'react';
-import { TapeFetcherProvider, TapeFetcherContext} from './TapeFetcherContext';
+import { TapeFetcherProvider, TapeFetcherContext, ITapeFetcherProvider } from './TapeFetcherContext';
 import { useContext } from 'react';
 import { Grid, Button } from "@material-ui/core";
 import { ITapeElementData } from "./posts/TapeElement";
