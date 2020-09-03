@@ -34,12 +34,6 @@ const converterFunctions = {
     institution: userToPost
 }
 
-const sortKeys = {
-    vacancy: 'createdDate',
-    institution: 'title'
-} 
-
-
 const employerSettings = {
     name: {
         operation: "LIKE"
@@ -83,7 +77,7 @@ export const NewsComponent = (props: INewsComponent) => {
                         </IconButton>
                     </Grid>
                     <Divider />
-                <TapeWithFetcher dataConverterFunction={converterFunctions[entityType]} url={urls[entityType]} sortKey={sortKeys[entityType]}/>
+                <TapeWithFetcher dataConverterFunction={converterFunctions[entityType]} url={urls[entityType]}/>
                 </Grid>
 
             </Paper>

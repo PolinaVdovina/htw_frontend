@@ -35,16 +35,8 @@ const TapeWithFetcherWraper = (props: ITapeWithFetcherProps) => {
        
             const fetchFunc = (lastPostDate: string, count) => { 
                 const requestData: ISearchCriteriaRequest = {
-                    searchCriteria: [
-                        (props.sortKey && props.sortKey == 'title') ? 
-                        searchCriteria("customers", true, SearchCriteriaOperation.EQUAL) : 
-                        searchCriteria("createdDate", lastPostDate, SearchCriteriaOperation.LESS)
-                    ],
-                    sortCriteria: [
-                        (props.sortKey && props.sortKey == 'title') ? 
-                        sortCriteria("viewName", SortCriteriaDirection.ASC) : 
-                        sortCriteria("createdDate", SortCriteriaDirection.DESC)
-                    ],
+                    searchCriteria: [searchCriteria("createdDate", lastPostDate, SearchCriteriaOperation.LESS)],
+                    sortCriteria: [sortCriteria("createdDate", SortCriteriaDirection.DESC)],
                     pagination: pagination(5)
                 }
                 return searchCriteriaFetch<any>(props.url, token, requestData);
