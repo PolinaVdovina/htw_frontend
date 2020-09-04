@@ -5,33 +5,17 @@ import ExpandMore from '@material-ui/icons/ExpandMore';
 import SearchIcon from '@material-ui/icons/Search';
 
 interface IChangeCompetences {
+    data: number,
     onChange: (any) => void,
     type: string,
-    list: any,
-    value?: Array<String>,  //передаешь сюда список галочек, который получил от giveMeValue
-    giveMeValue?: (any) => void  //засовываешь сюда функцию, которая получает в аргументы список галочек 
+    list: any
 }
 
 export const ChangeCompetences = (props : IChangeCompetences) => {
     const [open, setOpen] = React.useState(new Array<boolean>(false));
     const [checked, setChecked] = React.useState(new Array<String>());
-    const [resultChange, setResultChange] = React.useState(new Array());
-    const [localList, setLocalList] = React.useState(props.list);
-
-    React.useEffect(() => {
-        if (props.value) {
-            let newResultMass = new Array();
-
-            props.value.map(element => {
-                const group: String = element.split(',')[0];
-                const competence: String = element.split(',')[1];
-                newResultMass.push({group, name: competence})
-            })
-            
-            setResultChange(newResultMass);
-            setChecked(props.value);
-        }
-    }, [])
+    const [resultChange, setResultChange] = React.useState(new Array())
+    const [localList, setLocalList] = React.useState(props.list)
 
     const handleClick = (index: number) => {
         let tempArrayOpen = [...open];
@@ -66,12 +50,22 @@ export const ChangeCompetences = (props : IChangeCompetences) => {
                 } 
             })
         }
+        
+        /*localList[group].forEach(competence => {
+            const checkObject = group + ',' + competence; 
+            if (currentIndex === -1) {
+                newChecked.push(checkObject);
+                newResultMass.push({group, name: competence})
+            } 
+            else {
+                newChecked.splice(currentIndex, 1);
+                newResultMass.splice(currentIndex, 1);
+            }
+        })*/
 
         setChecked(newChecked);
         setResultChange(newResultMass);
-        props.onChange({[props.type]: newResultMass});   
-        if (props.giveMeValue)
-            props.giveMeValue(newChecked);     
+        props.onChange({[props.type]: newResultMass});        
     }
 
     const handleToggle = (group: string, competence: string) => {        
@@ -92,8 +86,6 @@ export const ChangeCompetences = (props : IChangeCompetences) => {
         setChecked(newChecked);
         setResultChange(newResultMass);
         props.onChange({[props.type]: newResultMass});
-        if (props.giveMeValue)
-            props.giveMeValue(newChecked); 
     };
 
     const handleSearch = (piece: string) => {        

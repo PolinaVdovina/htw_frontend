@@ -64,6 +64,12 @@ export const NewsComponent = (props: INewsComponent) => {
 
     return (
         <HCenterizingGrid >
+            <ChangeCompetences
+                onChange={(c: any) => alert('kjcbwk')}
+                type='eveerver'
+                list={settingsCompetenceSet.competenceSet.listItemsSelect}
+                value={['Образование,Репетиторство']}
+            />
             <FilterForm open={openFilterDrawer} onClose={closeFilterDrawerHandler} />
             <Paper style={{ flexGrow: 1, overflow: "hidden"}}>
                 <Grid container direction="column" style={{ height: "100%"}}>

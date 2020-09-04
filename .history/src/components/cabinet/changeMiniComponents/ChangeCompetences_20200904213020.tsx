@@ -5,11 +5,12 @@ import ExpandMore from '@material-ui/icons/ExpandMore';
 import SearchIcon from '@material-ui/icons/Search';
 
 interface IChangeCompetences {
+    data: number,
     onChange: (any) => void,
     type: string,
     list: any,
-    value?: Array<String>,  //передаешь сюда список галочек, который получил от giveMeValue
-    giveMeValue?: (any) => void  //засовываешь сюда функцию, которая получает в аргументы список галочек 
+    value?: Array<String>,
+    giveMeValue?: (any) => void
 }
 
 export const ChangeCompetences = (props : IChangeCompetences) => {
