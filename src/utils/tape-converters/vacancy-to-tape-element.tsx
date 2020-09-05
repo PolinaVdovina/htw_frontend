@@ -14,7 +14,7 @@ interface IVacancy {
     description?: string,
     demands?: Array<string>,
     duties?: Array<string>,
-    competencies?: Array<string>,
+    competencies?: Array<any>,
     minSalary: number,
     maxSalary: number,
     experience: string,
@@ -64,7 +64,7 @@ export function vacancyToPost(vacancyData: IVacancy): ITapeElementData {
             Component:ListInPost,
             data: {
                 title: "Компетенции",
-                items: vacancyData.competencies,
+                items: vacancyData.competencies.map( c => c.name ),
             }
         })
 

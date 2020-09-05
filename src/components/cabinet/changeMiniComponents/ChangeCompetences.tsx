@@ -3,12 +3,14 @@ import { List, ListItem, ListItemText, Collapse, Checkbox, TextField, InputAdorn
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import SearchIcon from '@material-ui/icons/Search';
+import { group } from 'console';
 
 interface IChangeCompetences {
-    data: number,
+    data?: number,
     onChange: (any) => void,
     type: string,
-    list: any
+    list: any,
+    value?: any,
 }
 
 export const ChangeCompetences = (props : IChangeCompetences) => {
@@ -16,6 +18,26 @@ export const ChangeCompetences = (props : IChangeCompetences) => {
     const [checked, setChecked] = React.useState(new Array<String>());
     const [resultChange, setResultChange] = React.useState(new Array())
     const [localList, setLocalList] = React.useState(props.list)
+    
+    React.useEffect(() => {
+/*         if(props.value) {
+            alert(JSON.stringify(props.value[props.type]))
+            let checked: Array<any> = [];
+            let resultMass: Array<any> = []
+            props.value[props.type].forEach(
+                v => {
+                    checked = [...checked, v.group + "," + v.name];
+                    
+                    if(checked.findIndex((val, i, o) => val == v.group) == -1)
+                        checked = [...checked, v.group];
+                    resultMass = [...resultMass, {group: v.group, name: v.name}]
+                }
+            )
+            alert(JSON.stringify(checked))
+            setChecked(checked);
+            setResultChange(resultMass)
+        } */
+    }, [props.value])
 
     const handleClick = (index: number) => {
         let tempArrayOpen = [...open];

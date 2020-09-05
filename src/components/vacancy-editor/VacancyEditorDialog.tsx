@@ -1,6 +1,6 @@
-import { makeStyles, Theme, createStyles, Grid, Avatar, TextField, Typography, useTheme, Dialog, useMediaQuery } from "@material-ui/core";
+import { makeStyles, Theme, createStyles, Grid, Avatar, TextField, Typography, useTheme, Dialog, useMediaQuery, Collapse, Tooltip } from "@material-ui/core";
 import React from "react";
-import { Button, LinearProgress } from '@material-ui/core';
+import { Button, LinearProgress, IconButton } from '@material-ui/core';
 import { withTheme } from 'react-jsonschema-form';
 
 import { Theme as MaterialUITheme } from '@rjsf/material-ui';
@@ -18,7 +18,10 @@ import { addVacancyFetch } from './../../utils/fetchFunctions';
 import { MessageStatus } from "../../utils/fetchInterfaces";
 import { startLoadingAction, stopLoadingAction } from './../../redux/actions/dialog-actions';
 import { settingsExperience } from "../cabinet/changeMiniComponents/changeSettings";
-
+import { ChangeCompetences } from "../cabinet/changeMiniComponents/ChangeCompetences";
+import { settingsCompetenceSet } from './../cabinet/changeMiniComponents/changeSettings';
+import ExpandLess from '@material-ui/icons/ExpandLess';
+import ExpandMore from '@material-ui/icons/ExpandMore';
 // //Ненагло спизжено у Богини спизженности
 // function strParser(str/*: string*/) {
 //     let strArray = str.split(', ');
@@ -58,7 +61,7 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         fieldTitle: {
             marginRight: theme.spacing(1),
-            minWidth: "120px"
+            minWidth: "120px",
         }
     }),
 );
@@ -82,6 +85,7 @@ const VacancyEditorDialogComp = (props: IVacancyDialogProps) => {
     const [experience, setExperience] = React.useState<any>();
     const [minSalary, setMinSalary] = React.useState("");
     const [maxSalary, setMaxSalary] = React.useState("");
+    const [compOpen, setCompOpen] = React.useState(false);
     const dispatch = useDispatch();
     //alert("min " + minSalary)
     //alert("max " + maxSalary)
@@ -235,13 +239,23 @@ const VacancyEditorDialogComp = (props: IVacancyDialogProps) => {
                     size="small"/>
                 </Grid>
                 <Grid item container direction="column" className={classes.fieldGrid}>
-                    <Typography className={classes.fieldTitle}>Требуемые компетенции</Typography>
-                    <ChangeMultiSelect
+                    <Grid alignItems="center" item container style={{flexWrap: "nowrap"}}>
+                        <Typography className={classes.fieldTitle}>Требуемые компетенции</Typography>
+                        <Tooltip title={compOpen ?  "Скрыть список" : "Показать список" }>
+                            <IconButton  onClick={ () => setCompOpen(!compOpen) }>
+                                { compOpen ? <ExpandLess/> : <ExpandMore/>}
+                            </IconButton>
+                        </Tooltip>
+                    </Grid>
+                    <Collapse in={compOpen}>
+                        <ChangeCompetences type='competenceSet' onChange={(data) => {setCompetencies(data['competenceSet'])}} list={settingsCompetenceSet.competenceSet.listItemsSelect}   />
+                    </Collapse>
+{/*                     <ChangeMultiSelect
                     onChange={(data) => {setCompetencies(data)}}
                     fullWidth
                     value={competencies}
                     list={["Пить чай", "Страдать херней"]}
-                    type='competenceSet'/>
+                    type='competenceSet'/> */}
                 </Grid>
                 <Grid item container direction="column" className={classes.fieldGrid}>
                     <Typography className={classes.fieldTitle}>Контактный телефон</Typography>
