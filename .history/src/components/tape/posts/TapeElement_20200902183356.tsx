@@ -11,7 +11,7 @@ import { Link as RouterLink, NavLink } from 'react-router-dom';
 import { urls } from '../../../pages/urls';
 import { getAvatarUrl } from '../../../utils/fetchFunctions';
 import { connect } from 'react-redux';
-import { RootState, store } from '../../../redux/store';
+import { RootState } from '../../../redux/store';
 import { Tooltip } from '@material-ui/core';
 
 export interface IBodyElement {

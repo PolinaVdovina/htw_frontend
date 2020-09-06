@@ -5,9 +5,6 @@ import { ListInPost } from "../../components/tape/posts/post-body-elements/ListI
 import { addressGlue } from "../appliedFunc";
 import { store, RootState } from "../../redux/store";
 import { connect } from 'react-redux';
-import { Button } from "@material-ui/core";
-import React from "react";
-import { RespondButton } from "../../components/cabinet/employer/RespondButton";
 
 interface IVacancy {
     id?: number,
@@ -27,7 +24,7 @@ interface IVacancy {
     email: string,
 }
 
-export function vacancyToPost(vacancyData: IVacancy): ITapeElementData {
+export function vacancyToPostRaw(vacancyData: IVacancy): ITapeElementData {
     let postBody : Array<IBodyElement> = [
         {
             Component:ParagraphInPost,
@@ -89,15 +86,7 @@ export function vacancyToPost(vacancyData: IVacancy): ITapeElementData {
             }
         })
 
-    if (store.getState().authReducer.entityType == 'ROLE_JOBSEEKER') {
-        postBody.push({
-            Component: RespondButton,
-            data: {
-                title: vacancyData.id,
-                description: store.getState().authReducer.token
-            }               
-        })
-    }
+    
 
     return {
         rightText: vacancyData.minSalary + "р - "+ vacancyData.maxSalary + "р", //vacancyData.position + (vacancyData.maxSalary ? ( ", " + vacancyData.maxSalary + "р") : ""),
@@ -109,6 +98,8 @@ export function vacancyToPost(vacancyData: IVacancy): ITapeElementData {
         createdDate: vacancyData.createdDate
     }
 }
+
+export const vacancyToPost = connect((state: RootState) => ({ userRole: state.authReducer.entityType }))(vacancyToPostRaw)
 
 export function vacanciesToPostList(vacancies: Array<IVacancy>) {
     return vacancies.map(vacancy => vacancyToPost(vacancy))

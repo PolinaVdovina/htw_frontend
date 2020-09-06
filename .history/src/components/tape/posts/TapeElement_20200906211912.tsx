@@ -39,6 +39,7 @@ export interface ITapeElementData {
 export interface ITapeElementProps {
   tapeElementData: ITapeElementData,
   avatarUrlUid: any,
+  userRole: String,
   style: any,
   isOpenedDefaut?: boolean,
   onDeleteClick?: ((postId: any) => void) | null,
@@ -150,6 +151,11 @@ const TapeElementCardComp = (props: ITapeElementProps) => {
                 {index + 1 != props.tapeElementData.body?.length && <br />}
               </>
             )}
+            { props.userRole == "ROLE-JOBSEEKER" && 
+              <Button>
+                Откликнуться
+              </Button>
+            }
           </div>
         </Collapse>
       }
@@ -157,4 +163,4 @@ const TapeElementCardComp = (props: ITapeElementProps) => {
   )
 }
 
-export const TapeElement = connect((state: RootState) => ({ avatarUrlUid: state.userPersonalsReducer.avatarUrlUid }))(TapeElementCardComp);
+export const TapeElement = connect((state: RootState) => ({ avatarUrlUid: state.userPersonalsReducer.avatarUrlUid, userRole: state.authReducer.entityType }))(TapeElementCardComp);

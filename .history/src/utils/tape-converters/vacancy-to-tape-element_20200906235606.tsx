@@ -92,10 +92,7 @@ export function vacancyToPost(vacancyData: IVacancy): ITapeElementData {
     if (store.getState().authReducer.entityType == 'ROLE_JOBSEEKER') {
         postBody.push({
             Component: RespondButton,
-            data: {
-                title: vacancyData.id,
-                description: store.getState().authReducer.token
-            }               
+            data: vacancyData.id               
         })
     }
 

@@ -15,9 +15,9 @@ import {
     settingsJobs, 
     settingsEdu, 
     settingsIndustry,
-    settingsEduDamaged,
-    settingsStatus,
-    settingsEmployment,
+    settingsEduDamaged,,,
+    settingsStatus
+    settingsEmployment
     settingsVacancyType
 } from "./changeMiniComponents/changeSettings";
 import { 

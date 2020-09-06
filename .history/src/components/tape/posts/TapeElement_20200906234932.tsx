@@ -39,6 +39,7 @@ export interface ITapeElementData {
 export interface ITapeElementProps {
   tapeElementData: ITapeElementData,
   avatarUrlUid: any,
+  userRole: string | null | undefined,
   style: any,
   isOpenedDefaut?: boolean,
   onDeleteClick?: ((postId: any) => void) | null,
