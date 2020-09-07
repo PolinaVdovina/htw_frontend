@@ -4,7 +4,7 @@ import { VHCenterizingGrid } from './../grid-containers/VHCenterizingGrid';
 import { RedirectIfAuthorized } from './../../components/redirects/RedirectIfAuthorized';
 import { HCenterizingGrid } from './../grid-containers/HCenterizingGrid';
 import { Tape } from '../../components/tape/Tape';
-import { Paper, Typography, Divider, Grid, IconButton, useTheme, Button } from '@material-ui/core';
+import { Paper, Typography, Divider, Grid, IconButton, useTheme, Button, Tooltip } from '@material-ui/core';
 import { useParams, useRouteMatch } from 'react-router';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import { FilterForm } from './../../components/search/FilterForm';
@@ -88,18 +88,20 @@ const SearchWrap = (props: ISearchProps) => {
                             <Typography variant="h6" style={{ flexGrow: 1, width: "min-content" }}>
                                 {title}
                             </Typography>
-                            <IconButton
-                                onClick={openFilterDrawerHandler}
-                                style={{
-                                    width: "36px",
-                                    height: "36px",
-                                    backgroundColor:
-                                        theme.palette.primary.main,
-                                    color: "white",
-                                    /* borderRadius:0 */
-                                }}>
-                                <FilterListIcon style={{ width: "auto" }} />
-                            </IconButton>
+                            <Tooltip title="Редактировать фильтры">
+                                <IconButton
+                                    onClick={openFilterDrawerHandler}
+                                    style={{
+                                        width: "36px",
+                                        height: "36px",
+                                        backgroundColor:
+                                            theme.palette.primary.main,
+                                        color: "white",
+                                        /* borderRadius:0 */
+                                    }}>
+                                    <FilterListIcon style={{ width: "auto" }} />
+                                </IconButton>
+                            </Tooltip>
                         </Grid>
                         <Divider />
                         <TapeWithFetcher
