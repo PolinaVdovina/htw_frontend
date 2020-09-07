@@ -7,7 +7,6 @@ import { store, RootState } from "../../redux/store";
 import { connect } from 'react-redux';
 import { Button } from "@material-ui/core";
 import React from "react";
-import { RespondButton } from "../../components/cabinet/employer/RespondButton";
 
 interface IVacancy {
     id?: number,
@@ -19,7 +18,7 @@ interface IVacancy {
     description?: string,
     demands?: Array<string>,
     duties?: Array<string>,
-    competencies?: Array<any>,
+    competencies?: Array<string>,
     minSalary: number,
     maxSalary: number,
     experience: string,
@@ -69,7 +68,7 @@ export function vacancyToPost(vacancyData: IVacancy): ITapeElementData {
             Component:ListInPost,
             data: {
                 title: "Компетенции",
-                items: vacancyData.competencies.map( c => c.name ),
+                items: vacancyData.competencies,
             }
         })
 
@@ -91,11 +90,7 @@ export function vacancyToPost(vacancyData: IVacancy): ITapeElementData {
 
     if (store.getState().authReducer.entityType == 'ROLE_JOBSEEKER') {
         postBody.push({
-            Component: RespondButton,
-            data: {
-                title: vacancyData.id,
-                description: store.getState().authReducer.token
-            }               
+            Component: RespondButton                
         })
     }
 
@@ -108,6 +103,14 @@ export function vacancyToPost(vacancyData: IVacancy): ITapeElementData {
         ownerLogin: vacancyData.employerAccountLogin,
         createdDate: vacancyData.createdDate
     }
+}
+
+const RespondButton = () => {
+    return(
+        <Button>
+            Откликнуться
+        </Button>
+    )
 }
 
 export function vacanciesToPostList(vacancies: Array<IVacancy>) {

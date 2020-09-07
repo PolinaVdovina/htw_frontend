@@ -3,11 +3,6 @@ import { ParagraphInPost } from "../../components/tape/posts/post-body-elements/
 import { StatementInPost } from "../../components/tape/posts/post-body-elements/StatementsInPost";
 import { ListInPost } from "../../components/tape/posts/post-body-elements/ListInPost";
 import { addressGlue } from "../appliedFunc";
-import { store, RootState } from "../../redux/store";
-import { connect } from 'react-redux';
-import { Button } from "@material-ui/core";
-import React from "react";
-import { RespondButton } from "../../components/cabinet/employer/RespondButton";
 
 interface IVacancy {
     id?: number,
@@ -19,7 +14,7 @@ interface IVacancy {
     description?: string,
     demands?: Array<string>,
     duties?: Array<string>,
-    competencies?: Array<any>,
+    competencies?: Array<string>,
     minSalary: number,
     maxSalary: number,
     experience: string,
@@ -69,7 +64,7 @@ export function vacancyToPost(vacancyData: IVacancy): ITapeElementData {
             Component:ListInPost,
             data: {
                 title: "Компетенции",
-                items: vacancyData.competencies.map( c => c.name ),
+                items: vacancyData.competencies,
             }
         })
 
@@ -88,16 +83,6 @@ export function vacancyToPost(vacancyData: IVacancy): ITapeElementData {
                 items: contactDetailsItems
             }
         })
-
-    if (store.getState().authReducer.entityType == 'ROLE_JOBSEEKER') {
-        postBody.push({
-            Component: RespondButton,
-            data: {
-                title: vacancyData.id,
-                description: store.getState().authReducer.token
-            }               
-        })
-    }
 
     return {
         rightText: vacancyData.minSalary + "р - "+ vacancyData.maxSalary + "р", //vacancyData.position + (vacancyData.maxSalary ? ( ", " + vacancyData.maxSalary + "р") : ""),

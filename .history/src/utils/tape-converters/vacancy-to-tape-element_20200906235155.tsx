@@ -19,7 +19,7 @@ interface IVacancy {
     description?: string,
     demands?: Array<string>,
     duties?: Array<string>,
-    competencies?: Array<any>,
+    competencies?: Array<string>,
     minSalary: number,
     maxSalary: number,
     experience: string,
@@ -69,7 +69,7 @@ export function vacancyToPost(vacancyData: IVacancy): ITapeElementData {
             Component:ListInPost,
             data: {
                 title: "Компетенции",
-                items: vacancyData.competencies.map( c => c.name ),
+                items: vacancyData.competencies,
             }
         })
 
@@ -91,11 +91,7 @@ export function vacancyToPost(vacancyData: IVacancy): ITapeElementData {
 
     if (store.getState().authReducer.entityType == 'ROLE_JOBSEEKER') {
         postBody.push({
-            Component: RespondButton,
-            data: {
-                title: vacancyData.id,
-                description: store.getState().authReducer.token
-            }               
+            Component: RespondButton                
         })
     }
 
