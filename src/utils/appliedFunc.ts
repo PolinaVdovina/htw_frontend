@@ -48,7 +48,7 @@ export function strToAddressDictionary(str: string/*: string*/) {
     return data;
 }
 
-const genderLabels = ["Мужской", "Женский", "Другое"]
+export const genderLabels = ["Мужской", "Женский", "Другое"]
 
 export function genderIntToStr(gender: number | null) {
     if(gender != null) {
@@ -157,9 +157,9 @@ export const dateParseOnlyYear = (dateInStr: string) => {
 }
 
 export const listItems = (maxNum: number): string[] => {
-    let result = ['нет опыта', 'меньше года'];
-    for (let i = 1; i <= maxNum; i++) 
-        result.push(numToStr(i));
+    let result = ['нет опыта', 'меньше года', 'от 1 года до 3 лет', 'от 3 до 6 лет', 'более 6 лет'];
+    // for (let i = 1; i <= maxNum; i++) 
+    //     result.push(numToStr(i));
     return result;
 }
 

@@ -31,8 +31,11 @@ export const ChangeCompetences = (props : IChangeCompetences) => {
             
             setResultChange(newResultMass);
             setChecked(props.value);
+        } else {
+            setChecked([]);
+            setResultChange([]);
         }
-    }, [])
+    }, [props.value])
 
     const handleClick = (index: number) => {
         let tempArrayOpen = [...open];

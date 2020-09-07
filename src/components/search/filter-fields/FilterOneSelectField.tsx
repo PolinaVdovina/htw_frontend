@@ -2,13 +2,13 @@ import { IFilterFieldProps } from './FilterField';
 import React from 'react';
 import { TextField, MenuItem } from '@material-ui/core';
 
-export const FilterOneSelectField = (list: Array<string>) => (props: IFilterFieldProps) => {
+export const FilterOneSelectField = (list: Array<string>, valueIsIndex?: boolean) => (props: IFilterFieldProps, valueInIndex = false) => {
     return (
-        <FilterOneSelectFieldWrap {...{...props, list}} />
+        <FilterOneSelectFieldWrap {...{...props, list, valueIsIndex}} />
     )
 }
 
-const FilterOneSelectFieldWrap = (props: IFilterFieldProps & {list: Array<any>} & {style?: any}) => {
+const FilterOneSelectFieldWrap = (props: IFilterFieldProps & {list: Array<any>, valueIsIndex?: boolean} & {style?: any} ) => {
     const a = props;
     return (
         <TextField
@@ -19,8 +19,8 @@ const FilterOneSelectFieldWrap = (props: IFilterFieldProps & {list: Array<any>} 
             variant='outlined'
             onChange={(event) => props.onChange && props.onChange(event.target.value)}
         >
-            {props.list.map(element =>
-                <MenuItem value={element}>
+            {props.list.map((element, index) =>
+                <MenuItem value={props.valueIsIndex ?  index : element}>
                     {element}
                 </MenuItem>
             )}

@@ -13,6 +13,8 @@ const FilterMultiSelectFieldWrap = (props: IFilterFieldProps & { list: Array<any
     const a = props;
     return (
         <ChangeMultiSelect
+            value = {props.value}
+            fullWidth
             list={props.list}
             type="industry" onChange={(value) => props.onChange && props.onChange(value['industry'])} />
     )

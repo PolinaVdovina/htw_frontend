@@ -16,7 +16,8 @@ interface ITapeWithFetcherProps {
     url: string,
     token?: string | null,
     additionalSearchCriteria?: Array<ISearchCriteria> | null
-    sortKey?: string | null
+    sortKey?: string | null,
+    sessionUID?: any,
 }
 
 export const TapeWithFetcherComp = (props: ITapeWithFetcherProps) => {

@@ -4,7 +4,7 @@ import { Grid, Typography, TextField, MenuItem } from '@material-ui/core';
 interface IChangeGender {
     data: number,
     onChange: (any) => void,
-    type: string
+    type: string,
 }
 
 export const ChangeGender = (props : IChangeGender) => {

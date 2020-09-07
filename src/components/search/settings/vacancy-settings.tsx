@@ -15,46 +15,56 @@ import { FilterMultiSelectField } from './../filter-fields/FilterMultiSelectFiel
 export const vacancySettings: SearchSettingsType = [
     {
         title: "Зарплата (руб.)",
-        Component: RangeField( FilterNumericField ),
+        Component: RangeField(FilterNumericField),
         searchCriteriaConverter: (value) => {
             let searchCriteriaResult: Array<ISearchCriteria> = [];
-            if(value.min)
+            if (value.min)
                 searchCriteriaResult.push(searchCriteria("minSalary", value.min, SearchCriteriaOperation.EQUAL_MORE));
-            if(value.max)
+            if (value.max)
                 searchCriteriaResult.push(searchCriteria("maxSalary", value.max, SearchCriteriaOperation.EQUAL_LESS));
             return searchCriteriaResult;
-                                             
+
         }
     },
     {
         title: "Опыт работы",
-        Component: RangeField( FilterOneSelectField(listItems(20))),
-        searchCriteriaConverter: (value) => [searchCriteria("maxSalary", value, SearchCriteriaOperation.EQUAL) ]      
+        Component: FilterOneSelectField(listItems(20)),
+        searchCriteriaConverter: (value) => [searchCriteria("experience", value, SearchCriteriaOperation.EQUAL)]
     },
     {
         title: "Компетенции",
         collapse: true,
-        Component: (props) => <Grid container direction="column"><FilterCompetenceField/></Grid>,
-        searchCriteriaConverter: (value) => [searchCriteria("competence", value, SearchCriteriaOperation.EQUAL) ]      
+        Component: (props) => <Grid container direction="column"><FilterCompetenceField {...props} /></Grid>,
+        searchCriteriaConverter: (competences) => {
+            let parsedCompetences: Array<any> = [];
+            competences.forEach(
+                c => {
+                    const split: Array<any> = c.split(",");
+                    if (split[1])
+                        parsedCompetences.push(split[1]);
+                }
+            )
+            return [searchCriteria("competenceName", parsedCompetences, SearchCriteriaOperation.IN)]
+        }
     },
     {
         title: "Город",
         Component: FilterTextField,
-        searchCriteriaConverter: (value) => [searchCriteria("city", "%"+value.toLowerCase()+"%", SearchCriteriaOperation.LIKE) ]
+        searchCriteriaConverter: (value) => [searchCriteria("city", "%" + value.toLowerCase() + "%", SearchCriteriaOperation.LIKE)]
     },
     {
         title: "Наименование предприятия",
         Component: FilterTextField,
-        searchCriteriaConverter: (value) => [searchCriteria("employerName", "%"+value.toLowerCase()+"%", SearchCriteriaOperation.LIKE) ]
+        searchCriteriaConverter: (value) => [searchCriteria("employerName", "%" + value.toLowerCase() + "%", SearchCriteriaOperation.LIKE)]
     },
     {
         title: "Отрасль предприятия",
         Component: FilterMultiSelectField([
             'IT и коммуникации',
-            'Бухгалтерия' ,
+            'Бухгалтерия',
             'Образование',
         ]),
-        searchCriteriaConverter: (value) => [searchCriteria("industry", value.map(v => v.toLowerCase()), SearchCriteriaOperation.IN) ]
+        searchCriteriaConverter: (value) => [searchCriteria("industry", value.map(v => v.toLowerCase()), SearchCriteriaOperation.IN)]
     },
 
 ]

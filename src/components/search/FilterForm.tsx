@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Drawer, Tooltip, IconButton, List, ListItem, ListItemIcon, ListItemText, Avatar, Grid, makeStyles, Theme, createStyles, Typography, Divider, useTheme, TextField, Button, Collapse } from "@material-ui/core"
+import { Drawer, Tooltip, IconButton, List, ListItem, ListItemIcon, ListItemText, Avatar, Grid, makeStyles, Theme, createStyles, Typography, Divider, useTheme, TextField, Button, Collapse, useMediaQuery } from "@material-ui/core"
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import LibraryBooksIcon from '@material-ui/icons/LibraryBooks';
 import PlaylistAddCheckIcon from '@material-ui/icons/PlaylistAddCheck';
@@ -9,7 +9,7 @@ import { urls } from '../../pages/urls';
 import { SearchSettingsType } from './settings/settings-type';
 import { FilterTextField } from './filter-fields/FilterTextField';
 import { ISearchCriteria } from '../../utils/search-criteria/types';
-import { useContext, useState } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import { FilterContext } from './FilterContext';
 import { TapeFetcher } from '../tape/TapeFetcher_OLD';
 import { TapeFetcherContext } from '../tape/TapeFetcherContext';
@@ -28,15 +28,13 @@ const useStyles = makeStyles((theme: Theme) =>
       padding: theme.spacing(1),
     },
     title: {
-     
+
     },
     row: {
       flexWrap: "nowrap"
     }
   }),
 );
-
-
 
 interface IFilterFormProps {
   open?: boolean,
@@ -63,10 +61,10 @@ export const FilterForm = (props: IFilterFormProps) => {
 
   }
 
-
   const [values, setValues] = React.useState<Array<any>>(
     new Array(props.settings.length)
   );
+
 
   const setValue = (index: number, value: any) => {
     let newValues: Array<any> = [...values];  //создаю копию
@@ -79,7 +77,8 @@ export const FilterForm = (props: IFilterFormProps) => {
 
     let searchCriteria: Array<ISearchCriteria> = [];
     props.settings.forEach((settingValue, settingIndex) => {
-      if (values[settingIndex]) {
+
+      if (values[settingIndex] && !(Array.isArray(values[settingIndex]) && values[settingIndex].length == 0) ) {
         const convertedValue = settingValue.searchCriteriaConverter(values[settingIndex]);
         if (convertedValue)
           searchCriteria.push(...convertedValue);
@@ -99,15 +98,28 @@ export const FilterForm = (props: IFilterFormProps) => {
     }
     props.onClose && props.onClose(event);
   }
-
+  const fullScreen = useMediaQuery(theme.breakpoints.down('xs'));
   return (
-    <Drawer open={props.open} onClose={closeHandler}>
-      <Grid container direction={"column"} className={classes.rootGrid}>
-        <Grid alignContent="center" container style={{ flexGrow: 1 }}>
-          <Typography variant="h5" className={classes.title} style={{ flexGrow: 1 }}>
+    <Drawer
+      open={props.open}
+      onClose={closeHandler}
+      variant="temporary"
+      PaperProps={{ style: { width: fullScreen ? "100%" : "400px" } }}>
+      <Grid
+        container
+        direction={"column"}
+        className={classes.rootGrid}>
+        <Grid alignContent="center" item container >
+          <Typography
+            variant="h5"
+            className={classes.title}
+            style={{ flexGrow: 1, marginRight: theme.spacing(1) }}>
             Фильтры
           </Typography>
-          <Button color="primary" variant="contained" onClick={closeHandler}>
+          <Button
+            color="primary"
+            variant="contained"
+            onClick={closeHandler}>
             Применить
           </Button>
         </Grid>
@@ -116,8 +128,16 @@ export const FilterForm = (props: IFilterFormProps) => {
         {
           props.settings.map((settingValue, settingIndex) =>
             <>
-              <Grid key={settingIndex} container direction={"column"} style={{ marginBottom: theme.spacing(2), }}>
-                <Grid className={classes.row} alignItems="center" alignContent="center" item container direction="row" >
+              <Grid
+                key={settingIndex}
+                container direction={"column"}
+                style={{ marginBottom: theme.spacing(2), }}>
+                <Grid
+                  className={classes.row}
+                  alignItems="center"
+                  alignContent="center"
+                  item container
+                  direction="row" >
                   <Typography style={{ flexGrow: 1 }}>
                     {settingValue.title}
                   </Typography>
@@ -125,7 +145,7 @@ export const FilterForm = (props: IFilterFormProps) => {
                     settingValue.collapse &&
                     <Tooltip title={collapsedIds[settingIndex] ? "Скрыть" : "Показать"}>
                       <IconButton onClick={() => toggleCollapse(settingIndex)}>
-                        <ExpandMore />
+                        {collapsedIds[settingIndex] ? <ExpandLess /> : <ExpandMore />}
                       </IconButton>
                     </Tooltip>
                   }

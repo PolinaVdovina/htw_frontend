@@ -10,6 +10,7 @@ export const FilterCompetenceField = (props: IFilterFieldProps) => {
             value={props.value}
             list={settingsCompetenceSet.competenceSet.listItemsSelect}
             type="competenceSet"
-            onChange={(value) => props.onChange && props.onChange(value)} />
+            onChange={()=>{}}
+            giveMeValue={(value) => props.onChange && props.onChange(value)}/>
     )
 }
