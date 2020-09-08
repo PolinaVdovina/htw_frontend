@@ -89,7 +89,7 @@ export function vacancyToPost(vacancyData: IVacancy): ITapeElementData {
             }
         })
 
-    if (store.getState().authReducer.entityType == 'ROLE_JOBSEEKER') {
+    /*if (store.getState().authReducer.entityType == 'ROLE_JOBSEEKER') {
         postBody.push({
             Component: RespondButton,
             data: {
@@ -97,7 +97,7 @@ export function vacancyToPost(vacancyData: IVacancy): ITapeElementData {
                 description: store.getState().authReducer.token
             }               
         })
-    }
+    }*/
 
     let rightText: string = "";
 

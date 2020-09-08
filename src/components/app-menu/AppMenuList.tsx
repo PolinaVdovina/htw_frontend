@@ -16,6 +16,8 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import SearchIcon from '@material-ui/icons/Search'; //поиск 
 import ChatIcon from '@material-ui/icons/Chat';
+import ContactlessIcon from '@material-ui/icons/Contactless';
+import EventIcon from '@material-ui/icons/Event';
 
 interface IDrawerElement {
   IconComponent?: any,
@@ -74,15 +76,15 @@ const drawerGroups: Array<IDrawerGroup> = [
   },
 
   {
-    title: "Новости",
-    IconComponent: SearchIcon,
+    title: "События",
+    IconComponent: EventIcon,
     elements: [
       {
         //IconComponent: AccountCircleIcon,
         title: "Вакансии",
         url: urls.news.shortPath + "vacancy",
       },
-      {
+      /*{
         //IconComponent: AccountCircleIcon,
         title: "Соискатели",
         url: urls.search.shortPath + "jobseeker",
@@ -96,7 +98,7 @@ const drawerGroups: Array<IDrawerGroup> = [
         //IconComponent: AccountCircleIcon,
         title: "Образовательные учреждения",
         url: urls.news.shortPath + "institution",
-      }
+      }*/
     ]
   },
 
