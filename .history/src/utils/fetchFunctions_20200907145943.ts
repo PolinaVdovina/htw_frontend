@@ -538,30 +538,24 @@ export const toRespondFetch = async (token, id, url) => {
 
 export const toRespondViewFetch = async (token, id, url) => {
     try {
-        const result = await axios.post(url+'?vacancyId=' + id.toString(), 
+        const response = await axios.post(url+'?vacancyId=' + id.toString(), 
                 null, 
             {
                 headers: {Authorization: 'Bearer ' + token},
             }
         );        
 
-        const returnData: ITapeFetch = {
-            msgInfo: {
-                msgStatus: MessageStatus.OK
-            },
-            tapeElements: result.data
-        }
-        return returnData;
+        const msgInfo: IMessageInfo = {
+            msgStatus: response.data.error || (response.data.status && response.data.status == 'error') ? MessageStatus.ERROR : MessageStatus.OK,
+        };
+        return msgInfo;
     }
     catch {
-        const returnData: ITapeFetch = {
-            msgInfo: {
-                msgStatus: MessageStatus.ERROR
-            },
-        }
-        return returnData;
+        const msgInfo: IMessageInfo = {
+            msgStatus: MessageStatus.ERROR,
+            error: "Проблемы с соединением",
+        };
+        return msgInfo;
     }
 }
-
-
 

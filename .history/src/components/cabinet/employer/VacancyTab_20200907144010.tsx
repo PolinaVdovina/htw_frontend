@@ -111,8 +111,7 @@ const VacancyTabComp = (props) => {
         </>}
       <Tape
         onDeleteClick={cabinetContext.isMine ? (id) => setDeletingId(id) : null}
-        isRespondActive={true}
-        isRespondViewActive={cabinetContext.isMine ? true : false}
+        isRespondActive={cabinetContext.isMine ? true : false}
         elements={
           tapeFetcherContext?.tapeElements
         }

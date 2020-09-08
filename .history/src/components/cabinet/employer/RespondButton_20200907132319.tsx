@@ -8,11 +8,21 @@ import { MessageStatus } from '../../../utils/fetchInterfaces';
 import { Link } from '@material-ui/core';
 
 export interface IRespondButton {
+    /*data: {
+        title: any,//тут id вакансии
+        description: any //тут токен
+     } */
     token?: any,
     id: number
 }
 
-export const RespondButton = (props: IRespondButton) => {
+/*function mapStateToProps(state: RootState) {
+    return {
+      token: state.authReducer.token,
+    }
+}*/
+
+export const RespondButton/*Raw*/ = (props: IRespondButton) => {
     const snackbar = useSnackbar();
 
     const handleClick = async () => {
@@ -34,5 +44,14 @@ export const RespondButton = (props: IRespondButton) => {
                 Откликнуться
             </Link>
         </Grid>
+        
+        /*<Button
+            variant="contained"
+            onClick={handleClick} 
+        >
+            Откликнуться
+        </Button>*/
     )
 }
+
+//export const RespondButton = connect(mapStateToProps)(RespondButtonRaw);

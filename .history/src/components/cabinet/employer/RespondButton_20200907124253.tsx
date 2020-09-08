@@ -8,15 +8,27 @@ import { MessageStatus } from '../../../utils/fetchInterfaces';
 import { Link } from '@material-ui/core';
 
 export interface IRespondButton {
+    /*data: {
+        title: any,//тут id вакансии
+        description: any //тут токен
+     } */
     token?: any,
     id: number
 }
 
-export const RespondButton = (props: IRespondButton) => {
+/*function mapStateToProps(state: RootState) {
+    return {
+      token: state.authReducer.token,
+    }
+}*/
+
+export const RespondButton/*Raw*/ = (props: IRespondButton) => {
     const snackbar = useSnackbar();
 
     const handleClick = async () => {
-        const result = await toRespondFetch(props.token, props.id.toString(), '/personal/respond');
+        //alert(props.data.title.toString().length)
+        alert(props.id)
+        const result = await toRespondFetch(props.token, props.id/*.toString()*/, '/personal/respond');
         if (result.msgStatus == MessageStatus.OK)
             snackbar.enqueueSnackbar("Вы откликнулись на выбранную вакансию", { variant: "success" })
         else
@@ -34,5 +46,14 @@ export const RespondButton = (props: IRespondButton) => {
                 Откликнуться
             </Link>
         </Grid>
+        
+        /*<Button
+            variant="contained"
+            onClick={handleClick} 
+        >
+            Откликнуться
+        </Button>*/
     )
 }
+
+//export const RespondButton = connect(mapStateToProps)(RespondButtonRaw);

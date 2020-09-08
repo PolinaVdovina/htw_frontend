@@ -14,7 +14,6 @@ import { connect } from 'react-redux';
 import { RootState, store } from '../../../redux/store';
 import { Tooltip } from '@material-ui/core';
 import { RespondButton } from '../../cabinet/employer/RespondButton';
-import { RespondViewButton } from '../../cabinet/employer/RespondViewButton';
 
 export interface IBodyElement {
   data?: any,
@@ -127,7 +126,7 @@ const TapeElementCardComp = (props: ITapeElementProps) => {
         }
 		{ ((props.userRole == "ROLE_EMPLOYER" || props.userRole == "ROLE_EMPLOYEE") && props.isRespondViewActive) &&
             <Grid item>
-              <RespondViewButton id={props.tapeElementData.id} token={props.token}></RespondViewButton>
+              <RespondButton id={props.tapeElementData.id} token={props.token}></RespondButton>
             </Grid>
         }
         {props.tapeElementData.rightText &&

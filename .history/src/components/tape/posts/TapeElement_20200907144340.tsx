@@ -14,7 +14,6 @@ import { connect } from 'react-redux';
 import { RootState, store } from '../../../redux/store';
 import { Tooltip } from '@material-ui/core';
 import { RespondButton } from '../../cabinet/employer/RespondButton';
-import { RespondViewButton } from '../../cabinet/employer/RespondViewButton';
 
 export interface IBodyElement {
   data?: any,
@@ -46,7 +45,6 @@ export interface ITapeElementProps {
   token: any,
   isOpenedDefaut?: boolean,
   isRespondsActive: boolean,
-  isRespondViewActive: boolean,
   onDeleteClick?: ((postId: any) => void) | null,
   onChangeClick?: (postId: any) => void
 }
@@ -119,15 +117,15 @@ const TapeElementCardComp = (props: ITapeElementProps) => {
             <Typography className={classes.descriptionBlock}>{props.tapeElementData.bottomText}</Typography>
           </Grid>
         </Grid>
-		{/*alert(props.isRespondsActive)*/}
+		{alert(props.isRespondsActive)}
         { (props.userRole == "ROLE_JOBSEEKER" && props.isRespondsActive) &&
             <Grid item>
               <RespondButton id={props.tapeElementData.id} token={props.token}></RespondButton>
             </Grid>
         }
-		{ ((props.userRole == "ROLE_EMPLOYER" || props.userRole == "ROLE_EMPLOYEE") && props.isRespondViewActive) &&
+		{ ((props.userRole == "ROLE_EMPLOYER" || props.userRole == "ROLE_EMPLOYEE") && props.isRespondsActive) &&
             <Grid item>
-              <RespondViewButton id={props.tapeElementData.id} token={props.token}></RespondViewButton>
+              <RespondButton id={props.tapeElementData.id} token={props.token}></RespondButton>
             </Grid>
         }
         {props.tapeElementData.rightText &&

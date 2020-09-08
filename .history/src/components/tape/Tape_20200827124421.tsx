@@ -7,8 +7,6 @@ import { CabinetContext } from './../cabinet/cabinet-context';
 export interface ITapeProps {
   elements?: Array<ITapeElementData> | null,
   onDeleteClick?: ((id: any) => void) | null,
-  isRespondActive?: boolean,
-  isRespondViewActive?: boolean
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -30,14 +28,7 @@ export const Tape = (props: ITapeProps) => {
       <>
       {
         props.elements && props.elements.map((postData, index) =>
-          <><TapeElement 
-              isRespondViewActive={props.isRespondViewActive ? props.isRespondViewActive : false} 
-              isRespondsActive={props.isRespondActive ? props.isRespondActive : false} 
-              onDeleteClick={props.onDeleteClick} 
-              key={postData.id} 
-              tapeElementData={postData} 
-              style={{ padding: theme.spacing(2) }} 
-          /> <Divider key={"b" + index} /> </>
+          <><TapeElement onDeleteClick={props.onDeleteClick} key={postData.id} tapeElementData={postData} style={{ padding: theme.spacing(2) }} /> <Divider key={"b" + index} /> </>
         )
       }
       {(!props.elements || props.elements.length == 0) &&

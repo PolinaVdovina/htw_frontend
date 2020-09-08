@@ -7,20 +7,20 @@ import { removeVacancyFetch, changePersonalDataFetch, toRespondFetch } from '../
 import { MessageStatus } from '../../../utils/fetchInterfaces';
 import { Link } from '@material-ui/core';
 
-export interface IRespondButton {
+export interface IRespondViewButton {
     token?: any,
     id: number
 }
 
-export const RespondButton = (props: IRespondButton) => {
+export const RespondViewButton = (props: IRespondViewButton) => {
     const snackbar = useSnackbar();
 
     const handleClick = async () => {
-        const result = await toRespondFetch(props.token, props.id.toString(), '/personal/respond');
+        /*const result = await toRespondFetch(props.token, props.id.toString(), '/personal/respond');
         if (result.msgStatus == MessageStatus.OK)
             snackbar.enqueueSnackbar("Вы откликнулись на выбранную вакансию", { variant: "success" })
         else
-            snackbar.enqueueSnackbar("Ошибка", { variant: "error" })
+            snackbar.enqueueSnackbar("Ошибка", { variant: "error" })*/
     }
 
     return(
@@ -31,7 +31,7 @@ export const RespondButton = (props: IRespondButton) => {
                 style={{marginRight: '17px', fontSize: '15px'}}
                 underline='none'
             >
-                Откликнуться
+                Отклики
             </Link>
         </Grid>
     )

@@ -515,9 +515,8 @@ export const searchCriteriaFetch: <T> (url: string, token: string, requestData: 
 
 export const toRespondFetch = async (token, id, url) => {
     try {
-        const response = await axios.post(url+'?entityId=' + id.toString(), 
-                null, 
-            {
+        const response = await axios.post(url+'?entityId=\"' + id + '\"',  {
+                data: null,
                 headers: {Authorization: 'Bearer ' + token},
             }
         );        
@@ -535,33 +534,4 @@ export const toRespondFetch = async (token, id, url) => {
         return msgInfo;
     }
 }
-
-export const toRespondViewFetch = async (token, id, url) => {
-    try {
-        const result = await axios.post(url+'?vacancyId=' + id.toString(), 
-                null, 
-            {
-                headers: {Authorization: 'Bearer ' + token},
-            }
-        );        
-
-        const returnData: ITapeFetch = {
-            msgInfo: {
-                msgStatus: MessageStatus.OK
-            },
-            tapeElements: result.data
-        }
-        return returnData;
-    }
-    catch {
-        const returnData: ITapeFetch = {
-            msgInfo: {
-                msgStatus: MessageStatus.ERROR
-            },
-        }
-        return returnData;
-    }
-}
-
-
 
