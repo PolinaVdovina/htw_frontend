@@ -4,7 +4,6 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import LibraryBooksIcon from '@material-ui/icons/LibraryBooks';
 import PlaylistAddCheckIcon from '@material-ui/icons/PlaylistAddCheck';
 import NotificationsIcon from '@material-ui/icons/Notifications';
-import ChatIcon from '@material-ui/icons/Chat';
 import { urls } from '../../pages/urls';
 import { Link as RouterLink, LinkProps as RouterLinkProps, NavLink } from 'react-router-dom';
 import { connect, useDispatch } from 'react-redux';
@@ -16,6 +15,7 @@ import { getAvatarUrl } from '../../utils/fetchFunctions';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import SearchIcon from '@material-ui/icons/Search'; //поиск 
+import ChatIcon from '@material-ui/icons/Chat';
 
 interface IDrawerElement {
   IconComponent?: any,
@@ -106,6 +106,11 @@ const drawerGroups: Array<IDrawerGroup> = [
     isRoot: true,
     title: "Корень2",
     elements: [
+      {
+        IconComponent: ChatIcon,
+        title: "Чаты",
+        url: urls.chat.shortPath,
+      },
       {
         IconComponent: TransitEnterexitIcon,
         title: "Выход",

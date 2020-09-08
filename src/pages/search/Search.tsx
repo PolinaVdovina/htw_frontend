@@ -59,7 +59,7 @@ export const Search = (props: ISearchProps) => {
     const routeMatch = useRouteMatch();
     const entityType = routeMatch.params["entity"];
     const title = titles[entityType];
-    return <SearchWrap {...props} key = {entityType}/>
+    return <SearchWrap {...props} key={entityType} />
 }
 
 const SearchWrap = (props: ISearchProps) => {

@@ -28,5 +28,10 @@ export const urls = {
         title: 'Новости',
         path: '/news/:entity',
         shortPath: '/news/'
+    },
+    chat: {
+        title: 'Чат',
+        path: '/chat/',
+        shortPath: '/chat'
     }
 }
