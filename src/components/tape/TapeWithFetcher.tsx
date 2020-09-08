@@ -9,13 +9,15 @@ import { searchCriteriaFetch } from "../../utils/fetchFunctions";
 import { connect } from 'react-redux';
 import { RootState } from "../../redux/store";
 import { pagination, sortCriteria, searchCriteria } from './../../utils/search-criteria/builders';
-import { ISearchCriteriaRequest, SortCriteriaDirection, SearchCriteriaOperation } from "../../utils/search-criteria/types";
+import { ISearchCriteriaRequest, SortCriteriaDirection, SearchCriteriaOperation, ISearchCriteria } from "../../utils/search-criteria/types";
 
 interface ITapeWithFetcherProps {
     dataConverterFunction?: (fetchedEntity) => ITapeElementData,
     url: string,
     token?: string | null,
-    sortKey?: string | null
+    additionalSearchCriteria?: Array<ISearchCriteria> | null
+    sortKey?: string | null,
+    sessionUID?: any,
 }
 
 export const TapeWithFetcherComp = (props: ITapeWithFetcherProps) => {
@@ -32,8 +34,8 @@ const TapeWithFetcherWraper = (props: ITapeWithFetcherProps) => {
     const getNextElements = async () => {
         if (props.token) {
             const token = props.token;
-       
-            const fetchFunc = (lastPostDate: string, count) => { 
+
+            const fetchFunc = (lastPostDate: string, count) => {
                 const requestData: ISearchCriteriaRequest = {
                     searchCriteria: [
                         (props.sortKey && props.sortKey == 'title') ? 
@@ -47,6 +49,8 @@ const TapeWithFetcherWraper = (props: ITapeWithFetcherProps) => {
                     ],
                     pagination: pagination(5)
                 }
+                if (props.additionalSearchCriteria && requestData.searchCriteria)
+                    requestData.searchCriteria = [...requestData.searchCriteria, ...props.additionalSearchCriteria];
                 return searchCriteriaFetch<any>(props.url, token, requestData);
             }
             const newElements = await context?.fetchNext(fetchFunc, props.sortKey ? props.sortKey : undefined);
@@ -58,23 +62,24 @@ const TapeWithFetcherWraper = (props: ITapeWithFetcherProps) => {
 
     React.useEffect(() => {
         if (props.token) {
+            context?.reset();
             getNextElements();
         }
-    }, [props.token])
+    }, [props.token, props.additionalSearchCriteria])
 
     return (
         <Grid item container direction="column" style={{ flexGrow: 1 }}>
             <Grid item style={{ flexGrow: 1 }}>
                 <Tape elements={context?.tapeElements} />
             </Grid>
-            <Button 
+            <Button
                 variant="contained"
                 disabled={isTapeOver}
                 onClick={getNextElements}
                 color="primary"
                 fullWidth
                 style={{ borderTopLeftRadius: 0, borderTopRightRadius: 0 }}>
-                {isTapeOver ? "Лента окончена" : "Дальше"}
+                {isTapeOver ? "Лента закончена" : "Дальше"}
             </Button>
         </Grid>
     )

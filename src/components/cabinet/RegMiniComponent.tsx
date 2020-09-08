@@ -59,7 +59,7 @@ const RegMiniComponentRaw = (props : IRegMiniComponent) => {
     }
 
     return(
-        <Grid item container direction='column' spacing={1}>
+        <Grid item container direction='column' spacing={1} style={{paddingLeft: theme.spacing(2), paddingRight: theme.spacing(2)}}>
             <Grid item>
                 <Typography>
                     Пожалуйста, заполните данные для создания 

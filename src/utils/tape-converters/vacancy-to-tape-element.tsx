@@ -19,7 +19,7 @@ interface IVacancy {
     description?: string,
     demands?: Array<string>,
     duties?: Array<string>,
-    competencies?: Array<string>,
+    competencies?: Array<any>,
     minSalary: number,
     maxSalary: number,
     experience: string,
@@ -69,7 +69,7 @@ export function vacancyToPost(vacancyData: IVacancy): ITapeElementData {
             Component:ListInPost,
             data: {
                 title: "Компетенции",
-                items: vacancyData.competencies,
+                items: vacancyData.competencies.map( c => c.name ),
             }
         })
 
@@ -99,8 +99,20 @@ export function vacancyToPost(vacancyData: IVacancy): ITapeElementData {
         })
     }*/
 
+    let rightText: string = "";
+
+    if(vacancyData.maxSalary == vacancyData.minSalary && vacancyData.minSalary) {
+        rightText = vacancyData.minSalary.toString();
+    } else if(vacancyData.maxSalary && vacancyData.minSalary) {
+        rightText = vacancyData.minSalary.toString() + "р - "+ vacancyData.maxSalary + "р";
+    } else if(vacancyData.minSalary && !vacancyData.maxSalary) {
+        rightText = vacancyData.minSalary.toString() + "р"
+    } else if(!vacancyData.minSalary && vacancyData.maxSalary) {
+        rightText = vacancyData.maxSalary.toString() + "р"
+    } 
+
     return {
-        rightText: vacancyData.minSalary + "р - "+ vacancyData.maxSalary + "р", //vacancyData.position + (vacancyData.maxSalary ? ( ", " + vacancyData.maxSalary + "р") : ""),
+        rightText: rightText, //vacancyData.position + (vacancyData.maxSalary ? ( ", " + vacancyData.maxSalary + "р") : ""),
         title: vacancyData.position,
         bottomText: vacancyData.createdDate?.slice(0,10),
         body: postBody,

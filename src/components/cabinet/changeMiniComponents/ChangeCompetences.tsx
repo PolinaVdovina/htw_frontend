@@ -3,6 +3,7 @@ import { List, ListItem, ListItemText, Collapse, Checkbox, TextField, InputAdorn
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import SearchIcon from '@material-ui/icons/Search';
+import { group } from 'console';
 
 interface IChangeCompetences {
     onChange: (any) => void,
@@ -30,8 +31,11 @@ export const ChangeCompetences = (props : IChangeCompetences) => {
             
             setResultChange(newResultMass);
             setChecked(props.value);
+        } else {
+            setChecked([]);
+            setResultChange([]);
         }
-    }, [])
+    }, [props.value])
 
     const handleClick = (index: number) => {
         let tempArrayOpen = [...open];
