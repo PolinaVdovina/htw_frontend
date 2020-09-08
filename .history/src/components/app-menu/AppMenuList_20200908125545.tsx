@@ -16,8 +16,6 @@ import { getAvatarUrl } from '../../utils/fetchFunctions';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import SearchIcon from '@material-ui/icons/Search'; //поиск 
-import ContactlessIcon from '@material-ui/icons/Contactless';
-import EventIcon from '@material-ui/icons/Event';
 
 interface IDrawerElement {
   IconComponent?: any,
@@ -76,8 +74,8 @@ const drawerGroups: Array<IDrawerGroup> = [
   },
 
   {
-    title: "События",
-    IconComponent: EventIcon,
+    title: "События по подпискам",
+    IconComponent: SearchIcon,
     elements: [
       {
         //IconComponent: AccountCircleIcon,
