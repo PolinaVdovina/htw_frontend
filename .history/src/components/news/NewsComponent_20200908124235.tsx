@@ -87,7 +87,7 @@ export const NewsComponent = (props: INewsComponent) => {
                     </Grid>
                     <Divider />
                 <TapeWithFetcher
-                    isRespondActive={false} 
+                    isRespondActive={entityType == 'jobseeker' ? true : false} 
                     dataConverterFunction={converterFunctions[entityType]} 
                     url={urls[entityType]} 
                     sortKey={sortKeys[entityType]}

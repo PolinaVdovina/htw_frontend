@@ -28,11 +28,7 @@ export const RespondViewButton = (props: IRespondViewButton) => {
     }
 
     return(<>
-        <RespondDialog 
-            open={open} 
-            onClose={() => setOpen(false)}
-            idVacancy={props.id}
-        />
+        <RespondDialog open={open} onClose={() => setOpen(false)}>
         <Grid container alignItems='center'>
             <Link
                 component='button'

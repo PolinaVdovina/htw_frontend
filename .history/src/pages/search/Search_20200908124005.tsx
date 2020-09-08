@@ -20,11 +20,9 @@ import { userToPost } from '../../utils/tape-converters/user-to-tape-element';
 import { v4 as uuidv4 } from 'uuid';
 import { employerSettings } from './../../components/search/settings/employer-settings';
 import { institutionSettings } from './../../components/search/settings/institution-settings';
-import { RootState } from '../../redux/store';
-import { connect } from 'react-redux';
 
 interface ISearchProps {
-    userRole: any
+
 }
 
 const titles = {
@@ -55,18 +53,14 @@ const settings = {
     institution: institutionSettings
 }
 
-const mapStateToProps = (state: RootState) => ({
-    userRole: state.authReducer.entityType
-})
 
-const SearchComp = (props: ISearchProps) => {
+
+export const Search = (props: ISearchProps) => {
     const routeMatch = useRouteMatch();
     const entityType = routeMatch.params["entity"];
     const title = titles[entityType];
-    return <SearchWrap {...props} key = {entityType} userRole={props.userRole}/>
+    return <SearchWrap {...props} key = {entityType}/>
 }
-
-export const Search = connect(mapStateToProps)(SearchComp)
 
 const SearchWrap = (props: ISearchProps) => {
     const routeMatch = useRouteMatch();
@@ -110,10 +104,9 @@ const SearchWrap = (props: ISearchProps) => {
                             </Tooltip>
                         </Grid>
                         <Divider />
-
                         <TapeWithFetcher
                             sortKey="createdDate"
-                            isRespondActive={props.userRole == 'ROLE_JOBSEEKER' ? true : false}
+                            isRespondActive={entityType == 'jobseeker' ? true : false}
                             additionalSearchCriteria={searchCriteria}
                             dataConverterFunction={convertersToPost[entityType]}
                             url={urls[entityType]} />
