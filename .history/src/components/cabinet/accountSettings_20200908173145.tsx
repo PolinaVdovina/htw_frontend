@@ -52,8 +52,7 @@ import {
     changeEducationsDamaged,
     changeJobSeekerWorkData,
     changeJobSeekerEmploymentData,
-    deleteJobSeekerEmploymentData,
-    deleteJobSeekerVacancyTypeData
+    deleteJobSeekerEmploymentData
 } from "../../utils/change-component-utils";
 import { SimpleTypography } from "./displayMiniComponents/SimpleTypography";
 import { SimpleLink } from "./displayMiniComponents/SimpleLink";
@@ -167,13 +166,13 @@ export const SETTINGS = {
             changeFunction: changeJobSeekerEmploymentData,
             deleteFunction: deleteJobSeekerEmploymentData
         },
-        vacancyTypes: {
+        vacancyType: {
             title: 'Предпочитаемый тип вакансий',
             type: 'mass',
             displayComponent: SimpleTypography,
             changeSettings: settingsVacancyType,
             changeFunction: changeJobSeekerEmploymentData,
-            deleteFunction: deleteJobSeekerVacancyTypeData
+            
         }
     },
     LEGAL: {

@@ -69,8 +69,7 @@ function mapStateToProps(state : RootState) {
             education: state.userPersonalsReducer.education,
             industry: state.userPersonalsReducer.industry,
             status: state.userPersonalsReducer.status,
-            employment: state.userPersonalsReducer.employment,
-            vacancyTypes: state.userPersonalsReducer.vacancyTypes  
+            employment: state.userPersonalsReducer.employment  
         }
     }
     return data;

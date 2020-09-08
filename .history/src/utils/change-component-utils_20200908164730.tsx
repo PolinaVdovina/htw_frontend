@@ -291,61 +291,12 @@ export const changeJobSeekerWorkData = async ( dispatch, data ) => {
 }
 
 export const changeJobSeekerEmploymentData = async ( dispatch, data ) => {
-    const key = Object.keys(data)[0]; 
-    const msgInfo: IMessageInfo = await changePersonalDataFetch(store.getState().authReducer.token, data[key], urls[key].add);
+    //data[Object.keys(data)[0]]
+    const msgInfo: IMessageInfo = await changePersonalDataFetch(store.getState().authReducer.token, data[Object.keys(data)[0]], "/personal/add-employment");
+    //alert(msgInfo.msgStatus==MessageStatus.OK)
     if(msgInfo.msgStatus == MessageStatus.OK) {
-        let uniqueSet;
-        if (store.getState().userPersonalsReducer[key]) {
-            let tempMass = [...data[key], ...store.getState().userPersonalsReducer[key]]
-            uniqueSet = new Set(tempMass);
-        }            
-        else 
-            uniqueSet = new Set(...data[key])
-        
-        const dataSet = Array.from(uniqueSet); 
-             
-        await dispatch( fillPersonalDataAction({[key]: dataSet}));
+        await dispatch( fillPersonalDataAction(data));
     }
     return msgInfo;
-}
-
-export const deleteJobSeekerEmploymentData = async ( dispatch, data ) => {
-    const key = 'employment'; 
-    const msgInfo: IMessageInfo = await changePersonalDataFetch(store.getState().authReducer.token, {}, urls[key].delete + data);
-    if(msgInfo.msgStatus == MessageStatus.OK) {
-        let newData = [...store.getState().userPersonalsReducer[key]]
-        for (let i = 0; i < newData.length; i++)
-            if (newData[i] == data) 
-                newData.splice(i, 1);
-        await dispatch( fillPersonalDataAction({[key]: newData}));
-    }
-    return msgInfo;
-}
-
-export const deleteJobSeekerVacancyTypeData = async ( dispatch, data ) => {
-    const key = 'vacancyType'; 
-    const msgInfo: IMessageInfo = await changePersonalDataFetch(store.getState().authReducer.token, {}, urls[key].delete + data);
-    if(msgInfo.msgStatus == MessageStatus.OK) {
-        let newData = [...store.getState().userPersonalsReducer[key]]
-        for (let i = 0; i < newData.length; i++)
-            if (newData[i] == data) 
-                newData.splice(i, 1);
-        await dispatch( fillPersonalDataAction({[key]: newData}));
-    }
-    return msgInfo;
-}
-
-
-
-
-const urls = {
-    employment: {
-        add: "/personal/add-employment",
-        delete: "/personal/delete-employment?name="
-    },
-    vacancyTypes: {
-        add: "/personal/add-vacancy-type",
-        delete: "/personal/delete-vacancy-type?name="
-    }
 }
 

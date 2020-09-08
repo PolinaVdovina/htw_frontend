@@ -167,7 +167,7 @@ export const SETTINGS = {
             changeFunction: changeJobSeekerEmploymentData,
             deleteFunction: deleteJobSeekerEmploymentData
         },
-        vacancyTypes: {
+        vacancyType: {
             title: 'Предпочитаемый тип вакансий',
             type: 'mass',
             displayComponent: SimpleTypography,

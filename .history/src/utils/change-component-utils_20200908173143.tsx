@@ -322,18 +322,6 @@ export const deleteJobSeekerEmploymentData = async ( dispatch, data ) => {
     return msgInfo;
 }
 
-export const deleteJobSeekerVacancyTypeData = async ( dispatch, data ) => {
-    const key = 'vacancyType'; 
-    const msgInfo: IMessageInfo = await changePersonalDataFetch(store.getState().authReducer.token, {}, urls[key].delete + data);
-    if(msgInfo.msgStatus == MessageStatus.OK) {
-        let newData = [...store.getState().userPersonalsReducer[key]]
-        for (let i = 0; i < newData.length; i++)
-            if (newData[i] == data) 
-                newData.splice(i, 1);
-        await dispatch( fillPersonalDataAction({[key]: newData}));
-    }
-    return msgInfo;
-}
 
 
 
@@ -344,8 +332,7 @@ const urls = {
         delete: "/personal/delete-employment?name="
     },
     vacancyTypes: {
-        add: "/personal/add-vacancy-type",
-        delete: "/personal/delete-vacancy-type?name="
+        add: "/personal/add-vacancy-type"
     }
 }
 

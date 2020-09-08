@@ -291,6 +291,7 @@ export const changeJobSeekerWorkData = async ( dispatch, data ) => {
 }
 
 export const changeJobSeekerEmploymentData = async ( dispatch, data ) => {
+    alert(JSON.stringify(data))
     const key = Object.keys(data)[0]; 
     const msgInfo: IMessageInfo = await changePersonalDataFetch(store.getState().authReducer.token, data[key], urls[key].add);
     if(msgInfo.msgStatus == MessageStatus.OK) {

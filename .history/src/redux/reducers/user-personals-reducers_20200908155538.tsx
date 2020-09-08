@@ -32,9 +32,7 @@ interface ICommonState {
     education?,
     industry?,
     subscriptionLogins: Array<string> | null,
-    status?,
-    employment?,
-    vacancyTypes?
+    status?
 }
 
 const initialState: ICommonState = {
@@ -63,9 +61,7 @@ const initialState: ICommonState = {
     education: null,
     industry: null,
     subscriptionLogins: null,
-    status: null,
-    employment: null,
-    vacancyTypes: null
+    status: null
 };
 
 

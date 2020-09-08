@@ -85,8 +85,6 @@ export function accountRequestToEntityDictionary(data, role) {
                     education: data.jobSeekerEducations,
                     subscriptionLogins: data.subscriptionLogins,
                     status: data.status,
-                    employment: data.employment,
-                    vacancyTypes: data.vacancyTypes,
                     links: {
                         education: data.jobSeekerEducations.map(elem => elem.institutionLogin)
                     }
