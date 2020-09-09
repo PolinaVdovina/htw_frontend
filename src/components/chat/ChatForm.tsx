@@ -6,12 +6,14 @@ import { connect } from 'react-redux';
 import { RootState } from "../../redux/store";
 import { SharpCorner } from "./chatEnums";
 import { getAvatarUrl } from './../../utils/fetchFunctions';
+import { isWhitespace } from "../../utils/validateFunctions";
 
-interface IChatForm {
+export interface IChatForm {
     messagesData?: Array<IChatMessageData> | null,
     myLogin?: string | null,
     hideNames?: boolean,
-    avatarUID?: any
+    avatarUID?: any,
+    height?: any
 }
 
 interface IStyledChatMessageProps {
@@ -20,7 +22,7 @@ interface IStyledChatMessageProps {
     messageData: IChatMessageData,
     prevMessageData?: IChatMessageData | null,
     hideNames?: boolean,
-    showAvatars?: boolean
+    showAvatars?: boolean,
 }
 
 const StyledChatMessageWrap = (props: IStyledChatMessageProps) => {
@@ -44,9 +46,9 @@ const StyledChatMessageWrap = (props: IStyledChatMessageProps) => {
                 !isMine && props.showAvatars &&
                 <Avatar
                     style={{
-                        marginRight: theme.spacing(2),
-                        height: (props.prevMessageData && props.prevMessageData.ownerLogin == props.messageData.ownerLogin) ? 0 : "42px",
-                        width: "42px"
+                        marginRight: theme.spacing(1),
+                        height: (props.prevMessageData && props.prevMessageData.ownerLogin == props.messageData.ownerLogin) ? 0 : "34px",
+                        width: "34px"
                     }}
                     src={getAvatarUrl(props.messageData.ownerLogin) + ("?" + props.avatarUID)}
                 />
@@ -64,7 +66,7 @@ const StyledChatMessageWrap = (props: IStyledChatMessageProps) => {
                 }}
                 {...props.messageData}
                 showAvatar={true}
-                ownerViewName={props.hideNames || isMine ? null : props.messageData.ownerViewName}
+                ownerViewName={(props.hideNames || isMine || (props.prevMessageData && props.prevMessageData.ownerLogin == props.messageData.ownerLogin)) ? null : props.messageData.ownerViewName}
             />
 
         </Grid>
@@ -81,33 +83,27 @@ export const StyledChatMessage = connect((state: RootState) => ({
 const ChatFormWrap = (props: IChatForm) => {
     const theme = useTheme();
     const mainColor = theme.palette.primary.main ? theme.palette.primary.main : "inherit";
-    
-    const startSendMessage = () => {
-        alert("Ты говно");
+    const [message, setMessage] = React.useState("");
+    const sendButtonClick = () => {
+        if (!isWhitespace(message)) {
+
+            sendMessage(message);
+        }
     }
 
+    const sendMessage = (msg) => {
+        alert("Ты говно");
+        setMessage("");
+    }
 
     return (
-        <Grid container direction="column" style={{ height: "100%", color: "white" }}>
-            <Grid
-                item
-                container
-                direction="row"
-                alignItems="center"
-                style={{ backgroundColor: theme.palette.primary.main, padding: theme.spacing(1) }}>
-                <Grid item>
-                    <Avatar style={{ marginRight: theme.spacing(1) }} />
-                </Grid>
-                <Typography variant="h6" style={{ textAlign: "center", }}>
-                    Даунёнки
-                </Typography>
-            </Grid>
+        <Grid container direction="column" style={{ height: props.height, color: "white" }}>
             <Grid container direction="column" style={{
                 flexGrow: 1,
-                padding: theme.spacing(2),
+                padding: theme.spacing(1),
                 overflowY: "auto",
                 flexWrap: "nowrap",
-                
+                flexBasis: 0,
             }}>
                 {
                     props.messagesData?.map((messageData, index) => {
@@ -125,16 +121,27 @@ const ChatFormWrap = (props: IChatForm) => {
                         )
                     })
                 }
+                {
+                    //Без этой херни внизу не будет отступа и последнее сообщение прилепает к низу, мдя
+                }
+                <Grid container item >
+                    <Grid item style={{ height: theme.spacing(1) }}></Grid>
+                </Grid>
+
             </Grid>
+
             <Divider />
             <Grid
                 item container
                 alignItems="center"
                 direction="row"
-                style={{ backgroundColor: "white" }}>
+                style={{ backgroundColor: "white", flexWrap: "nowrap" }}>
                 <TextField
+                    onChange={(event) => setMessage(event.target.value)}
+                    value={message}
+                    onKeyDown={(event) => event.key === 'Enter' && sendButtonClick()}
                     autoFocus={true}
-                    style={{ flexGrow: 1, borderRadius:0, backgroundColor: "white", paddingLeft: theme.spacing(2)  }}
+                    style={{ flexGrow: 1, borderRadius: 0, backgroundColor: "white", paddingLeft: theme.spacing(2) }}
                     size="small"
                     InputProps={{ disableUnderline: true }}
                 />
@@ -142,7 +149,7 @@ const ChatFormWrap = (props: IChatForm) => {
                     color="primary"
                     title="Отправить сообщение"
                 >
-                    <IconButton onClick = {startSendMessage}>
+                    <IconButton onClick={sendButtonClick}>
                         <SendIcon />
                     </IconButton>
                 </Tooltip>

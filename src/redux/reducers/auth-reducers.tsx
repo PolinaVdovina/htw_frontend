@@ -168,6 +168,7 @@ async (dispatch, getState) => {
         await dispatch(AuthFetchNotRequiredAction());
     }
 
+    
     await dispatch(stopLoadingAction());
 
 }

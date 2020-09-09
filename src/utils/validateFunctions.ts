@@ -157,3 +157,7 @@ export function validateEducation(data: {
         return true;
     else return false;
 }
+
+export function isWhitespace(str: string) {
+    return /^\s*$/.test(str);
+}

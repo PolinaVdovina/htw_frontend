@@ -110,7 +110,7 @@ const drawerGroups: Array<IDrawerGroup> = [
     elements: [
       {
         IconComponent: ChatIcon,
-        title: "Чаты",
+        title: "Сообщения",
         url: urls.chat.shortPath,
       },
       {

@@ -4,7 +4,7 @@ import './App.css';
 import { Routes } from './pages/Routes';
 import { BrowserRouter } from 'react-router-dom';
 import { AppMenu } from './components/app-menu/AppMenu';
-import { Grid, makeStyles, createStyles, Theme, Divider, Backdrop, CircularProgress, Paper, useTheme } from '@material-ui/core';
+import { Grid, makeStyles, createStyles, Theme, Divider, Backdrop, CircularProgress, Paper, useTheme, IconButton } from '@material-ui/core';
 import { AppFooter } from './components/app-footer/AppFooter';
 import { RootState } from './redux/store';
 import { useDispatch, connect } from 'react-redux';
@@ -15,6 +15,8 @@ import Notifier from './components/notistack/Notifier';
 // import { isValidTokenFetch } from './utils/fetchFunctions';
 // import { startLoadingAction, stopLoadingAction } from './redux/actions/dialog-actions';
 import { reloadAuthData } from './redux/reducers/auth-reducers';
+import MenuIcon from '@material-ui/icons/Menu';
+import { AppDrawer } from './components/app-menu/AppDrawer';
 
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -23,19 +25,19 @@ const useStyles = makeStyles((theme: Theme) =>
       width: "100%",
 
       minHeight: "100vh",
-      alignItems:"center",
+      alignItems: "center",
       backgroundColor: "#edeef0",
 
     },
     content: {
       flexGrow: 1,
       maxWidth: theme.container.maxWidth,
-      padding:theme.spacing(2), 
+      padding: theme.spacing(2),
       [theme.breakpoints.down('xs')]: {
-        paddingLeft:theme.spacing(0), 
-        paddingRight:theme.spacing(0), 
+        paddingLeft: theme.spacing(0),
+        paddingRight: theme.spacing(0),
       },
-      flexWrap:"nowrap",
+      flexWrap: "nowrap",
       alignContent: "center",
       //padding: theme.spacing(2),
     },
@@ -47,7 +49,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     appMenuPaper: {
       marginRight: theme.spacing(2),
-      height:"min-content",
+      height: "min-content",
       overflow: "hidden",
       width: theme.menuBar.menuWidth,
       minWidth: theme.menuBar.menuWidth,
@@ -57,82 +59,107 @@ const useStyles = makeStyles((theme: Theme) =>
       //position: "fixed",
     },
     fakeAppMenuPaper: {
-      position:"absolute",
+      position: "absolute",
       marginRight: theme.spacing(2),
-      height:"min-content",
+      height: "min-content",
       overflow: "hidden",
       width: theme.menuBar.menuWidth,
-      flexGrow:1,
+      flexGrow: 1,
       [theme.breakpoints.down('xs')]: {
         display: "none",
       }
-    }
+    },
+    menuButton: {
+      marginRight: theme.spacing(2),
+      display: "none",
+      [theme.breakpoints.down('xs')]: {
+        display: "block",
+      }
+    },
   }),
 );
 
 
 interface IAppProps {
-  isLoading: boolean, 
+  isLoading: boolean,
   startLoading: () => void,
   authorized: boolean,
   isPersonalDataFetched: boolean,
   reloadAuthData: typeof reloadAuthData
 }
 
-function mapStateToProps(state : RootState) {
+function mapStateToProps(state: RootState) {
   return {
     isLoading: state.dialogReducer.isLoading,
-    authorized: state.authReducer.loggedIn==true,
+    authorized: state.authReducer.loggedIn == true,
     isPersonalDataFetched: state.userPersonalsReducer.isFetched,
   }
 }
 
 const mapDispatchToProps = {
-    reloadAuthData: reloadAuthData,
+  reloadAuthData: reloadAuthData,
 }
 
 function App(props: IAppProps) {
   const classes = useStyles();
   const theme = useTheme();
   const dispatch = useDispatch();
+  const [isMenuOpen, setMenuOpen] = React.useState(false);
 
   useEffect(() => {
-    props.reloadAuthData(); 
-  },[])
-  
+    props.reloadAuthData();
+  }, [])
+
 
   //props.startLoading();
   return (
-      <div>
-        <Notifier/>
-        <Backdrop className={classes.backdrop} open={props.isLoading}>
-          <CircularProgress/>
-        </Backdrop>
-        
-        <Grid className={classes.gridVerticalContainer} container direction="column">
-          <Grid item className = {classes.fakeMenuBar}/>
-          
-          <Grid className={classes.content} container item direction="row" >
-            <BrowserRouter>
-              <AppMenu title="How To Work"/>
-              {
-                //<div className = {classes.fakeAppMenuPaper}/>
+    <div>
+      <Notifier />
+      <Backdrop className={classes.backdrop} open={props.isLoading}>
+        <CircularProgress />
+      </Backdrop>
+
+      <Grid className={classes.gridVerticalContainer} container direction="column">
+        <Grid item className={classes.fakeMenuBar} />
+
+        <Grid className={classes.content} container item direction="row" >
+          <BrowserRouter>
+            <AppDrawer
+              onClose={(event) => setMenuOpen(false)}
+              open={isMenuOpen} />
+            <AppMenu
+              leftAppartment={props.authorized && props.isPersonalDataFetched && (
+                <IconButton
+                  key={1}
+                  onClick={(event) => setMenuOpen(true)} className={classes.menuButton}
+                  edge="start"
+                  color="inherit"
+                  aria-label="menu"
+                >
+                  <MenuIcon />
+                </IconButton>
+              )}
+              /* authorized={props.authorized} */
+
+              title="How To Work" />
+            {
+              //<div className = {classes.fakeAppMenuPaper}/>
               props.authorized && props.isPersonalDataFetched && <>
-                
+
                 <Paper className={classes.appMenuPaper}>
-                  <AppMenuList/>
+                  <AppMenuList />
                 </Paper>
               </>
-              }
-              <Routes/>
-              <RedirectIfNotAuthorized/> 
-            </BrowserRouter>
+            }
+            <Routes />
+            <RedirectIfNotAuthorized />
+          </BrowserRouter>
 
-          </Grid>
-          <Divider/>
-          <AppFooter/>
         </Grid>
-      </div>
+        {/* <Divider /> */}
+        {/* <AppFooter/> */}
+      </Grid>
+    </div>
   );
 }
 
