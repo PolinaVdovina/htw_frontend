@@ -227,35 +227,20 @@ const GroupElementsComp = (props) => {
     <List disablePadding className={classes.listButtons}>
       {
 				props.elements.map((el, index) =>
-					el.role ? 
-						(el.role == props.role && 
-							<ListItem
-								key={index} button
-								className={props.nested ? classes.nestedButtons : classes.notNestedButtons}
-								{...{ component: el.url && NavLink, to: el.url + (el.addLogin ? props.login : '') || null }}
-								onClick={() => { el.func && el.func(dispatch) }}>
+					(el.role && el.role == props.role) && 
+						<ListItem
+							key={index} button
+							className={props.nested ? classes.nestedButtons : classes.notNestedButtons}
+							{...{ component: el.url && NavLink, to: el.url + (el.addLogin ? props.login : '') || null }}
+							onClick={() => { el.func && el.func(dispatch) }}>
 
-								{el.IconComponent && 
-										<ListItemIcon>
-											<el.IconComponent />
-										</ListItemIcon>
-								}
-								<ListItemText primary={el.title} />
-							</ListItem >) 
-					:
-							(<ListItem
-								key={index} button
-								className={props.nested ? classes.nestedButtons : classes.notNestedButtons}
-								{...{ component: el.url && NavLink, to: el.url + (el.addLogin ? props.login : '') || null }}
-								onClick={() => { el.func && el.func(dispatch) }}>
-
-								{el.IconComponent && 
-										<ListItemIcon>
-											<el.IconComponent />
-										</ListItemIcon>
-								}
-								<ListItemText primary={el.title} />
-							</ListItem >)
+							{el.IconComponent && 
+									<ListItemIcon>
+										<el.IconComponent />
+									</ListItemIcon>
+							}
+							<ListItemText primary={el.title} />
+						</ListItem >
 				)
       }
     </List>

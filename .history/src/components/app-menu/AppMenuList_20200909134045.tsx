@@ -25,8 +25,7 @@ interface IDrawerElement {
   title?: string,
   url?: string,
   func?: (...arg) => void,
-	addLogin?: boolean,
-	role?: any
+  addLogin?: boolean,
 }
 
 interface IDrawerGroup {
@@ -114,8 +113,8 @@ const drawerGroups: Array<IDrawerGroup> = [
 	  {
 		  title: "Аналитика",
 		  IconComponent: InsertChartIcon,
-		  url: urls.analytics.shortPath,
-		  role:	'ROLE_INSTITUTION'
+		  url: urls.analytics.shortPath
+			
 	  },
       {
         IconComponent: TransitEnterexitIcon,
@@ -220,49 +219,31 @@ const useStyles = makeStyles((theme: Theme) =>
   )
 } */
 
-const GroupElementsComp = (props) => {
+const GroupElements = (props) => {
   const dispatch = useDispatch();
   const classes = useStyles();
   return (
     <List disablePadding className={classes.listButtons}>
       {
-				props.elements.map((el, index) =>
-					el.role ? 
-						(el.role == props.role && 
-							<ListItem
-								key={index} button
-								className={props.nested ? classes.nestedButtons : classes.notNestedButtons}
-								{...{ component: el.url && NavLink, to: el.url + (el.addLogin ? props.login : '') || null }}
-								onClick={() => { el.func && el.func(dispatch) }}>
+        props.elements.map((el, index) =>
+          <ListItem
+            key={index} button
+            className={props.nested ? classes.nestedButtons : classes.notNestedButtons}
+            {...{ component: el.url && NavLink, to: el.url + (el.addLogin ? props.login : '') || null }}
+            onClick={() => { el.func && el.func(dispatch) }}>
 
-								{el.IconComponent && 
-										<ListItemIcon>
-											<el.IconComponent />
-										</ListItemIcon>
-								}
-								<ListItemText primary={el.title} />
-							</ListItem >) 
-					:
-							(<ListItem
-								key={index} button
-								className={props.nested ? classes.nestedButtons : classes.notNestedButtons}
-								{...{ component: el.url && NavLink, to: el.url + (el.addLogin ? props.login : '') || null }}
-								onClick={() => { el.func && el.func(dispatch) }}>
-
-								{el.IconComponent && 
-										<ListItemIcon>
-											<el.IconComponent />
-										</ListItemIcon>
-								}
-								<ListItemText primary={el.title} />
-							</ListItem >)
-				)
+            {el.IconComponent &&
+              <ListItemIcon>
+                <el.IconComponent />
+              </ListItemIcon>
+            }
+            <ListItemText primary={el.title} />
+          </ListItem >
+        )
       }
     </List>
   )
 }
-
-const GroupElements = connect(mapStateToProps)(GroupElementsComp);
 
 const DrawerGroups = (props) => {
   const dispatch = useDispatch();
