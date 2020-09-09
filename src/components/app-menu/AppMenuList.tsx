@@ -4,7 +4,6 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import LibraryBooksIcon from '@material-ui/icons/LibraryBooks';
 import PlaylistAddCheckIcon from '@material-ui/icons/PlaylistAddCheck';
 import NotificationsIcon from '@material-ui/icons/Notifications';
-import ChatIcon from '@material-ui/icons/Chat';
 import { urls } from '../../pages/urls';
 import { Link as RouterLink, LinkProps as RouterLinkProps, NavLink } from 'react-router-dom';
 import { connect, useDispatch } from 'react-redux';
@@ -16,6 +15,7 @@ import { getAvatarUrl } from '../../utils/fetchFunctions';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import SearchIcon from '@material-ui/icons/Search'; //поиск 
+import ChatIcon from '@material-ui/icons/Chat';
 import ContactlessIcon from '@material-ui/icons/Contactless';
 import EventIcon from '@material-ui/icons/Event';
 import InsertChartIcon from '@material-ui/icons/InsertChart';
@@ -117,6 +117,11 @@ const drawerGroups: Array<IDrawerGroup> = [
 		  url: urls.analytics.shortPath,
 		  role:	'ROLE_INSTITUTION'
 	  },
+      {
+        IconComponent: ChatIcon,
+        title: "Чаты",
+        url: urls.chat.shortPath,
+      },
       {
         IconComponent: TransitEnterexitIcon,
         title: "Выход",

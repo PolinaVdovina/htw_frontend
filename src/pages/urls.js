@@ -33,5 +33,10 @@ export const urls = {
         title: 'Аналитика',
         path: '/crm-institute/',
         shortPath: '/crm-institute'
+    },
+    chat: {
+        title: 'Чат',
+        path: '/chat/',
+        shortPath: '/chat'
     }
 }

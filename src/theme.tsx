@@ -4,23 +4,33 @@ import { blue, indigo, lightBlue } from "@material-ui/core/colors";
 declare module '@material-ui/core/styles/createMuiTheme' {
   interface Theme {
     container: {
-      maxWidth: number
-    }
+      maxWidth: number,
+      menuWidth?: number,
+    },
+    chat: {
+      chatPaperBackgroundColor: string,
+      ownMessageBackgroundColor: string,
+      companionMessageBackgroundColor: string,
+      ownMessageColor: string,
+      companionMessageColor: string,
+      ownMessageTitleColor: string,
+      companionMessageTitleColor: string,
+    },
     menuBar: {
-      height?: number;
+      height?: number,
       menuWidth?: number,
     };
   }
 
-  interface ThemeOptions {
-    container: {
+  interface ThemeOptions extends Theme {
+/*     container: {
       maxWidth: number,
       menuWidth?: number,
     },
     menuBar: {
       height?: number,
       menuWidth?: number,
-    };
+    }; */
   }
 }
 
@@ -40,6 +50,18 @@ export const theme = createMuiTheme({
   },
   container: {
     maxWidth: 900
+  },
+  chat: {
+    chatPaperBackgroundColor: "#f2f3f4",
+
+    ownMessageBackgroundColor: "#4a76a8",
+    companionMessageBackgroundColor: "white",
+
+    ownMessageColor: 'white',
+    companionMessageColor: 'black',
+
+    ownMessageTitleColor: 'rgb(185, 197, 210)',
+    companionMessageTitleColor: "#4a76a8",
   },
   palette: {
     primary: {
