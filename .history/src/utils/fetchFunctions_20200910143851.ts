@@ -565,7 +565,7 @@ export const toRespondViewFetch = async (token, id, url) => {
 
 export const addAchievementFetch = async (token: string, achievData) => {
     try {
-        const response = await axios.post("/personal/achievements/add", achievData,
+        const response = await axios.post("/vacancy/add", achievData,
             {
                 headers: { Authorization: 'Bearer ' + token },
             }
@@ -589,20 +589,6 @@ export const addAchievementFetch = async (token: string, achievData) => {
             data: null,
             msgInfo
         };
-    }
-}
-
-export const removeAchievFetch = async (token: string, id: number) => {
-    try {
-        const result = await axios.get("/personal/achievements/delete?id=" + id,
-            {
-                headers: { Authorization: 'Bearer ' + token },
-            });
-        //alert(JSON.stringify(userData.data))
-        return MessageStatus.OK;
-    }
-    catch {
-        return MessageStatus.ERROR;
     }
 }
 

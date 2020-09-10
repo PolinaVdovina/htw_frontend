@@ -592,19 +592,5 @@ export const addAchievementFetch = async (token: string, achievData) => {
     }
 }
 
-export const removeAchievFetch = async (token: string, id: number) => {
-    try {
-        const result = await axios.get("/personal/achievements/delete?id=" + id,
-            {
-                headers: { Authorization: 'Bearer ' + token },
-            });
-        //alert(JSON.stringify(userData.data))
-        return MessageStatus.OK;
-    }
-    catch {
-        return MessageStatus.ERROR;
-    }
-}
-
 
 

@@ -17,7 +17,7 @@ import { userToPost } from '../../../utils/tape-converters/user-to-tape-element'
 import { ExecuteDialogButtons } from '../../../components/cabinet/ExecuteDialogButtons';
 import { SubscriptionDialog } from './../../../components/cabinet/SubscriptionDialog';
 import { AchievementTab } from '../../../components/cabinet/jobseeker/AchievementTab';
-import { achievementsToPost } from '../../../utils/tape-converters/achievement-to-tape-element';
+import { achievementsToPostList } from '../../../utils/tape-converters/achievement-to-tape-element';
 
 interface IJobSeekerCabinet {
 
@@ -64,7 +64,7 @@ const tabs: Array<ITabData> = [
   {
     label: "Достижения",
     //IconComponent: <PersonPinIcon/>,
-    TabPanel: <TapeFetcherProvider key={3} dataConverterFunction={achievementsToPost}><AchievementTab /></TapeFetcherProvider>
+    TabPanel: <TapeFetcherProvider key={3} dataConverterFunction = {achievementsToPostList}><AchievementTab /></TapeFetcherProvider>
   },
 ]
 

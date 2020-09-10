@@ -59,10 +59,7 @@ export function userToPostResume(accountData: IAccount): ITapeElementData {
             contactDetailsItems.push("Электронная почта: " + accountData.contactDetails.email)
         if(accountData.address) 
             contactDetailsItems.push("Адрес: " + addressGlue(accountData.address))
-        
-    }
-
-    if(contactDetailsItems.length > 0)
+        if(contactDetailsItems.length > 0)
             postBody.push({
                 Component:ListInPost,
                 data: {
@@ -70,6 +67,7 @@ export function userToPostResume(accountData: IAccount): ITapeElementData {
                     items: contactDetailsItems
                 }
             })
+    }
     
     
 

@@ -146,7 +146,7 @@ const TapeElementCardComp = (props: ITapeElementProps) => {
               </IconButton>
             </Tooltip>
           }
-          {props.tapeElementData.body && props.tapeElementData.body.length > 0 &&
+          {props.tapeElementData.body && props.tapeElementData.body.length > 1 &&
             <Tooltip title={open ? "Скрыть подробности" : "Показать подробности"}>
               <IconButton
                 className={classes.button}
