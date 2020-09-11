@@ -247,7 +247,8 @@ const resizeOneFileForList = (imgFile, maxWidth) => {
         let canvas = document.createElement('canvas');
 
         var img = new Image;
-        img.onload = () => {        
+        img.onload = () =>
+        {
             if(canvas) {
                 let k = 1;
                 if(img.width > maxWidth) 
@@ -270,5 +271,5 @@ const resizeOneFileForList = (imgFile, maxWidth) => {
             }
         }
         img.src = URL.createObjectURL(imgFile);
-    })
+    }
 }

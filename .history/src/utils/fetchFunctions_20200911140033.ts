@@ -448,10 +448,10 @@ export const setAvatarFetch = async (token: string, file: File) => {
     }
 }
 
-export const addAchievementFetch = async (token: string, achievData, files: Array<File>) => {
+export const addAchievementFetch = async (token: string, achievData, files: FileList | undefined) => {
     try {
         let formData = new FormData();
-        /*if (files === undefined) return 0;
+        if (files === undefined) return 0;
         for (let i = 0; i < files.length; i++) {
             let file: File;
             let fileOfList = files.item(i);
@@ -462,10 +462,6 @@ export const addAchievementFetch = async (token: string, achievData, files: Arra
                 file = fileOfList;
                 formData.append("file[]", file);
             }
-        }*/
-
-        for (let i = 0; i < files.length; i++) {
-            formData.append("file[]", files[i]);
         }
 
         const response = await axios.post("/personal/achievements/add?title=" + achievData.title + "&description=" + achievData.description, 

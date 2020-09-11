@@ -6,7 +6,6 @@ import { startLoadingAction, stopLoadingAction } from "../../../redux/actions/di
 import { MessageStatus } from "../../../utils/fetchInterfaces";
 import { useDispatch } from "react-redux";
 import { addAchievementFetch } from "../../../utils/fetchFunctions";
-import { resizeList } from "../../../utils/appliedFunc";
 
 interface INewAchievementDialog {
     token: string
@@ -43,7 +42,7 @@ export const NewAchievementDialog = (props) => {
     const openFileDialogRef: any = React.useRef();
     const [title, setTitle] = React.useState('');
     const [description, setDescription] = React.useState('');
-    const [files, setFiles] = React.useState();
+    const [files, setFiles] = React.useState(new FileList());
 
     const handleClickSave = async () => {
         let data = {
@@ -53,8 +52,8 @@ export const NewAchievementDialog = (props) => {
 
         if(props.token) {
             await dispatch(startLoadingAction())
-            let fileList = await resizeList(files, 1280);
-            const addedAchiev = await addAchievementFetch( props.token, data, fileList );
+            const addedAchiev = await addAchievementFetch( props.token, data, files );
+            if (addedAchiev === 0) {return 0;}
             if(addedAchiev.msgInfo.msgStatus == MessageStatus.OK) {
                 snackbar.enqueueSnackbar("Достижение добавлено", {variant:'success'});  
                 props.onSubmitSuccess();
@@ -64,10 +63,24 @@ export const NewAchievementDialog = (props) => {
                 snackbar.enqueueSnackbar("Не удалось добавить достижение", {variant:'error'});  
             }
             await dispatch(stopLoadingAction())
-        }        
+        }       
     }
 
     const addImageHandler = async (e) => {
+        /*props.startLoading();
+        const onResizedImage = async (resizedImageBlob) => {
+            const messageStatus = props.token && resizedImageBlob && await setAvatarFetjhbjhch(props.token, resizedImageBlob);
+            if (messageStatus == MessageStatus.OK) {
+                await props.updateAvatarUID();
+                snackbar.enqueueSnackbar("Аватар изменен", { variant: "success" })
+            } 
+            else {
+                snackbar.enqueueSnackbar("Не удалость поменять аватар", { variant: "error" })
+            }
+            props.stopLoading();
+        }
+      
+        resize(e.target.files[0], 500, onResizedImage)*/
         setFiles(e.target.files);
     }
 

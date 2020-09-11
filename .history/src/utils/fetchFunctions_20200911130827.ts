@@ -448,66 +448,13 @@ export const setAvatarFetch = async (token: string, file: File) => {
     }
 }
 
-export const addAchievementFetch = async (token: string, achievData, files: Array<File>) => {
-    try {
-        let formData = new FormData();
-        /*if (files === undefined) return 0;
-        for (let i = 0; i < files.length; i++) {
-            let file: File;
-            let fileOfList = files.item(i);
-            if (fileOfList === null) {
-                return 0;
-            }
-            else {
-                file = fileOfList;
-                formData.append("file[]", file);
-            }
-        }*/
 
-        for (let i = 0; i < files.length; i++) {
-            formData.append("file[]", files[i]);
-        }
-
-        const response = await axios.post("/personal/achievements/add?title=" + achievData.title + "&description=" + achievData.description, 
-            formData,
-            {
-                headers: { Authorization: 'Bearer ' + token },
-            }
-        );
-
-        const msgInfo: IMessageInfo = {
-            msgStatus: response.data.error || (response.data.status && response.data.status == 'error') ? MessageStatus.ERROR : MessageStatus.OK,
-            id: response.data
-        };
-        return {
-            data: response.data,
-            msgInfo
-        };
-    }
-    catch {
-        const msgInfo: IMessageInfo = {
-            msgStatus: MessageStatus.ERROR,
-            error: "Проблемы с соединением",
-        };
-        return {
-            data: null,
-            msgInfo
-        };
-    }
-}
-
-
-/*exsdvport const addImageAchievFetch = async (token: string, files: FileList) => {
     try {
         let formData = new FormData();
         for (let i = 0; i < files.length; i++) {
             let file: File;
-            let fileOfList = files.item(i);
-            if (fileOfList === null) {
-                return 0;
-            }
-            else {
-                file = fileOfList;
+            if (files.item(i) !== null) {
+                file = files.item(i);
                 formData.append("file[]", file);
             }
         }
@@ -522,7 +469,7 @@ export const addAchievementFetch = async (token: string, achievData, files: Arra
     catch {
         return MessageStatus.ERROR;
     }
-}*/
+}
 
 export const getAvatarUrl = (login: string): string => {
     return "/account/avatars/" + login
@@ -636,6 +583,35 @@ export const toRespondViewFetch = async (token, id, url) => {
             },
         }
         return returnData;
+    }
+}
+
+export const addAchievementFetch = async (token: string, achievData) => {
+    try {
+        const response = await axios.post("/personal/achievements/add", achievData,
+            {
+                headers: { Authorization: 'Bearer ' + token },
+            }
+        );
+
+        const msgInfo: IMessageInfo = {
+            msgStatus: response.data.error || (response.data.status && response.data.status == 'error') ? MessageStatus.ERROR : MessageStatus.OK,
+            id: response.data
+        };
+        return {
+            data: response.data,
+            msgInfo
+        };
+    }
+    catch {
+        const msgInfo: IMessageInfo = {
+            msgStatus: MessageStatus.ERROR,
+            error: "Проблемы с соединением",
+        };
+        return {
+            data: null,
+            msgInfo
+        };
     }
 }
 

@@ -225,29 +225,16 @@ export const resize = (imgFile, maxWidth, onload) => {
 }
 
 
-export const resizeList = async (imgFileList: FileList | undefined, maxWidth/*, onload*/) => {
+export const resizeList = (imgFileList: FileList | undefined, maxWidth/*, onload*/): Array<File> => {
     let canvas = document.createElement('canvas');
     let fileList: Array<File> = new Array<File>();
-    if (imgFileList === undefined) return new  Array<File>();
-    let imgMass: Array<any> = new Array<typeof Image>(imgFileList.length);
-    imgMass = imgMass.map(elem => new Image());
+    if (imgFileList === undefined) return new Array<File>();
 
     for (let i = 0; i < imgFileList.length; i++) {
         if (imgFileList.item(i) === null) return new Array<File>();
-        const file: any = await resizeOneFileForList(imgFileList[i], maxWidth);
-        fileList.push(file);
-        
-    } 
-    
-    return fileList;
-}
-
-const resizeOneFileForList = (imgFile, maxWidth) => {
-    return new Promise((resolve, reject) => {
-        let canvas = document.createElement('canvas');
-
         var img = new Image;
-        img.onload = () => {        
+        img.onload = () =>
+        {
             if(canvas) {
                 let k = 1;
                 if(img.width > maxWidth) 
@@ -266,9 +253,12 @@ const resizeOneFileForList = (imgFile, maxWidth) => {
                 }
                 var blob = new Blob([ia], { type: 'image/jpeg' });
                 var file = new File([blob], "image.jpg");
-                resolve(file)
+                fileList.push(file);
+                //onload(file)
             }
         }
-        img.src = URL.createObjectURL(imgFile);
-    })
+        img.src = URL.createObjectURL(imgFileList.item(i));
+    } 
+    
+    return fileList;
 }

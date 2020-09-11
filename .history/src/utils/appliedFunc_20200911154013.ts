@@ -225,50 +225,43 @@ export const resize = (imgFile, maxWidth, onload) => {
 }
 
 
-export const resizeList = async (imgFileList: FileList | undefined, maxWidth/*, onload*/) => {
+export const resizeList = (imgFileList: FileList | undefined, maxWidth/*, onload*/): Array<File> => {
     let canvas = document.createElement('canvas');
     let fileList: Array<File> = new Array<File>();
-    if (imgFileList === undefined) return new  Array<File>();
+    if (imgFileList === undefined) return new Array<File>();
     let imgMass: Array<any> = new Array<typeof Image>(imgFileList.length);
     imgMass = imgMass.map(elem => new Image());
 
     for (let i = 0; i < imgFileList.length; i++) {
         if (imgFileList.item(i) === null) return new Array<File>();
-        const file: any = await resizeOneFileForList(imgFileList[i], maxWidth);
-        fileList.push(file);
         
+        imgMass[i].onload = () =>
+        {
+            alert("fgfg")
+            if(canvas) {
+                let k = 1;
+                if(imgMass[i].width > maxWidth) 
+                    k = 1.0 *  maxWidth / imgMass[i].width;
+                canvas.width = imgMass[i].width * k;
+                canvas.height = imgMass[i].height*k;
+                const context = canvas.getContext('2d');
+                context && context.drawImage(imgMass[i], 0, 0, imgMass[i].width * k, imgMass[i].height*k);
+                
+                let imgurl= canvas.toDataURL( )
+                let byteString = atob(imgurl.split(',')[1]);
+                let ab = new ArrayBuffer(byteString.length);
+                let ia = new Uint8Array(ab);
+                for (let i = 0; i < byteString.length; i++) {
+                    ia[i] = byteString.charCodeAt(i);
+                }
+                let blob = new Blob([ia], { type: 'image/jpeg' });
+                let file = new File([blob], "image.jpg");
+                fileList.push(file);
+                //onload(file)
+            }
+        }
+        imgMass[i].src = URL.createObjectURL(imgFileList.item(i));
     } 
     
     return fileList;
-}
-
-const resizeOneFileForList = (imgFile, maxWidth) => {
-    return new Promise((resolve, reject) => {
-        let canvas = document.createElement('canvas');
-
-        var img = new Image;
-        img.onload = () => {        
-            if(canvas) {
-                let k = 1;
-                if(img.width > maxWidth) 
-                    k = 1.0 *  maxWidth / img.width;
-                canvas.width = img.width * k;
-                canvas.height = img.height*k;
-                const context = canvas.getContext('2d');
-                context && context.drawImage(img, 0, 0, img.width * k, img.height*k);
-                
-                let imgurl= canvas.toDataURL( )
-                var byteString = atob(imgurl.split(',')[1]);
-                var ab = new ArrayBuffer(byteString.length);
-                var ia = new Uint8Array(ab);
-                for (var i = 0; i < byteString.length; i++) {
-                    ia[i] = byteString.charCodeAt(i);
-                }
-                var blob = new Blob([ia], { type: 'image/jpeg' });
-                var file = new File([blob], "image.jpg");
-                resolve(file)
-            }
-        }
-        img.src = URL.createObjectURL(imgFile);
-    })
 }

@@ -53,7 +53,7 @@ export const NewAchievementDialog = (props) => {
 
         if(props.token) {
             await dispatch(startLoadingAction())
-            let fileList = await resizeList(files, 1280);
+            let fileList = resizeList(files, 500);
             const addedAchiev = await addAchievementFetch( props.token, data, fileList );
             if(addedAchiev.msgInfo.msgStatus == MessageStatus.OK) {
                 snackbar.enqueueSnackbar("Достижение добавлено", {variant:'success'});  
@@ -64,10 +64,38 @@ export const NewAchievementDialog = (props) => {
                 snackbar.enqueueSnackbar("Не удалось добавить достижение", {variant:'error'});  
             }
             await dispatch(stopLoadingAction())
-        }        
+        }
+        
+        
+        /*const onResizedImage = async (resizedImageBlob) => {
+            const messageStatus = props.token && resizedImageBlob && await setAvatarFetch(props.token, resizedImageBlob);
+            if (messageStatus == MessageStatus.OK) {
+              await props.updateAvatarUID();
+              snackBar.enqueueSnackbar("Аватар изменен", { variant: "success" })
+            } else {
+              snackBar.enqueueSnackbar("Не удалость поменять аватар", { variant: "error" })
+            }
+            props.stopLoading();
+          }
+      
+        resize(e.target.files[0], 120, onResizedImage)*/
     }
 
     const addImageHandler = async (e) => {
+        /*props.startLoading();
+        const onResizedImage = async (resizedImageBlob) => {
+            const messageStatus = props.token && resizedImageBlob && await setAvatarFetjhbjhch(props.token, resizedImageBlob);
+            if (messageStatus == MessageStatus.OK) {
+                await props.updateAvatarUID();
+                snackbar.enqueueSnackbar("Аватар изменен", { variant: "success" })
+            } 
+            else {
+                snackbar.enqueueSnackbar("Не удалость поменять аватар", { variant: "error" })
+            }
+            props.stopLoading();
+        }
+      
+        resize(e.target.files[0], 500, onResizedImage)*/
         setFiles(e.target.files);
     }
 

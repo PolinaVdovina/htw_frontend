@@ -53,7 +53,8 @@ export const NewAchievementDialog = (props) => {
 
         if(props.token) {
             await dispatch(startLoadingAction())
-            let fileList = await resizeList(files, 1280);
+            let fileList = resizeList(files, 500);
+            alert(fileList);
             const addedAchiev = await addAchievementFetch( props.token, data, fileList );
             if(addedAchiev.msgInfo.msgStatus == MessageStatus.OK) {
                 snackbar.enqueueSnackbar("Достижение добавлено", {variant:'success'});  
