@@ -225,18 +225,35 @@ export const resize = (imgFile, maxWidth, onload) => {
 }
 
 
-export const resizeList = async (imgFileList: Array<File> | undefined, maxWidth/*, onload*/) => {   
+export const resizeList = async (imgFileList: Array<File> | undefined, maxWidth/*, onload*/) => {
+    let canvas = document.createElement('canvas');
     let fileList: Array<File> = new Array<File>();
-    if (imgFileList === undefined) return new  Array<File>();  
+    if (imgFileList === undefined) return new  Array<File>();
+    let imgMass: Array<any> = new Array<typeof Image>(imgFileList.length);
+    imgMass = imgMass.map(elem => new Image());
 
     for (let i = 0; i < imgFileList.length; i++) {
         if (imgFileList[i] === null) return new Array<File>();
         const file: any = await resizeOneFileForList(imgFileList[i], maxWidth);
         fileList.push(file);
         
-    }     
+    } 
+    
     return fileList;
 }
+
+/*export const resizeList = async (fileList: Array<File> | undefined, maxWidth) => {
+    if (fileList === undefined) return new  Array<File>();
+
+    for (let i = 0; i < fileList.length; i++) {
+        if (fileList[i] !== null) {
+            const file: any = await resizeOneFileForList(fileList[i], maxWidth);
+            fileList.push(file);
+        }
+    } 
+    
+    return fileList;
+}*/
 
 const resizeOneFileForList = (imgFile, maxWidth) => {
     return new Promise((resolve, reject) => {

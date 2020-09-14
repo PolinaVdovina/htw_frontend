@@ -1,5 +1,5 @@
 import React from "react";
-import { Dialog, DialogTitle, DialogContent, Grid, Typography, TextField, makeStyles, Theme, createStyles, useTheme, IconButton, Button, List, ListItem } from "@material-ui/core";
+import { Dialog, DialogTitle, DialogContent, Grid, Typography, TextField, makeStyles, Theme, createStyles, useTheme, IconButton, Button } from "@material-ui/core";
 import AddIcon from '@material-ui/icons/Add';
 import { useSnackbar } from "notistack";
 import { startLoadingAction, stopLoadingAction } from "../../../redux/actions/dialog-actions";
@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme: Theme) =>
     }),
 );
 
-export const NewAchievementDialog = (props: INewAchievementDialog) => {
+export const NewAchievementDialog = (props) => {
     const classes = useStyles();
     const theme = useTheme();
     const snackbar = useSnackbar();
@@ -58,7 +58,7 @@ export const NewAchievementDialog = (props: INewAchievementDialog) => {
             if(addedAchiev.msgInfo.msgStatus == MessageStatus.OK) {
                 snackbar.enqueueSnackbar("Достижение добавлено", {variant:'success'});  
                 props.onSubmitSuccess();
-                handleClickClose();
+                props.onClose();
             }
             else {
                 snackbar.enqueueSnackbar("Не удалось добавить достижение", {variant:'error'});  
@@ -77,15 +77,8 @@ export const NewAchievementDialog = (props: INewAchievementDialog) => {
         setFiles(arrayFiles);
     }
 
-    const handleClickClose = () => {
-        setTitle("");
-        setDescription("");
-        setFiles(new Array<File>());
-        props.onClose()
-    }
-
     return(
-        <Dialog open={props.open} onClose={handleClickClose}>
+        <Dialog open={props.open} onClose={props.onClose}>
             <DialogTitle>Добавление достижения</DialogTitle>
             <DialogContent>
                 <Grid container direction="column">
@@ -113,11 +106,6 @@ export const NewAchievementDialog = (props: INewAchievementDialog) => {
                     </Grid>
                     <Grid item container direction="column" className={classes.fieldGrid}>                        
                         <Typography className={classes.fieldTitle}>Добавить файлы</Typography>
-                        <List>
-                            {files.map(file => 
-                                <ListItem>{file.name}</ListItem>
-                            )}
-                        </List>                        
                         <Grid item container justify="center">
                             <input
                                 ref={openFileDialogRef}

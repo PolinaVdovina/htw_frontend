@@ -21,6 +21,6 @@ export const Routes = () =>
         <Route path={urls.news.path} component={NewsComponent}></Route>
         <Route path={urls.analytics.path} component={Analytics}></Route>
         <Route path={urls.chat.path} component={Chat}/>
-        <Route path={urls.settings.path} component={SettingsPage}/>
+        <Route path={urls.settings.path} component={SettingsPage}/><
     </>
 

@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme: Theme) =>
     }),
 );
 
-export const NewAchievementDialog = (props: INewAchievementDialog) => {
+export const NewAchievementDialog = (props) => {
     const classes = useStyles();
     const theme = useTheme();
     const snackbar = useSnackbar();
@@ -58,7 +58,7 @@ export const NewAchievementDialog = (props: INewAchievementDialog) => {
             if(addedAchiev.msgInfo.msgStatus == MessageStatus.OK) {
                 snackbar.enqueueSnackbar("Достижение добавлено", {variant:'success'});  
                 props.onSubmitSuccess();
-                handleClickClose();
+                props.onClose();
             }
             else {
                 snackbar.enqueueSnackbar("Не удалось добавить достижение", {variant:'error'});  
@@ -77,15 +77,8 @@ export const NewAchievementDialog = (props: INewAchievementDialog) => {
         setFiles(arrayFiles);
     }
 
-    const handleClickClose = () => {
-        setTitle("");
-        setDescription("");
-        setFiles(new Array<File>());
-        props.onClose()
-    }
-
     return(
-        <Dialog open={props.open} onClose={handleClickClose}>
+        <Dialog open={props.open} onClose={props.onClose}>
             <DialogTitle>Добавление достижения</DialogTitle>
             <DialogContent>
                 <Grid container direction="column">
@@ -117,7 +110,8 @@ export const NewAchievementDialog = (props: INewAchievementDialog) => {
                             {files.map(file => 
                                 <ListItem>{file.name}</ListItem>
                             )}
-                        </List>                        
+                        </List>
+                        
                         <Grid item container justify="center">
                             <input
                                 ref={openFileDialogRef}

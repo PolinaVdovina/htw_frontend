@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme: Theme) =>
     }),
 );
 
-export const NewAchievementDialog = (props: INewAchievementDialog) => {
+export const NewAchievementDialog = (props) => {
     const classes = useStyles();
     const theme = useTheme();
     const snackbar = useSnackbar();

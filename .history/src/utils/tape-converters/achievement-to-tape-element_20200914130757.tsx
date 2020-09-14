@@ -28,18 +28,16 @@ export function achievementsToPost(achievementData: IAchievement): ITapeElementD
         },        
     ];
     
-    if (achievementData.files && achievementData.files.length > 0) {
+    achievementData.files.map(filepath => {
         postBody.push(
             {
                 Component: ImgInPost,
                 data: {
-                    paths: achievementData.files
+                    path: filepath
                 }
             }
         )
-    }
-        
-    
+    })
    
     return {
         createdDate: achievementData.createdDate,

@@ -33,7 +33,7 @@ export function achievementsToPost(achievementData: IAchievement): ITapeElementD
             {
                 Component: ImgInPost,
                 data: {
-                    paths: achievementData.files
+                    path: achievementData.files
                 }
             }
         )
