@@ -55,8 +55,7 @@ import {
     changeJobSeekerWorkData,
     changeJobSeekerEmploymentData,
     deleteJobSeekerEmploymentData,
-    deleteJobSeekerVacancyTypeData,
-    changePassword
+    deleteJobSeekerVacancyTypeData
 } from "../../utils/change-component-utils";
 import { SimpleTypography } from "./displayMiniComponents/SimpleTypography";
 import { SimpleLink } from "./displayMiniComponents/SimpleLink";
@@ -251,8 +250,7 @@ export const SETTINGS = {
         password: {
             title: 'Пароль',
             changeSettings: settingsPassword,
-            validateFunction: validateNewPassword,
-            changeFunction: changePassword
+            validateFunction: validateNewPassword
         }
     }
 }

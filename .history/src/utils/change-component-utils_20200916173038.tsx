@@ -1,5 +1,5 @@
 import { fillPersonalDataAction } from "../redux/actions/user-personals"
-import { changePersonalDataFetch as changePersonalDataFetch, deletePersonalDataFetch, changeEmployerAddressFetch, changePasswordFetch } from "./fetchFunctions";
+import { changePersonalDataFetch as changePersonalDataFetch, deletePersonalDataFetch, changeEmployerAddressFetch } from "./fetchFunctions";
 import { IMessageInfo, MessageStatus } from "./fetchInterfaces";
 import { addressGlue, genderIntToStr, jobApplGlue } from "./appliedFunc";
 import { store } from './../redux/store';
@@ -291,7 +291,7 @@ export const changeJobSeekerWorkData = async ( dispatch, data ) => {
 }
 
 export const changePassword = async ( dispatch, data ) => {
-    const msgInfo: IMessageInfo = await changePasswordFetch(store.getState().authReducer.token, data);
+    const msgInfo: IMessageInfo = await changePasswordFetch(store.getState().authReducer.token, data.password, "/personal/");
     return msgInfo;
 }
 

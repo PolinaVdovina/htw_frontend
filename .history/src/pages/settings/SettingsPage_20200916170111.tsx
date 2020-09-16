@@ -19,7 +19,7 @@ const tabs: Array<ITabData> = [
     label: "Оповещения",
     //IconComponent: <PersonPinIcon/>,
     //TabPanel: <AccountInfo key={0} role='SETTINGS_PERSONAL' title="Персональные данные" settingsView={['password']} />
-    TabPanel: <Typography></Typography>
+    //TabPanel: 
   },
 ]
 

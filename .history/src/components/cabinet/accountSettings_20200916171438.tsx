@@ -31,8 +31,7 @@ import {
     validateNameOrg, 
     validateOgrn, 
     validateAbout,
-    validateEducation,
-    validateNewPassword
+    validateEducation
 } from "../../utils/validateFunctions";
 import { 
     changeJobSeekerData, 
@@ -55,8 +54,7 @@ import {
     changeJobSeekerWorkData,
     changeJobSeekerEmploymentData,
     deleteJobSeekerEmploymentData,
-    deleteJobSeekerVacancyTypeData,
-    changePassword
+    deleteJobSeekerVacancyTypeData
 } from "../../utils/change-component-utils";
 import { SimpleTypography } from "./displayMiniComponents/SimpleTypography";
 import { SimpleLink } from "./displayMiniComponents/SimpleLink";
@@ -250,9 +248,7 @@ export const SETTINGS = {
     SETTINGS_PERSONAL: {
         password: {
             title: 'Пароль',
-            changeSettings: settingsPassword,
-            validateFunction: validateNewPassword,
-            changeFunction: changePassword
+            changeSettings: settingsPassword
         }
     }
 }

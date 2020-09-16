@@ -7,7 +7,6 @@ import { ChangeOneString } from "./ChangeOneString"
 import { listItems } from "../../../utils/appliedFunc"
 import { ChangeCompetences } from "./ChangeCompetences"
 import { SimpleTypography } from "../displayMiniComponents/SimpleTypography"
-import { ChangePassword } from "./ChangePassword"
 
 export const settingsAddress = {
     /*'country': {
@@ -287,10 +286,10 @@ export const settingsVacancyType = {
 export const settingsPassword = {
     currentPassword: {
         title: 'Текущий пароль',
-        changeComponent: ChangePassword
+        changeComponent: ChangeOneString
     },
     newPassword: {
         title: 'Новый пароль',
-        changeComponent: ChangePassword
+        changeComponent: ChangeOneString
     }
 }

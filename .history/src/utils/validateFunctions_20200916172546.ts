@@ -159,6 +159,7 @@ export function validateEducation(data: {
 }
 
 export const validateNewPassword = (password: {currentPassword: string, newPassword: string}): boolean => {
+    alert(JSON.stringify(password))
     if (!password.newPassword || 
         !password.currentPassword || 
         password.newPassword.length < 6 || 
