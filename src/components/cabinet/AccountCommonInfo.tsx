@@ -264,7 +264,7 @@ const AccountCommonInfoComp = (props: IAccountCommonInfo) => {
 
       <Grid
         item container
-        
+
         direction="column"
         className={classes.changeName}
       >
@@ -311,14 +311,26 @@ const AccountCommonInfoComp = (props: IAccountCommonInfo) => {
           </Link>
         }
 
-        <div style={{flexGrow:1}}/>
+        <div style={{ flexGrow: 1 }} />
 
         {
-          context.isOnline == true && <Typography style={{marginTop: theme.spacing(1)}} key={context.login}>В сети</Typography>
+          context.isOnline == true &&
+          <Typography
+            style={{ marginTop: theme.spacing(1), width: "max-content" }}
+            key={context.login}
+          >
+            В сети
+            </Typography>
         }
 
         {
-          context.isOnline == false && <Typography style={{marginTop: theme.spacing(1)}} key={context.login}>Не в сети</Typography>
+          context.isOnline == false &&
+          <Typography
+            style={{ marginTop: theme.spacing(1), width: "max-content" }}
+            key={context.login}
+          >
+            Не в сети
+          </Typography>
         }
 
 

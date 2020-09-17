@@ -39,11 +39,12 @@ const ChatDialogWrap = (props: IChatDialogProps) => {
         <Dialog
             fullScreen={fullScreen}
             fullWidth
-            scroll="paper"
+            scroll="body"
             open={props.open}
             onClose={props.onClose}
             PaperProps={{
                 style: {
+                    height: fullScreen ?  "100vh" : "85vh",
                     backgroundColor: theme.chat.chatPaperBackgroundColor
                 }
             }}

@@ -187,7 +187,7 @@ export const addEmployeeFetch = async (token, data, url?) => {
 export const changePasswordFetch = async (token, data) => {
     let returnData;
     try {
-        const response = await axios.post("/account/change-password",
+        const response = await axios.post(rootUrl + "/account/change-password",
 
             data,
 
@@ -502,7 +502,7 @@ export const addAchievementFetch = async (token: string, achievData, files: Arra
             formData.append("file[]", files[i]);
         }
 
-        const response = await axios.post("/personal/achievements/add?title=" + achievData.title + "&description=" + achievData.description, 
+        const response = await axios.post(rootUrl + "/personal/achievements/add?title=" + achievData.title + "&description=" + achievData.description, 
             formData,
             {
                 headers: { Authorization: 'Bearer ' + token },
@@ -560,6 +560,11 @@ export const addAchievementFetch = async (token: string, achievData, files: Arra
 
 export const getAvatarUrl = (login: string): string => {
     return rootUrl + "/account/avatars/" + login
+}
+
+
+export const getApchiUrl = (filePath: string): string => {
+    return rootUrl + "/personal/apchi/achievementFile/get?filepath=" + filePath
 }
 
 
@@ -675,7 +680,7 @@ export const toRespondViewFetch = async (token, id, url) => {
 
 export const removeAchievFetch = async (token: string, id: number) => {
     try {
-        const result = await axios.get("/personal/achievements/delete?id=" + id,
+        const result = await axios.get(rootUrl+"/personal/achievements/delete?id=" + id,
             {
                 headers: { Authorization: 'Bearer ' + token },
             });

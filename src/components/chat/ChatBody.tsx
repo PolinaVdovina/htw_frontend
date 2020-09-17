@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         messageGrid: {
             minWidth: "35%",
-            alignItems: "end",
+            alignItems: "flex-end",
             flexWrap: "nowrap",
             width: "max-content"
         },
@@ -87,7 +87,7 @@ const ChatBodyWrap = (props: IChatBodyProps) => {
                             container
                             style={{
                                 marginBottom: isLastUserMessage ? theme.spacing(2) : theme.spacing(1),
-                                alignSelf: isMine ? "end" : "start"
+                                alignSelf: isMine ? "flex-end" : "flex-start"
                             }}
                             className={classes.messageGrid}
                             direction={isMine ? "row-reverse" : "row"}

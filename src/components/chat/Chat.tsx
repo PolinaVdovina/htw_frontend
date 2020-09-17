@@ -44,7 +44,7 @@ const mapDispatchToProps = {
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         rootGrid: {
-            height: "100vh",
+            height: "100%",
             flexWrap: "nowrap"
         },
     }),
