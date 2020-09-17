@@ -1,33 +1,43 @@
 import { Grid, TextField, IconButton, Tooltip, useTheme, Divider, Typography, Avatar } from "@material-ui/core"
 import * as React from 'react';
-import { IChatMessageData, ChatMessage } from './ChatMessage';
+import { ChatMessage } from './ChatMessage';
 import SendIcon from '@material-ui/icons/Send';
 import { connect } from 'react-redux';
-import { RootState } from "../../redux/store";
+import { RootState } from "../../../redux/store";
 import { SharpCorner } from "./chatEnums";
-import { getAvatarUrl } from './../../utils/fetchFunctions';
-import { isWhitespace } from "../../utils/validateFunctions";
+import { getAvatarUrl, searchCriteriaFetch } from '../../../utils/fetchFunctions';
+import { isWhitespace } from "../../../utils/validateFunctions";
+import { sendMessage, subscribeToUserChat } from '../../../websockets/chat/actions';
+import { IChatReceivingMessage, IChatSendingMessage } from '../../../websockets/chat/interfaces';
+import Stomp from 'stompjs';
+import { getStompClient } from '../../../websockets/common';
+import { sortCriteria } from "../../../utils/search-criteria/builders";
+import { SortCriteriaDirection } from "../../../utils/search-criteria/types";
 
 export interface IChatForm {
-    messagesData?: Array<IChatMessageData> | null,
+    messagesData?: Array<IChatReceivingMessage> | null,
     myLogin?: string | null,
     hideNames?: boolean,
     avatarUID?: any,
-    height?: any
+    height?: any,
+    chatName?: string | null,
+    token?: string | null,
 }
 
 interface IStyledChatMessageProps {
     myLogin?: string | null,
     avatarUID?: any
-    messageData: IChatMessageData,
-    prevMessageData?: IChatMessageData | null,
+    messageData: IChatReceivingMessage,
+    prevMessageData?: IChatReceivingMessage | null,
     hideNames?: boolean,
     showAvatars?: boolean,
+
 }
 
 const StyledChatMessageWrap = (props: IStyledChatMessageProps) => {
     const theme = useTheme();
-    const isMine = props.messageData.ownerLogin == props.myLogin;
+    const isMine = props.messageData.sender == props.myLogin;
+    const viewName = (props.hideNames || isMine || (props.prevMessageData && props.prevMessageData.senderViewName == props.messageData.senderViewName)) ? "" : props.messageData.senderViewName;
     return (
         <Grid
             alignItems="flex-end"
@@ -38,7 +48,7 @@ const StyledChatMessageWrap = (props: IStyledChatMessageProps) => {
                 maxWidth: "90%",
                 alignSelf: isMine ? "flex-end" : "flex-start",
                 minWidth: "35%",
-                marginTop: (props.prevMessageData && props.prevMessageData.ownerLogin != props.messageData.ownerLogin) ? theme.spacing(1) : 0,
+                marginTop: (props.prevMessageData && props.prevMessageData.sender != props.messageData.sender) ? theme.spacing(1) : 0,
                 marginBottom: theme.spacing(1),
             }}
         >
@@ -47,10 +57,10 @@ const StyledChatMessageWrap = (props: IStyledChatMessageProps) => {
                 <Avatar
                     style={{
                         marginRight: theme.spacing(1),
-                        height: (props.prevMessageData && props.prevMessageData.ownerLogin == props.messageData.ownerLogin) ? 0 : "34px",
+                        height: (props.prevMessageData && props.prevMessageData.sender == props.messageData.sender) ? 0 : "34px",
                         width: "34px"
                     }}
-                    src={getAvatarUrl(props.messageData.ownerLogin) + ("?" + props.avatarUID)}
+                    src={getAvatarUrl(props.messageData.sender) + ("?" + props.avatarUID)}
                 />
             }
             <ChatMessage
@@ -62,11 +72,14 @@ const StyledChatMessageWrap = (props: IStyledChatMessageProps) => {
                 style={{
                     alignSelf: isMine ? "flex-end" : "flex-start",
                     flexGrow: 1,
-                    marginTop: (props.prevMessageData && props.prevMessageData.ownerLogin != props.messageData.ownerLogin) ? theme.spacing(1) : 0
+                    marginTop: (props.prevMessageData && props.prevMessageData.sender != props.messageData.sender) ? theme.spacing(1) : 0
                 }}
-                {...props.messageData}
+
                 showAvatar={true}
-                ownerViewName={(props.hideNames || isMine || (props.prevMessageData && props.prevMessageData.ownerLogin == props.messageData.ownerLogin)) ? null : props.messageData.ownerViewName}
+                messageData={{
+                    ...props.messageData,
+                    senderViewName: viewName,
+                }}
             />
 
         </Grid>
@@ -81,18 +94,53 @@ export const StyledChatMessage = connect((state: RootState) => ({
 
 
 const ChatFormWrap = (props: IChatForm) => {
+    const subscriptionRef = React.useRef<Stomp.Subscription | null>(null);
+    const [chatMessages, setChatMessages] = React.useState<Array<IChatReceivingMessage>>([]);
+
+    const onChatMessageReceived = (message: IChatReceivingMessage) => {
+        alert(JSON.stringify(chatMessages))
+        setChatMessages((prevMessages) => [...prevMessages, message]);
+    }
+
+    const fetchMessages = async() => {
+        if(props.token) {
+            const fetch = await searchCriteriaFetch<IChatReceivingMessage>("/chat/getPrivateMessages/"+props.chatName, props.token, {
+                sortCriteria: [sortCriteria("createdDate", SortCriteriaDirection.ASC )]
+            });
+            alert(JSON.stringify(fetch.result))
+            if(fetch.result)
+                setChatMessages(fetch.result);
+        }
+    }
+
+    React.useEffect(() => {
+        const subscription: Stomp.Subscription | undefined = subscribeToUserChat(props.chatName, onChatMessageReceived);
+        if (subscription)
+            subscriptionRef.current = subscription
+        fetchMessages();
+        return () => {
+            if (subscription)
+                getStompClient()?.unsubscribe(subscription?.id);
+        }
+    }, [])
+
+
+
     const theme = useTheme();
     const mainColor = theme.palette.primary.main ? theme.palette.primary.main : "inherit";
     const [message, setMessage] = React.useState("");
     const sendButtonClick = () => {
         if (!isWhitespace(message)) {
-
-            sendMessage(message);
+        
+            sendMessageHandler(message);
         }
     }
 
-    const sendMessage = (msg) => {
-        alert("Ты говно");
+    const sendMessageHandler = (msg: string) => {
+        const msgParsed: IChatSendingMessage = { content: msg }
+        if (props.chatName)
+            sendMessage(props.chatName, msgParsed);
+        //alert("Ты говно");
         setMessage("");
     }
 
@@ -106,10 +154,10 @@ const ChatFormWrap = (props: IChatForm) => {
                 flexBasis: 0,
             }}>
                 {
-                    props.messagesData?.map((messageData, index) => {
-                        const isMine = messageData.ownerLogin == props.myLogin;
-                        const prevMessage = props.messagesData && (index > 0) ? props.messagesData[index - 1] : null;
-                        const messageDataNotNull: IChatMessageData = messageData; //чтобы тайпскрит на нулл не выпендривался
+                    chatMessages?.map((messageData, index) => {
+                        const isMine = messageData.sender == props.myLogin;
+                        const prevMessage = chatMessages && (index > 0) ? chatMessages[index - 1] : null;
+                        const messageDataNotNull: IChatReceivingMessage = messageData; //чтобы тайпскрит на нулл не выпендривался
                         return (
                             <StyledChatMessageWrap
                                 myLogin={props.myLogin}
@@ -161,4 +209,6 @@ const ChatFormWrap = (props: IChatForm) => {
 export const ChatForm = connect((state: RootState) => ({
     myLogin: state.authReducer.login,
     avatarUID: state.userPersonalsReducer.avatarUrlUid,
+    chatName: state.chatReducer.chatName,
+    token: state.authReducer.token
 }))(ChatFormWrap)

@@ -70,6 +70,7 @@ export function accountRequestToEntityDictionary(data, role) {
         switch(role) {
             case "ROLE_JOBSEEKER":
                 let parsedData = {
+                    isOnline: data.online,
                     name: data.name, 
                     surname: data.surname, 
                     middlename: data.middlename, 
@@ -87,6 +88,7 @@ export function accountRequestToEntityDictionary(data, role) {
                     status: data.status,
                     employment: data.employment,
                     vacancyTypes: data.vacancyTypes,
+                    viewName: data.viewName,
                     links: {
                         education: data.jobSeekerEducations.map(elem => elem.institutionLogin)
                     }
@@ -94,6 +96,7 @@ export function accountRequestToEntityDictionary(data, role) {
                 return parsedData;
             case "ROLE_EMPLOYER":
                 return {
+                    isOnline: data.online,
                     name: data.name, 
                     phone: data.contactDetails.phone, 
                     email: data.contactDetails.email,
@@ -101,12 +104,14 @@ export function accountRequestToEntityDictionary(data, role) {
                     address: data.address,
                     inn: data.inn,
                     ogrn: data.ogrn,
+                    viewName: data.viewName,
                     industry: data.industry ? data.industry.map(industry => industry.name) : null,
                     subscriptionLogins: data.subscriptionLogins,
     
                 }
             case "ROLE_INSTITUTION":
                 return {
+                    isOnline: data.online,
                     name: data.name, 
                     phone: data.contactDetails.phone, 
                     email: data.contactDetails.email,
@@ -114,6 +119,7 @@ export function accountRequestToEntityDictionary(data, role) {
                     address: data.address,
                     inn: data.inn,
                     ogrn: data.ogrn,
+                    viewName: data.viewName,
                     types: data.types ? data.types.map(type => type.name) : null,
                     subscriptionLogins: data.subscriptionLogins,
                 }
@@ -121,9 +127,11 @@ export function accountRequestToEntityDictionary(data, role) {
     
             case "ROLE_EMPLOYEE":
                 return {
+                    isOnline: data.online,
                     name: data.name, 
                     surname: data.surname, 
                     middlename: data.middlename, 
+                    viewName: data.viewName,
                     phone: data.contactDetails ? data.contactDetails.phone : null, 
                     email: data.contactDetails ? data.contactDetails.email : null, 
                     employer: data.employer ? (data.employer.name ? data.employer.name : data.employer.login) : null,

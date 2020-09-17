@@ -1,25 +1,43 @@
 import * as React from 'react';
-import { Dialog, useTheme, Grid, DialogTitle, Typography, IconButton, Divider, Avatar } from '@material-ui/core';
-import { ChatForm, IChatForm } from '../chat/ChatForm';
-import { AppMenu } from '../app-menu/AppMenu';
-import CloseIcon from '@material-ui/icons/Close';
-import { IChatMessageData } from './../chat/ChatMessage';
+import { ChatHeader } from './../chat/ChatHeader';
+import { connect } from 'react-redux';
+import { Dialog, useTheme } from '@material-ui/core';
+import { RootState } from '../../redux/store';
+import { useMediaQuery } from '@material-ui/core';
+import { Chat, IChatProps } from './../chat/Chat';
+import { stopLoading, startLoading } from './../../redux/reducers/dialog-reducers';
 
-interface IChatDialogProps extends IChatForm {
+
+interface IChatDialogProps extends IChatProps {
     open: boolean,
-    paperStyle?: React.CSSProperties
-    fullScreen?: boolean
-    onClose?: () => any,
-    children?: any,
-    title?: string,
-    messagesData?: Array<IChatMessageData>,
+    onClose: () => any,
+    startLoading: typeof startLoading,
+    stopLoading: typeof stopLoading,
 }
 
-export const ChatDialog = (props: IChatDialogProps) => {
+
+const mapStateToProps = (state: RootState) => ({
+    myLogin: state.authReducer.login,
+    chatName: state.chatReducer.chatName,
+    token: state.authReducer.token,
+})
+
+const mapDispatchToProps = {
+    startLoading,
+    stopLoading,
+}
+
+
+const ChatDialogWrap = (props: IChatDialogProps) => {
     const theme = useTheme();
+    const {
+        open,
+        ...other
+    } = props;
+    const fullScreen = useMediaQuery(theme.breakpoints.down('xs'));
     return (
         <Dialog
-            fullScreen={props.fullScreen}
+            fullScreen={fullScreen}
             fullWidth
             scroll="paper"
             open={props.open}
@@ -30,34 +48,10 @@ export const ChatDialog = (props: IChatDialogProps) => {
                 }
             }}
         >
-            <DialogTitle
-                style={{
-                    marginBottom: 0,
-                    padding: theme.spacing(0),
-                    paddingLeft: theme.spacing(1),
-                    backgroundColor: theme.palette.primary.main,
-
-                }}
-            >
-                <Grid
-                    container
-                    alignItems="center"
-                    style={{ padding: 0, height: theme.menuBar.height, }}
-                >
-                    <Avatar style={{marginRight: theme.spacing(1)}} />
-                    <Typography style={{ fontWeight: "bold", flexGrow: 1, color: "white" }}>
-                        {props.title}
-                    </Typography>
-                    <IconButton onClick={props.onClose} style={{ color: "white" }}>
-                        <CloseIcon />
-                    </IconButton>
-                </Grid>
-            </DialogTitle>
-
-            <ChatForm
-                height={props.fullScreen ? "100%" : "70vh"}
-                messagesData={props.messagesData}
-            />
+            <Chat
+            {...other}/>
         </Dialog>
     )
 }
+
+export const ChatDialog = connect(mapStateToProps, mapDispatchToProps)(ChatDialogWrap)

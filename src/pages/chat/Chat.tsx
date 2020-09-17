@@ -3,21 +3,25 @@ import { makeStyles, Theme, createStyles, Paper, useTheme, useMediaQuery } from 
 import { RegRoleCard } from '../../components/cards/RegRoleCard';
 import { HCenterizingGrid } from './../grid-containers/HCenterizingGrid';
 import { RedirectIfNotAuthorized } from './../../components/redirects/RedirectIfNotAuthorized';
-import { ChatForm } from './../../components/chat/ChatForm';
-import { IChatMessageData } from './../../components/chat/ChatMessage';
+import { ChatForm } from '../../components/chat/OLD/ChatForm';
+
 import { PaddingPaper } from './../../components/cards/PaddingPaper';
-import { MessageType } from '../../components/chat/chatEnums';
-import { ChatDialog } from '../../components/dialogs/ChatDialog';
+import { MessageType } from '../../components/chat/OLD/chatEnums';
+
 import { DialogWithAppBar } from '../../components/dialogs/DialogWithAppBar';
 import { AppMenu } from '../../components/app-menu/AppMenu';
 import CloseIcon from '@material-ui/icons/Close';
-
+import { connect } from 'react-redux';
+import { RootState } from '../../redux/store';
+import SockJS from 'sockjs-client';
+import Stomp from 'stompjs'
+import { rootUrl, getStompClient } from './../../websockets/common';
 
 interface IChatProps {
-
+    token?: string | null
 }
 
-const testMessages: Array<IChatMessageData> = [
+/* const testMessages: Array<IChatMessageData> = [
     {
         message: "Привет, друг",
         messageType: MessageType.TEXT,
@@ -99,8 +103,8 @@ const testMessages: Array<IChatMessageData> = [
         createdDate: "2019-12-12"
     }
 ]
-
-export const Chat = (props: IChatProps) => {
+ */
+const ChatWrap = (props: IChatProps) => {
     const theme = useTheme();
     const [chatOpen, setChatOpen] = React.useState(true);
     const fullScreen = useMediaQuery(theme.breakpoints.down('xs'));
@@ -108,28 +112,20 @@ export const Chat = (props: IChatProps) => {
     //const classes = useStyles();
     return (
         <HCenterizingGrid fullHeight>
-            {/* <Paper style={{flexGrow:1, backgroundColor:theme.chat.chatPaperBackgroundColor, overflow: "hidden"}}>
-                <ChatForm messagesData={testMessages}/>
-            </Paper> */}
-            {/*             <DialogWithAppBar
-                onClose={()=>setChatOpen(false)}
-                open={chatOpen}
-                paperStyle={{ backgroundColor: "#edeef0"  }}
-                title="Чат с дауненком"
-                fullScreen={fullScreen}
-
-            > */}
-
-            {/*  <ChatForm messagesData={testMessages} /> */}
-
-            {/*             </DialogWithAppBar> */}
-            <ChatDialog
+ 
+{/*             <ChatDialog
                 onClose={() => setChatOpen(false)}
-                fullScreen={fullScreen}
                 messagesData={testMessages}
                 title="Чат"
                 open={chatOpen}
             />
+ */}
         </HCenterizingGrid>
     )
 }
+
+export const Chat = connect(
+    (state: RootState) => ({
+        token: state.authReducer.token,
+    })
+)(ChatWrap)

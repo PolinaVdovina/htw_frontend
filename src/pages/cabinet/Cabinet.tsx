@@ -23,8 +23,13 @@ import { CabinetContext } from '../../components/cabinet/cabinet-context';
 import { authReducer } from '../../redux/reducers/auth-reducers';
 import { startLoadingAction, stopLoadingAction } from './../../redux/actions/dialog-actions';
 import { SubscriptionBlock } from '../../components/cabinet/SubscriptionBlock';
+import { subscribeToOnlineTracking } from '../../websockets/chat/actions';
+import { getWebSocket } from '../../websockets/common';
+import { getStompClient } from './../../websockets/common';
+import Stomp from 'stompjs';
 
 interface ICabinetProps {
+    isFetched: boolean,
     myLogin?: string | null,
     myToken?: string | null,
     reduxPersonalData: {
@@ -38,15 +43,16 @@ interface ICabinetProps {
         gender,
         name,
         about,
-        
+
     }
 }
 
-function mapStateToProps(state : RootState) {
-    let data =  {
+function mapStateToProps(state: RootState) {
+    let data = {
+        loggedIn: state.authReducer.authCompleteStatus,
         myLogin: state.authReducer.login,
         myToken: state.authReducer.token,
-        reduxPersonalData: { 
+        reduxPersonalData: {
             subscriptionLogins: state.userPersonalsReducer.subscriptionLogins,
             role: state.authReducer.entityType,
             name: state.userPersonalsReducer.name,
@@ -70,33 +76,37 @@ function mapStateToProps(state : RootState) {
             industry: state.userPersonalsReducer.industry,
             status: state.userPersonalsReducer.status,
             employment: state.userPersonalsReducer.employment,
-            vacancyTypes: state.userPersonalsReducer.vacancyTypes  
+            vacancyTypes: state.userPersonalsReducer.vacancyTypes
         }
     }
     return data;
-    
+
 }
 
 
 
 
-const CabinetComp = (props : ICabinetProps) => {
-    React.useEffect(() => {
-
-    })
-
+const CabinetComp = (props: ICabinetProps) => {
+    const subscriptionRef = React.useRef<Stomp.Subscription | null>(null);
+    const [isOnline, setOnline] = React.useState<boolean | null>(null);
     const routeMatch = useRouteMatch();
     const urlLogin = routeMatch.params['login'];
     const dispatch = useDispatch();
     const isMine = () => props.myLogin == urlLogin;
     const [cardData, setCardData] = React.useState<any>(null);
+
     React.useEffect(() => {
-        const fetchData = async() => {
-            if(props.myToken) {
+
+    }, []);
+
+
+    React.useEffect(() => {
+        const fetchData = async () => {
+            if (props.myToken) {
                 await dispatch(startLoadingAction());
                 const requestData = await getAccountDataFetch(props.myToken, urlLogin);
                 let field = ""
-                switch(requestData.roles) {
+                switch (requestData.roles) {
                     case "ROLE_JOBSEEKER":
                         field = "jobseeker";
                         break;
@@ -111,8 +121,21 @@ const CabinetComp = (props : ICabinetProps) => {
                         break;
                 }
                 const parsedData = accountRequestToEntityDictionary(requestData[field], requestData.roles);
+
                 //alert(JSON.stringify(requestData.roles))
-                
+
+                const onUserChangeOnlineStatus = (newStatus: boolean) => {
+                    setOnline(newStatus)
+                };
+                const isOnline = parsedData?.isOnline;
+                setOnline(parsedData?.isOnline);
+
+                const subscription: Stomp.Subscription | undefined = subscribeToOnlineTracking(urlLogin, onUserChangeOnlineStatus);
+                if(subscription)
+                    subscriptionRef.current = subscription
+                //alert(subscriptionRef.current)
+
+
                 await setCardData({
                     ...parsedData,
                     role: requestData.roles,
@@ -123,30 +146,36 @@ const CabinetComp = (props : ICabinetProps) => {
 
             }
         }
-        if(props.myLogin) {
-            if(isMine()) {
+        if (props.myLogin) {
+            if (isMine()) {
                 //alert(JSON.stringify(props.reduxPersonalData))
-                setCardData({...props.reduxPersonalData, isMine:true, login: urlLogin});
-                
+                setCardData({ ...props.reduxPersonalData, isMine: true, login: urlLogin });
+                setOnline(true);
             }
             else {
-                
+
                 fetchData();
             }
         }
-      }, [...Object.keys(props.reduxPersonalData).map(key => props.reduxPersonalData[key]), isMine(), urlLogin])
+
+        return () => {
+            const subscription = subscriptionRef.current;
+            if(subscription)
+                getStompClient()?.unsubscribe(subscription.id);
+        }
+    }, [...Object.keys(props.reduxPersonalData).map(key => props.reduxPersonalData[key]), isMine(), urlLogin])
     //alert(JSON.stringify(props.reduxPersonalData));
     return (
         <HCenterizingGrid>
-            <RedirectIfNotAuthorized/>
-                <CabinetContext.Provider value={cardData}>
-                    {cardData && cardData.role == 'ROLE_INSTITUTION' && <InstitutionCabinet {...cardData}/>}
-                    {cardData && cardData.role == 'ROLE_EMPLOYER' && <EmployerCabinet {...cardData}/>}
-                    {cardData && cardData.role == 'ROLE_EMPLOYEE' && <EmployeeCabinet {...cardData}/>}
-                    {cardData && cardData.role == 'ROLE_JOBSEEKER' && <JobSeekerCabinet {...cardData}/>}   
-                </CabinetContext.Provider>
+            <RedirectIfNotAuthorized />
+            <CabinetContext.Provider value={{...cardData, isOnline}}>
+                {cardData && cardData.role == 'ROLE_INSTITUTION' && <InstitutionCabinet key={urlLogin} {...cardData} />}
+                {cardData && cardData.role == 'ROLE_EMPLOYER' && <EmployerCabinet key={urlLogin} {...cardData} />}
+                {cardData && cardData.role == 'ROLE_EMPLOYEE' && <EmployeeCabinet key={urlLogin} {...cardData} />}
+                {cardData && cardData.role == 'ROLE_JOBSEEKER' && <JobSeekerCabinet key={urlLogin} {...cardData} />}
+            </CabinetContext.Provider>
         </HCenterizingGrid>
-        )
+    )
 }
 
 export const Cabinet = connect(mapStateToProps)(CabinetComp);

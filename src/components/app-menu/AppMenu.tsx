@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 function mapStateToProps(state: RootState) {
     return {
-        authorized: state.authReducer.loggedIn,
+        authorized: state.authReducer.authCompleteStatus,
     }
 }
 
