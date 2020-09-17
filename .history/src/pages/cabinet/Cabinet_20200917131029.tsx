@@ -112,6 +112,7 @@ const CabinetComp = (props : ICabinetProps) => {
                         break;
                 }
                 const parsedData = accountRequestToEntityDictionary(requestData[field], requestData.roles);
+                //alert(JSON.stringify(requestData.roles))
                 if (parsedData) {
                     await setCardData({
                         ...parsedData,

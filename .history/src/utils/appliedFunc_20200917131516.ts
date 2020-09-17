@@ -4,7 +4,6 @@ import { ParagraphInPost } from './../components/tape/posts/post-body-elements/P
 import { ListInPost } from './../components/tape/posts/post-body-elements/ListInPost';
 import { StatementInPost } from './../components/tape/posts/post-body-elements/StatementsInPost';
 import { v4 as uuidv4 } from 'uuid';
-import { store } from "../redux/store";
 
 export function addressGlue(data?) : string | null {
     let address: string | null = null;
@@ -138,8 +137,8 @@ export function accountRequestToEntityDictionary(data, role) {
     }
     catch {
         
-        alert('Не удалось подключиться к серверу');
-        return null;
+        alert('Что-то сдохло, ничего не загрузилось')
+        //return 0;
     }   
 }
 

@@ -111,7 +111,15 @@ const CabinetComp = (props : ICabinetProps) => {
                         field = "employee";
                         break;
                 }
+                try {
+                    const parsedData = accountRequestToEntityDictionary(requestData[field], requestData.roles);
+                }
+                catch {
+                    alert(JSON.stringify('parsedData'))
+                }
                 const parsedData = accountRequestToEntityDictionary(requestData[field], requestData.roles);
+                alert(JSON.stringify(parsedData))
+                //alert(JSON.stringify(requestData.roles))
                 if (parsedData) {
                     await setCardData({
                         ...parsedData,

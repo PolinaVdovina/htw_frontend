@@ -112,7 +112,9 @@ const CabinetComp = (props : ICabinetProps) => {
                         break;
                 }
                 const parsedData = accountRequestToEntityDictionary(requestData[field], requestData.roles);
+                //alert(JSON.stringify(requestData.roles))
                 if (parsedData) {
+                    alert(JSON.stringify(parsedData))
                     await setCardData({
                         ...parsedData,
                         role: requestData.roles,
@@ -122,7 +124,6 @@ const CabinetComp = (props : ICabinetProps) => {
                     await dispatch(stopLoadingAction());
                 }
                 else {
-                    alert(JSON.stringify(parsedData))
                     snackBar.enqueueSnackbar("Не удалось подключиться к серверу", {variant: "error"})
                 }
                 
