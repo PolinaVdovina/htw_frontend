@@ -8,6 +8,10 @@ import { theme } from './theme';
 import { store } from './redux/store';
 import { SnackbarProvider } from 'notistack';
 import {Provider} from 'react-redux'
+
+
+
+
 ReactDOM.render(
   <React.StrictMode>
     <Provider store = {store}>

@@ -6,14 +6,13 @@ import { urls } from '../../pages/urls';
 
 
 interface IRedirectIfAuthorized {
-    authorized: boolean,
-    isPersonalDataFetched: boolean,
+    authorized?: boolean | null,
     login?: string | null,
 }
 
 function mapStateToProps(state : RootState) {
     return {
-      authorized: state.authReducer.loggedIn,
+      authorized: state.authReducer.authCompleteStatus,
       isPersonalDataFetched: state.userPersonalsReducer.isFetched,
       login: state.authReducer.login
     }
@@ -22,7 +21,7 @@ function mapStateToProps(state : RootState) {
 const RedirectIfAuthorizedComp = (props: IRedirectIfAuthorized) => {
     return (
     <>
-        {props.authorized && props.isPersonalDataFetched && <Redirect to={urls.cabinet.shortPath+props.login}/>}
+        {props.authorized  && <Redirect to={urls.cabinet.shortPath+props.login}/>}
     </>)
 }
 

@@ -1,90 +1,94 @@
-import { Paper, useTheme, Grid, Typography, Color, Avatar } from "@material-ui/core"
-import * as React from 'react';
-import { MessageType } from "./chatEnums";
-import { SharpCorner } from "./chatEnums";
+import React from 'react';
+import { IChatReceivingMessage } from './../../websockets/chat/interfaces';
+import { Paper, makeStyles, createStyles, Theme, Grid, Typography } from '@material-ui/core';
 import { connect } from 'react-redux';
-import { RootState } from "../../redux/store";
-import { getAvatarUrl } from './../../utils/fetchFunctions';
+import { RootState } from '../../redux/store';
+import { useTheme } from '@material-ui/core';
 
-type possibleMessageFormat = string; //Пока только string, но потом можно файлы добавлять (на самом деле нет...)
-type possibleIdFormat = number;
 
-//прост структура любого сообщения
-export interface IChatMessageData {
-    id?: possibleIdFormat,
-    createdDate?: string,
-    ownerLogin: string,     //Нужно для гиперссылки
-    ownerViewName?: string | null,
-    messageType: MessageType,
-    message: possibleMessageFormat,   //Пока только string, но потом можно файлы добавлять (на самом деле нет...)
+export enum ChatMessageColorScheme {
+    MINE,
+    NOT_MINE
 }
 
-//пропсы для компонента
-interface IChatMessageProps extends IChatMessageData {
-    style?: React.CSSProperties,
-    backgroundColor?: string,
-    messageColor?: string,
-    titleColor?: string,
-    sharpCorner?: SharpCorner,       //Отвечает за то, какой угол будет острым (левый, правый или никакой)
-    showAvatar?: boolean,
-    avatarUID?: any,
+interface IChatMessageProps {
+    paperStyle?: React.CSSProperties,
+    messageData: IChatReceivingMessage,
+    chatMessageColorScheme?: ChatMessageColorScheme | null,
+    hideViewName?: boolean,
+    classes?: typeof useStyles
 }
 
-const parseMessage = (message: possibleMessageFormat, messageType: MessageType, id?: possibleIdFormat) => {
-    switch (messageType) {
-        case (MessageType.TEXT):
-            return <Typography key={id}>{message}</Typography>
-    }
-}
+const useStyles = makeStyles((theme: Theme) =>
+    createStyles({
+        rootGrid: {
+            alignItems: "center",
+            padding: 0,
+            height: theme.menuBar.height,
+            /* backgroundColor: theme.palette.primary.main, */
+        },
+        paper: {
+            padding: theme.spacing(1),
+        },
+        viewName: {
+            overflowWrap: "anywhere",
+            fontSize: "12px",
+            /*             color: props.titleColor ? props.titleColor : "inherit", */
+        },
+        messageText: {
+            overflowWrap: "anywhere",
+            wordBreak: "break-word",
+            fontSize: "14px",
+            /*             color: props.messageColor ? props.messageColor : "inherit" */
+        }
+    }),
+);
+
+const mapStateToProps = (state: RootState) => ({
+
+})
 
 const ChatMessageWrap = (props: IChatMessageProps) => {
+    const classes = useStyles();
     const theme = useTheme();
-    const additionalStyles = {};
-
-    const borderRadius = theme.spacing(2);
-    additionalStyles['borderBottomLeftRadius'] = borderRadius;
-    additionalStyles['borderBottomRightRadius'] = borderRadius;
-    additionalStyles['borderTopRightRadius'] = borderRadius;
-    additionalStyles['borderTopLeftRadius'] = borderRadius;
-    if (props.sharpCorner == SharpCorner.LEFT)
-        additionalStyles['borderBottomLeftRadius'] = 0;
-    if (props.sharpCorner == SharpCorner.RIGHT)
-        additionalStyles['borderBottomRightRadius'] = 0;
     return (
-
         <Paper
-            elevation={4}
-            style={
+            elevation={3}
+            className={classes.paper}
+            style={{
+                backgroundColor: props.chatMessageColorScheme == ChatMessageColorScheme.MINE ?
+                    theme.chat.ownMessageBackgroundColor : theme.chat.companionMessageBackgroundColor,
+                ...props.paperStyle
+            }}
+        >
+            <Grid
+                container
+                direction="column"
+            >
                 {
-                    ...additionalStyles,
-                   
-                    backgroundColor: props.backgroundColor ? props.backgroundColor : "inherit",
-                    padding: theme.spacing(1),
-                    ...props.style
-                }
-            }>
-            <Grid container direction="column">
-                {
-                    props.ownerViewName &&
+                    props.messageData.senderViewName && !props.hideViewName &&
                     <Typography
+                        className={classes.viewName}
                         style={{
-                            overflowWrap: "anywhere",
-                            fontSize: "14px",
-                            color: props.titleColor ? props.titleColor : "inherit",
-                        }}>
-                        {props.ownerViewName}
+                            color: props.chatMessageColorScheme == ChatMessageColorScheme.MINE ?
+                                theme.chat.ownMessageTitleColor : theme.chat.companionMessageTitleColor
+                        }}
+                    >
+                        {props.messageData.senderViewName}
                     </Typography>
                 }
-                <Typography style={{ overflowWrap: "anywhere", color: props.messageColor ? props.messageColor : "inherit", }}>
-                    {parseMessage(props.message, props.messageType, props.id)}
+                <Typography
+                    className={classes.messageText}
+                    style={{
+                        color: props.chatMessageColorScheme == ChatMessageColorScheme.MINE ?
+                            theme.chat.ownMessageColor : theme.chat.companionMessageColor
+                    }}
+                >
+                    {props.messageData.content}
                 </Typography>
             </Grid>
         </Paper>
-
     )
 }
 
-export const ChatMessage = connect((state: RootState) => ({
-    avatarUID: state.userPersonalsReducer.avatarUrlUid,
-})
-)(ChatMessageWrap)
+export const ChatMessage = connect(mapStateToProps)(ChatMessageWrap)

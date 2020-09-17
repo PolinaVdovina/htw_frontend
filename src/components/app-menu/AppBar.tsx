@@ -16,7 +16,7 @@ import { RootState } from '../../redux/store';
 
 
 
-const useStyles = makeStyles((theme: Theme) =>
+export const appBarStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       alignItems: "center",
@@ -76,20 +76,22 @@ const useStyles = makeStyles((theme: Theme) =>
 
 function mapStateToProps(state : RootState) {
   return {
-    authorized: state.authReducer.loggedIn,
+    //authorized: state.authReducer.loggedIn,
   }
 }
 
 
 interface IAppBarProps {
     title?: String,
-    onDrawerShow?: (event: React.MouseEvent<HTMLButtonElement>) => void,
+    onMenuButtonClick?: (event: React.MouseEvent<HTMLButtonElement>) => void,
     height?: number,
-    authorized: boolean,
+    //authorized: boolean,
+    leftAppartment?: any,
+    rightAppartment?: any,
 }
 
 export const AppBarComp = (props : IAppBarProps) => {
-    const classes = useStyles();
+    const classes = appBarStyles();
    
     const context = React.useContext(AppMenuContext);
     return (
@@ -97,10 +99,7 @@ export const AppBarComp = (props : IAppBarProps) => {
           <Container className={classes.container}>
             <Toolbar className={classes.menuBar}>
                 {
-                props.authorized &&
-                <IconButton onClick={props.onDrawerShow} className={classes.menuButton} edge="start" color="inherit" aria-label="menu">
-                    <MenuIcon/>
-                </IconButton>
+                  props.leftAppartment
                 }
                 <Typography variant="h6" className={classes.title}>
                     {context?.title}
@@ -122,6 +121,9 @@ export const AppBarComp = (props : IAppBarProps) => {
                   />
                 </div>
                 } */}
+                {
+                  props.rightAppartment
+                }
             </Toolbar>
             </Container>
         </MuiAppBar>

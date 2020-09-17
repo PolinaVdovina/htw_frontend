@@ -2,6 +2,7 @@ import React from 'react'
 import { List, ListItem, Typography, useTheme, GridList, GridListTile, Dialog, DialogContent, Container } from '@material-ui/core';
 import { BodyElementCompProps } from './post-body-element';
 import classes from '*.module.css';
+import { getApchiUrl } from '../../../../utils/fetchFunctions';
 
 interface IImgInPostProps extends BodyElementCompProps  {
     data: {
@@ -21,7 +22,7 @@ export const ImgInPost = (props: IImgInPostProps) => {
                 {props.data.paths.map((path) => (
                     <GridListTile key={path} cols={1}>
                         <img  onClick={() => {setOpenDialog(true); setBigImagePath(path)}}
-                            src={"/personal/apchi/achievementFile/get?filepath=" + path}>
+                            src={getApchiUrl(path)}>
                         </img>
                     </GridListTile>
                 ))}
@@ -29,7 +30,7 @@ export const ImgInPost = (props: IImgInPostProps) => {
             <Dialog open={openDialog} onClose={() => {setOpenDialog(false); setBigImagePath("")}}>
                 <DialogContent>
                     <img  width='650px'
-                        src={"/personal/apchi/achievementFile/get?filepath=" + bigImagePath}>
+                        src={getApchiUrl(bigImagePath)}>
                     </img>                    
                 </DialogContent>
             </Dialog>

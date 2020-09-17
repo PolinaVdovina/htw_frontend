@@ -4,6 +4,8 @@ import { IMessageInfo, MessageStatus } from "./fetchInterfaces";
 import { ITapeElementProps } from './../components/tape/posts/TapeElement';
 import { ISearchCriteriaRequest } from "./search-criteria/types";
 
+const rootUrl = "/api";
+
 interface ILoginResponse {
     login?: string,
     token?: string,
@@ -12,10 +14,11 @@ interface ILoginResponse {
     role?: string
 }
 
+
 export const loginFetch = async (identity, password) => {
     let returnData: ILoginResponse;
     try {
-        const response = await axios.post("/auth/login", {
+        const response = await axios.post(rootUrl+"/auth/login", {
             login: identity,
             password: password,
         });
@@ -54,7 +57,7 @@ interface IRegisterResponse {
 export const registerFetch = async (login, email, phone, password, role, nameOrg?) => {
     let returnData: IRegisterResponse;
     try {
-        const response = await axios.post("/auth/create", {
+        const response = await axios.post(rootUrl + "/auth/create", {
             login,
             phone,
             email,
@@ -105,7 +108,7 @@ export const registerFetch = async (login, email, phone, password, role, nameOrg
 export const getPersonalDataFetch = async (token, role: string) => {
     let returnData;
     try {
-        const response = await axios.get("/" + role + "/get", {
+        const response = await axios.get(rootUrl + "/" + role + "/get", {
             headers: {
                 Authorization: 'Bearer ' + token
             }
@@ -130,7 +133,7 @@ export const getEmployeesListFetch = async (token, url?) => {
     let returnData;
     url = url || "/employer/employee";
     try {
-        const response = await axios.get("/employer/employee", {
+        const response = await axios.get(rootUrl + "/employer/employee", {
             headers: {
                 Authorization: 'Bearer ' + token
             }
@@ -153,7 +156,7 @@ export const getEmployeesListFetch = async (token, url?) => {
 export const addEmployeeFetch = async (token, data, url?) => {
     let returnData;
     try {
-        const response = await axios.post(url,
+        const response = await axios.post(rootUrl + url,
 
             data,
 
@@ -184,7 +187,7 @@ export const addEmployeeFetch = async (token, data, url?) => {
 export const changePasswordFetch = async (token, data) => {
     let returnData;
     try {
-        const response = await axios.post("/account/change-password",
+        const response = await axios.post(rootUrl + "/account/change-password",
 
             data,
 
@@ -215,7 +218,7 @@ export const changePasswordFetch = async (token, data) => {
 export const changePersonalDataFetch = async (token, data, url?) => {
     try {
         url = url || '/account/set';
-        const response = await axios.post(url,  //{
+        const response = await axios.post(rootUrl + url,  //{
                 /*...*/data,
 
             //},
@@ -241,7 +244,7 @@ export const changePersonalDataFetch = async (token, data, url?) => {
 export const changeEmployerAddressFetch = async (token, data, url?) => {
     try {
         url = url || '/account/address';
-        const response = await axios.post(url, {
+        const response = await axios.post(rootUrl + url, {
             ...data,
 
         },
@@ -268,7 +271,7 @@ export const changeEmployerAddressFetch = async (token, data, url?) => {
 export const deletePersonalDataFetch = async (token, data, url?) => {
     try {
         url = url || '/account/address';
-        const response = await axios.delete(url,  {
+        const response = await axios.delete(rootUrl + url,  {
                 data: data,
                 headers: {Authorization: 'Bearer ' + token},
             }
@@ -290,7 +293,7 @@ export const deletePersonalDataFetch = async (token, data, url?) => {
 
 export const deleteEntity = async (token, id, url) => {
     try {
-        const response = await axios.delete(url+'?entityId='+id,  {
+        const response = await axios.delete(rootUrl + url+'?entityId='+id,  {
                 data: {},
                 headers: {Authorization: 'Bearer ' + token},
             }
@@ -312,7 +315,7 @@ export const deleteEntity = async (token, id, url) => {
 
 export const isValidTokenFetch = async (token: string) => {
     try {
-        const response = await axios.post("/account/set", {},
+        const response = await axios.post(rootUrl + "/account/set", {},
             {
                 headers: { Authorization: 'Bearer ' + token },
             }
@@ -332,7 +335,7 @@ export const isValidTokenFetch = async (token: string) => {
 
 export const getAccountDataFetch = async (token: string, login: string) => {
     try {
-        const userData = await axios.get("/account/login?login=" + login,
+        const userData = await axios.get(rootUrl + "/account/login?login=" + login,
             {
                 headers: { Authorization: 'Bearer ' + token },
             });
@@ -347,7 +350,7 @@ export const getAccountDataFetch = async (token: string, login: string) => {
 
 export const addVacancyFetch = async (token: string, vacancyData) => {
     try {
-        const response = await axios.post("/vacancy/add", vacancyData,
+        const response = await axios.post(rootUrl + "/vacancy/add", vacancyData,
             {
                 headers: { Authorization: 'Bearer ' + token },
             }
@@ -377,7 +380,7 @@ export const addVacancyFetch = async (token: string, vacancyData) => {
 
 export const getOwnVacanciesFetch = async (token: string) => {
     try {
-        const result = await axios.get("/vacancy/getOwn",
+        const result = await axios.get(rootUrl + "/vacancy/getOwn",
             {
                 headers: { Authorization: 'Bearer ' + token },
             });
@@ -392,7 +395,7 @@ export const getOwnVacanciesFetch = async (token: string) => {
 
 export const getVacanciesByLoginFetch = async (token: string, login: string) => {
     try {
-        const result = await axios.get("/vacancy/getByLogin?login=" + login,
+        const result = await axios.get(rootUrl + "/vacancy/getByLogin?login=" + login,
             {
                 headers: { Authorization: 'Bearer ' + token },
             });
@@ -418,7 +421,7 @@ export interface ITapeFetch {
 export const getVacanciesByLoginAndMinDateFetch = async (token: string, login: string, minDate?: string | null, limit?: number) => {
     try {
 
-        const result = await axios.post("/vacancy/getByLoginAndDate",
+        const result = await axios.post(rootUrl + "/vacancy/getByLoginAndDate",
             {
                 login,
                 minDate,
@@ -450,7 +453,7 @@ export const getVacanciesByLoginAndMinDateFetch = async (token: string, login: s
 
 export const removeVacancyFetch = async (token: string, vacancyId: number) => {
     try {
-        const result = await axios.get("/vacancy/remove?vacancyId=" + vacancyId,
+        const result = await axios.get(rootUrl + "/vacancy/remove?vacancyId=" + vacancyId,
             {
                 headers: { Authorization: 'Bearer ' + token },
             });
@@ -467,7 +470,7 @@ export const setAvatarFetch = async (token: string, file: File) => {
     try {
         let formData = new FormData();
         formData.append("avatar", file);
-        const result = await axios.post("/account/setAvatar", formData,
+        const result = await axios.post(rootUrl + "/account/setAvatar", formData,
             {
                 headers: { Authorization: 'Bearer ' + token },
             }
@@ -499,7 +502,7 @@ export const addAchievementFetch = async (token: string, achievData, files: Arra
             formData.append("file[]", files[i]);
         }
 
-        const response = await axios.post("/personal/achievements/add?title=" + achievData.title + "&description=" + achievData.description, 
+        const response = await axios.post(rootUrl + "/personal/achievements/add?title=" + achievData.title + "&description=" + achievData.description, 
             formData,
             {
                 headers: { Authorization: 'Bearer ' + token },
@@ -556,13 +559,18 @@ export const addAchievementFetch = async (token: string, achievData, files: Arra
 }*/
 
 export const getAvatarUrl = (login: string): string => {
-    return "/account/avatars/" + login
+    return rootUrl + "/account/avatars/" + login
+}
+
+
+export const getApchiUrl = (filePath: string): string => {
+    return rootUrl + "/personal/apchi/achievementFile/get?filepath=" + filePath
 }
 
 
 export const subscribeFetch = async (token: string, login: String): Promise<IMessageInfo> => {
     try {
-        const result = await axios.get("/account/subscribe?login="+login, { headers: { Authorization: 'Bearer ' + token } });
+        const result = await axios.get(rootUrl + "/account/subscribe?login="+login, { headers: { Authorization: 'Bearer ' + token } });
         return {
             msgStatus: MessageStatus.OK
         }
@@ -578,7 +586,7 @@ export const subscribeFetch = async (token: string, login: String): Promise<IMes
 
 export const unsubscribeFetch = async (token: string, login: string): Promise<IMessageInfo> => {
     try {
-        const result = await axios.get("/account/unsubscribe?login="+login, { headers: { Authorization: 'Bearer ' + token } });
+        const result = await axios.get(rootUrl + "/account/unsubscribe?login="+login, { headers: { Authorization: 'Bearer ' + token } });
         return {
             msgStatus: MessageStatus.OK
         }
@@ -600,7 +608,7 @@ export interface ISearchCriteriaResponse<T> {
 export const searchCriteriaFetch: <T> (url: string, token: string, requestData: ISearchCriteriaRequest | null) => Promise<ISearchCriteriaResponse<T>> =
     async (url, token, requestData) => {
         try {
-            const result = await axios.post(url, requestData, { headers: { Authorization: 'Bearer ' + token } });
+            const result = await axios.post(rootUrl + url, requestData, { headers: { Authorization: 'Bearer ' + token } });
             return {
                 msgInfo: {
                     msgStatus: MessageStatus.OK,
@@ -622,7 +630,7 @@ export const searchCriteriaFetch: <T> (url: string, token: string, requestData: 
 
 export const toRespondFetch = async (token, id, url) => {
     try {
-        const response = await axios.post(url+'?entityId=' + id.toString(), 
+        const response = await axios.post(rootUrl + url+'?entityId=' + id.toString(), 
                 null, 
             {
                 headers: {Authorization: 'Bearer ' + token},
@@ -645,7 +653,7 @@ export const toRespondFetch = async (token, id, url) => {
 
 export const toRespondViewFetch = async (token, id, url) => {
     try {
-        const result = await axios.post(url+'?vacancyId=' + id.toString(), 
+        const result = await axios.post(rootUrl + url+'?vacancyId=' + id.toString(), 
                 null, 
             {
                 headers: {Authorization: 'Bearer ' + token},
@@ -672,7 +680,7 @@ export const toRespondViewFetch = async (token, id, url) => {
 
 export const removeAchievFetch = async (token: string, id: number) => {
     try {
-        const result = await axios.get("/personal/achievements/delete?id=" + id,
+        const result = await axios.get(rootUrl+"/personal/achievements/delete?id=" + id,
             {
                 headers: { Authorization: 'Bearer ' + token },
             });
@@ -683,6 +691,5 @@ export const removeAchievFetch = async (token: string, id: number) => {
         return MessageStatus.ERROR;
     }
 }
-
 
 

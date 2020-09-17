@@ -33,3 +33,14 @@ export function errorAction() {
     type: types.LOG_IN_ERROR,
   };
 }
+
+
+export function authCompletedAction(loggedIn=true) {
+  return {
+    type: types.AUTH_COMPLETED,
+    loggedIn,
+  };
+}
+
+
+

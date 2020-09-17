@@ -11,6 +11,7 @@ import { subscribeAction } from './../actions/user-personals';
 
 interface ICommonState {
     isFetched,
+    viewName,
     name?,
     surname?,
     middlename?,
@@ -65,7 +66,8 @@ const initialState: ICommonState = {
     subscriptionLogins: null,
     status: null,
     employment: null,
-    vacancyTypes: null
+    vacancyTypes: null,
+    viewName: null
 };
 
 

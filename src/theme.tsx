@@ -52,7 +52,7 @@ export const theme = createMuiTheme({
     maxWidth: 900
   },
   chat: {
-    chatPaperBackgroundColor: "#f2f3f4",
+    chatPaperBackgroundColor: "rgb(230,230,230)" , //"#f2f3f4", 
 
     ownMessageBackgroundColor: "#4a76a8",
     companionMessageBackgroundColor: "white",

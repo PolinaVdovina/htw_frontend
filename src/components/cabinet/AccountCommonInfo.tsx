@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Link, Drawer, Tooltip, IconButton, List, ListItem, ListItemIcon, ListItemText, Avatar, Grid, makeStyles, Theme, createStyles, Typography, Divider, useTheme, Badge } from "@material-ui/core"
+import { Link, Drawer, Tooltip, IconButton, List, ListItem, ListItemIcon, ListItemText, Avatar, Grid, makeStyles, Theme, createStyles, Typography, Divider, useTheme, Badge, Button } from "@material-ui/core"
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import LibraryBooksIcon from '@material-ui/icons/LibraryBooks';
 import PlaylistAddCheckIcon from '@material-ui/icons/PlaylistAddCheck';
@@ -22,6 +22,9 @@ import { startLoading, stopLoading } from '../../redux/reducers/dialog-reducers'
 import Resizer from 'react-image-file-resizer';
 import { resize } from '../../utils/appliedFunc';
 import { subscribe, unsubscribe } from './../../redux/reducers/user-personals-reducers';
+import { showChat } from './../../redux/reducers/chat-reducers';
+import { getStompClient } from './../../websockets/common';
+import { subscribeToOnlineTracking } from '../../websockets/chat/actions';
 
 interface IDrawerElement {
   IconComponent?: any,
@@ -32,7 +35,7 @@ interface IDrawerElement {
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     rootGrid: {
-      alignItems: 'center',
+      //alignItems: 'center',
       width: theme.menuBar.menuWidth,
       minWidth: theme.menuBar.menuWidth,
     },
@@ -44,11 +47,13 @@ const useStyles = makeStyles((theme: Theme) =>
     avatar: {
       width: "64px",
       height: "64px",
-      marginRight: theme.spacing(2)
+      marginRight: theme.spacing(2),
+      alignSelf: "center",
     },
     descriptionAndTitleBlock: {
       flexGrow: 1,
-      paddingRight: theme.spacing(2)
+      paddingRight: theme.spacing(2),
+      alignSelf: "center",
     },
     titleBlock: {
 
@@ -60,7 +65,9 @@ const useStyles = makeStyles((theme: Theme) =>
       display: 'none',
     },
     changeName: {
-      alignSelf: "flex-start"
+      //alignSelf: "flex-start",
+      alignItems: "end",
+      width: "auto"
     },
     changeAvatarButton: {
       "&:hover, &.Mui-focusVisible": {
@@ -94,7 +101,8 @@ interface IAccountCommonInfo {
   stopLoading: typeof stopLoading,
   subscribe: typeof subscribe,
   unsubscribe: typeof unsubscribe,
-  subscriptionLogins?: Array<string> | null
+  subscriptionLogins?: Array<string> | null,
+  showChat: typeof showChat
 }
 
 const AccountCommonInfoComp = (props: IAccountCommonInfo) => {
@@ -152,12 +160,16 @@ const AccountCommonInfoComp = (props: IAccountCommonInfo) => {
 
   }
 
-  const subscribeHanlder = async () => {
+  const openChatHandler = () => {
+    props.showChat(context.login, context.viewName)
+  }
+
+  const subscribeHandler = async () => {
     if (props.token && context && context.login)
       await props.subscribe(props.token, context.login);
   }
 
-  const unsubscribeHanlder = async () => {
+  const unsubscribeHandler = async () => {
     if (props.token && context && context.login)
       await props.unsubscribe(props.token, context.login);
   }
@@ -179,7 +191,7 @@ const AccountCommonInfoComp = (props: IAccountCommonInfo) => {
   }
 
   return (
-    <Grid container alignItems="center" direction="row" className={classes.avatarGrid}>
+    <Grid container /* alignItems="center" */ direction="row" className={classes.avatarGrid}>
       <input
         ref={openFileDialogRef}
         type='file'
@@ -210,7 +222,7 @@ const AccountCommonInfoComp = (props: IAccountCommonInfo) => {
             <CreateIcon/>
           </IconButton> */}
       <Grid item container direction="column" className={classes.descriptionAndTitleBlock}>
-        <Typography style = {{fontWeight: "bold"}} className={classes.titleBlock}>
+        <Typography style={{ fontWeight: "bold" }} className={classes.titleBlock}>
           {
             roleTitle
           }
@@ -230,7 +242,7 @@ const AccountCommonInfoComp = (props: IAccountCommonInfo) => {
             </Link>
           }
           {
-            !context.isMine && <Typography style={{ textAlign: "left", wordBreak: "break-word" }}>{context.about}</Typography>
+            !context.isMine && <Typography style={{ textAlign: "left", wordBreak: "break-word", fontSize: "12px" }}>{context.about}</Typography>
           }
         </Typography>
 
@@ -250,7 +262,14 @@ const AccountCommonInfoComp = (props: IAccountCommonInfo) => {
       </Grid>
 
 
-      <Grid item className={classes.changeName}>
+      <Grid
+        item container
+
+        direction="column"
+        className={classes.changeName}
+      >
+
+
         {
           context.isMine &&
           <Link
@@ -263,21 +282,58 @@ const AccountCommonInfoComp = (props: IAccountCommonInfo) => {
         {
           !context.isMine && (props.subscriptionLogins == null || !props.subscriptionLogins?.includes(context.login)) &&
           <Link
-            onClick={subscribeHanlder}
+            onClick={subscribeHandler}
             component='button'
           >
             Подписаться
-          </Link>
+            </Link>
         }
         {
           !context.isMine && (props.subscriptionLogins != null && props.subscriptionLogins?.includes(context.login)) &&
           <Link
-            onClick={unsubscribeHanlder}
+            onClick={unsubscribeHandler}
             component='button'
           >
             Отписаться
+            </Link>
+        }
+
+
+
+        {
+          !context.isMine &&
+          <Link
+            onClick={openChatHandler}
+            component='button'
+            style={{ marginTop: theme.spacing(1) }}
+          >
+            Сообщение
           </Link>
         }
+
+        <div style={{ flexGrow: 1 }} />
+
+        {
+          context.isOnline == true &&
+          <Typography
+            style={{ marginTop: theme.spacing(1), width: "max-content" }}
+            key={context.login}
+          >
+            В сети
+            </Typography>
+        }
+
+        {
+          context.isOnline == false &&
+          <Typography
+            style={{ marginTop: theme.spacing(1), width: "max-content" }}
+            key={context.login}
+          >
+            Не в сети
+          </Typography>
+        }
+
+
       </Grid>
 
     </Grid>
@@ -289,5 +345,5 @@ export const AccountCommonInfo = connect((state: RootState) => ({
   avatarUID: state.userPersonalsReducer.avatarUrlUid,
   subscriptionLogins: state.userPersonalsReducer.subscriptionLogins,
 }),
-  { updateAvatarUID, startLoading, stopLoading, subscribe, unsubscribe }
+  { updateAvatarUID, startLoading, stopLoading, subscribe, unsubscribe, showChat }
 )(AccountCommonInfoComp)
