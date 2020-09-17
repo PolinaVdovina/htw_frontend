@@ -86,7 +86,7 @@ export function accountRequestToEntityDictionary(data, role) {
                     jobApplicantSet: data.jobApplicantSet,
                     education: data.jobSeekerEducations,
                     subscriptionLogins: data.subscriptionLogins,
-                    status: data.status,
+                    status: data.status
                     employment: data.employment,
                     vacancyTypes: data.vacancyTypes,
                     viewName: data.viewName,
