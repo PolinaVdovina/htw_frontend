@@ -18,13 +18,16 @@ import SearchIcon from '@material-ui/icons/Search'; //поиск
 import ChatIcon from '@material-ui/icons/Chat';
 import ContactlessIcon from '@material-ui/icons/Contactless';
 import EventIcon from '@material-ui/icons/Event';
+import InsertChartIcon from '@material-ui/icons/InsertChart';
+import SettingsIcon from '@material-ui/icons/Settings';
 
 interface IDrawerElement {
   IconComponent?: any,
   title?: string,
   url?: string,
   func?: (...arg) => void,
-  addLogin?: boolean,
+	addLogin?: boolean,
+	role?: any
 }
 
 interface IDrawerGroup {
@@ -44,6 +47,11 @@ const drawerGroups: Array<IDrawerGroup> = [
         title: "Личный кабинет",
         url: urls.cabinet.shortPath,
         addLogin: true,
+      },
+      {
+        IconComponent: SettingsIcon,
+        title: "Настройки",
+        url: urls.settings.shortPath
       }
     ]
   },
@@ -102,12 +110,19 @@ const drawerGroups: Array<IDrawerGroup> = [
     ]
   },
 
+  
 
 
   {
     isRoot: true,
     title: "Корень2",
     elements: [
+	  {
+		  title: "Аналитика",
+		  IconComponent: InsertChartIcon,
+		  url: urls.analytics.shortPath,
+		  role:	'ROLE_INSTITUTION'
+	  },
       {
         IconComponent: ChatIcon,
         title: "Сообщения",
@@ -216,31 +231,49 @@ const useStyles = makeStyles((theme: Theme) =>
   )
 } */
 
-const GroupElements = (props) => {
+const GroupElementsComp = (props) => {
   const dispatch = useDispatch();
   const classes = useStyles();
   return (
     <List disablePadding className={classes.listButtons}>
       {
-        props.elements.map((el, index) =>
-          <ListItem
-            key={index} button
-            className={props.nested ? classes.nestedButtons : classes.notNestedButtons}
-            {...{ component: el.url && NavLink, to: el.url + (el.addLogin ? props.login : '') || null }}
-            onClick={() => { el.func && el.func(dispatch) }}>
+				props.elements.map((el, index) =>
+					el.role ? 
+						(el.role == props.role && 
+							<ListItem
+								key={index} button
+								className={props.nested ? classes.nestedButtons : classes.notNestedButtons}
+								{...{ component: el.url && NavLink, to: el.url + (el.addLogin ? props.login : '') || null }}
+								onClick={() => { el.func && el.func(dispatch) }}>
 
-            {el.IconComponent &&
-              <ListItemIcon>
-                <el.IconComponent />
-              </ListItemIcon>
-            }
-            <ListItemText primary={el.title} />
-          </ListItem >
-        )
+								{el.IconComponent && 
+										<ListItemIcon>
+											<el.IconComponent />
+										</ListItemIcon>
+								}
+								<ListItemText primary={el.title} />
+							</ListItem >) 
+					:
+							(<ListItem
+								key={index} button
+								className={props.nested ? classes.nestedButtons : classes.notNestedButtons}
+								{...{ component: el.url && NavLink, to: el.url + (el.addLogin ? props.login : '') || null }}
+								onClick={() => { el.func && el.func(dispatch) }}>
+
+								{el.IconComponent && 
+										<ListItemIcon>
+											<el.IconComponent />
+										</ListItemIcon>
+								}
+								<ListItemText primary={el.title} />
+							</ListItem >)
+				)
       }
     </List>
   )
 }
+
+const GroupElements = connect(mapStateToProps)(GroupElementsComp);
 
 const DrawerGroups = (props) => {
   const dispatch = useDispatch();

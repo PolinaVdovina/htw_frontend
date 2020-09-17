@@ -161,3 +161,12 @@ export function validateEducation(data: {
 export function isWhitespace(str: string) {
     return /^\s*$/.test(str);
 }
+
+export const validateNewPassword = (password: {currentPassword: string, newPassword: string}): boolean => {
+    if (!password.newPassword || 
+        !password.currentPassword || 
+        password.newPassword.length < 6 || 
+        password.currentPassword == password.newPassword
+    ) return false;
+    else return true;
+}

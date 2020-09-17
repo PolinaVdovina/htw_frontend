@@ -184,6 +184,37 @@ export const addEmployeeFetch = async (token, data, url?) => {
     }
 }
 
+export const changePasswordFetch = async (token, data) => {
+    let returnData;
+    try {
+        const response = await axios.post("/account/change-password",
+
+            data,
+
+            {
+                headers: {
+                    Authorization: 'Bearer ' + token
+                }
+            }
+
+        );
+
+        const msgInfo: IMessageInfo = {
+            msgStatus: response.data.error || (response.data.status && response.data.status == 'error') ? MessageStatus.ERROR : MessageStatus.OK,
+            id: response.data
+        };
+        return msgInfo;
+    }
+    catch
+    {
+        const msgInfo: IMessageInfo = {
+            msgStatus: MessageStatus.ERROR,
+            error: "Проблемы с соединением",
+        };
+        return msgInfo;
+    }
+}
+
 export const changePersonalDataFetch = async (token, data, url?) => {
     try {
         url = url || '/account/set';
@@ -451,6 +482,82 @@ export const setAvatarFetch = async (token: string, file: File) => {
     }
 }
 
+export const addAchievementFetch = async (token: string, achievData, files: Array<File>) => {
+    try {
+        let formData = new FormData();
+        /*if (files === undefined) return 0;
+        for (let i = 0; i < files.length; i++) {
+            let file: File;
+            let fileOfList = files.item(i);
+            if (fileOfList === null) {
+                return 0;
+            }
+            else {
+                file = fileOfList;
+                formData.append("file[]", file);
+            }
+        }*/
+
+        for (let i = 0; i < files.length; i++) {
+            formData.append("file[]", files[i]);
+        }
+
+        const response = await axios.post("/personal/achievements/add?title=" + achievData.title + "&description=" + achievData.description, 
+            formData,
+            {
+                headers: { Authorization: 'Bearer ' + token },
+            }
+        );
+
+        const msgInfo: IMessageInfo = {
+            msgStatus: response.data.error || (response.data.status && response.data.status == 'error') ? MessageStatus.ERROR : MessageStatus.OK,
+            id: response.data
+        };
+        return {
+            data: response.data,
+            msgInfo
+        };
+    }
+    catch {
+        const msgInfo: IMessageInfo = {
+            msgStatus: MessageStatus.ERROR,
+            error: "Проблемы с соединением",
+        };
+        return {
+            data: null,
+            msgInfo
+        };
+    }
+}
+
+
+/*exsdvport const addImageAchievFetch = async (token: string, files: FileList) => {
+    try {
+        let formData = new FormData();
+        for (let i = 0; i < files.length; i++) {
+            let file: File;
+            let fileOfList = files.item(i);
+            if (fileOfList === null) {
+                return 0;
+            }
+            else {
+                file = fileOfList;
+                formData.append("file[]", file);
+            }
+        }
+        
+        const result = await axios.post("/", formData,
+            {
+                headers: { Authorization: 'Bearer ' + token },
+            }
+        );
+        return MessageStatus.OK;
+    }
+    catch {
+        return MessageStatus.ERROR;
+    }
+}*/
+
 export const getAvatarUrl = (login: string): string => {
     return rootUrl + "/account/avatars/" + login
 }
@@ -563,6 +670,20 @@ export const toRespondViewFetch = async (token, id, url) => {
             },
         }
         return returnData;
+    }
+}
+
+export const removeAchievFetch = async (token: string, id: number) => {
+    try {
+        const result = await axios.get("/personal/achievements/delete?id=" + id,
+            {
+                headers: { Authorization: 'Bearer ' + token },
+            });
+        //alert(JSON.stringify(userData.data))
+        return MessageStatus.OK;
+    }
+    catch {
+        return MessageStatus.ERROR;
     }
 }
 
