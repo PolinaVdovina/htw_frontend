@@ -305,7 +305,7 @@ export const changeJobSeekerEmploymentData = async ( dispatch, data ) => {
             uniqueSet = new Set(tempMass);
         }            
         else {
-            let tempMass = [...data[key], []];
+            let tempMass = [...data[key]];
             uniqueSet = new Set(tempMass)
         }
             

@@ -304,14 +304,11 @@ export const changeJobSeekerEmploymentData = async ( dispatch, data ) => {
             let tempMass = [...data[key], ...store.getState().userPersonalsReducer[key]]
             uniqueSet = new Set(tempMass);
         }            
-        else {
-            let tempMass = [...data[key], []];
-            uniqueSet = new Set(tempMass)
-        }
-            
+        else 
+            uniqueSet = new Set(...data[key])
         
         const dataSet = Array.from(uniqueSet); 
- 
+             
         await dispatch( fillPersonalDataAction({[key]: dataSet}));
     }
     return msgInfo;

@@ -305,13 +305,12 @@ export const changeJobSeekerEmploymentData = async ( dispatch, data ) => {
             uniqueSet = new Set(tempMass);
         }            
         else {
-            let tempMass = [...data[key], []];
-            uniqueSet = new Set(tempMass)
+            uniqueSet = new Set(...data[key])
         }
             
         
         const dataSet = Array.from(uniqueSet); 
- 
+           alert(JSON.stringify(dataSet))  
         await dispatch( fillPersonalDataAction({[key]: dataSet}));
     }
     return msgInfo;

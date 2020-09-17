@@ -300,18 +300,18 @@ export const changeJobSeekerEmploymentData = async ( dispatch, data ) => {
     const msgInfo: IMessageInfo = await changePersonalDataFetch(store.getState().authReducer.token, data[key], urls[key].add);
     if(msgInfo.msgStatus == MessageStatus.OK) {
         let uniqueSet;
-        if (store.getState().userPersonalsReducer[key]) {
+        if (store.getState().userPersonalsReducer[key] || store.getState().userPersonalsReducer[key].length == 0) {
             let tempMass = [...data[key], ...store.getState().userPersonalsReducer[key]]
             uniqueSet = new Set(tempMass);
         }            
         else {
-            let tempMass = [...data[key], []];
-            uniqueSet = new Set(tempMass)
+            let tempMass = [...data[key]];
+            uniqueSet = new Set(tempMass);
         }
-            
+           
         
         const dataSet = Array.from(uniqueSet); 
- 
+             
         await dispatch( fillPersonalDataAction({[key]: dataSet}));
     }
     return msgInfo;
