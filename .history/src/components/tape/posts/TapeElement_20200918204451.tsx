@@ -107,7 +107,7 @@ const TapeElementCardComp = (props: ITapeElementProps) => {
         }
         <Grid item style={{ flexGrow: 1, marginRight: theme.spacing(2) }}>
           <Grid container direction="column" >
-            {props.tapeElementData.title && props.tapeElementData.ownerLogin && !props.tapeElementData.isChat &&
+            {props.tapeElementData.title && props.tapeElementData.ownerLogin &&
               <Typography
                 color='inherit'
                 style={{textDecoration:"none"}}
@@ -119,9 +119,7 @@ const TapeElementCardComp = (props: ITapeElementProps) => {
               <Typography
                 color='inherit'
                 style={{textDecoration:"none"}}
-                component={RouterLink}
-                to={'#'}
-                onClick={() => props.showChat(props.tapeElementData.ownerLogin, props.tapeElementData.title)}>
+                component={Button} onClick={() => props.showChat(props.login, props.tapeElementData.ownerLogin)}>
                 {props.tapeElementData.title}
               </Typography>
             }

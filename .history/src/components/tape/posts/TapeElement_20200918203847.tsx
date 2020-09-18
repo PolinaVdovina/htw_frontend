@@ -45,14 +45,12 @@ export interface ITapeElementProps {
   avatarUrlUid: any,
   style: any,
   userRole?: string | null | undefined,
-  login: string | null | undefined,
   token: any,
   isOpenedDefaut?: boolean,
   isRespondsActive: boolean,
   isRespondViewActive: boolean,
   onDeleteClick?: ((postId: any) => void) | null,
-  onChangeClick?: (postId: any) => void,
-  showChat: (login, interlocutor) => void
+  onChangeClick?: (postId: any) => void
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -107,21 +105,11 @@ const TapeElementCardComp = (props: ITapeElementProps) => {
         }
         <Grid item style={{ flexGrow: 1, marginRight: theme.spacing(2) }}>
           <Grid container direction="column" >
-            {props.tapeElementData.title && props.tapeElementData.ownerLogin && !props.tapeElementData.isChat &&
+            {props.tapeElementData.title && props.tapeElementData.ownerLogin &&
               <Typography
                 color='inherit'
                 style={{textDecoration:"none"}}
                 component={RouterLink} to={urls.cabinet.shortPath + props.tapeElementData.ownerLogin}>
-                {props.tapeElementData.title}
-              </Typography>
-            }
-            {props.tapeElementData.title && props.tapeElementData.ownerLogin && props.tapeElementData.isChat &&
-              <Typography
-                color='inherit'
-                style={{textDecoration:"none"}}
-                component={RouterLink}
-                to={'#'}
-                onClick={() => props.showChat(props.tapeElementData.ownerLogin, props.tapeElementData.title)}>
                 {props.tapeElementData.title}
               </Typography>
             }
@@ -188,7 +176,6 @@ const TapeElementCardComp = (props: ITapeElementProps) => {
 }
 
 export const TapeElement = connect((state: RootState) => ({ 
-  login: state.authReducer.login,
 	avatarUrlUid: state.userPersonalsReducer.avatarUrlUid, 
 	userRole: state.authReducer.entityType, 
 	token: state.authReducer.token }), { showChat })(TapeElementCardComp);

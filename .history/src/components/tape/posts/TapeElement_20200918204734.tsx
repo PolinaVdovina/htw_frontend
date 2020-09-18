@@ -119,9 +119,7 @@ const TapeElementCardComp = (props: ITapeElementProps) => {
               <Typography
                 color='inherit'
                 style={{textDecoration:"none"}}
-                component={RouterLink}
-                to={'#'}
-                onClick={() => props.showChat(props.tapeElementData.ownerLogin, props.tapeElementData.title)}>
+                onClick={() => props.showChat(props.login, props.tapeElementData.ownerLogin)}>
                 {props.tapeElementData.title}
               </Typography>
             }
