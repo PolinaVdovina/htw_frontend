@@ -599,6 +599,22 @@ export const unsubscribeFetch = async (token: string, login: string): Promise<IM
     }
 }
 
+export const isUserOnlineFetch = async (token: string, login: string) => {
+    try {
+        const result = await axios.get(rootUrl + "/account/is-online?login="+login, { headers: { Authorization: 'Bearer ' + token } });
+        return {
+            msgStatus: MessageStatus.OK,
+            result: result.data
+        }
+    } 
+    catch {
+        return {
+            msgStatus: MessageStatus.ERROR,
+            error: "undefined error"        // шобы напугать
+        }
+    }
+}
+
 
 export interface ISearchCriteriaResponse<T> {
     msgInfo: IMessageInfo,

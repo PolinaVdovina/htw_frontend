@@ -7,7 +7,7 @@ import { RootState } from "../../../redux/store";
 import { SharpCorner } from "./chatEnums";
 import { getAvatarUrl, searchCriteriaFetch } from '../../../utils/fetchFunctions';
 import { isWhitespace } from "../../../utils/validateFunctions";
-import { sendMessage, subscribeToUserChat } from '../../../websockets/chat/actions';
+import { sendMessage, subscribeToChatMessagesTracking } from '../../../websockets/chat/actions';
 import { IChatReceivingMessage, IChatSendingMessage } from '../../../websockets/chat/interfaces';
 import Stomp from 'stompjs';
 import { getStompClient } from '../../../websockets/common';
@@ -114,7 +114,7 @@ const ChatFormWrap = (props: IChatForm) => {
     }
 
     React.useEffect(() => {
-        const subscription: Stomp.Subscription | undefined = subscribeToUserChat(props.chatName, onChatMessageReceived);
+        const subscription: Stomp.Subscription | undefined = subscribeToChatMessagesTracking(props.chatName, onChatMessageReceived);
         if (subscription)
             subscriptionRef.current = subscription
         fetchMessages();

@@ -4,6 +4,7 @@ export interface IChatReceivingMessage {
     sender: string,
     senderViewName: string,
     id: number,
+    createdDate: string,
 }
 
 

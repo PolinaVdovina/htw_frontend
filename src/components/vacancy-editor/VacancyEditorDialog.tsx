@@ -283,7 +283,7 @@ const VacancyEditorDialogComp = (props: IVacancyDialogProps) => {
                 />
                 </Grid>
                 <Grid item container direction="column" className={classes.fieldGrid}>
-                    <ListEditor onChange={setDemands} title="Обязанности" elementValues={demands}/>
+                    <ListEditor  onChange={setDemands} title="Обязанности" elementValues={demands}/>
                 </Grid>
 
                 <Grid item container direction="column" className={classes.fieldGrid}>

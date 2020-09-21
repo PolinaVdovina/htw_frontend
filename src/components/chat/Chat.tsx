@@ -8,13 +8,16 @@ import { useTheme } from '@material-ui/core';
 import { ChatHeader } from './ChatHeader';
 import { ChatBody } from './ChatBody';
 import { ChatInput } from './ChatInput';
-import { searchCriteriaFetch } from './../../utils/fetchFunctions';
+import { searchCriteriaFetch, isUserOnlineFetch } from './../../utils/fetchFunctions';
 import { sortCriteria } from '../../utils/search-criteria/builders';
-import { SortCriteriaDirection } from '../../utils/search-criteria/types';
-import { subscribeToUserChat, sendMessage } from './../../websockets/chat/actions';
+import { SortCriteriaDirection, SearchCriteriaOperation, ISearchCriteria } from '../../utils/search-criteria/types';
+import { subscribeToChatMessagesTracking, sendMessage, subscribeToOnlineTracking } from './../../websockets/chat/actions';
 import { getStompClient } from '../../websockets/common';
 import Stomp from 'stompjs';
 import { startLoading, stopLoading } from '../../redux/reducers/dialog-reducers';
+import { useWritingStatusTracking, useOnlineStatusTracking, usePrivateChatTracking as usePrivateMessageTracking } from './../../websockets/chat/hooks';
+import { pagination, searchCriteria } from './../../utils/search-criteria/builders';
+
 
 
 export interface IChatProps {
@@ -51,47 +54,65 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const ChatWrap = (props: IChatProps) => {
+    const [messages, setMessages] = React.useState<Array<IChatReceivingMessage>>([]);   //0 - это самое старое сообщение; 1 - предпоследнее и тд...
+
     const classes = useStyles();
     const theme = useTheme();
-    const [messages, setMessages] = React.useState<Array<IChatReceivingMessage>>([]);
-    const subscriptionRef = React.useRef<Stomp.Subscription | null>(null);
-    
-    const fetchMessages = async() => {
-        if(props.token) {
-            await props.startLoading();
-            const fetch = await searchCriteriaFetch<IChatReceivingMessage>("/chat/getPrivateMessages/"+props.chatName, props.token, {
-                sortCriteria: [sortCriteria("createdDate", SortCriteriaDirection.ASC )]
-            });
-            //alert(JSON.stringify(fetch.result))
-            if(fetch.result)
-                setMessages(fetch.result);
-            await props.stopLoading();
-        }
+    const bodyRef = React.useRef<any>();
+
+    const isCompanionOnline = useOnlineStatusTracking(props.chatName, props.token);
+    const isCompanionWriting = useWritingStatusTracking(props.chatName, isCompanionOnline);
+
+    const [tapeOver, setTapeOver] = React.useState(false);
+    const [fetchCount, setFetchCount] = React.useState(0);
+    const [getMessagesCount, setGetMessagesCount] = React.useState(0);  //Сколько раз получил сообщения в реальном времени через вебсокет
+
+    let description: string | null = null;
+    if (isCompanionWriting) {
+        description = "печатает..."
+    }
+    else if (isCompanionOnline != null) {
+        description = isCompanionOnline ? "В сети" : "Не в сети";
+
     }
 
-    const onChatMessageReceived = (message: IChatReceivingMessage) => {
-        setMessages((prevMessages) => [...prevMessages, message]);
-    }
-
+    usePrivateMessageTracking(props.chatName, props.token, (newMessage: IChatReceivingMessage) => {
+        setMessages(prevState => [...prevState, newMessage])
+        setGetMessagesCount(old => old+1);
+    })
 
     React.useEffect(() => {
-        const subscription: Stomp.Subscription | undefined = subscribeToUserChat(props.chatName, onChatMessageReceived);
-        if (subscription)
-            subscriptionRef.current = subscription
-        fetchMessages();
-        return () => {
-            if (subscription)
-                getStompClient()?.unsubscribe(subscription?.id);
-        }
+        //fetchChatMessages();
+
     }, [])
+
+    const fetchMessagesOnPage = async (page: number) => {
+        if (!props.token)
+            return;
+        let search: Array<ISearchCriteria> | null = null;
+        if (messages.length > 0) {
+            search = [searchCriteria("createdDate", messages[0].createdDate, SearchCriteriaOperation.LESS)];
+        }
+        searchCriteriaFetch<IChatReceivingMessage>("/chat/getPrivateMessages/" + props.chatName, props.token, {
+            sortCriteria: [sortCriteria("createdDate", SortCriteriaDirection.DESC)],
+            pagination: pagination(80, page)
+        }).then(
+            (e) => {
+                const newMessages = e.result;
+                if (newMessages) {
+                    if (newMessages.length < 20)
+                        setTapeOver(true);
+                    setMessages(oldMsgs => [...newMessages, ...oldMsgs].sort((a, b) => a.id - b.id));
+                } else {
+                    setTapeOver(true);
+                }
+            }
+        );
+
+    }
 
     const sendMessageHandler = async (msg: string) => {
         if (props.token) {
-            const url = "/chat/getPrivateMessages/" + props.chatName;
-            const fetch = await searchCriteriaFetch<IChatReceivingMessage>(url, props.token, {
-                sortCriteria: [sortCriteria("createdDate", SortCriteriaDirection.ASC)]
-            });
-
             const msgParsed: IChatSendingMessage = { content: msg }
             if (props.chatName)
                 sendMessage(props.chatName, msgParsed);
@@ -105,10 +126,16 @@ const ChatWrap = (props: IChatProps) => {
             className={classes.rootGrid}
         >
             <ChatHeader
+                description={description}
                 title={props.viewName ? props.viewName : ""}
                 onClose={props.onClose}
             />
-            <ChatBody messagesData={messages} />
+            <Divider />
+            <ChatBody
+                fetchNext={fetchMessagesOnPage}
+                isTapeOver={tapeOver}
+                getMessagesCount={getMessagesCount}
+                messagesData={messages} />
             <Divider />
             <ChatInput onSendButtonClick={sendMessageHandler} />
 

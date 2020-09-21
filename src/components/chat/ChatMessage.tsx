@@ -4,6 +4,7 @@ import { Paper, makeStyles, createStyles, Theme, Grid, Typography } from '@mater
 import { connect } from 'react-redux';
 import { RootState } from '../../redux/store';
 import { useTheme } from '@material-ui/core';
+import { timeParse } from '../../utils/appliedFunc';
 
 
 export enum ChatMessageColorScheme {
@@ -25,21 +26,23 @@ const useStyles = makeStyles((theme: Theme) =>
             alignItems: "center",
             padding: 0,
             height: theme.menuBar.height,
-            /* backgroundColor: theme.palette.primary.main, */
         },
         paper: {
             padding: theme.spacing(1),
+            paddingTop: theme.spacing(0.25),
         },
         viewName: {
             overflowWrap: "anywhere",
             fontSize: "12px",
-            /*             color: props.titleColor ? props.titleColor : "inherit", */
+        },
+        date: {
+            textAlign: "right",
+            fontSize: "10px"
         },
         messageText: {
             overflowWrap: "anywhere",
             wordBreak: "break-word",
             fontSize: "14px",
-            /*             color: props.messageColor ? props.messageColor : "inherit" */
         }
     }),
 );
@@ -51,10 +54,12 @@ const mapStateToProps = (state: RootState) => ({
 const ChatMessageWrap = (props: IChatMessageProps) => {
     const classes = useStyles();
     const theme = useTheme();
+    const date: Date = new Date(Date.parse(props.messageData.createdDate));
     return (
         <Paper
             elevation={3}
             className={classes.paper}
+
             style={{
                 backgroundColor: props.chatMessageColorScheme == ChatMessageColorScheme.MINE ?
                     theme.chat.ownMessageBackgroundColor : theme.chat.companionMessageBackgroundColor,
@@ -86,6 +91,17 @@ const ChatMessageWrap = (props: IChatMessageProps) => {
                 >
                     {props.messageData.content}
                 </Typography>
+                <Grid item >
+                    <Typography
+                        className={classes.date}
+                        style={{
+                            color: props.chatMessageColorScheme == ChatMessageColorScheme.MINE ?
+                                theme.chat.ownMessageTitleColor : theme.chat.companionMessageTitleColor
+                        }}
+                    >
+                        {timeParse(props.messageData.createdDate)}
+                    </Typography>
+                </Grid>
             </Grid>
         </Paper>
     )

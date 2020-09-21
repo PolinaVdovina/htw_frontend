@@ -35,6 +35,7 @@ const useStyles = makeStyles((theme: Theme) =>
       minHeight: "100vh",
       alignItems: "center",
       backgroundColor: "#edeef0",
+      minWidth: "320px"
 
     },
     content: {
@@ -123,6 +124,7 @@ function App(props: IAppProps) {
   const theme = useTheme();
   const dispatch = useDispatch();
   const [isMenuOpen, setMenuOpen] = React.useState(false);
+  
 
   const setupListeners = () => {
     window.addEventListener("beforeunload", async(ev) => {
@@ -136,13 +138,7 @@ function App(props: IAppProps) {
     });
   };
 
-  
-
-  /*   const webSocket = React.useRef<WebSocket | null>(null);
-    const stompClient = React.useRef<Stomp.Client | null>(null); */
-
   useEffect(() => {
-  
     props.reloadAuthData();
   }, [])
 
@@ -168,11 +164,12 @@ function App(props: IAppProps) {
         props.authCompleteStatus != null &&
         <>
           <ChatDialog
+            key={1}
             onClose={props.hideChat}
             open={props.isChatOpen}
           />
 
-          <Grid className={classes.gridVerticalContainer} container direction="column">
+          <Grid key={2} className={classes.gridVerticalContainer} container direction="column">
             <Grid item className={classes.fakeMenuBar} />
 
             <Grid className={classes.content} container item direction="row" >

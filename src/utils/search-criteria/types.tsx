@@ -25,9 +25,9 @@ export interface IPagination {
 }
 
 export interface ISearchCriteriaRequest {
-    searchCriteria?: Array<ISearchCriteria>,
-    sortCriteria?: Array<ISortCriteria>,
-    pagination?: IPagination,
+    searchCriteria?: Array<ISearchCriteria> | null,
+    sortCriteria?: Array<ISortCriteria> | null,
+    pagination?: IPagination | null,
 }
 
 

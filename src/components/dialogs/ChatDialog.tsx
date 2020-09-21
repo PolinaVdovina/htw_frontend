@@ -37,6 +37,7 @@ const ChatDialogWrap = (props: IChatDialogProps) => {
     const fullScreen = useMediaQuery(theme.breakpoints.down('xs'));
     return (
         <Dialog
+            
             fullScreen={fullScreen}
             fullWidth
             scroll="body"
@@ -44,7 +45,10 @@ const ChatDialogWrap = (props: IChatDialogProps) => {
             onClose={props.onClose}
             PaperProps={{
                 style: {
-                    height: fullScreen ?  "100vh" : "85vh",
+                    position: fullScreen ? "fixed" : "inherit",
+                    left: fullScreen ? 0 : "inherit",
+                    top: 0,
+                    height: fullScreen ?  "100%" : "85vh",
                     backgroundColor: theme.chat.chatPaperBackgroundColor
                 }
             }}

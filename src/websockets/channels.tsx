@@ -6,5 +6,6 @@ export const USER_PREFIX = "/user";
 export const CHAT = "/CHAT";      
 export const NOTIFICATION = "/NOTIFICATION"; 
 export const ONLINE_TRACKING = "/ONLINE_TRACKING";
+export const WRITING_TRACKING = "/WRITING_TRACKING";
 
 

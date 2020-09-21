@@ -144,7 +144,7 @@ const AccountCommonInfoComp = (props: IAccountCommonInfo) => {
 
   const avatarChangeHandler = async (e) => {
     props.startLoading();
-
+    //alert("herh")
     const onResizedImage = async (resizedImageBlob) => {
       const messageStatus = props.token && resizedImageBlob && await setAvatarFetch(props.token, resizedImageBlob);
       if (messageStatus == MessageStatus.OK) {
