@@ -4,6 +4,7 @@ import { ParagraphInPost } from './../components/tape/posts/post-body-elements/P
 import { ListInPost } from './../components/tape/posts/post-body-elements/ListInPost';
 import { StatementInPost } from './../components/tape/posts/post-body-elements/StatementsInPost';
 import { v4 as uuidv4 } from 'uuid';
+import { store } from "../redux/store";
 
 export function addressGlue(data?): string | null {
     let address: string | null = null;
@@ -89,9 +90,18 @@ export function accountRequestToEntityDictionary(data, role) {
                     employment: data.employment,
                     vacancyTypes: data.vacancyTypes,
                     viewName: data.viewName,
+                    vkontakte: data.contactDetails.vkontakte,
+                    instagram: data.contactDetails.instagram,
+                    facebook: data.contactDetails.facebook,
                     links: {
-                        education: data.jobSeekerEducations.map(elem => elem.institutionLogin)
-                    }
+                        education: data.jobSeekerEducations.map(elem => elem.institutionLogin),
+                        vkontakte: data.contactDetails.vkontakte,
+                        instagram: data.contactDetails.instagram,
+                        facebook: data.contactDetails.facebook,
+                    },
+                    addressPrivate: data.addressPrivate,
+                    phonePrivate: data.phonePrivate,
+                    socMediaPrivate: data.socMediaPrivate
                 }
                 return parsedData;
             case "ROLE_EMPLOYER":
@@ -107,7 +117,17 @@ export function accountRequestToEntityDictionary(data, role) {
                     viewName: data.viewName,
                     industry: data.industry ? data.industry.map(industry => industry.name) : null,
                     subscriptionLogins: data.subscriptionLogins,
-
+                    vkontakte: data.contactDetails.vkontakte,
+                    instagram: data.contactDetails.instagram,
+                    facebook: data.contactDetails.facebook,
+                    links: {
+                        vkontakte: data.contactDetails.vkontakte,
+                        instagram: data.contactDetails.instagram,
+                        facebook: data.contactDetails.facebook,
+                    },
+                    addressPrivate: data.addressPrivate,
+                    phonePrivate: data.phonePrivate,
+                    socMediaPrivate: data.socMediaPrivate
                 }
             case "ROLE_INSTITUTION":
                 return {
@@ -122,6 +142,17 @@ export function accountRequestToEntityDictionary(data, role) {
                     viewName: data.viewName,
                     types: data.types ? data.types.map(type => type.name) : null,
                     subscriptionLogins: data.subscriptionLogins,
+                    vkontakte: data.contactDetails.vkontakte,
+                    instagram: data.contactDetails.instagram,
+                    facebook: data.contactDetails.facebook,
+                    links: {
+                        vkontakte: data.contactDetails.vkontakte,
+                        instagram: data.contactDetails.instagram,
+                        facebook: data.contactDetails.facebook,
+                    },
+                    addressPrivate: data.addressPrivate,
+                    phonePrivate: data.phonePrivate,
+                    socMediaPrivate: data.socMediaPrivate
                 }
                 break
 
@@ -136,16 +167,27 @@ export function accountRequestToEntityDictionary(data, role) {
                     email: data.contactDetails ? data.contactDetails.email : null,
                     employer: data.employer ? (data.employer.name ? data.employer.name : data.employer.login) : null,
                     links: {
-                        employer: data.employer ? data.employer.login : null
+                        employer: data.employer ? data.employer.login : null,
+                        vkontakte: data.contactDetails.vkontakte,
+                        instagram: data.contactDetails.instagram,
+                        facebook: data.contactDetails.facebook,
                     },
                     subscriptionLogins: data.subscriptionLogins,
+                    vkontakte: data.contactDetails.vkontakte,
+                    instagram: data.contactDetails.instagram,
+                    facebook: data.contactDetails.facebook,
+                    addressPrivate: data.addressPrivate,
+                    phonePrivate: data.phonePrivate,
+                    socMediaPrivate: data.socMediaPrivate
                 }
                 break
         }
     }
     catch {
-        alert('Что-то сдохло, ничего не загрузилось')
-    }
+        
+        alert('Не удалось подключиться к серверу');
+        return null;
+    }   
 }
 
 export const dateParse = (dateInStr: string) => {

@@ -133,7 +133,7 @@ export const getEmployeesListFetch = async (token, url?) => {
     let returnData;
     url = url || "/employer/employee";
     try {
-        const response = await axios.get(rootUrl + "/employer/employee", {
+        const response = await axios.get(rootUrl + url, {
             headers: {
                 Authorization: 'Bearer ' + token
             }
@@ -201,7 +201,7 @@ export const changePasswordFetch = async (token, data) => {
 
         const msgInfo: IMessageInfo = {
             msgStatus: response.data.error || (response.data.status && response.data.status == 'error') ? MessageStatus.ERROR : MessageStatus.OK,
-            id: response.data
+            id: response.data.status
         };
         return msgInfo;
     }

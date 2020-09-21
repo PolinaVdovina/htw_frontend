@@ -238,7 +238,7 @@ const AccountCommonInfoComp = (props: IAccountCommonInfo) => {
               style={{ textAlign: "left", wordBreak: "break-word" }}
               component='button'
               onClick={() => setOpenAbout(true)}>
-              {(context.about && (context.about.replace(/\s/g, "") != "")) ? context.about : "Расскажите о себе"}
+              {(context.about && (context.about.replace(/\s/g, "") != "")) ? context.about : ((context.role == 'ROLE_JOBSEEKER' || context.role == 'ROLE_EMPLOYEE') ? "Расскажите о себе" : "Укажите сайт учреждения")}
             </Link>
           }
           {
