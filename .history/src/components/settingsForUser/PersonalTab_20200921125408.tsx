@@ -106,16 +106,18 @@ export const PersonalTabComp = (props) => {
                     color="primary"
                 />
             </Grid>
-            <Grid item container direction='row' alignItems='center'>
-                <Typography className={classes.typography}>
-                    Скрыть адрес
-                </Typography>
-                <Switch
-                    checked={privateAddress}
-                    onChange={handleClickChangeAddressPrivate}
-                    color="primary"
-                />
-            </Grid>
+            { props.role != 'ROLE_EMPLOYEE' &&
+                <Grid item container direction='row' alignItems='center'>
+                    <Typography className={classes.typography}>
+                        Скрыть адрес
+                    </Typography>
+                    <Switch
+                        checked={privateAddress}
+                        onChange={handleClickChangeAddressPrivate}
+                        color="primary"
+                    />
+                </Grid>
+            }
             <Grid item container justify='flex-start'>
                 { !openChange &&
                     <Link 

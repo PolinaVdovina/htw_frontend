@@ -7,7 +7,7 @@ import { RootState } from '../../redux/store';
 import { useSnackbar } from 'notistack';
 import { changePersonalDataFetch, getEmployeesListFetch } from '../../utils/fetchFunctions';
 import { IMessageInfo, MessageStatus } from '../../utils/fetchInterfaces';
-import { startLoadingAction, stopLoadingAction } from '../../redux/actions/dialog-actions';
+import { startLoadingAction } from '../../redux/actions/dialog-actions';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -43,7 +43,7 @@ export const PersonalTabComp = (props) => {
             }
             else
                 snackbar.enqueueSnackbar("Ошибка загрузки настроек", {variant: "error"})
-            await dispatch(stopLoadingAction());
+            dispatch(stopLoadingAction());
         }
         fetchData();
     }, [])

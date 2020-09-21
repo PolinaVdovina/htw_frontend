@@ -180,20 +180,3 @@ export function validateWebLink(data: any): boolean {
         return true;
     else return false;
 }
-
-export function validateJobAppl(data: {
-    employer: string,
-    position: string,
-    startDate: string,
-    stopDate: string
-}): boolean {
-    if (data.employer 
-        && data.employer.replace(/\s/g,"") != ""
-        && data.position 
-        && data.position.replace(/\s/g,"") != ""
-        && data.startDate 
-        && data.startDate.replace(/\s/g,"") != ""
-    )
-        return true;
-    else return false;
-}

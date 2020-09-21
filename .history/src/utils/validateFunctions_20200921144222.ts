@@ -59,9 +59,13 @@ export function validateLogin(login: string) : string {
 
 export function validateName(name: {surname: string, name: string, middlename: string}): boolean {
     let result = true;
-    if (!name.name || !name.name.match(/^[a-zа-яё\s]+$/iu) || name.name.replace(/\s/g,"") == "")
+    /*Object.keys(settingsName).map(key => {
+        (!name[key] || !name[key].match(/^[a-zа-яё\s]+$/iu)) ? result = false : result = true;
+    })*/
+
+    if (!name.name || !name.name.match(/^[a-zа-яё\s]+$/iu))
         result = false
-    if (!name.surname || !name.surname.match(/^[a-zа-яё\s]+$/iu) || name.surname.replace(/\s/g,"") == "")
+    if (!name.surname || !name.surname.match(/^[a-zа-яё\s]+$/iu))
         result = false    
     return result;
 }
@@ -177,23 +181,6 @@ export function validateWebLink(data: any): boolean {
     if (data.about) about = data.about;
     else about = data;
     if (about && about != '' && about.replace(/\s/g,"") != "" && /^(ftp|http|https):\/\/[^ "]+$/.test(about))
-        return true;
-    else return false;
-}
-
-export function validateJobAppl(data: {
-    employer: string,
-    position: string,
-    startDate: string,
-    stopDate: string
-}): boolean {
-    if (data.employer 
-        && data.employer.replace(/\s/g,"") != ""
-        && data.position 
-        && data.position.replace(/\s/g,"") != ""
-        && data.startDate 
-        && data.startDate.replace(/\s/g,"") != ""
-    )
         return true;
     else return false;
 }

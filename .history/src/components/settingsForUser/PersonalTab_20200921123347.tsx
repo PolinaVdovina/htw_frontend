@@ -7,7 +7,6 @@ import { RootState } from '../../redux/store';
 import { useSnackbar } from 'notistack';
 import { changePersonalDataFetch, getEmployeesListFetch } from '../../utils/fetchFunctions';
 import { IMessageInfo, MessageStatus } from '../../utils/fetchInterfaces';
-import { startLoadingAction, stopLoadingAction } from '../../redux/actions/dialog-actions';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -26,7 +25,6 @@ export const PersonalTabComp = (props) => {
     const theme = useTheme();
     const classes = useStyles();
     const snackbar = useSnackbar();
-    const dispatch = useDispatch();
     const [openChange, setOpenChange] = React.useState(false);
     const [privatePhone, setPrivatePhone] = React.useState(false);
     const [privateAddress, setPrivateAddress] = React.useState(false);
@@ -34,7 +32,6 @@ export const PersonalTabComp = (props) => {
 
     React.useEffect(() => {
         const fetchData = async() => {
-            dispatch(startLoadingAction());
             const result = await getEmployeesListFetch(props.token, "/account/changeSettings/get")
             if (result.msgStatus == 'ok') {
                 setPrivatePhone(result.phonePrivate)
@@ -43,9 +40,7 @@ export const PersonalTabComp = (props) => {
             }
             else
                 snackbar.enqueueSnackbar("Ошибка загрузки настроек", {variant: "error"})
-            await dispatch(stopLoadingAction());
         }
-        fetchData();
     }, [])
 
     const handleClickChangePhonePrivate = async() => {

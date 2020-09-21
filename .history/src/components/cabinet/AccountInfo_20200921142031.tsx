@@ -107,15 +107,14 @@ class AccountInfoComp extends React.Component<IPropsAccountInfo, IStateAccountIn
     }
 
     render() {
+        alert(this.props.isPersonalInfo)
         let settingsView = [...this.props.settingsView];
-        if (this.props.isPersonalInfo) {
-            if (this.context.isMine || (!this.context.isMine && !this.context.phonePrivate))
-                settingsView.push('phone');
-            if (this.context.isMine || (!this.context.isMine && !this.context.addressPrivate))
-                settingsView.push('address'); 
-            if (this.context.isMine || (!this.context.isMine && !this.context.socMediaPrivate))
-                settingsView.push('vkontakte', 'facebook', 'instagram');   
-        }         
+        if (this.context.isMine || (!this.context.isMine && !this.context.phonePrivate))
+            settingsView.push('phone');
+        if (this.context.isMine || (!this.context.isMine && !this.context.addressPrivate))
+            settingsView.push('address'); 
+        if (this.context.isMine || (!this.context.isMine && !this.context.socMediaPrivate))
+            settingsView.push('vkontakte', 'facebook', 'instagram');    
         return( 
             <Grid style={{padding:this.props.theme.spacing(2)}} container direction='column'>        
                 { settingsView.map(key => {

@@ -7,7 +7,6 @@ import { RootState } from '../../redux/store';
 import { useSnackbar } from 'notistack';
 import { changePersonalDataFetch, getEmployeesListFetch } from '../../utils/fetchFunctions';
 import { IMessageInfo, MessageStatus } from '../../utils/fetchInterfaces';
-import { startLoadingAction, stopLoadingAction } from '../../redux/actions/dialog-actions';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -26,7 +25,6 @@ export const PersonalTabComp = (props) => {
     const theme = useTheme();
     const classes = useStyles();
     const snackbar = useSnackbar();
-    const dispatch = useDispatch();
     const [openChange, setOpenChange] = React.useState(false);
     const [privatePhone, setPrivatePhone] = React.useState(false);
     const [privateAddress, setPrivateAddress] = React.useState(false);
@@ -34,22 +32,19 @@ export const PersonalTabComp = (props) => {
 
     React.useEffect(() => {
         const fetchData = async() => {
-            dispatch(startLoadingAction());
             const result = await getEmployeesListFetch(props.token, "/account/changeSettings/get")
             if (result.msgStatus == 'ok') {
-                setPrivatePhone(result.phonePrivate)
-                setPrivateAddress(result.addressPrivate)
-                setPrivateSocMedia(result.socMediaPrivate)
+                setPrivatePhone(result.isPhonePrivate)
+                setPrivateAddress(result.isAddressPrivate)
+                setPrivateSocMedia(result.isSocMediaPrivate)
             }
             else
                 snackbar.enqueueSnackbar("Ошибка загрузки настроек", {variant: "error"})
-            await dispatch(stopLoadingAction());
         }
-        fetchData();
     }, [])
 
     const handleClickChangePhonePrivate = async() => {
-        const msgInfo: IMessageInfo = await changePersonalDataFetch(props.token, {phonePrivate: !privatePhone}, '/account/changeSettings/set')
+        const msgInfo: IMessageInfo = await changePersonalDataFetch(props.token, {isPhonePrivate: !privatePhone, isAddressPrivate: !privateAddress}, '/account/changeSettings/set')
         if(msgInfo.msgStatus == MessageStatus.OK) {
             snackbar.enqueueSnackbar("Настройки конфиденциальности изменены", {variant: "success"})
             setPrivatePhone(!privatePhone)
@@ -61,7 +56,7 @@ export const PersonalTabComp = (props) => {
     }
 
     const handleClickChangeAddressPrivate = async() => {
-        const msgInfo: IMessageInfo = await changePersonalDataFetch(props.token, {addressPrivate: !privateAddress}, '/account/changeSettings/set')
+        const msgInfo: IMessageInfo = await changePersonalDataFetch(props.token, {isAddressPrivate: !privateAddress}, '/account/changeSettings/set')
         if(msgInfo.msgStatus == MessageStatus.OK) {
             snackbar.enqueueSnackbar("Настройки конфиденциальности изменены", {variant: "success"})
             setPrivateAddress(!privateAddress)
@@ -73,7 +68,7 @@ export const PersonalTabComp = (props) => {
     }
 
     const handleClickChangeSocMediaPrivate = async() => {
-        const msgInfo: IMessageInfo = await changePersonalDataFetch(props.token, {socMediaPrivate: !privateSocMedia}, '/account/changeSettings/set')
+        const msgInfo: IMessageInfo = await changePersonalDataFetch(props.token, {isSocMediaPrivate: !privateSocMedia}, '/account/changeSettings/set')
         if(msgInfo.msgStatus == MessageStatus.OK) {
             snackbar.enqueueSnackbar("Настройки конфиденциальности изменены", {variant: "success"})
             setPrivateSocMedia(!privateSocMedia)
