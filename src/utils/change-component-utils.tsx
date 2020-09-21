@@ -292,6 +292,7 @@ export const changeJobSeekerWorkData = async ( dispatch, data ) => {
 
 export const changePassword = async ( dispatch, data ) => {
     const msgInfo: IMessageInfo = await changePasswordFetch(store.getState().authReducer.token, data);
+    await dispatch() msgInfo.id
     return msgInfo;
 }
 
