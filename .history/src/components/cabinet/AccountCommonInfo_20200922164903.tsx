@@ -245,7 +245,7 @@ const AccountCommonInfoComp = (props: IAccountCommonInfo) => {
               <Typography style={{ textAlign: "left", wordBreak: "break-word", fontSize: "12px" }}>{context.about}</Typography>
           }
           { !context.isMine && context.role == 'ROLE_EMPLOYER' && context.about &&
-              <Link href={context.about} target="_blank" /*rel="noopener"*/>{context.about}</Link>
+              <Link href={context.about}>{context.about}</Link>
           }
           
         </Typography>
@@ -260,7 +260,6 @@ const AccountCommonInfoComp = (props: IAccountCommonInfo) => {
                     href={context.about} 
                     underline='none'
                     color='inherit'
-                    target="_blank"
                   >
                     Хочу учиться
                   </Link>

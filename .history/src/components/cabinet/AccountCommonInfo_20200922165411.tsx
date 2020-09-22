@@ -260,7 +260,6 @@ const AccountCommonInfoComp = (props: IAccountCommonInfo) => {
                     href={context.about} 
                     underline='none'
                     color='inherit'
-                    target="_blank"
                   >
                     Хочу учиться
                   </Link>

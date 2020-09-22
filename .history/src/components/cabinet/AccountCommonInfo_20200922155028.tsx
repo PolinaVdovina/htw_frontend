@@ -245,28 +245,19 @@ const AccountCommonInfoComp = (props: IAccountCommonInfo) => {
               <Typography style={{ textAlign: "left", wordBreak: "break-word", fontSize: "12px" }}>{context.about}</Typography>
           }
           { !context.isMine && context.role == 'ROLE_EMPLOYER' && context.about &&
-              <Link href={context.about} target="_blank" /*rel="noopener"*/>{context.about}</Link>
+              <Link href={context.about}/>
           }
-          
-        </Typography>
-
-        { !context.isMine && context.role == 'ROLE_INSTITUTION' && context.about &&
+          { !context.isMine && context.role == 'ROLE_INSTITUTION' && context.about &&
               <Button 
-                variant='contained' 
-                color='primary'  
-                style={{width: '210px'}}            
+                color="primary"
+                component={Link} 
+                href={context.about}
+                //underline='none'                
               >
-                  <Link 
-                    href={context.about} 
-                    underline='none'
-                    color='inherit'
-                    target="_blank"
-                  >
-                    Хочу учиться
-                  </Link>
+                  Хочу учиться
               </Button>
-              
           }
+        </Typography>
 
         <ChangeComponentDialog
           open={openName}

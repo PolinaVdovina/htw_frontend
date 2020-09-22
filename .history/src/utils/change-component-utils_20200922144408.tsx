@@ -297,7 +297,7 @@ export const changePassword = async ( dispatch, data ) => {
     const loginString = store.getState().authReducer.login;
     if (loginString === undefined) return msgInfo;
     if (loginString === null) return msgInfo;
-    dispatch(login(loginString, data.newPassword)) 
+    login(loginString, data.newPassword)    
     return msgInfo;
 }
 

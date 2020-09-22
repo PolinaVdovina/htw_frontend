@@ -38,33 +38,14 @@ export function strToAddressDictionary(str: string/*: string*/) {
     }
     let data = {
         address: {
-        }       
+            country: 'Россия',
+            region: strArray[0] ? (strArray[0].startsWith('г ') ? null : strArray[0]) : null,
+            city: strArray[1] ? strArray[1].replace('г ', '') : null,
+            street: strArray[2] ? strArray[2] : null,
+            house: strArray[3] ? strArray[3].replace('д ', '') : null,
+            flat: strArray[4] ? strArray[4].replace('кв ', '') : null,
+        }
     };
-    if (strArray[0].startsWith('г ')) {
-        data = {
-            address: {
-                country: 'Россия',
-                region: strArray[0] ? strArray[0].replace('г ', '') : null,
-                city: strArray[0] ? strArray[0].replace('г ', '') : null,
-                street: strArray[1] ? strArray[1] : null,
-                house: strArray[2] ? strArray[2].replace('д ', '') : null,
-                flat: strArray[3] ? strArray[3].replace('кв ', '') : null,
-            }
-        };
-    }
-    else {
-        data = {
-            address: {
-                country: 'Россия',
-                region: strArray[0] ? strArray[0] : null,
-                city: strArray[1] ? strArray[1].replace('г ', '') : null,
-                street: strArray[2] ? strArray[2] : null,
-                house: strArray[3] ? strArray[3].replace('д ', '') : null,
-                flat: strArray[4] ? strArray[4].replace('кв ', '') : null,
-            }
-        };
-    }
-    
     return data;
 }
 
