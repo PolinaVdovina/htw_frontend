@@ -51,25 +51,26 @@ export function userToPostResume(accountData: IAccount): ITapeElementData {
             }
         })
 
-    let contactDetailsItems: Array<string> = [];
-    if (accountData.contactDetails) {        
+    
+    if (accountData.contactDetails) {
+        let contactDetailsItems: Array<string> = [];
         if(accountData.contactDetails.phone)
             contactDetailsItems.push("Телефон: " + accountData.contactDetails.phone);
         if(accountData.contactDetails.email)
-            contactDetailsItems.push("Электронная почта: " + accountData.contactDetails.email)        
+            contactDetailsItems.push("Электронная почта: " + accountData.contactDetails.email)
+        if(accountData.address) 
+            contactDetailsItems.push("Адрес: " + addressGlue(accountData.address))
+        if(contactDetailsItems.length > 0)
+            postBody.push({
+                Component:ListInPost,
+                data: {
+                    title: "Контактные данные",
+                    items: contactDetailsItems
+                }
+            })
     }
 
-    if(accountData.address && accountData.address.country) 
-            contactDetailsItems.push("Адрес: " + addressGlue(accountData.address))
-
-    if(contactDetailsItems.length > 0)
-    postBody.push({
-        Component:ListInPost,
-        data: {
-            title: "Контактные данные",
-            items: contactDetailsItems
-        }
-    })  
+    
     
     
 

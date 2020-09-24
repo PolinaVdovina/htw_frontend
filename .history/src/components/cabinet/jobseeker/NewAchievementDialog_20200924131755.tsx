@@ -140,7 +140,6 @@ export const NewAchievementDialog = (props: INewAchievementDialog) => {
                             </IconButton> 
                         </Grid>                                                   
                     </Grid>
-                    
                     <Grid item container direction="row">
                         <Button 
                             variant="contained" 

@@ -21,7 +21,7 @@ interface INewsComponent {
 }
 
 const mapStateToProps = (state: RootState) => ({
-    role: state.authReducer.entityType
+    userRole: state.authReducer.entityType
 })
 
 const titles = {
