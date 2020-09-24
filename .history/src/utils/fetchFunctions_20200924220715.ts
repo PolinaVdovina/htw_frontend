@@ -653,18 +653,18 @@ export const toRespondFetch = async (token, id, url) => {
             }
         );        
 
-        const result = {
+        const msgInfo = {
             msgStatus: response.data.error || (response.data.status && response.data.status == 'error') ? MessageStatus.ERROR : MessageStatus.OK,
-            vacancyId: response.data
+            vacancyDto: response.data
         };
-        return result;
+        return msgInfo;
     }
     catch {
-        const result = {
+        const msgInfo = {
             msgStatus: MessageStatus.ERROR,
             error: "Проблемы с соединением",
         };
-        return result;
+        return msgInfo;
     }
 }
 

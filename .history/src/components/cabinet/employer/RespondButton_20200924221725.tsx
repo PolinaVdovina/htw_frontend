@@ -1,15 +1,23 @@
 import * as React from 'react';
 import { Button, Grid } from '@material-ui/core';
 import { useSnackbar } from 'notistack';
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import { RootState, store } from '../../../redux/store';
 import { removeVacancyFetch, changePersonalDataFetch, toRespondFetch } from '../../../utils/fetchFunctions';
 import { MessageStatus } from '../../../utils/fetchInterfaces';
 import { Link } from '@material-ui/core';
+import { fillPersonalDataAction } from '../../../redux/actions/user-personals';
 
 export interface IRespondButton {
     token?: any,
-    id: number
+    id: number,
+    respondVacancies: Array<any>
+}
+
+interface fetchRespond {
+    msgStatus,
+    error?,
+    vacancyDto?
 }
 
 function mapStateToProps(state : RootState) {
@@ -18,13 +26,26 @@ function mapStateToProps(state : RootState) {
     }
 }
 
-export const RespondButton = (props: IRespondButton) => {
+const RespondButtonComp = (props: IRespondButton) => {
+    const [alreadyResponded, setAlreadyResponded] = React.useState(false);
     const snackbar = useSnackbar();
+    const dispatch = useDispatch();
+
+    React.useEffect(() => {
+        props.respondVacancies.forEach(vacancy => {            
+            if (props.id == vacancy.id)
+                //setAlreadyResponded(true);
+                alert('pidor')
+        })
+    }, [])
 
     const handleClick = async () => {
-        const result = await toRespondFetch(props.token, props.id.toString(), '/personal/respond');
-        if (result.msgStatus == MessageStatus.OK)
+        const result: fetchRespond = await toRespondFetch(props.token, props.id.toString(), '/personal/respond');
+        if (result.msgStatus == MessageStatus.OK) {
             snackbar.enqueueSnackbar("Вы откликнулись на выбранную вакансию", { variant: "success" })
+            const newRespVacancy = [...props.respondVacancies, result.vacancyDto]
+            dispatch(fillPersonalDataAction({responseVacancies: newRespVacancy}))
+        }
         else
             snackbar.enqueueSnackbar("Ошибка", { variant: "error" })
     }
@@ -37,8 +58,10 @@ export const RespondButton = (props: IRespondButton) => {
                 style={{marginRight: '17px', fontSize: '15px'}}
                 underline='none'
             >
-                Откликнуться
+                {alreadyResponded ? "Откликнуться" : "Вы откликнулись"}
             </Link>
         </Grid>
     )
 }
+
+export const RespondButton = connect(mapStateToProps)(RespondButtonComp)

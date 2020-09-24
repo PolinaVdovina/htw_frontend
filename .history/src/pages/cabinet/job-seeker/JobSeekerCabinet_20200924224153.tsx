@@ -68,8 +68,7 @@ const tabs: Array<ITabData> = [
           DialogComponent: RespondViewDialog,
           //dialogProps: {subscription: false}
         },
-      ] }/> 
-    ] 
+      ] }/>  
   },
   {
     label: "Достижения",
