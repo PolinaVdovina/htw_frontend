@@ -11,7 +11,8 @@ export interface ITapeContextValue {
     //fetchCount?: number
     //dataConverterFunction?: (fetchedEntity) => ITapeElementData,
     tapeElements: Array<ITapeElementData> | null,
-    setTapeElements: (newElements: Array<ITapeElementData>) => void,
+    setTapeElements: any// (newElements: Array<ITapeElementData>) => void,
+    changeTapeElement?: (id: number, newValue: ITapeElementData) => void
     fetchNext: (
         dataFetchFunction?: null | ((lastPostDate: string, dataCount) => Promise<ISearchCriteriaResponse<any>>),
         sortingKey?: string
@@ -38,8 +39,9 @@ export const TapeFetcherProvider = (props: ITapeFetcherProvider) => {
 
     
 
-    const setTapeElementsHandler = (newElements: Array<ITapeElementData>) => setTapeElements(newElements);
+    const setTapeElementsHandler = setTapeElements;
     const resetHandler = () => {tapeElements = null; setTapeElements(null)};
+
 
     const deleteTapeElementHandler = (id) => {
         if (tapeElements)

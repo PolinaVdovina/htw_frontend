@@ -10,22 +10,28 @@ import { startLoadingAction, stopLoadingAction } from '../../redux/actions/dialo
 import { RootState } from '../../redux/store';
 import { changePersonalDataFetch, deleteEntity, searchCriteriaFetch } from '../../utils/fetchFunctions';
 import { IMessageInfo, MessageStatus } from '../../utils/fetchInterfaces';
-import { searchCriteria, pagination } from '../../utils/search-criteria/builders';
-import { SearchCriteriaOperation } from '../../utils/search-criteria/types';
+import { searchCriteria, pagination, sortCriteria } from '../../utils/search-criteria/builders';
+import { SearchCriteriaOperation, SortCriteriaDirection } from '../../utils/search-criteria/types';
 import { HCenterizingGrid } from '../grid-containers/HCenterizingGrid';
+import { usePrivateChatTracking as useChatTracking } from './../../websockets/chat/hooks';
+import { IChatReceivingMessage, IReceivingChatData } from './../../websockets/chat/interfaces';
+import { chatToPostList } from './../../utils/tape-converters/chat-to-tape-element';
+import { removeChatAction } from '../../redux/actions/chat-actions';
 
 function mapStateToProps(state: RootState) {
     return {
         token: state.authReducer.token,
-        login: state.authReducer.login
+        login: state.authReducer.login,
+        chats: state.chatReducer.chats
     }
 }
 
 interface IChatListTabComp {
-    token?: string | null
+    token?: string | null,
+    chats?: Array<IReceivingChatData> | null
 }
 
-const ChatListTabComp = (props) => {
+const ChatListTabComp = (props: IChatListTabComp) => {
     const theme = useTheme();
     const [openRegMiniComp, setOpenRegMiniComp] = React.useState(false);
 
@@ -34,9 +40,12 @@ const ChatListTabComp = (props) => {
     const dispatch = useDispatch();
     const tapeFetcherContext = React.useContext(TapeFetcherContext);
 
+    const [messagesData, setMessagesData] = React.useState<IChatReceivingMessage>();
+
+
     const snackbar = useSnackbar();
 
-    const getNextChats = async () => {
+/*     const getNextChats = async () => {
         dispatch(startLoadingAction());
         if (props.token) {
             await tapeFetcherContext?.fetchNext(
@@ -44,21 +53,22 @@ const ChatListTabComp = (props) => {
                     
                     return searchCriteriaFetch("/chat/getChatList/" + props.login, props.token, {
                         searchCriteria: [
-                            searchCriteria("login", props.login, SearchCriteriaOperation.IN),                        
+                            searchCriteria("view", true, SearchCriteriaOperation.EQUAL),                     
                         ],
+                        sortCriteria:[sortCriteria("lastMessageInChatDate", SortCriteriaDirection.DESC) ],
                         //sortCriteria: [sortCriteria("name", SortCriteriaDirection.ASC)],
-                        pagination: pagination(5)
+
                     })
                 }, "title"
             )
         }
         dispatch(stopLoadingAction());
-    }
+    } */
 
     const handleClickSave = async () => {
 
         tapeFetcherContext?.reset();
-        await getNextChats();
+        //await getNextChats();
 
     }
 
@@ -77,7 +87,7 @@ const ChatListTabComp = (props) => {
     }, [])
 
     React.useEffect(() => {
-        getNextChats();
+        //getNextChats();
     }, [])
 
     const onDeleteChat = async () => {
@@ -87,11 +97,13 @@ const ChatListTabComp = (props) => {
             if (result.msgStatus == MessageStatus.OK) {
                 snackbar.enqueueSnackbar("Чат успешно удален", { variant: "success" });
                 tapeFetcherContext?.reset();
-                getNextChats();
+                dispatch(removeChatAction(deletingId));
+                //getNextChats();
                 
             }
             else
                 snackbar.enqueueSnackbar("Не удалось удалить чат", { variant: "error" });
+            
             setDeletingId(null);
             dispatch(stopLoadingAction());
         }
@@ -119,16 +131,12 @@ const ChatListTabComp = (props) => {
             <RegMiniComponent handleClickClose={handleClickClose} handleClickSave={handleClickSave} />
         }
         <Divider />
-            
+        
         <Tape
             onDeleteClick={(id) => setDeletingId(id)}
-            elements={
-                tapeFetcherContext?.tapeElements
-            }
+            elements={ chatToPostList(props.chats)}
         />
-        <Grid item style={{ flexGrow: 1 }}>
-            <Button variant="contained" color="primary" fullWidth onClick={getNextChats} style={{ borderTopLeftRadius: 0, borderTopRightRadius: 0 }}>Дальше</Button>
-        </Grid>
+
     </>)
 }
 

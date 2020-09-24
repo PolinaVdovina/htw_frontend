@@ -12,6 +12,11 @@ export const sendMessage = (to: string, message: IChatSendingMessage) => {
 }
 
 
+export const readMessagesFromChat = (from: string) => {
+    getStompClient()?.send(ROOT + APP + "/chat.receiveMessage/" + from, {});
+}
+
+
 export const sendWritingStatusMessage = (to: string, writingStatus: boolean) => {
     getStompClient()?.send(ROOT + APP + "/chat.sendWritingStatusForUser/" + to, {}, JSON.stringify(writingStatus));
 }
@@ -43,10 +48,20 @@ export const subscribeToWritingTracking = (userLoginForTracking, onUserChangeWri
 }
 
 
-export const subscribeToChatMessagesTracking = (userLogin, onChatMessageReceived: (message: IChatReceivingMessage) => void) => {
+//Отслеживаю сообщения чатов
+export const subscribeToChatMessagesTracking = (onChatMessageReceived: (message: IChatReceivingMessage) => void) => {
     const onMessageReceived = (msg: Stomp.Message) => {
         const msgBody: IChatReceivingMessage = JSON.parse(msg.body);
-        const newStatus: boolean = msgBody["isOnline"];
+        onChatMessageReceived(msgBody);
+    } 
+
+    return getStompClient()?.subscribe(USER_PREFIX + SECURITY + CHAT, onMessageReceived);
+}
+
+//Отслеживаю появления новых чатов
+export const subscribeToNewChatTracking = (onChatMessageReceived: (message: IChatReceivingMessage) => void) => {
+    const onMessageReceived = (msg: Stomp.Message) => {
+        const msgBody: IChatReceivingMessage = JSON.parse(msg.body);
         onChatMessageReceived(msgBody);
     } 
 

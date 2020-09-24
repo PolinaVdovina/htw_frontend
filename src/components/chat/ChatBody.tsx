@@ -76,6 +76,8 @@ const ChatBodyWrap = (props: IChatBodyProps) => {
     const bodyRef = React.useRef<any>();;
     let [canScroll, setCanScroll] = React.useState(true);
 
+
+    
     //Автоскролл вниз при новых сообщениях
     React.useEffect(() => {
         if (bodyRef.current && bottomElementRef.current) {
@@ -154,7 +156,13 @@ const ChatBodyWrap = (props: IChatBodyProps) => {
                                     (!prevMessageDate ||
                                         (currentMessageDate.getFullYear() != prevMessageDate.getFullYear() || currentMessageDate.getMonth() != prevMessageDate.getMonth() || currentMessageDate.getDate() != prevMessageDate.getDate())) &&
                                     
-                                    <Paper style={{ alignSelf: "center", padding: theme.spacing(1) }}>
+                                    <Paper style={{ 
+                                        alignSelf: "center", 
+                                        padding: theme.spacing(1), 
+                                        paddingTop: theme.spacing(0.5),
+                                        paddingBottom: theme.spacing(0.5),
+                                        marginBottom: theme.spacing(1) }}
+                                        >
                                         {dateParse(messageData.createdDate)}
                                     </Paper>
                                 }

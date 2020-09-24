@@ -209,7 +209,7 @@ export const timeParse = (dateInStr: string) => {
     let hour = '' + date.getHours();
     if (hour.length == 1)
         hour = '0' + hour;
-    let min = '' + (date.getHours() + 1);
+    let min = '' + (date.getMinutes() + 1);
     if (min.length == 1)
         min = '0' + min;
     let result = `${hour}:${min}`

@@ -114,7 +114,7 @@ const ChatFormWrap = (props: IChatForm) => {
     }
 
     React.useEffect(() => {
-        const subscription: Stomp.Subscription | undefined = subscribeToChatMessagesTracking(props.chatName, onChatMessageReceived);
+        const subscription: Stomp.Subscription | undefined = subscribeToChatMessagesTracking(onChatMessageReceived);
         if (subscription)
             subscriptionRef.current = subscription
         fetchMessages();

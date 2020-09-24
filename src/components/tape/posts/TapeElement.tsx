@@ -36,8 +36,9 @@ export interface ITapeElementData {
   createdDate?: string,
   title?: string | null,
   rightText?: string,
-  ownerLogin?: string, 
-  isChat?: boolean
+  ownerLogin?: string,
+  isChat?: boolean,
+  rightNode?: React.ReactNode
 }
 
 export interface ITapeElementProps {
@@ -110,7 +111,7 @@ const TapeElementCardComp = (props: ITapeElementProps) => {
             {props.tapeElementData.title && props.tapeElementData.ownerLogin && !props.tapeElementData.isChat &&
               <Typography
                 color='inherit'
-                style={{textDecoration:"none"}}
+                style={{ textDecoration: "none" }}
                 component={RouterLink} to={urls.cabinet.shortPath + props.tapeElementData.ownerLogin}>
                 {props.tapeElementData.title}
               </Typography>
@@ -118,7 +119,7 @@ const TapeElementCardComp = (props: ITapeElementProps) => {
             {props.tapeElementData.title && props.tapeElementData.ownerLogin && props.tapeElementData.isChat &&
               <Typography
                 color='inherit'
-                style={{textDecoration:"none"}}
+                style={{ textDecoration: "none" }}
                 component={RouterLink}
                 to={'#'}
                 onClick={() => props.showChat(props.tapeElementData.ownerLogin, props.tapeElementData.title)}>
@@ -133,15 +134,20 @@ const TapeElementCardComp = (props: ITapeElementProps) => {
             <Typography className={classes.descriptionBlock}>{props.tapeElementData.bottomText}</Typography>
           </Grid>
         </Grid>
-        { (props.userRole == "ROLE_JOBSEEKER" && props.isRespondsActive) &&
-            <Grid item>
-              <RespondButton id={props.tapeElementData.id} token={props.token}></RespondButton>
-            </Grid>
+        {(props.userRole == "ROLE_JOBSEEKER" && props.isRespondsActive) &&
+          <Grid item>
+            <RespondButton id={props.tapeElementData.id} token={props.token}></RespondButton>
+          </Grid>
         }
-		{ ((props.userRole == "ROLE_EMPLOYER" || props.userRole == "ROLE_EMPLOYEE") && props.isRespondViewActive) &&
-            <Grid item>
-              <RespondViewButton id={props.tapeElementData.id} token={props.token}></RespondViewButton>
-            </Grid>
+        {((props.userRole == "ROLE_EMPLOYER" || props.userRole == "ROLE_EMPLOYEE") && props.isRespondViewActive) &&
+          <Grid item>
+            <RespondViewButton id={props.tapeElementData.id} token={props.token}></RespondViewButton>
+          </Grid>
+        }
+        {props.tapeElementData.rightNode &&
+       
+              props.tapeElementData.rightNode
+         
         }
         {props.tapeElementData.rightText &&
           <Grid item>
@@ -187,8 +193,9 @@ const TapeElementCardComp = (props: ITapeElementProps) => {
   )
 }
 
-export const TapeElement = connect((state: RootState) => ({ 
+export const TapeElement = connect((state: RootState) => ({
   login: state.authReducer.login,
-	avatarUrlUid: state.userPersonalsReducer.avatarUrlUid, 
-	userRole: state.authReducer.entityType, 
-	token: state.authReducer.token }), { showChat })(TapeElementCardComp);
+  avatarUrlUid: state.userPersonalsReducer.avatarUrlUid,
+  userRole: state.authReducer.entityType,
+  token: state.authReducer.token
+}), { showChat })(TapeElementCardComp);

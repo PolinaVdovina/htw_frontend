@@ -13,6 +13,10 @@ import Stomp from 'stompjs';
 import { RootState } from '../store';
 import { addNotificationsAction } from '../actions/notification-actions';
 import { IChatReceivingMessage } from './../../websockets/chat/interfaces';
+import { USER_PREFIX, SECURITY, CHAT } from './../../websockets/channels';
+import { subscribeToChatMessagesTracking } from '../../websockets/chat/actions';
+import { initChat } from './chat-reducers';
+import { addChatAction, addUnreadMessageToChatAction, setLastMessageDateForChat } from '../actions/chat-actions';
 
 
 export interface IAuthState {
@@ -84,9 +88,9 @@ export const login: (identity: string, password: string, rememberMe?: boolean) =
                 localStorage.setItem("login", identity);
             }
             await dispatch(loginAction(identity, result.token, 0, result.role));
-            await Promise.all([dispatch(getPersonalData(result.token)), initWebsocketWithSubscribes(dispatch, getState)]);
+            await Promise.all([dispatch(initChat(result.token)), dispatch(getPersonalData(result.token)), initWebsocketWithSubscribes(dispatch, getState)]);
             await dispatch(authCompletedAction(true));
-
+            
             await dispatch(enqueueSnackbarAction({
                 message: "Вы успешно вошли",
                 options: { variant: "success" }
@@ -163,7 +167,7 @@ export const reloadAuthData: () => void = () =>
             const isValidToken = await isValidTokenFetch(token);
             if (isValidToken) {
                 await dispatch(loginAction(login, token, null, role))
-                await Promise.all([initWebsocketWithSubscribes(dispatch, getState), dispatch(getPersonalData(token))]);
+                await Promise.all([dispatch(initChat(token)), initWebsocketWithSubscribes(dispatch, getState), dispatch(getPersonalData(token))]);
                 await dispatch(authCompletedAction(true));
             } else {
                 clearAuth();
@@ -211,8 +215,10 @@ const initWebsocketWithSubscribes = async (dispatch, getState: () => RootState, 
                         message: "Соединение восстановлено",
                         options: { variant: "success" }
                     }));
-                    onConnected(dispatch, getState)
+                    
                 }
+                onConnected(dispatch, getState)();
+
             },
             onError(dispatch, getState));
     }
@@ -237,8 +243,18 @@ const onError = (dispatch, getState) => async () => {
 
 }
 
-const onConnected = (dispatch, getState) => () => {
-    getStompClient()?.subscribe(rootUrl + "/user/security/queue/t", onMessageReceived(dispatch, getState));
+
+const onConnected = (dispatch, getState: ()=>RootState) => () => {
+    const onChatMessageReceived = async(message: IChatReceivingMessage) => {
+        if(message.sender != getState().authReducer.login)
+            dispatch(addUnreadMessageToChatAction(message.chatId))
+        dispatch(setLastMessageDateForChat(message.chatId, message.createdDate))
+        if(message.newChat)
+            await dispatch( addChatAction(message.newChat) );
+    }
+
+    //getStompClient()?.subscribe(rootUrl + "/user/security/queue/t", onMessageReceived(dispatch, getState));
+    subscribeToChatMessagesTracking(onChatMessageReceived);
 
     /*     if (isReconnect) {
             dispatch(enqueueSnackbarAction({

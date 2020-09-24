@@ -86,11 +86,11 @@ export function useOnlineStatusTracking(targetUserLogin, token) {
     return isOnline;
 }
 
-export const usePrivateChatTracking = (targetUserLogin, token, onChatMessageReceived:(message: IChatReceivingMessage) => void ) => {
+export const usePrivateChatTracking = (onChatMessageReceived:(message: IChatReceivingMessage) => void ) => {
     React.useEffect(() => {
 
 
-        const subscription = subscribeToChatMessagesTracking(targetUserLogin, onChatMessageReceived)
+        const subscription = subscribeToChatMessagesTracking(onChatMessageReceived)
         //fetchChatMessages();
         return () => {
             if (subscription)

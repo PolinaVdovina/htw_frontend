@@ -1,6 +1,6 @@
 import { IChatReceivingMessage, IChatSendingMessage } from '../../websockets/chat/interfaces';
 import { RootState } from '../../redux/store';
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import { makeStyles, Theme, createStyles, Paper, Grid, Typography, Avatar, Divider } from '@material-ui/core';
 import React from 'react';
 import { ChatMessage } from './ChatMessage';
@@ -11,12 +11,13 @@ import { ChatInput } from './ChatInput';
 import { searchCriteriaFetch, isUserOnlineFetch } from './../../utils/fetchFunctions';
 import { sortCriteria } from '../../utils/search-criteria/builders';
 import { SortCriteriaDirection, SearchCriteriaOperation, ISearchCriteria } from '../../utils/search-criteria/types';
-import { subscribeToChatMessagesTracking, sendMessage, subscribeToOnlineTracking } from './../../websockets/chat/actions';
+import { subscribeToChatMessagesTracking, sendMessage, subscribeToOnlineTracking, readMessagesFromChat } from './../../websockets/chat/actions';
 import { getStompClient } from '../../websockets/common';
 import Stomp from 'stompjs';
 import { startLoading, stopLoading } from '../../redux/reducers/dialog-reducers';
 import { useWritingStatusTracking, useOnlineStatusTracking, usePrivateChatTracking as usePrivateMessageTracking } from './../../websockets/chat/hooks';
 import { pagination, searchCriteria } from './../../utils/search-criteria/builders';
+import { resetUnreadMessagesForChatAction } from '../../redux/actions/chat-actions';
 
 
 
@@ -55,7 +56,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const ChatWrap = (props: IChatProps) => {
     const [messages, setMessages] = React.useState<Array<IChatReceivingMessage>>([]);   //0 - это самое старое сообщение; 1 - предпоследнее и тд...
-
+    const dispatch = useDispatch();
     const classes = useStyles();
     const theme = useTheme();
     const bodyRef = React.useRef<any>();
@@ -76,9 +77,22 @@ const ChatWrap = (props: IChatProps) => {
 
     }
 
-    usePrivateMessageTracking(props.chatName, props.token, (newMessage: IChatReceivingMessage) => {
-        setMessages(prevState => [...prevState, newMessage])
-        setGetMessagesCount(old => old+1);
+    usePrivateMessageTracking((newMessage: IChatReceivingMessage) => {
+        //Если отправитель - это собеседник и сообщение для моего логина
+        //или
+        //Если отправитель - это я и сообщение для собеседника
+        //Тогда это тот чат, который нужно смотреть
+        if ((newMessage.sender == props.chatName && newMessage.target == props.myLogin) || (newMessage.sender == props.myLogin && newMessage.target == props.chatName)) {
+
+            setMessages(prevState => [...prevState, newMessage])
+            setGetMessagesCount(old => old + 1);
+
+            if (props.chatName) {
+                readMessagesFromChat(props.chatName);
+                dispatch(resetUnreadMessagesForChatAction(newMessage.id))
+                
+            }
+        }
     })
 
     React.useEffect(() => {
@@ -98,6 +112,8 @@ const ChatWrap = (props: IChatProps) => {
             pagination: pagination(80, page)
         }).then(
             (e) => {
+                if (props.chatName)
+                    readMessagesFromChat(props.chatName);
                 const newMessages = e.result;
                 if (newMessages) {
                     if (newMessages.length < 20)

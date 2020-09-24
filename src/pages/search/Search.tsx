@@ -95,20 +95,18 @@ const SearchWrap = (props: ISearchProps) => {
                             <Typography variant="h6" style={{ flexGrow: 1, width: "min-content" }}>
                                 {title}
                             </Typography>
-                            <Tooltip title="Редактировать фильтры">
-                                <IconButton
+
+                                <Button
                                     onClick={openFilterDrawerHandler}
                                     style={{
-                                        width: "36px",
-                                        height: "36px",
                                         backgroundColor:
                                             theme.palette.primary.main,
                                         color: "white",
                                         /* borderRadius:0 */
                                     }}>
-                                    <FilterListIcon style={{ width: "auto" }} />
-                                </IconButton>
-                            </Tooltip>
+                                    Фильтры
+                                </Button>
+
                         </Grid>
                         <Divider />
 
