@@ -4,7 +4,6 @@ import { IMessageInfo, MessageStatus } from "./fetchInterfaces";
 import { addressGlue, genderIntToStr, jobApplGlue } from "./appliedFunc";
 import { store } from './../redux/store';
 import { loginAction, authCompletedAction } from "../redux/actions/auth-actions";
-import { login } from "../redux/reducers/auth-reducers";
 
 
 export const changeJobSeekerData = async ( dispatch, data ) => {
@@ -294,10 +293,14 @@ export const changeJobSeekerWorkData = async ( dispatch, data ) => {
 
 export const changePassword = async ( dispatch, data ) => {
     const msgInfo: IMessageInfo = await changePasswordFetch(store.getState().authReducer.token, data);
-    const loginString = store.getState().authReducer.login;
-    if (loginString === undefined) return msgInfo;
-    if (loginString === null) return msgInfo;
-    dispatch(login(loginString, data.newPassword)) 
+    if (msgInfo.id) {      
+        let token = msgInfo.id.toString();
+        alert(token)
+        dispatch(loginAction(store.getState().authReducer.login, token, store.getState().authReducer.user_id, store.getState().authReducer.entityType));
+        localStorage.setItem("token", token); 
+        dispatch(authCompletedAction(true))
+    }
+    
     return msgInfo;
 }
 

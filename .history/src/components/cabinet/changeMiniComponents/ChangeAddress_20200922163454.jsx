@@ -5,7 +5,7 @@ import { AddressSuggestions } from 'react-dadata';
 import 'react-dadata/dist/react-dadata.css';
 import { prependOnceListener } from 'process';
 import { stringify } from 'querystring';
-import {strToAddressDictionary} from './../../../utils/appliedFunc'
+import strToAddressDictionary from './../../../utils/appliedFunc'
 
 /*interface IChangeAddress {
     data: any,

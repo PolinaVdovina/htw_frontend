@@ -10,28 +10,22 @@ import { startLoadingAction, stopLoadingAction } from '../../redux/actions/dialo
 import { RootState } from '../../redux/store';
 import { changePersonalDataFetch, deleteEntity, searchCriteriaFetch } from '../../utils/fetchFunctions';
 import { IMessageInfo, MessageStatus } from '../../utils/fetchInterfaces';
-import { searchCriteria, pagination, sortCriteria } from '../../utils/search-criteria/builders';
-import { SearchCriteriaOperation, SortCriteriaDirection } from '../../utils/search-criteria/types';
+import { searchCriteria, pagination } from '../../utils/search-criteria/builders';
+import { SearchCriteriaOperation } from '../../utils/search-criteria/types';
 import { HCenterizingGrid } from '../grid-containers/HCenterizingGrid';
-import { usePrivateChatTracking as useChatTracking } from './../../websockets/chat/hooks';
-import { IChatReceivingMessage, IReceivingChatData } from './../../websockets/chat/interfaces';
-import { chatToPostList } from './../../utils/tape-converters/chat-to-tape-element';
-import { removeChatAction } from '../../redux/actions/chat-actions';
 
 function mapStateToProps(state: RootState) {
     return {
         token: state.authReducer.token,
-        login: state.authReducer.login,
-        chats: state.chatReducer.chats
+        login: state.authReducer.login
     }
 }
 
 interface IChatListTabComp {
-    token?: string | null,
-    chats?: Array<IReceivingChatData> | null
+    token?: string | null
 }
 
-const ChatListTabComp = (props: IChatListTabComp) => {
+const ChatListTabComp = (props) => {
     const theme = useTheme();
     const [openRegMiniComp, setOpenRegMiniComp] = React.useState(false);
 
@@ -40,12 +34,9 @@ const ChatListTabComp = (props: IChatListTabComp) => {
     const dispatch = useDispatch();
     const tapeFetcherContext = React.useContext(TapeFetcherContext);
 
-    const [messagesData, setMessagesData] = React.useState<IChatReceivingMessage>();
-
-
     const snackbar = useSnackbar();
 
-/*     const getNextChats = async () => {
+    const getNextChats = async () => {
         dispatch(startLoadingAction());
         if (props.token) {
             await tapeFetcherContext?.fetchNext(
@@ -53,22 +44,21 @@ const ChatListTabComp = (props: IChatListTabComp) => {
                     
                     return searchCriteriaFetch("/chat/getChatList/" + props.login, props.token, {
                         searchCriteria: [
-                            searchCriteria("view", true, SearchCriteriaOperation.EQUAL),                     
+                            searchCriteria("login", props.login, SearchCriteriaOperation.IN),                        
                         ],
-                        sortCriteria:[sortCriteria("lastMessageInChatDate", SortCriteriaDirection.DESC) ],
                         //sortCriteria: [sortCriteria("name", SortCriteriaDirection.ASC)],
-
+                        pagination: pagination(5)
                     })
                 }, "title"
             )
         }
         dispatch(stopLoadingAction());
-    } */
+    }
 
     const handleClickSave = async () => {
 
         tapeFetcherContext?.reset();
-        //await getNextChats();
+        await getNextChats();
 
     }
 
@@ -87,7 +77,7 @@ const ChatListTabComp = (props: IChatListTabComp) => {
     }, [])
 
     React.useEffect(() => {
-        //getNextChats();
+        getNextChats();
     }, [])
 
     const onDeleteChat = async () => {
@@ -97,13 +87,11 @@ const ChatListTabComp = (props: IChatListTabComp) => {
             if (result.msgStatus == MessageStatus.OK) {
                 snackbar.enqueueSnackbar("Чат успешно удален", { variant: "success" });
                 tapeFetcherContext?.reset();
-                dispatch(removeChatAction(deletingId));
-                //getNextChats();
+                getNextChats();
                 
             }
             else
                 snackbar.enqueueSnackbar("Не удалось удалить чат", { variant: "error" });
-            
             setDeletingId(null);
             dispatch(stopLoadingAction());
         }
@@ -131,12 +119,16 @@ const ChatListTabComp = (props: IChatListTabComp) => {
             <RegMiniComponent handleClickClose={handleClickClose} handleClickSave={handleClickSave} />
         }
         <Divider />
-        
+            
         <Tape
             onDeleteClick={(id) => setDeletingId(id)}
-            elements={ chatToPostList(props.chats)}
+            elements={
+                tapeFetcherContext?.tapeElements
+            }
         />
-
+        <Grid item style={{ flexGrow: 1 }}>
+            <Button variant="contained" color="primary" fullWidth onClick={getNextChats} style={{ borderTopLeftRadius: 0, borderTopRightRadius: 0 }}>Дальше</Button>
+        </Grid>
     </>)
 }
 

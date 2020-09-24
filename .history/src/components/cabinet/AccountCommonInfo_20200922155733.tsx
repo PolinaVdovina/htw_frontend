@@ -144,7 +144,7 @@ const AccountCommonInfoComp = (props: IAccountCommonInfo) => {
 
   const avatarChangeHandler = async (e) => {
     props.startLoading();
-    //alert("herh")
+
     const onResizedImage = async (resizedImageBlob) => {
       const messageStatus = props.token && resizedImageBlob && await setAvatarFetch(props.token, resizedImageBlob);
       if (messageStatus == MessageStatus.OK) {
@@ -245,27 +245,22 @@ const AccountCommonInfoComp = (props: IAccountCommonInfo) => {
               <Typography style={{ textAlign: "left", wordBreak: "break-word", fontSize: "12px" }}>{context.about}</Typography>
           }
           { !context.isMine && context.role == 'ROLE_EMPLOYER' && context.about &&
-              <Link href={context.about} target="_blank" /*rel="noopener"*/>{context.about}</Link>
+              <Link href={context.about}/>
           }
           
         </Typography>
 
         { !context.isMine && context.role == 'ROLE_INSTITUTION' && context.about &&
               <Button 
-                variant='contained' 
-                color='primary'  
-                style={{width: '210px'}}            
+                className={classes.descriptionBlock}
+                //component={Link} 
+                //href={context.about}
+                component={RouterLink}
+                //underline='none' 
+                variant='contained'               
               >
-                  <Link 
-                    href={context.about} 
-                    underline='none'
-                    color='inherit'
-                    target="_blank"
-                  >
-                    Хочу учиться
-                  </Link>
+                  Хочу учиться
               </Button>
-              
           }
 
         <ChangeComponentDialog

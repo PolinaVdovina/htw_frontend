@@ -6,24 +6,24 @@ import { StatementInPost } from './../components/tape/posts/post-body-elements/S
 import { v4 as uuidv4 } from 'uuid';
 import { store } from "../redux/store";
 
-export function addressGlue(data?): string | null {
+export function addressGlue(data?) : string | null {
     let address: string | null = null;
 
-    if (data) {
+    if(data) {
         address = '';
-        if (data.region)
+        if(data.region)
             address += data.region;
-
-        if (data.city)
+        
+        if(data.city)
             address += ', г ' + data.city;
 
-        if (data.street)
+        if(data.street)
             address += ', ' + data.street;
 
-        if (data.house)
+        if(data.house)
             address += ', д ' + data.house;
-
-        if (data.flat)
+    
+        if(data.flat)
             address += ', кв ' + data.flat;
     }
 
@@ -32,7 +32,7 @@ export function addressGlue(data?): string | null {
 
 export function strToAddressDictionary(str: string/*: string*/) {
     let strArray = str.split(', ');
-    for (let i = 0; i < strArray.length; i++) {
+    for (let i = 0; i<strArray.length; i++) {
         if (strArray[i].endsWith('р-н'))
             strArray.splice(i, 1);
     }
@@ -44,11 +44,11 @@ export function strToAddressDictionary(str: string/*: string*/) {
         data = {
             address: {
                 country: 'Россия',
-                region: strArray[0] ? strArray[0].replace('г ', '') : null,
-                city: strArray[0] ? strArray[0].replace('г ', '') : null,
-                street: strArray[1] ? strArray[1] : null,
-                house: strArray[2] ? strArray[2].replace('д ', '') : null,
-                flat: strArray[3] ? strArray[3].replace('кв ', '') : null,
+                region: null,
+                city: strArray[0] ? strArray[1].replace('г ', '') : null,
+                street: strArray[1] ? strArray[2] : null,
+                house: strArray[2] ? strArray[3].replace('д ', '') : null,
+                flat: strArray[3] ? strArray[4].replace('кв ', '') : null,
             }
         };
     }
@@ -71,7 +71,7 @@ export function strToAddressDictionary(str: string/*: string*/) {
 export const genderLabels = ["Мужской", "Женский", "Другое"]
 
 export function genderIntToStr(gender: number | null) {
-    if (gender != null) {
+    if(gender != null) {
         return genderLabels[gender];
     }
     return null;
@@ -79,23 +79,23 @@ export function genderIntToStr(gender: number | null) {
 
 
 export function genderStrToInt(gender: string | null) {
-    if (gender != null) {
-        return genderLabels.findIndex((value) => value == gender);
+    if(gender != null) {
+        return genderLabels.findIndex((value) => value==gender);
     }
     return null;
 }
 
 export function accountRequestToEntityDictionary(data, role) {
     try {
-        switch (role) {
+        switch(role) {
             case "ROLE_JOBSEEKER":
                 let parsedData = {
                     isOnline: data.online,
-                    name: data.name,
-                    surname: data.surname,
-                    middlename: data.middlename,
-                    dateBirth: data.dateBirth,
-                    phone: data.contactDetails.phone,
+                    name: data.name, 
+                    surname: data.surname, 
+                    middlename: data.middlename, 
+                    dateBirth: data.dateBirth, 
+                    phone: data.contactDetails.phone, 
                     email: data.contactDetails.email,
                     about: data.about,
                     address: addressGlue(data.address),
@@ -126,8 +126,8 @@ export function accountRequestToEntityDictionary(data, role) {
             case "ROLE_EMPLOYER":
                 return {
                     isOnline: data.online,
-                    name: data.name,
-                    phone: data.contactDetails.phone,
+                    name: data.name, 
+                    phone: data.contactDetails.phone, 
                     email: data.contactDetails.email,
                     about: data.about,
                     address: data.address,
@@ -151,8 +151,8 @@ export function accountRequestToEntityDictionary(data, role) {
             case "ROLE_INSTITUTION":
                 return {
                     isOnline: data.online,
-                    name: data.name,
-                    phone: data.contactDetails.phone,
+                    name: data.name, 
+                    phone: data.contactDetails.phone, 
                     email: data.contactDetails.email,
                     about: data.about,
                     address: data.address,
@@ -174,16 +174,16 @@ export function accountRequestToEntityDictionary(data, role) {
                     socMediaPrivate: data.socMediaPrivate
                 }
                 break
-
+    
             case "ROLE_EMPLOYEE":
                 return {
                     isOnline: data.online,
-                    name: data.name,
-                    surname: data.surname,
-                    middlename: data.middlename,
+                    name: data.name, 
+                    surname: data.surname, 
+                    middlename: data.middlename, 
                     viewName: data.viewName,
-                    phone: data.contactDetails ? data.contactDetails.phone : null,
-                    email: data.contactDetails ? data.contactDetails.email : null,
+                    phone: data.contactDetails ? data.contactDetails.phone : null, 
+                    email: data.contactDetails ? data.contactDetails.email : null, 
                     employer: data.employer ? (data.employer.name ? data.employer.name : data.employer.login) : null,
                     links: {
                         employer: data.employer ? data.employer.login : null,
@@ -212,26 +212,13 @@ export function accountRequestToEntityDictionary(data, role) {
 export const dateParse = (dateInStr: string) => {
     const date = new Date(Date.parse(dateInStr));
     let day = '' + date.getDate();
-    if (day.length == 1)
+    if (day.length == 1) 
         day = '0' + day;
     let month = '' + (date.getMonth() + 1);
-    if (month.length == 1)
+    if (month.length == 1) 
         month = '0' + month;
     const year = date.getFullYear();
     let result = `${day}.${month}.${year}`
-    return result;
-}
-
-
-export const timeParse = (dateInStr: string) => {
-    const date = new Date(Date.parse(dateInStr));
-    let hour = '' + date.getHours();
-    if (hour.length == 1)
-        hour = '0' + hour;
-    let min = '' + (date.getMinutes() + 1);
-    if (min.length == 1)
-        min = '0' + min;
-    let result = `${hour}:${min}`
     return result;
 }
 
@@ -249,21 +236,21 @@ export const listItems = (maxNum: number): string[] => {
 }
 
 export function numToStr(numExperience: number): string {
-    let txt;
-    let count = numExperience % 100;
-    if (count >= 5 && count <= 20) {
-        txt = 'лет';
-    } else {
-        count = count % 10;
-        if (count == 1) {
-            txt = 'год';
-        } else if (count >= 2 && count <= 4) {
-            txt = 'года';
-        } else {
-            txt = 'лет';
-        }
-    }
-    return numExperience + " " + txt;
+	let txt;
+	let count = numExperience % 100;
+	if (count >= 5 && count <= 20) {
+		txt = 'лет';
+	} else {
+		count = count % 10;
+		if (count == 1) {
+			txt = 'год';
+		} else if (count >= 2 && count <= 4) {
+			txt = 'года';
+		} else {
+			txt = 'лет';
+		}
+	}
+	return numExperience + " " + txt;
 }
 
 export const jobApplGlue = (jobAppl) => {
@@ -280,17 +267,18 @@ export const resize = (imgFile, maxWidth, onload) => {
     let canvas = document.createElement('canvas');
 
     var img = new Image;
-    img.onload = () => {
-        if (canvas) {
+    img.onload = () =>
+    {
+        if(canvas) {
             let k = 1;
-            if (img.width > maxWidth)
-                k = 1.0 * maxWidth / img.width;
+            if(img.width > maxWidth) 
+                k = 1.0 *  maxWidth / img.width;
             canvas.width = img.width * k;
-            canvas.height = img.height * k;
+            canvas.height = img.height*k;
             const context = canvas.getContext('2d');
-            context && context.drawImage(img, 0, 0, img.width * k, img.height * k);
-
-            let imgurl = canvas.toDataURL()
+            context && context.drawImage(img, 0, 0, img.width * k, img.height*k);
+            
+            let imgurl= canvas.toDataURL( )
             var byteString = atob(imgurl.split(',')[1]);
             var ab = new ArrayBuffer(byteString.length);
             var ia = new Uint8Array(ab);
@@ -306,16 +294,16 @@ export const resize = (imgFile, maxWidth, onload) => {
 }
 
 
-export const resizeList = async (imgFileList: Array<File> | undefined, maxWidth/*, onload*/) => {
+export const resizeList = async (imgFileList: Array<File> | undefined, maxWidth/*, onload*/) => {   
     let fileList: Array<File> = new Array<File>();
-    if (imgFileList === undefined) return new Array<File>();
+    if (imgFileList === undefined) return new  Array<File>();  
 
     for (let i = 0; i < imgFileList.length; i++) {
         if (imgFileList[i] === null) return new Array<File>();
         const file: any = await resizeOneFileForList(imgFileList[i], maxWidth);
         fileList.push(file);
-
-    }
+        
+    }     
     return fileList;
 }
 
@@ -324,17 +312,17 @@ const resizeOneFileForList = (imgFile, maxWidth) => {
         let canvas = document.createElement('canvas');
 
         var img = new Image;
-        img.onload = () => {
-            if (canvas) {
+        img.onload = () => {        
+            if(canvas) {
                 let k = 1;
-                if (img.width > maxWidth)
-                    k = 1.0 * maxWidth / img.width;
+                if(img.width > maxWidth) 
+                    k = 1.0 *  maxWidth / img.width;
                 canvas.width = img.width * k;
-                canvas.height = img.height * k;
+                canvas.height = img.height*k;
                 const context = canvas.getContext('2d');
-                context && context.drawImage(img, 0, 0, img.width * k, img.height * k);
-
-                let imgurl = canvas.toDataURL()
+                context && context.drawImage(img, 0, 0, img.width * k, img.height*k);
+                
+                let imgurl= canvas.toDataURL( )
                 var byteString = atob(imgurl.split(',')[1]);
                 var ab = new ArrayBuffer(byteString.length);
                 var ia = new Uint8Array(ab);
