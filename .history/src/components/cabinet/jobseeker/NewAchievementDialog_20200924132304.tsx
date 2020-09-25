@@ -89,7 +89,8 @@ export const NewAchievementDialog = (props: INewAchievementDialog) => {
         setFiles(new Array<File>());
         props.onClose()
     }
-
+    let a;
+    alert(a.toString())
     return(
         <Dialog open={props.open} onClose={handleClickClose}>
             <DialogTitle>Добавление достижения</DialogTitle>

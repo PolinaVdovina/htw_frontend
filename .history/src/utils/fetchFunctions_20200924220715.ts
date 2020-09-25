@@ -653,18 +653,18 @@ export const toRespondFetch = async (token, id, url) => {
             }
         );        
 
-        const result = {
+        const msgInfo = {
             msgStatus: response.data.error || (response.data.status && response.data.status == 'error') ? MessageStatus.ERROR : MessageStatus.OK,
-            vacancyId: response.data
+            vacancyDto: response.data
         };
-        return result;
+        return msgInfo;
     }
     catch {
-        const result = {
+        const msgInfo = {
             msgStatus: MessageStatus.ERROR,
             error: "Проблемы с соединением",
         };
-        return result;
+        return msgInfo;
     }
 }
 
@@ -710,25 +710,3 @@ export const removeAchievFetch = async (token: string, id: number) => {
 }
 
 
-export const getPrivateChatFetch = async (token, targetLogin: string) => {
-    let returnData;
-    try {
-        const response = await axios.get(rootUrl + "/chat/getPrivateChat/" + targetLogin, {
-            headers: {
-                Authorization: 'Bearer ' + token
-            }
-        });
-
-        returnData = response.data;
-        returnData["msgStatus"] = "ok"
-    }
-    catch
-    {
-        returnData = {
-            msgStatus: "error",
-            error: "Какая-нибудь ошибка с сетью!"
-        };
-    }
-
-    return returnData;
-}

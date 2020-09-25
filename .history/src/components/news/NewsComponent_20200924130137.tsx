@@ -13,16 +13,10 @@ import { userToPost } from '../../utils/tape-converters/user-to-tape-element';
 import { ChangeCompetences } from '../cabinet/changeMiniComponents/ChangeCompetences';
 import { settingsCompetenceSet } from '../cabinet/changeMiniComponents/changeSettings';
 import { vacancySettings } from './../search/settings/vacancy-settings';
-import { RootState } from '../../redux/store';
-import { connect } from 'react-redux';
 
 interface INewsComponent {
-    role: any
-}
 
-const mapStateToProps = (state: RootState) => ({
-    role: state.authReducer.entityType
-})
+}
 
 const titles = {
     jobseeker: "Соискатели",
@@ -63,7 +57,7 @@ const employerSettings = {
 }
 
 
-export const NewsComp = (props: INewsComponent) => {
+export const NewsComponent = (props: INewsComponent) => {
     const routeMatch = useRouteMatch();
     const entityType = routeMatch.params["entity"];
     const title = titles[entityType];
@@ -96,7 +90,7 @@ export const NewsComp = (props: INewsComponent) => {
                     </Grid>
                     <Divider />
                 <TapeWithFetcher
-                    isRespondActive={props.role == 'ROLE_JOBSEEKER' ? true : false} 
+                    isRespondActive={false} 
                     dataConverterFunction={converterFunctions[entityType]} 
                     url={urls[entityType]} 
                     sortKey={sortKeys[entityType]}
@@ -108,5 +102,3 @@ export const NewsComp = (props: INewsComponent) => {
         </HCenterizingGrid>
     )
 }
-
-export const NewsComponent = connect(mapStateToProps)(NewsComp)

@@ -17,11 +17,11 @@ import { RootState } from '../../redux/store';
 import { connect } from 'react-redux';
 
 interface INewsComponent {
-    role: any
+
 }
 
 const mapStateToProps = (state: RootState) => ({
-    role: state.authReducer.entityType
+    userRole: state.authReducer.entityType
 })
 
 const titles = {

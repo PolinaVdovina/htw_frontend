@@ -12,6 +12,12 @@ export interface IRespondButton {
     id: number
 }
 
+function mapStateToProps(state : RootState) {
+    return {
+        respondVacancies: state.userPersonalsReducer.responseVacancies
+    }
+}
+
 export const RespondButton = (props: IRespondButton) => {
     const snackbar = useSnackbar();
 

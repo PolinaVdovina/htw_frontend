@@ -710,25 +710,3 @@ export const removeAchievFetch = async (token: string, id: number) => {
 }
 
 
-export const getPrivateChatFetch = async (token, targetLogin: string) => {
-    let returnData;
-    try {
-        const response = await axios.get(rootUrl + "/chat/getPrivateChat/" + targetLogin, {
-            headers: {
-                Authorization: 'Bearer ' + token
-            }
-        });
-
-        returnData = response.data;
-        returnData["msgStatus"] = "ok"
-    }
-    catch
-    {
-        returnData = {
-            msgStatus: "error",
-            error: "Какая-нибудь ошибка с сетью!"
-        };
-    }
-
-    return returnData;
-}

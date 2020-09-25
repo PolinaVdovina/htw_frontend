@@ -37,7 +37,7 @@ export interface ITapeElementData {
   title?: string | null,
   rightText?: string,
   ownerLogin?: string,
-  onClick?: () => any,
+  isChat?: boolean,
   rightNode?: React.ReactNode
 }
 
@@ -108,25 +108,24 @@ const TapeElementCardComp = (props: ITapeElementProps) => {
         }
         <Grid item style={{ flexGrow: 1, marginRight: theme.spacing(2) }}>
           <Grid container direction="column" >
-            {props.tapeElementData.title && props.tapeElementData.ownerLogin && !props.tapeElementData.onClick &&
+            {props.tapeElementData.title && props.tapeElementData.ownerLogin && !props.tapeElementData.isChat &&
               <Typography
                 color='inherit'
                 style={{ textDecoration: "none" }}
-                component={RouterLink} to={urls.cabinet.shortPath + props.tapeElementData.ownerLogin}
-              >
+                component={RouterLink} to={urls.cabinet.shortPath + props.tapeElementData.ownerLogin}>
                 {props.tapeElementData.title}
               </Typography>
             }
-            {props.tapeElementData.title && props.tapeElementData.ownerLogin && props.tapeElementData.onClick &&
+            {props.tapeElementData.title && props.tapeElementData.ownerLogin && props.tapeElementData.isChat &&
               <Typography
                 color='inherit'
                 style={{ textDecoration: "none" }}
-                onClick={props.tapeElementData.onClick}
-              >
+                component={RouterLink}
+                to={'#'}
+                onClick={() => props.showChat(props.tapeElementData.ownerLogin, props.tapeElementData.title)}>
                 {props.tapeElementData.title}
               </Typography>
             }
-
             {props.tapeElementData.title && !props.tapeElementData.ownerLogin &&
               <Typography>
                 {props.tapeElementData.title}
@@ -146,9 +145,9 @@ const TapeElementCardComp = (props: ITapeElementProps) => {
           </Grid>
         }
         {props.tapeElementData.rightNode &&
-
-          props.tapeElementData.rightNode
-
+       
+              props.tapeElementData.rightNode
+         
         }
         {props.tapeElementData.rightText &&
           <Grid item>
