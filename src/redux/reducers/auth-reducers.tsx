@@ -16,7 +16,7 @@ import { IChatReceivingMessage } from './../../websockets/chat/interfaces';
 import { USER_PREFIX, SECURITY, CHAT } from './../../websockets/channels';
 import { subscribeToChatMessagesTracking } from '../../websockets/chat/actions';
 import { initChat } from './chat-reducers';
-import { addChatAction, addUnreadMessageToChatAction, setLastMessageDateForChat } from '../actions/chat-actions';
+import { addChatAction, addUnreadMessageToChatAction, setLastMessageDateForChat, setChatsAction } from '../actions/chat-actions';
 
 
 export interface IAuthState {
@@ -188,6 +188,7 @@ export const logout: () => void = () =>
         await dispatch(startLoadingAction());
         await dispatch(logoutAction());
         await dispatch(resetPersonalDataAction());
+        await dispatch(setChatsAction(null));
         clearAuth();
         stopWebsocketConnection();
         await dispatch(stopLoadingAction());
@@ -247,9 +248,11 @@ const onError = (dispatch, getState) => async () => {
 const onConnected = (dispatch, getState: ()=>RootState) => () => {
     const onChatMessageReceived = async(message: IChatReceivingMessage) => {
         if(message.sender != getState().authReducer.login)
-            dispatch(addUnreadMessageToChatAction(message.chatId))
+            if(getState().chatReducer.chatId != message.chatId)
+                dispatch(addUnreadMessageToChatAction(message.chatId))
+
         dispatch(setLastMessageDateForChat(message.chatId, message.createdDate))
-        if(message.newChat)
+        if(message.newChat) 
             await dispatch( addChatAction(message.newChat) );
     }
 

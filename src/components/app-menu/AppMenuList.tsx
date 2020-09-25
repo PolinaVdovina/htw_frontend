@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Drawer, Tooltip, IconButton, List, ListItem, ListItemIcon, ListItemText, Avatar, Grid, makeStyles, Theme, createStyles, Typography, Divider, useTheme, Collapse } from "@material-ui/core"
+import { Drawer, Tooltip, IconButton, List, ListItem, ListItemIcon, ListItemText, Avatar, Grid, makeStyles, Theme, createStyles, Typography, Divider, useTheme, Collapse, Badge } from "@material-ui/core"
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import LibraryBooksIcon from '@material-ui/icons/LibraryBooks';
 import PlaylistAddCheckIcon from '@material-ui/icons/PlaylistAddCheck';
@@ -20,14 +20,15 @@ import ContactlessIcon from '@material-ui/icons/Contactless';
 import EventIcon from '@material-ui/icons/Event';
 import InsertChartIcon from '@material-ui/icons/InsertChart';
 import SettingsIcon from '@material-ui/icons/Settings';
+import { getUnreadMessagesCount } from './../../redux/reducers/chat-reducers';
 
 interface IDrawerElement {
   IconComponent?: any,
   title?: string,
   url?: string,
   func?: (...arg) => void,
-	addLogin?: boolean,
-	role?: any
+  addLogin?: boolean,
+  role?: any
 }
 
 interface IDrawerGroup {
@@ -36,6 +37,22 @@ interface IDrawerGroup {
   title: string,
   IconComponent?: any,
 }
+
+
+
+const mapUnreadMessageToProps = (state: RootState) => ({
+  unreadMessageCount: state.chatReducer.chats ? getUnreadMessagesCount(state.chatReducer.chats) : 0
+})
+
+const MessageCounterBadge = connect(mapUnreadMessageToProps)((props: any) => {
+  return (
+    <Badge badgeContent={props.unreadMessageCount} color={"secondary"}>
+      <ChatIcon />
+    </Badge>
+  )
+})
+
+
 
 const drawerGroups: Array<IDrawerGroup> = [
   {
@@ -110,21 +127,21 @@ const drawerGroups: Array<IDrawerGroup> = [
     ]
   },
 
-  
+
 
 
   {
     isRoot: true,
     title: "Корень2",
     elements: [
-	  {
-		  title: "Аналитика",
-		  IconComponent: InsertChartIcon,
-		  url: urls.analytics.shortPath,
-		  role:	'ROLE_INSTITUTION'
-	  },
       {
-        IconComponent: ChatIcon,
+        title: "Аналитика",
+        IconComponent: InsertChartIcon,
+        url: urls.analytics.shortPath,
+        role: 'ROLE_INSTITUTION'
+      },
+      {
+        IconComponent: MessageCounterBadge,
         title: "Сообщения",
         url: urls.chat.shortPath,
       },
@@ -138,40 +155,6 @@ const drawerGroups: Array<IDrawerGroup> = [
   },
 ]
 
-const drawerElementsDict: Array<IDrawerElement> = [
-  {
-    IconComponent: AccountCircleIcon,
-    title: "Личный кабинет",
-    url: urls.cabinet.shortPath,
-    addLogin: true,
-
-  },
-  {
-    IconComponent: LibraryBooksIcon,
-    title: "Вакансии",
-    url: urls.home.shortPath,
-  },
-  {
-    IconComponent: PlaylistAddCheckIcon,
-    title: "Рекомендации",
-    url: "/"
-  },
-  {
-    IconComponent: NotificationsIcon,
-    title: "Уведомления",
-    url: "/"
-  },
-  {
-    IconComponent: ChatIcon,
-    title: "Сообщения",
-    url: "/"
-  },
-  {
-    IconComponent: TransitEnterexitIcon,
-    title: "Выйти",
-    func: async (dispatch) => { await dispatch(logout)(dispatch) }
-  },
-]
 
 
 
@@ -237,37 +220,37 @@ const GroupElementsComp = (props) => {
   return (
     <List disablePadding className={classes.listButtons}>
       {
-				props.elements.map((el, index) =>
-					el.role ? 
-						(el.role == props.role && 
-							<ListItem
-								key={index} button
-								className={props.nested ? classes.nestedButtons : classes.notNestedButtons}
-								{...{ component: el.url && NavLink, to: el.url + (el.addLogin ? props.login : '') || null }}
-								onClick={() => { el.func && el.func(dispatch) }}>
+        props.elements.map((el, index) =>
+          el.role ?
+            (el.role == props.role &&
+              <ListItem
+                key={index} button
+                className={props.nested ? classes.nestedButtons : classes.notNestedButtons}
+                {...{ component: el.url && NavLink, to: el.url + (el.addLogin ? props.login : '') || null }}
+                onClick={() => { el.func && el.func(dispatch) }}>
 
-								{el.IconComponent && 
-										<ListItemIcon>
-											<el.IconComponent />
-										</ListItemIcon>
-								}
-								<ListItemText primary={el.title} />
-							</ListItem >) 
-					:
-							(<ListItem
-								key={index} button
-								className={props.nested ? classes.nestedButtons : classes.notNestedButtons}
-								{...{ component: el.url && NavLink, to: el.url + (el.addLogin ? props.login : '') || null }}
-								onClick={() => { el.func && el.func(dispatch) }}>
+                {el.IconComponent &&
+                  <ListItemIcon>
+                    <el.IconComponent />
+                  </ListItemIcon>
+                }
+                <ListItemText primary={el.title} />
+              </ListItem >)
+            :
+            (<ListItem
+              key={index} button
+              className={props.nested ? classes.nestedButtons : classes.notNestedButtons}
+              {...{ component: el.url && NavLink, to: el.url + (el.addLogin ? props.login : '') || null }}
+              onClick={() => { el.func && el.func(dispatch) }}>
 
-								{el.IconComponent && 
-										<ListItemIcon>
-											<el.IconComponent />
-										</ListItemIcon>
-								}
-								<ListItemText primary={el.title} />
-							</ListItem >)
-				)
+              {el.IconComponent &&
+                <ListItemIcon>
+                  <el.IconComponent />
+                </ListItemIcon>
+              }
+              <ListItemText primary={el.title} />
+            </ListItem >)
+        )
       }
     </List>
   )

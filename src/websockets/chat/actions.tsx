@@ -12,7 +12,7 @@ export const sendMessage = (to: string, message: IChatSendingMessage) => {
 }
 
 
-export const readMessagesFromChat = (from: string) => {
+export const readMessagesFromChat = (from: number) => {
     getStompClient()?.send(ROOT + APP + "/chat.receiveMessage/" + from, {});
 }
 

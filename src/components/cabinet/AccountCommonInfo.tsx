@@ -22,7 +22,7 @@ import { startLoading, stopLoading } from '../../redux/reducers/dialog-reducers'
 import Resizer from 'react-image-file-resizer';
 import { resize } from '../../utils/appliedFunc';
 import { subscribe, unsubscribe } from './../../redux/reducers/user-personals-reducers';
-import { showChat } from './../../redux/reducers/chat-reducers';
+import { showChat, openChat, openPrivateChat } from './../../redux/reducers/chat-reducers';
 import { getStompClient } from './../../websockets/common';
 import { subscribeToOnlineTracking } from '../../websockets/chat/actions';
 
@@ -102,7 +102,8 @@ interface IAccountCommonInfo {
   subscribe: typeof subscribe,
   unsubscribe: typeof unsubscribe,
   subscriptionLogins?: Array<string> | null,
-  showChat: typeof showChat
+  showChat: typeof showChat,
+  openPrivateChat: typeof openPrivateChat
 }
 
 const AccountCommonInfoComp = (props: IAccountCommonInfo) => {
@@ -161,7 +162,8 @@ const AccountCommonInfoComp = (props: IAccountCommonInfo) => {
   }
 
   const openChatHandler = () => {
-    props.showChat(context.login, context.viewName)
+    props.openPrivateChat(context.login, context.viewName )
+    //props.showChat(context.login, context.viewName)
   }
 
   const subscribeHandler = async () => {
@@ -367,5 +369,5 @@ export const AccountCommonInfo = connect((state: RootState) => ({
   avatarUID: state.userPersonalsReducer.avatarUrlUid,
   subscriptionLogins: state.userPersonalsReducer.subscriptionLogins,
 }),
-  { updateAvatarUID, startLoading, stopLoading, subscribe, unsubscribe, showChat }
+  { updateAvatarUID, startLoading, stopLoading, subscribe, unsubscribe, showChat, openPrivateChat }
 )(AccountCommonInfoComp)

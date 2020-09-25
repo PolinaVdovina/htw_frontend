@@ -30,6 +30,7 @@ export interface IChatProps {
     viewName?: string | null,
     startLoading: typeof startLoading,
     stopLoading: typeof stopLoading,
+    chatId?: number | null,
 }
 
 
@@ -37,6 +38,7 @@ const mapStateToProps = (state: RootState) => ({
     myLogin: state.authReducer.login,
     chatName: state.chatReducer.chatName,
     token: state.authReducer.token,
+    chatId: state.chatReducer.chatId,
     viewName: state.chatReducer.chatViewName,
 })
 
@@ -87,9 +89,9 @@ const ChatWrap = (props: IChatProps) => {
             setMessages(prevState => [...prevState, newMessage])
             setGetMessagesCount(old => old + 1);
 
-            if (props.chatName) {
-                readMessagesFromChat(props.chatName);
-                dispatch(resetUnreadMessagesForChatAction(newMessage.id))
+            if (props.chatId) {
+                readMessagesFromChat(props.chatId);
+                //dispatch(resetUnreadMessagesForChatAction(newMessage.chatId))
                 
             }
         }
@@ -112,8 +114,8 @@ const ChatWrap = (props: IChatProps) => {
             pagination: pagination(80, page)
         }).then(
             (e) => {
-                if (props.chatName)
-                    readMessagesFromChat(props.chatName);
+                if (props.chatId)
+                    readMessagesFromChat(props.chatId);
                 const newMessages = e.result;
                 if (newMessages) {
                     if (newMessages.length < 20)

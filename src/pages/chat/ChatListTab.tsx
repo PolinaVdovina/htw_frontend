@@ -17,6 +17,7 @@ import { usePrivateChatTracking as useChatTracking } from './../../websockets/ch
 import { IChatReceivingMessage, IReceivingChatData } from './../../websockets/chat/interfaces';
 import { chatToPostList } from './../../utils/tape-converters/chat-to-tape-element';
 import { removeChatAction } from '../../redux/actions/chat-actions';
+import { showChat } from './../../redux/reducers/chat-reducers';
 
 function mapStateToProps(state: RootState) {
     return {
@@ -76,8 +77,9 @@ const ChatListTabComp = (props: IChatListTabComp) => {
         setOpenRegMiniComp(false);
     }
 
-    const handleClickOpen = () => {
-        setOpenRegMiniComp(true);
+    const handleClickOpen = (chatId: number, viewName: string, chatName: string) => {
+        dispatch(showChat(chatName, viewName, chatId))
+       // setOpenRegMiniComp(true);
     }
 
     React.useEffect(() => {
@@ -134,7 +136,7 @@ const ChatListTabComp = (props: IChatListTabComp) => {
         
         <Tape
             onDeleteClick={(id) => setDeletingId(id)}
-            elements={ chatToPostList(props.chats)}
+            elements={ chatToPostList(props.chats, handleClickOpen )}
         />
 
     </>)

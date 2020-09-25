@@ -7,7 +7,7 @@ import { ChatListTab } from './ChatListTab'
 
 export const ChatList = (props) => {
     return(
-        <TapeFetcherProvider key={0} dataConverterFunction = {chatToPost}>
+        <TapeFetcherProvider key={0}>
             <HCenterizingGrid>
                 <Paper style={{ flexGrow: 1, overflow: "hidden" }}>
                     <ChatListTab/>
