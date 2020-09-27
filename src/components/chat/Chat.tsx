@@ -85,8 +85,7 @@ const ChatWrap = (props: IChatProps) => {
         //Если отправитель - это я и сообщение для собеседника
         //Тогда это тот чат, который нужно смотреть
         if ((newMessage.sender == props.chatName && newMessage.target == props.myLogin) || (newMessage.sender == props.myLogin && newMessage.target == props.chatName)) {
-
-            setMessages(prevState => [...prevState, newMessage])
+            setMessages(prevState => [...prevState, newMessage].sort((a,b)=>a.id - b.id))
             setGetMessagesCount(old => old + 1);
 
             if (props.chatId) {

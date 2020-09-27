@@ -98,7 +98,6 @@ const ChatFormWrap = (props: IChatForm) => {
     const [chatMessages, setChatMessages] = React.useState<Array<IChatReceivingMessage>>([]);
 
     const onChatMessageReceived = (message: IChatReceivingMessage) => {
-        alert(JSON.stringify(chatMessages))
         setChatMessages((prevMessages) => [...prevMessages, message]);
     }
 
@@ -107,7 +106,6 @@ const ChatFormWrap = (props: IChatForm) => {
             const fetch = await searchCriteriaFetch<IChatReceivingMessage>("/chat/getPrivateMessages/"+props.chatName, props.token, {
                 sortCriteria: [sortCriteria("createdDate", SortCriteriaDirection.ASC )]
             });
-            alert(JSON.stringify(fetch.result))
             if(fetch.result)
                 setChatMessages(fetch.result);
         }

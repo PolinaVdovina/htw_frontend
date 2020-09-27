@@ -134,8 +134,10 @@ export const showChat: (chatName: string, viewName?: string, chatId?: number) =>
     async (dispatch, getState: () => RootState) => {
         if (!getStompClient())
             return;
-
+        
         await dispatch(openChatAction(chatName, viewName, chatId));
+        if(chatId)
+            await dispatch(resetUnreadMessagesForChatAction(chatId));
         //const token = getState().authReducer.token;
         /* if (token)
             stompClient?.subscribe(rootUrl + "/user/security/queue/t", onMessageReceived); */

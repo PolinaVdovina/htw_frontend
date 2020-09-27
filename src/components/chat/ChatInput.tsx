@@ -79,8 +79,6 @@ const ChatInputWrap = (props: IChatInputProps) => {
     }
 
     const smileClickHandler = (event: MouseEvent, data: IEmojiData) => {
-        //if(emoji.emoticons)
-        alert(Object.keys(textFieldRef.current))
         textFieldRef.current.focus();
         setInputMessage(oldMsg => oldMsg + data.emoji);
         //alert(data.emoji);

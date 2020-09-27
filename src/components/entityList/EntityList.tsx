@@ -67,7 +67,6 @@ const EntityListComp = (props: IEntityListProps) => {
 	const handleClickDelete = async (id: number) => {
 		const msgInfo: IMessageInfo = await deleteEntity(store.getState().authReducer.token, id, '/employer/employee');
 		if (msgInfo.msgStatus == MessageStatus.OK) {
-			alert("удалился")
 		}
 	}
 

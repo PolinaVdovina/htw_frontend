@@ -34,7 +34,7 @@ export function chatToPost(chatData: IReceivingChatData, onClick: (chatId: numbe
         ownerLogin: chatData.interlocutorLogin,
         rightNode: <CircleCounter chatName={chatData.name} count={chatData.unreadMessageCount} />,
         //bottomText: accountData.createdDate?.slice(0,10),
-        onClick: () => { onClick(chatData.id, chatData.name, chatData.name) },
+        onClick: () => { onClick(chatData.id, chatData.name, chatData.interlocutorLogin) },
     }
 }
 

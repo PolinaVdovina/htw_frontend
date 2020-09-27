@@ -20,7 +20,7 @@ interface fetchRespond {
     vacancyId?
 }
 
-function mapStateToProps(state : RootState) {
+function mapStateToProps(state: RootState) {
     return {
         respondVacanciesIds: state.userPersonalsReducer.responseVacancies
     }
@@ -32,18 +32,20 @@ const RespondButtonComp = (props: IRespondButton) => {
     const dispatch = useDispatch();
 
     React.useEffect(() => {
-        props.respondVacanciesIds.forEach(vacancyId => {            
-            if (props.id == vacancyId)
-                setAlreadyResponded(true);
-        })
+        if (props.respondVacanciesIds) {
+            props.respondVacanciesIds.forEach(vacancyId => {
+                if (props.id == vacancyId)
+                    setAlreadyResponded(true);
+            })
+        }
     }, [])
 
     const handleClick = async () => {
         const result: fetchRespond = await toRespondFetch(props.token, props.id.toString(), '/personal/respond');
         if (result.msgStatus == MessageStatus.OK) {
             snackbar.enqueueSnackbar("Вы откликнулись на выбранную вакансию", { variant: "success" })
-            const newRespVacancy = [...props.respondVacanciesIds, result.vacancyId]
-            dispatch(fillPersonalDataAction({responseVacancies: newRespVacancy}))
+            const newRespVacancy = props.respondVacanciesIds ? [...props.respondVacanciesIds, result.vacancyId] : [result.vacancyId]
+            dispatch(fillPersonalDataAction({ responseVacancies: newRespVacancy }))
             setAlreadyResponded(true);
         }
         else
@@ -54,23 +56,23 @@ const RespondButtonComp = (props: IRespondButton) => {
         snackbar.enqueueSnackbar("Вы уже откликались на данную вакансию!", { variant: "error" })
     }
 
-    return(
+    return (
         <Grid container alignItems='center'>
-            { !alreadyResponded &&
+            {!alreadyResponded &&
                 <Link
                     component='button'
-                    onClick={handleClick} 
-                    style={{marginRight: '17px', fontSize: '15px'}}
+                    onClick={handleClick}
+                    style={{ marginRight: '17px', fontSize: '15px' }}
                     underline='none'
                 >
                     Откликнуться
                 </Link>
             }
-            { alreadyResponded &&
+            {alreadyResponded &&
                 <Link
                     component='button'
-                    onClick={handleError} 
-                    style={{marginRight: '17px', fontSize: '15px'}}
+                    onClick={handleError}
+                    style={{ marginRight: '17px', fontSize: '15px' }}
                     underline='none'
                 >
                     Вы откликнулись

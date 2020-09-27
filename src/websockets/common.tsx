@@ -15,22 +15,6 @@ export const getStompClient = () => {
         return null;
 }
 
-const onConnected = () => {
-    alert("Я подключился к сокету")
-}
-
-
-
-export const onError = () => {
-    alert("Ошибка при подключении к сокету, пиздец...")
-}
-
-
-export const onMessageReceived = (message: Stomp.Message) => {
-    alert(message.body)
-
-}
-
 export const stopWebsocketConnection = async () => new Promise((resolve, reject) => {
     if (isConnectedToWebsocket())
         stompClient?.disconnect(() => { resolve(); })
@@ -47,7 +31,7 @@ export const startWebsocketConnection = (token: string, onConnectedEvent, onErro
             onErrorEvent();
             reject();
         },
-            5000);
+            20000);
 
         const connectEventWrapper = (c?: Stomp.Frame) => {
             clearTimeout(errorTimer);
@@ -58,7 +42,6 @@ export const startWebsocketConnection = (token: string, onConnectedEvent, onErro
         const errorEventWrapper = (e?: string | Frame) => {
             clearTimeout(errorTimer);
             onErrorEvent();
-            alert(e)
             reject();
         }
         stopWebsocketConnection();
