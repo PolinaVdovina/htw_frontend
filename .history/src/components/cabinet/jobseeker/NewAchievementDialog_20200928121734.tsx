@@ -121,7 +121,7 @@ export const NewAchievementDialog = (props: INewAchievementDialog) => {
                         <Typography className={classes.fieldTitle}>Добавить файлы (изображения)</Typography>
                         <List>
                             {files.map(file => 
-                                <ListItem style={{wordBreak: 'break-all'}}>{file.name}</ListItem>
+                                <ListItem>{file.name}</ListItem>
                             )}
                         </List>                        
                         <Grid item container justify="center">
