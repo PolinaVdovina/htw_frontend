@@ -18,7 +18,7 @@ export const ImgInPost = (props: IImgInPostProps) => {
 
     return (
         <div>            
-            <GridList cellHeight={160} cols={2} style={{maxWidth: '570px'}}>
+            <GridList cellHeight={160} cols={2} style={{maxWidth: '550px'}}>
                 {props.data.paths.map((path) => (
                     <GridListTile key={path} cols={1}>
                         <img  onClick={() => {setOpenDialog(true); setBigImagePath(path)}}
