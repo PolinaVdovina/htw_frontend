@@ -3,15 +3,29 @@ import * as React from 'react';
 import { CabinetContext } from '../cabinet-context';
 import { createStyles, Grid, Link, makeStyles, Theme } from '@material-ui/core';
 import { NavLink, Link as RouterLink } from 'react-router-dom';
+import { validateWebLink } from '../../../utils/validateFunctions';
 
 interface IInstagramLink{
     element: string,
     link: string
 }
 
+const useStyles = makeStyles((theme: Theme) =>
+    createStyles({
+        unactiveLink: {
+            pointerEvents: 'none', 
+            cursor: 'default', 
+            marginLeft: '5px'
+        },
+        activeLink: {
+            marginLeft: '5px'
+        }
+    })
+)
+
 const ParseNikName = (url: string): string => {
     const mass: Array<string> = url.split('/')
-    const userName = mass[3];
+    const userName = mass[mass.length - 2];
     if (userName)
         return userName;
     else
@@ -19,12 +33,14 @@ const ParseNikName = (url: string): string => {
 }
 
 export const InstagramLink = (props : IInstagramLink) => {
+    const classes = useStyles();
+
     return(
         <Grid container direction='row' alignItems='center'>
             <InstagramIcon/>
             <Link
-                href={props.link}
-                style={{marginLeft: '5px'}}
+                href={validateWebLink(props.link) ? props.link : ''}
+                className={validateWebLink(props.link) ? classes.activeLink : classes.unactiveLink}
                 variant='h6'
             >
                 {props.element ?

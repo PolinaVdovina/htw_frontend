@@ -201,18 +201,6 @@ function validateInstaLink(url: string): boolean {
     else return false;
 }
 
-function validateVkLink(url: string): boolean {
-    if (url && url.replace(/\s/g,"") != "" && /^https:\/\/(vk.com|m.vk.com)\/[^ "]+$/.test(url))
-        return true;
-    else return false;
-}
-
-function validateFacebookLink(url: string): boolean {
-    if (url && url.replace(/\s/g,"") != "" && /^https:\/\/(www.facebook.com|www.m.facebook.com)\/[^ "]+$/.test(url))
-        return true;
-    else return false;
-}
-
 export function validateUrl(data: any, additionalValidFunc: (url: string) => boolean): boolean {
     const key = Object.keys(data)[0];
     if (key) {
@@ -232,10 +220,3 @@ export function validateInsta(data: {instagram: string}): boolean {
     return validateUrl(data, validateInstaLink)
 }
 
-export function validateVk(data: any): boolean {
-    return validateUrl(data, validateVkLink)
-}
-
-export function validateFacebook(data: any): boolean {
-    return validateUrl(data, validateFacebookLink)
-}

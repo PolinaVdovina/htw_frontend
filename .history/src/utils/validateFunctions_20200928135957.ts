@@ -202,13 +202,13 @@ function validateInstaLink(url: string): boolean {
 }
 
 function validateVkLink(url: string): boolean {
-    if (url && url.replace(/\s/g,"") != "" && /^https:\/\/(vk.com|m.vk.com)\/[^ "]+$/.test(url))
+    if (url && url.replace(/\s/g,"") != "" && /^https:\/\/[vk.com|m.vk.com]\/[^ "]+$/.test(url))
         return true;
     else return false;
 }
 
 function validateFacebookLink(url: string): boolean {
-    if (url && url.replace(/\s/g,"") != "" && /^https:\/\/(www.facebook.com|www.m.facebook.com)\/[^ "]+$/.test(url))
+    if (url && url.replace(/\s/g,"") != "" && /^https:\/\/[facebook.com|m.facebook.com]\/[^ "]+$/.test(url))
         return true;
     else return false;
 }

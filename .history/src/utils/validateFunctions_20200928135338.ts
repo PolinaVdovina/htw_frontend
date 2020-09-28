@@ -172,6 +172,12 @@ export const validateNewPassword = (password: {currentPassword: string, newPassw
     else return true;
 }
 
+export function validateWebLink(url: string): boolean {
+    if (url && url.replace(/\s/g,"") != "" && /^(ftp|http|https):\/\/[^ "]+$/.test(url))
+        return true;
+    else return false;
+}
+
 export function validateJobAppl(data: {
     employer: string,
     position: string,
@@ -188,30 +194,7 @@ export function validateJobAppl(data: {
         return true;
     else return false;
 }
-  
-function validateWebLink(url: string): boolean {
-    if (url && url.replace(/\s/g,"") != "" && /^(ftp|http|https):\/\/[^ "]+$/.test(url))
-        return true;
-    else return false;
-}
-
-function validateInstaLink(url: string): boolean {
-    if (url && url.replace(/\s/g,"") != "" && /^https:\/\/instagram.com\/[^ "]+$/.test(url))
-        return true;
-    else return false;
-}
-
-function validateVkLink(url: string): boolean {
-    if (url && url.replace(/\s/g,"") != "" && /^https:\/\/(vk.com|m.vk.com)\/[^ "]+$/.test(url))
-        return true;
-    else return false;
-}
-
-function validateFacebookLink(url: string): boolean {
-    if (url && url.replace(/\s/g,"") != "" && /^https:\/\/(www.facebook.com|www.m.facebook.com)\/[^ "]+$/.test(url))
-        return true;
-    else return false;
-}
+    
 
 export function validateUrl(data: any, additionalValidFunc: (url: string) => boolean): boolean {
     const key = Object.keys(data)[0];
@@ -224,18 +207,11 @@ export function validateUrl(data: any, additionalValidFunc: (url: string) => boo
     else return false
 }
 
-export function validateAboutUrl(data: any): boolean {
-    return validateUrl(data, validateWebLink)
+export function validateAboutUrl(data: any) {
+    validateUrl(data, validateWebLink)
 }
 
 export function validateInsta(data: {instagram: string}): boolean {
-    return validateUrl(data, validateInstaLink)
+
 }
 
-export function validateVk(data: any): boolean {
-    return validateUrl(data, validateVkLink)
-}
-
-export function validateFacebook(data: any): boolean {
-    return validateUrl(data, validateFacebookLink)
-}

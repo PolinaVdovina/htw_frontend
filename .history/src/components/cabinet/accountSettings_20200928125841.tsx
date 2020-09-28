@@ -7,14 +7,20 @@ import {
     settingsNameOrg, 
     settingsInn, 
     settingsOgrn, 
-    settingsDescription, 
     settingsGender, 
     settingsTypesEdu, 
     settingsExperience, 
     settingsCompetenceSet, 
     settingsJobs, 
     settingsEdu, 
-    settingsIndustry
+    settingsIndustry,
+    settingsEduDamaged,
+    settingsStatus,
+    settingsEmployment,
+    settingsVacancyType,
+    settingsPassword, 
+    settingsDescriptionIndividual, 
+    settingsDescriptionLegal, settingsFacebook, settingsInstagram, settingsVkontakte
 } from "./changeMiniComponents/changeSettings";
 import { 
     validateEmail, 
@@ -25,7 +31,9 @@ import {
     validateInn, 
     validateNameOrg, 
     validateOgrn, 
-    validateAbout
+    validateAbout,
+    validateEducation,
+    validateNewPassword, validateWebLink, validateJobAppl
 } from "../../utils/validateFunctions";
 import { 
     changeJobSeekerData, 
@@ -42,7 +50,14 @@ import {
     deleteJobApplicant,
     changeEducations,
     deleteEducation,
-    changeIndustrySet
+    changeIndustrySet,
+    deleteIndustry,
+    changeEducationsDamaged,
+    changeJobSeekerWorkData,
+    changeJobSeekerEmploymentData,
+    deleteJobSeekerEmploymentData,
+    deleteJobSeekerVacancyTypeData,
+    changePassword
 } from "../../utils/change-component-utils";
 import { SimpleTypography } from "./displayMiniComponents/SimpleTypography";
 import { SimpleLink } from "./displayMiniComponents/SimpleLink";
@@ -50,12 +65,15 @@ import { AddressGlue } from "./displayMiniComponents/AddressGlue";
 import { JobApplicant } from "./displayMiniComponents/JobApplicant";
 import { Education } from "./displayMiniComponents/Education";
 import { Competences } from "./displayMiniComponents/Competences";
+import { InstagramLink } from "./displayMiniComponents/InstagramLink";
+import { FacebookLink } from "./displayMiniComponents/FacebookLink";
+import { VkLink } from "./displayMiniComponents/VkLink";
 
 export const SETTINGS = {
     INDIVIDUAL: {
         about: {
             title: 'О себе',
-            changeSettings: settingsDescription,
+            changeSettings: settingsDescriptionIndividual,
             validateFunction: validateDate,
             changeFunction: changeJobSeekerData,      
         },
@@ -72,6 +90,27 @@ export const SETTINGS = {
             validateFunction: validatePhone,
             changeFunction: changeJobSeekerContactDetails,
             displayComponent: SimpleTypography
+        },
+        vkontakte: {
+            title: '',
+            changeSettings: settingsVkontakte,
+            changeFunction: changeJobSeekerContactDetails,
+            displayComponent: VkLink,
+            validateFunction: validateWebLink
+        },
+        facebook: {
+            title: '',
+            changeSettings: settingsFacebook,
+            changeFunction: changeJobSeekerContactDetails,
+            displayComponent: FacebookLink,
+            validateFunction: validateWebLink
+        },
+        instagram: {
+            title: '',
+            changeSettings: settingsInstagram,
+            changeFunction: changeJobSeekerContactDetails,
+            displayComponent: InstagramLink,
+            validateFunction: validateWebLink
         },
         name: {
             title: 'ФИО',
@@ -124,6 +163,7 @@ export const SETTINGS = {
             title: 'Место работы',
             type: 'mass',
             changeSettings: settingsJobs,
+            validateFunction: validateJobAppl,
             displayComponent: JobApplicant,
             changeFunction: changeJobApplicance,
             deleteFunction: deleteJobApplicant
@@ -134,7 +174,35 @@ export const SETTINGS = {
             displayComponent: Education,
             changeSettings: settingsEdu,
             changeFunction: changeEducations,
-            deleteFunction: deleteEducation
+            deleteFunction: deleteEducation,
+            validateFunction: validateEducation
+        },
+        educationDamaged: {
+            changeSettings: settingsEduDamaged,
+            changeFunction: changeEducationsDamaged,
+            validateFunction: validateEducation
+        },
+        status: {
+            title: 'Статус',
+            displayComponent: SimpleTypography,
+            changeSettings: settingsStatus,
+            changeFunction: changeJobSeekerWorkData
+        },
+        employment: {
+            title: 'Предпочитаемая занятость',
+            type: 'mass',
+            displayComponent: SimpleTypography,
+            changeSettings: settingsEmployment,
+            changeFunction: changeJobSeekerEmploymentData,
+            deleteFunction: deleteJobSeekerEmploymentData
+        },
+        vacancyTypes: {
+            title: 'Предпочитаемый тип вакансий',
+            type: 'mass',
+            displayComponent: SimpleTypography,
+            changeSettings: settingsVacancyType,
+            changeFunction: changeJobSeekerEmploymentData,
+            deleteFunction: deleteJobSeekerVacancyTypeData
         }
     },
     LEGAL: {
@@ -145,9 +213,9 @@ export const SETTINGS = {
             changeFunction: changeJobSeekerData
         },
         about: {
-            title: 'О себе',
-            changeSettings: settingsDescription,
-            validateFunction: validateAbout,
+            title: 'Cайт учреждения',
+            changeSettings: settingsDescriptionLegal,
+            validateFunction: validateWebLink,
             changeFunction: changeJobSeekerData,      
         },
         inn: {
@@ -200,8 +268,38 @@ export const SETTINGS = {
             title: 'Отрасль',
             type: 'mass',
             changeSettings: settingsIndustry,
-            dysplayComponent: SimpleTypography,
+            displayComponent: SimpleTypography,
             changeFunction: changeIndustrySet,
+            deleteFunction: deleteIndustry
+        },
+        vkontakte: {
+            title: '',
+            changeSettings: settingsVkontakte,
+            changeFunction: changeJobSeekerContactDetails,
+            displayComponent: VkLink,
+            validateFunction: validateWebLink
+        },
+        facebook: {
+            title: '',
+            changeSettings: settingsFacebook,
+            changeFunction: changeJobSeekerContactDetails,
+            displayComponent: FacebookLink,
+            validateFunction: validateWebLink
+        },
+        instagram: {
+            title: '',
+            changeSettings: settingsInstagram,
+            changeFunction: changeJobSeekerContactDetails,
+            displayComponent: InstagramLink,
+            validateFunction: validateWebLink
+        },
+    },
+    SETTINGS_PERSONAL: {
+        password: {
+            title: 'Пароль',
+            changeSettings: settingsPassword,
+            validateFunction: validateNewPassword,
+            changeFunction: changePassword
         }
     }
 }

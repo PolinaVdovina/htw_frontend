@@ -26,6 +26,21 @@ export const changeJobSeekerContactDetails = async ( dispatch, data ) => {
     return msgInfo;
 }
 
+export const changeJobSeekerContactDetailsWithLink = async ( dispatch, data ) => {
+    const msgInfo: IMessageInfo = await changePersonalDataFetch(store.getState().authReducer.token,{contactDetails: data});
+    //alert(msgInfo.msgStatus==MessageStatus.OK)
+    if(msgInfo.msgStatus == MessageStatus.OK) {
+        let links = {};
+        if (store.getState().userPersonalsReducer.links)
+            links = {...store.getState().userPersonalsReducer.links, ...data}
+        else 
+            links = {...data}
+        data.links = links;
+        await dispatch( fillPersonalDataAction(data));
+    }
+    return msgInfo;
+}
+
 export const changeCompetenceSet = async ( dispatch, data ) => {
     const msgInfo: IMessageInfo = await changePersonalDataFetch(store.getState().authReducer.token, data.competenceSet, '/personal/competence/attach');
     //alert(msgInfo.msgStatus==MessageStatus.OK)

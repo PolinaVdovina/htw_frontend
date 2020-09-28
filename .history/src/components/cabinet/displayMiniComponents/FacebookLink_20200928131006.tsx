@@ -3,7 +3,7 @@ import * as React from 'react';
 import { CabinetContext } from '../cabinet-context';
 import { Grid, Link } from '@material-ui/core';
 import { NavLink, Link as RouterLink } from 'react-router-dom';
-
+import { validateWebLink } from '../../../utils/validateFunctions';
 
 interface IFacebookLink{
     element: string,
@@ -28,7 +28,7 @@ export const FacebookLink = (props : IFacebookLink) => {
         <Grid container direction='row' alignItems='center'>
             <FacebookIcon/>
             <Link
-                href={props.link}
+                href={validateWebLink(props.link) ? props.link : ''}
                 variant='h6'
                 style={{marginLeft: '5px'}}
             >
