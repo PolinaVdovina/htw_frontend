@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Grid, Typography, TextField } from '@material-ui/core';
 import { CabinetContext } from '../cabinet-context';
 
-interface IChangePassword {
+interface IChangeOneString {
     data: string,
     onChange: (any) => void,
     type: string,
@@ -10,7 +10,7 @@ interface IChangePassword {
     defaultValue?: any
 }
 
-export const ChangePassword = (props: IChangePassword) => {
+export const ChangeOneString = (props: IChangeOneString) => {
     React.useEffect(() => {
         if (props.disabled && props.defaultValue)
             props.onChange({ [props.type]: props.defaultValue })
@@ -24,7 +24,6 @@ export const ChangePassword = (props: IChangePassword) => {
             defaultValue={props.defaultValue ? props.defaultValue : ''}
             onChange={(event) =>  props.onChange({ [props.type]: event.target.value })}                  
             disabled={props.disabled ? props.disabled : false}
-            type="password"
             required
         />
     )

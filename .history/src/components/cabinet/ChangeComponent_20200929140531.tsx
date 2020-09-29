@@ -58,7 +58,7 @@ export const ChangeComponentRaw = (props : FinalProps) => {
                     props.handleClickClose();
                 }
                 else {
-                    props.enqueueSnackbar('Не удалось изменить данные', {variant: "error"})
+                    props.enqueueSnackbar('Не удалось изменить данные из-за проблем с соединением', {variant: "error"})
                 }
             }
             else {

@@ -64,8 +64,7 @@ import {
     changeJobSeekerEmploymentData,
     deleteJobSeekerEmploymentData,
     deleteJobSeekerVacancyTypeData,
-    changePassword, 
-    changeJobSeekerContactDetailsWithLink
+    changePassword, changeJobSeekerContactDetailsWithLink
 } from "../../utils/change-component-utils";
 import { SimpleTypography } from "./displayMiniComponents/SimpleTypography";
 import { SimpleLink } from "./displayMiniComponents/SimpleLink";

@@ -15,7 +15,6 @@ export const ChangeGender = (props : IChangeGender) => {
           onChange={(event) => props.onChange({[props.type]: event.target.value})}
           variant='outlined'
           style={{width:"150px"}}
-          required
         >
             <MenuItem>
                 Не задано

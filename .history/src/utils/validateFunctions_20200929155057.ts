@@ -30,8 +30,8 @@ export function validateRegPasword(password: string): string {
 }
 
 export function validateRegLoginConnect(loginConnect: string) {      
-    if (!validateEmailString(loginConnect).isValid) {
-        if (validatePhoneString(loginConnect).isValid)
+    if (!validateEmail(loginConnect).isValid) {
+        if (validatePhone(loginConnect).isValid)
             return {
                 'error': '',
                 'type': 'phone'
@@ -146,12 +146,11 @@ export function validateInnString(inn: string): IValidateResult {
 
 export function validatePhoneString(phone: any) : IValidateResult {
     let regexpPhone = new RegExp(/(\+7|8)[- _]*\(?[- _]*(\d{3}[- _]*\)?([- _]*\d){7}|\d\d[- _]*\d\d[- _]*\)?([- _]*\d){6})/g);
-    if (regexpPhone.test(phone)) {
+    if (regexpPhone.test(phone))
         return {
             isValid: true,
             errorsMass: []
-        };        
-    }
+        };
     else return {
         isValid: false,
         errorsMass: ["Пожалуйста, вводите существующий российский мобильный телефон"]
@@ -296,11 +295,6 @@ export function validateJobAppl(data: {
         resultIsValid = false;
         resultErrors.push("Пожалуйста, укажите дату начала работы")
     }
-    if (data.startDate && data.stopDate && new Date(Date.parse(data.startDate)) <= new Date(Date.parse(data.stopDate))) {
-        resultIsValid = false;
-        resultErrors.push("Дата окончания не может быть раньше даты начала")
-    }
-
     return {
         isValid: resultIsValid,
         errorsMass: resultErrors

@@ -296,11 +296,6 @@ export function validateJobAppl(data: {
         resultIsValid = false;
         resultErrors.push("Пожалуйста, укажите дату начала работы")
     }
-    if (data.startDate && data.stopDate && new Date(Date.parse(data.startDate)) <= new Date(Date.parse(data.stopDate))) {
-        resultIsValid = false;
-        resultErrors.push("Дата окончания не может быть раньше даты начала")
-    }
-
     return {
         isValid: resultIsValid,
         errorsMass: resultErrors

@@ -38,7 +38,7 @@ export const ChangeAddress = (props/* : IChangeAddress*/) => {
             style={{ width: "100%" }}
             token="552dfb218ca6ea603908fc2391f8da0fa97a6cd6"
             onChange={(object) => { if (object) props.onChange(strToAddressDictionary(object.value)) }}
-            inputProps={{required: true}}
+            inputProps={{required}}
         //filterFromBound='city'//{props.type}
         //filterToBound='city'//{props.type}
         //filterLocations={{'city': 'г Норильск'}}         

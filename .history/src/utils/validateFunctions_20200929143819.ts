@@ -1,8 +1,72 @@
+import { settings } from "cluster"
+import { settingsName } from "../components/cabinet/changeMiniComponents/changeSettings"
 
 export interface IValidateResult {
     isValid: boolean,
     errorsMass: string[]
 }
+
+export function validateRegPasword(password: string): string {
+    if (password == '')
+        return 'Пароль не может быть пустым'
+    else if (password.length < 6)
+        return 'Пароль должен содержать более 5 символов'    
+    else return ''
+}
+
+export function validateRegLoginConnect(loginConnect: string) {      
+    if (!validateEmail(loginConnect).isValid) {
+        if (validatePhone(loginConnect).isValid)
+            return {
+                'error': '',
+                'type': 'phone'
+            }
+        else return {
+            'error': 'Введите корректный e-mail адрес или телефон',
+            'type': null
+        }
+    }
+    else return {
+        'error': '',
+        'type': 'email'
+    }
+        
+}
+
+export function validateAuthLogin(login: string) {
+    
+}
+
+
+
+export function validateLogin(login: string) : string {
+    if (login == '') 
+        return 'Логин не может быть пустым';
+    else
+        return ''
+}
+
+export function validateName(name: {surname: string, name: string, middlename: string}): boolean {
+    let result = true;
+    if (!name.name || !name.name.match(/^[a-zа-яё\s]+$/iu) || name.name.replace(/\s/g,"") == "")
+        result = false
+    if (!name.surname || !name.surname.match(/^[a-zа-яё\s]+$/iu) || name.surname.replace(/\s/g,"") == "")
+        result = false    
+    return result;
+}
+
+export function validateDate(date: any): boolean {
+    if (date)
+        return true;
+    else return false;
+}
+
+
+
+
+
+
+/***************************************/
 
 export function validateNumber(data: any): boolean {
     let value;
@@ -21,41 +85,67 @@ export function isWhitespace(str: string) {
     return /^\s*$/.test(str);
 }
 
-export function validateRegPasword(password: string): string {
-    if (password == '')
-        return 'Пароль не может быть пустым'
-    else if (password.length < 6)
-        return 'Пароль должен содержать более 5 символов'    
-    else return ''
+/***************************************/
+
+
+export function validateEducation(data: {
+    institution: string,
+    education: string,
+    specialty: string,
+    dateStart: string,
+    dateReceiving: string
+}): boolean {
+    if (data.institution 
+        && data.institution != '' 
+        && data.institution.replace(/\s/g,"") != ""
+        && data.education 
+        && data.education != '' 
+        && data.education.replace(/\s/g,"") != ""
+        && data.specialty 
+        && data.specialty != '' 
+        && data.specialty.replace(/\s/g,"") != ""
+        && data.dateStart 
+        && data.dateStart != ''        
+        )
+        return true;
+    else return false;
 }
 
-export function validateRegLoginConnect(loginConnect: string) {      
-    if (!validateEmailString(loginConnect).isValid) {
-        if (validatePhoneString(loginConnect).isValid)
-            return {
-                'error': '',
-                'type': 'phone'
-            }
-        else return {
-            'error': 'Введите корректный e-mail адрес или телефон',
-            'type': null
-        }
-    }
-    else return {
-        'error': '',
-        'type': 'email'
-    }
-        
+
+export const validateNewPassword = (password: {currentPassword: string, newPassword: string}): boolean => {
+    if (!password.newPassword || 
+        !password.currentPassword || 
+        password.newPassword.length < 6 || 
+        password.currentPassword == password.newPassword
+    ) return false;
+    else return true;
 }
 
-export function validateLogin(login: string) : string {
-    if (login == '') 
-        return 'Логин не может быть пустым';
-    else
-        return ''
+export function validateJobAppl(data: {
+    employer: string,
+    position: string,
+    startDate: string,
+    stopDate: string
+}): boolean {
+    if (data.employer 
+        && data.employer.replace(/\s/g,"") != ""
+        && data.position 
+        && data.position.replace(/\s/g,"") != ""
+        && data.startDate 
+        && data.startDate.replace(/\s/g,"") != ""
+    )
+        return true;
+    else return false;
 }
 
-/*********************************************************************************************/
+
+
+
+
+
+
+
+
   
 function validateWebLink(url: string): IValidateResult {
     if (/^(http|https):\/\/[^ "]+$/.test(url))
@@ -144,14 +234,14 @@ export function validateInnString(inn: string): IValidateResult {
             };
 }
 
+
 export function validatePhoneString(phone: any) : IValidateResult {
     let regexpPhone = new RegExp(/(\+7|8)[- _]*\(?[- _]*(\d{3}[- _]*\)?([- _]*\d){7}|\d\d[- _]*\d\d[- _]*\)?([- _]*\d){6})/g);
-    if (regexpPhone.test(phone)) {
+    if (regexpPhone.test(phone))
         return {
             isValid: true,
             errorsMass: []
-        };        
-    }
+        };
     else return {
         isValid: false,
         errorsMass: ["Пожалуйста, вводите существующий российский мобильный телефон"]
@@ -235,138 +325,4 @@ export function validateVk(data: any): IValidateResult {
 
 export function validateFacebook(data: any): IValidateResult {
     return validateStringData(data, validateFacebookLink)
-}
-
-export function validateDate(date: any): IValidateResult {
-    if (date)
-        return {
-            isValid: true,
-            errorsMass: []
-        }
-    
-    else return {
-        isValid: false,
-        errorsMass: ["Поле должно быть заполнено"]
-    }
-}
-
-export function validateName(name: {surname: string, name: string, middlename: string}): IValidateResult {
-    let resultIsValid = true;
-    let resultErrors = new Array<string>();
-    if (!name.name || name.name.replace(/\s/g,"") == "") {
-        resultIsValid = false;
-        resultErrors.push("Имя должно быть заполнено");        
-    }
-    if (name.name && !name.name.match(/^[a-zа-яё\s]+$/iu)) {
-        resultIsValid = false;
-        resultErrors.push("Имя может содержать только буквы"); 
-    }
-    if (!name.surname || name.surname.replace(/\s/g,"") == "") {
-        resultIsValid = false;
-        resultErrors.push("Фамилия должна быть заполнена"); 
-    }
-    if (name.surname && !name.surname.match(/^[a-zа-яё\s]+$/iu)) {
-        resultIsValid = false;
-        resultErrors.push("Фамилия может содержать только буквы")
-    }  
-    return {
-        isValid: resultIsValid,
-        errorsMass: resultErrors
-    }
-}
-
-export function validateJobAppl(data: {
-    employer: string,
-    position: string,
-    startDate: string,
-    stopDate: string
-}): IValidateResult {
-    let resultIsValid = true;
-    let resultErrors = new Array<string>();
-
-    if (!data.employer || data.employer.replace(/\s/g,"") == "") {
-        resultIsValid = false;
-        resultErrors.push("Пожалуйста, укажите наименование места работы")
-    }
-    if (!data.position || data.position.replace(/\s/g,"") == "") {
-        resultIsValid = false;
-        resultErrors.push("Пожалуйста, укажите должность")
-    }
-    if (!data.startDate || data.startDate.replace(/\s/g,"") == "") {
-        resultIsValid = false;
-        resultErrors.push("Пожалуйста, укажите дату начала работы")
-    }
-    if (data.startDate && data.stopDate && new Date(Date.parse(data.startDate)) <= new Date(Date.parse(data.stopDate))) {
-        resultIsValid = false;
-        resultErrors.push("Дата окончания не может быть раньше даты начала")
-    }
-
-    return {
-        isValid: resultIsValid,
-        errorsMass: resultErrors
-    }
-}
-
-export function validateEducation(data: {
-    institution: string,
-    education: string,
-    specialty: string,
-    dateStart: string,
-    dateReceiving: string
-}): IValidateResult {
-    let resultIsValid = true;
-    let resultErrors = new Array<string>();
-
-    if (!data.institution || data.institution.replace(/\s/g,"") == "") {
-        resultIsValid = false;
-        resultErrors.push("Пожалуйста, укажите образовательную организацию")
-    }
-    if (!data.education || data.education.replace(/\s/g,"") == "") {
-        resultIsValid = false;
-        resultErrors.push("Пожалуйста, укажите тип образования")
-    }
-    if (!data.specialty || data.specialty.replace(/\s/g,"") == "") {
-        resultIsValid = false;
-        resultErrors.push("Пожалуйста, укажите специальность")
-    }
-    if (!data.dateStart) {
-        resultIsValid = false;
-        resultErrors.push("Пожалуйста, укажите дату начала образования")
-    }
-    if (data.dateStart && data.dateReceiving && new Date(Date.parse(data.dateStart)) <= new Date(Date.parse(data.dateStart))) {
-        resultIsValid = false;
-        resultErrors.push("Дата окончания не может быть раньше даты начала")
-    }
-    
-    return {
-        isValid: resultIsValid,
-        errorsMass: resultErrors
-    }
-}
-
-export const validateNewPassword = (password: {currentPassword: string, newPassword: string}): IValidateResult => {
-    let resultIsValid = true;
-    let resultErrors = new Array<string>();
-
-    if (!password.newPassword) {
-        resultIsValid = false;
-        resultErrors.push("Новый пароль не указан")
-    } 
-    if (!password.currentPassword) {
-        resultIsValid = false;
-        resultErrors.push("Старый пароль не указан")
-    } 
-    if (password.newPassword && password.newPassword.length < 6) {
-        resultIsValid = false;
-        resultErrors.push("Новый пароль должен содержать не менее 6 символов")
-    }  
-    if (password.currentPassword && password.newPassword && password.currentPassword == password.newPassword) {
-        resultIsValid = false;
-        resultErrors.push("Новый пароль идентичен старому")
-    }
-
-    return {
-        isValid: resultIsValid,
-        errorsMass: resultErrors
-    }
 }
