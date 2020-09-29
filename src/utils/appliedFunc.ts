@@ -122,7 +122,8 @@ export function accountRequestToEntityDictionary(data, role) {
                     addressPrivate: data.addressPrivate,
                     phonePrivate: data.phonePrivate,
                     socMediaPrivate: data.socMediaPrivate,
-                    responseVacancies: data.responseVacancies
+                    responseVacancies: data.responseVacancies,
+                    whoAmI: data.whoAmI
                 }
                 return parsedData;
             case "ROLE_EMPLOYER":

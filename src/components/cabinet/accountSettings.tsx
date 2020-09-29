@@ -20,7 +20,10 @@ import {
     settingsVacancyType,
     settingsPassword, 
     settingsDescriptionIndividual, 
-    settingsDescriptionLegal, settingsFacebook, settingsInstagram, settingsVkontakte
+    settingsDescriptionLegal, 
+    settingsFacebook, 
+    settingsInstagram, 
+    settingsVkontakte
 } from "./changeMiniComponents/changeSettings";
 import { 
     validateEmail, 
@@ -31,9 +34,13 @@ import {
     validateInn, 
     validateNameOrg, 
     validateOgrn, 
-    validateAbout,
     validateEducation,
-    validateNewPassword, validateWebLink, validateJobAppl
+    validateNewPassword, 
+    validateJobAppl, 
+    validateAboutUrl, 
+    validateFacebook, 
+    validateInsta, 
+    validateVk
 } from "../../utils/validateFunctions";
 import { 
     changeJobSeekerData, 
@@ -57,7 +64,8 @@ import {
     changeJobSeekerEmploymentData,
     deleteJobSeekerEmploymentData,
     deleteJobSeekerVacancyTypeData,
-    changePassword
+    changePassword, 
+    changeJobSeekerContactDetailsWithLink
 } from "../../utils/change-component-utils";
 import { SimpleTypography } from "./displayMiniComponents/SimpleTypography";
 import { SimpleLink } from "./displayMiniComponents/SimpleLink";
@@ -95,20 +103,23 @@ export const SETTINGS = {
         vkontakte: {
             title: '',
             changeSettings: settingsVkontakte,
-            changeFunction: changeJobSeekerContactDetails,
-            displayComponent: VkLink
+            changeFunction: changeJobSeekerContactDetailsWithLink,
+            displayComponent: VkLink,
+            validateFunction: validateVk
         },
         facebook: {
             title: '',
             changeSettings: settingsFacebook,
-            changeFunction: changeJobSeekerContactDetails,
-            displayComponent: FacebookLink
+            changeFunction: changeJobSeekerContactDetailsWithLink,
+            displayComponent: FacebookLink,
+            validateFunction: validateFacebook
         },
         instagram: {
             title: '',
             changeSettings: settingsInstagram,
-            changeFunction: changeJobSeekerContactDetails,
-            displayComponent: InstagramLink
+            changeFunction: changeJobSeekerContactDetailsWithLink,
+            displayComponent: InstagramLink,
+            validateFunction: validateInsta
         },
         name: {
             title: 'ФИО',
@@ -213,7 +224,7 @@ export const SETTINGS = {
         about: {
             title: 'Cайт учреждения',
             changeSettings: settingsDescriptionLegal,
-            validateFunction: validateWebLink,
+            validateFunction: validateAboutUrl,
             changeFunction: changeJobSeekerData,      
         },
         inn: {
@@ -273,20 +284,23 @@ export const SETTINGS = {
         vkontakte: {
             title: '',
             changeSettings: settingsVkontakte,
-            changeFunction: changeJobSeekerContactDetails,
-            displayComponent: VkLink
+            changeFunction: changeJobSeekerContactDetailsWithLink,
+            displayComponent: VkLink,
+            validateFunction: validateVk
         },
         facebook: {
             title: '',
             changeSettings: settingsFacebook,
-            changeFunction: changeJobSeekerContactDetails,
-            displayComponent: FacebookLink
+            changeFunction: changeJobSeekerContactDetailsWithLink,
+            displayComponent: FacebookLink,
+            validateFunction: validateFacebook
         },
         instagram: {
             title: '',
             changeSettings: settingsInstagram,
-            changeFunction: changeJobSeekerContactDetails,
-            displayComponent: InstagramLink
+            changeFunction: changeJobSeekerContactDetailsWithLink,
+            displayComponent: InstagramLink,
+            validateFunction: validateInsta
         },
     },
     SETTINGS_PERSONAL: {

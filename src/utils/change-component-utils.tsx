@@ -35,6 +35,20 @@ export const changeBirthDate = async ( dispatch, data ) => {
         const date = dateParse(data.dateBirth);
         await dispatch( fillPersonalDataAction({dateBirth: date}));
     }
+}
+
+export const changeJobSeekerContactDetailsWithLink = async ( dispatch, data ) => {
+    const msgInfo: IMessageInfo = await changePersonalDataFetch(store.getState().authReducer.token,{contactDetails: data});
+    //alert(msgInfo.msgStatus==MessageStatus.OK)
+    if(msgInfo.msgStatus == MessageStatus.OK) {
+        let links = {};
+        if (store.getState().userPersonalsReducer.links)
+            links = {...store.getState().userPersonalsReducer.links, ...data}
+        else 
+            links = {...data}
+        data.links = links;
+        await dispatch( fillPersonalDataAction(data));
+    }
     return msgInfo;
 }
 

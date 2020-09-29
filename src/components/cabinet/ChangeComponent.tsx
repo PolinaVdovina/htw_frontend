@@ -6,6 +6,7 @@ import { withSnackbar, WithSnackbarProps } from 'notistack';
 import { IMessageInfo, MessageStatus } from '../../utils/fetchInterfaces';
 import { useDispatch } from 'react-redux';
 import { startLoadingAction, stopLoadingAction } from '../../redux/actions/dialog-actions';
+import { IValidateResult } from '../../utils/validateFunctions';
 
 type FinalProps = IChangeComponent & WithSnackbarProps;
 
@@ -29,7 +30,7 @@ const useStyles = makeStyles((theme: Theme) =>
 export const ChangeComponentRaw = (props : FinalProps) => {
     //const Component = SETTINGS[props.role][props.type].changeComponent;
     const changeSettings = SETTINGS[props.role][props.type].changeSettings;
-    const validFunc = SETTINGS[props.role][props.type].validateFunction;
+    const validFunc: (any) => IValidateResult = SETTINGS[props.role][props.type].validateFunction;
     const changeFunc = SETTINGS[props.role][props.type]['changeFunction'];
 
     const [data, setData] = React.useState({});
@@ -41,10 +42,12 @@ export const ChangeComponentRaw = (props : FinalProps) => {
 
     const validateAndSave = async() => {
         //alert(JSON.stringify(data))
-        if (validFunc && !validFunc(data))
-            props.enqueueSnackbar('Поле заполнено неверно', {variant: "error"})
-        else {
-            
+        if (validFunc && !validFunc(data).isValid) {
+            validFunc(data).errorsMass.map(errorMsg =>
+                props.enqueueSnackbar(errorMsg, {variant: "error"})
+            )
+        }            
+        else {            
             if(changeFunc)
             {
                 await dispatch(startLoadingAction());
@@ -55,7 +58,7 @@ export const ChangeComponentRaw = (props : FinalProps) => {
                     props.handleClickClose();
                 }
                 else {
-                    props.enqueueSnackbar('Не удалось изменить данные из-за проблем с соединением', {variant: "error"})
+                    props.enqueueSnackbar('Не удалось изменить данные', {variant: "error"})
                 }
             }
             else {
