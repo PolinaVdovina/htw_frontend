@@ -327,8 +327,10 @@ export const isValidTokenFetch = async (token: string) => {
             return false;
         }
     }
-    catch {
-        return false;
+    catch(error) {
+        if(error.response.status != 504)
+            return false;
+        else return null;
     }
 }
 
@@ -731,4 +733,13 @@ export const getPrivateChatFetch = async (token, targetLogin: string) => {
     }
 
     return returnData;
+}
+
+export const checkBackendFetch = async () => {
+    try {
+        await axios.get(rootUrl + "/auth/check");
+        return true;
+    } catch {
+        return false;
+    }
 }

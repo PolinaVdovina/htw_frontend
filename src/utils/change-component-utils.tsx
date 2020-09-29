@@ -1,7 +1,7 @@
 import { fillPersonalDataAction } from "../redux/actions/user-personals"
 import { changePersonalDataFetch as changePersonalDataFetch, deletePersonalDataFetch, changeEmployerAddressFetch, changePasswordFetch } from "./fetchFunctions";
 import { IMessageInfo, MessageStatus } from "./fetchInterfaces";
-import { addressGlue, genderIntToStr, jobApplGlue } from "./appliedFunc";
+import { addressGlue, genderIntToStr, jobApplGlue, dateParse } from "./appliedFunc";
 import { store } from './../redux/store';
 import { loginAction, authCompletedAction } from "../redux/actions/auth-actions";
 import { login } from "../redux/reducers/auth-reducers";
@@ -22,6 +22,18 @@ export const changeJobSeekerContactDetails = async ( dispatch, data ) => {
     //alert(msgInfo.msgStatus==MessageStatus.OK)
     if(msgInfo.msgStatus == MessageStatus.OK) {
         await dispatch( fillPersonalDataAction(data));
+    }
+    return msgInfo;
+}
+
+
+
+export const changeBirthDate = async ( dispatch, data ) => {
+    const msgInfo: IMessageInfo = await changePersonalDataFetch(store.getState().authReducer.token, data);
+    //alert(msgInfo.msgStatus==MessageStatus.OK)
+    if(msgInfo.msgStatus == MessageStatus.OK) {
+        const date = dateParse(data.dateBirth);
+        await dispatch( fillPersonalDataAction({dateBirth: date}));
     }
     return msgInfo;
 }

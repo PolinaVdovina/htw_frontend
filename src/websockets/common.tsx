@@ -25,13 +25,14 @@ export const isConnectedToWebsocket = () => {
     return (webSocket && stompClient && stompClient.connected)
 }
 
+
 export const startWebsocketConnection = (token: string, onConnectedEvent, onErrorEvent?) => {
     return new Promise((resolve, reject) => {
         const errorTimer = setTimeout(() => {
             onErrorEvent();
             reject();
         },
-            20000);
+            15000);
 
         const connectEventWrapper = (c?: Stomp.Frame) => {
             clearTimeout(errorTimer);
@@ -46,6 +47,7 @@ export const startWebsocketConnection = (token: string, onConnectedEvent, onErro
         }
         stopWebsocketConnection();
         webSocket = new SockJS(ROOT + END_POINT + "?token=" + token);
+        webSocket.onopen = () => clearTimeout(errorTimer);
         stompClient = Stomp.over(webSocket);
      
         stompClient.connect({}, connectEventWrapper, errorEventWrapper);

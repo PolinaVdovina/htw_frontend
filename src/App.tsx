@@ -20,13 +20,15 @@ import { AppDrawer } from './components/app-menu/AppDrawer';
 import SockJS from 'sockjs-client';
 import Stomp from 'stompjs'
 //import { startWebsocketConnection, getWebSocket } from './websockets/common';
-import { showChat, hideChat, } from './redux/reducers/chat-reducers';
+import { showChat, hideChat , getUnreadMessagesCount } from './redux/reducers/chat-reducers';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import { Badge } from '@material-ui/core';
 import { ChatDialog } from './components/dialogs/ChatDialog';
 import { stopWebsocketConnection } from './websockets/common';
+import useSound from 'use-sound';
+import { Button } from '@material-ui/core';
 
-
+const sound = require('./notification.mp3')
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -100,6 +102,7 @@ interface IAppProps {
   token?: string | null,
   isChatOpen: boolean,
   newNotifications: number,
+  unreadMessages: number,
 }
 
 function mapStateToProps(state: RootState) {
@@ -110,6 +113,7 @@ function mapStateToProps(state: RootState) {
     token: state.authReducer.token,
     isChatOpen: state.chatReducer.isOpen,
     newNotifications: state.notificationReducer.newNotifications,
+    unreadMessages: state.chatReducer.chats ? getUnreadMessagesCount(state.chatReducer.chats) : 0
   }
 }
 
@@ -125,6 +129,8 @@ function App(props: IAppProps) {
   const dispatch = useDispatch();
   const [isMenuOpen, setMenuOpen] = React.useState(false);
   
+  const [prevUnreadMessage,setPrevUnreadMessage] = React.useState(props.unreadMessages);
+  
 
   const setupListeners = () => {
     window.addEventListener("beforeunload", async(ev) => {
@@ -138,12 +144,21 @@ function App(props: IAppProps) {
     });
   };
 
+  const [play] = useSound(sound);
   useEffect(() => {
     props.reloadAuthData();
+   
   }, [])
+
+
+  useEffect(() => {
+   
+    setPrevUnreadMessage(props.unreadMessages);
+  }, [(prevUnreadMessage < props.unreadMessages) && props.unreadMessages])
 
   useEffect(() => {
     setMenuOpen(false);
+ 
   }, [props.authCompleteStatus])
 
 

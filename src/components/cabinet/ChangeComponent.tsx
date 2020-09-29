@@ -86,6 +86,7 @@ export const ChangeComponentRaw = (props : FinalProps) => {
                                         list={changeSettings[key].listItemsSelect}
                                         disabled={changeSettings[key].disabled ? changeSettings[key].disabled : false}
                                         defaultValue={changeSettings[key].isFilled ? props.data[key] : false}
+                                        maxDateOffset={changeSettings[key].maxDateOffset ? changeSettings[key].maxDateOffset : 0 }
                                     />
                                 }
                             </Grid>

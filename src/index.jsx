@@ -7,22 +7,38 @@ import { MuiThemeProvider } from '@material-ui/core';
 import { theme } from './theme';
 import { store } from './redux/store';
 import { SnackbarProvider } from 'notistack';
-import {Provider} from 'react-redux'
+import { Provider } from 'react-redux'
+import frLocale from "date-fns/locale/fr";
+import ruLocale from "date-fns/locale/ru";
+import DateFnsUtils from "@date-io/date-fns";
+import enLocale from "date-fns/locale/en-US";
 
+import {
+	DatePicker,
+	TimePicker,
+	DateTimePicker,
+	MuiPickersUtilsProvider,
+} from '@material-ui/pickers';
 
-
+const localeMap = {
+  en: enLocale,
+  fr: frLocale,
+  ru: ruLocale,
+};
 
 ReactDOM.render(
   <React.StrictMode>
-    <Provider store = {store}>
-      <MuiThemeProvider theme={theme}>
-        <SnackbarProvider maxSnack={3} anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'right',
-        }}>
-          <App />
-        </SnackbarProvider>
-      </MuiThemeProvider>
+    <Provider store={store}>
+      <MuiPickersUtilsProvider locale={ruLocale} utils={DateFnsUtils}>
+        <MuiThemeProvider theme={theme}>
+          <SnackbarProvider maxSnack={3} anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'right',
+          }}>
+            <App />
+          </SnackbarProvider>
+        </MuiThemeProvider>
+      </MuiPickersUtilsProvider>
     </Provider>
   </React.StrictMode>,
   document.getElementById('root')

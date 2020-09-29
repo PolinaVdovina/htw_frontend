@@ -94,7 +94,7 @@ export function accountRequestToEntityDictionary(data, role) {
                     name: data.name,
                     surname: data.surname,
                     middlename: data.middlename,
-                    dateBirth: data.dateBirth,
+                    dateBirth: data.dateBirth && dateParse(data.dateBirth),
                     phone: data.contactDetails.phone,
                     email: data.contactDetails.email,
                     about: data.about,
@@ -226,11 +226,12 @@ export const dateParse = (dateInStr: string) => {
 
 
 export const timeParse = (dateInStr: string) => {
+    //alert(dateInStr)
     const date = new Date(Date.parse(dateInStr));
     let hour = '' + date.getHours();
     if (hour.length == 1)
         hour = '0' + hour;
-    let min = '' + (date.getMinutes() + 1);
+    let min = '' + (date.getMinutes());
     if (min.length == 1)
         min = '0' + min;
     let result = `${hour}:${min}`

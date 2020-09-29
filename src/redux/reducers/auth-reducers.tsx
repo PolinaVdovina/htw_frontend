@@ -2,7 +2,7 @@ import * as types from '../../constants/action-types';
 import axios from 'axios';
 import { loginAction, errorAction, logoutAction, AuthFetchNotRequiredAction, authCompletedAction } from './../actions/auth-actions';
 import { startLoadingAction, stopLoadingAction } from '../actions/dialog-actions';
-import { registerFetch, isValidTokenFetch } from '../../utils/fetchFunctions';
+import { registerFetch, isValidTokenFetch, checkBackendFetch } from '../../utils/fetchFunctions';
 import { addressGlue, genderIntToStr } from '../../utils/appliedFunc';
 import { fillPersonalDataAction, resetPersonalDataAction } from '../actions/user-personals';
 import { loginFetch } from '../../utils/fetchFunctions'
@@ -90,7 +90,7 @@ export const login: (identity: string, password: string, rememberMe?: boolean) =
             await dispatch(loginAction(identity, result.token, 0, result.role));
             await Promise.all([dispatch(initChat(result.token)), dispatch(getPersonalData(result.token)), initWebsocketWithSubscribes(dispatch, getState)]);
             await dispatch(authCompletedAction(true));
-            
+
             await dispatch(enqueueSnackbarAction({
                 message: "Вы успешно вошли",
                 options: { variant: "success" }
@@ -154,10 +154,33 @@ export const register: (identity: string, password: string, role: string,
 
         }
 
-export const reloadAuthData: () => void = () =>
+
+//Вызывается при старте страницы. Проверяется токен (если есть) и работа бакенда. Также здесь заполняется состояние авторизации (токен, логин и тд), 
+//персональные данные (после авторизации); запускается веб-сокет
+export const reloadAuthData: (isReconnect?: boolean) => void = (isRecconnect) =>
     async (dispatch, getState) => {
         await dispatch(startLoadingAction());
 
+        const reloadError = () => {
+            dispatch(enqueueSnackbarAction({
+                message: "Сервер не отвечает. Переподключение...",
+                options: { variant: "error" }
+            }));
+            const timer = setTimeout(
+                () => {
+                    dispatch(reloadAuthData(true))
+                }, 7000
+            )
+
+        }
+
+        const reloadSuccess = async () => {
+            await dispatch(authCompletedAction(true));
+            await dispatch(enqueueSnackbarAction({
+                message: "Вы успешно вошли",
+                options: { variant: "success" }
+            }));
+        }
 
         const login = localStorage.getItem("login");
         const role = localStorage.getItem("role");
@@ -168,15 +191,33 @@ export const reloadAuthData: () => void = () =>
             if (isValidToken) {
                 await dispatch(loginAction(login, token, null, role))
                 await Promise.all([dispatch(initChat(token)), initWebsocketWithSubscribes(dispatch, getState), dispatch(getPersonalData(token))]);
-                await dispatch(authCompletedAction(true));
-            } else {
+                await reloadSuccess();
+
+            } else if (isValidToken == false) {
                 clearAuth();
                 await dispatch(authCompletedAction(false));
+            } else {
+                reloadError();
+                return;
             }
 
         } else {
             clearAuth();
-            await dispatch(authCompletedAction(false));
+            const isOk = await checkBackendFetch();
+            if (isOk) {
+                await dispatch(authCompletedAction(false));
+
+                if (isRecconnect) {
+                    dispatch(enqueueSnackbarAction({
+                        message: "Соединение восстановлено",
+                        options: { variant: "success" }
+                    }));
+                }
+
+            } else {
+                reloadError();
+                return;
+            }
         }
 
         await dispatch(stopLoadingAction());
@@ -216,7 +257,7 @@ const initWebsocketWithSubscribes = async (dispatch, getState: () => RootState, 
                         message: "Соединение восстановлено",
                         options: { variant: "success" }
                     }));
-                    
+
                 }
                 onConnected(dispatch, getState)();
 
@@ -232,28 +273,47 @@ const onMessageReceived = (dispatch, getState) => (msg: Stomp.Message) => {
     ));
 }
 
-const onError = (dispatch, getState) => async () => {
-    dispatch(enqueueSnackbarAction({
+const onError = (dispatch, getState: () => RootState) => async () => {
+    await dispatch(enqueueSnackbarAction({
         message: "Проблемы с соединением. Переподключение...",
         options: { variant: "error" }
     }));
-
+    const token = getState().authReducer.token;
     await dispatch(startLoadingAction());
-    await initWebsocketWithSubscribes(dispatch, getState, true);
-    await dispatch(stopLoadingAction());
+    if (token) {
+        const isValidToken = await isValidTokenFetch(token);
+        if (isValidToken == true) {
+            await initWebsocketWithSubscribes(dispatch, getState, true);
+            await dispatch(stopLoadingAction());
+        } else if (isValidToken == false) {
+            await dispatch(logout);
+            await dispatch(enqueueSnackbarAction({
+                message: "У вас возникли проблемы с авторизацией",
+                options: { variant: "error" }
+            }));
+        } else {
+            setTimeout(async () => await dispatch(onError(dispatch, getState)), 7000);
+        }
+    }
 
 }
 
 
-const onConnected = (dispatch, getState: ()=>RootState) => () => {
-    const onChatMessageReceived = async(message: IChatReceivingMessage) => {
-        if(message.sender != getState().authReducer.login)
-            if(getState().chatReducer.chatId != message.chatId)
-                dispatch(addUnreadMessageToChatAction(message.chatId))
+const onConnected = (dispatch, getState: () => RootState) => () => {
+    const onChatMessageReceived = async (message: IChatReceivingMessage) => {
+        if (message.sender != getState().authReducer.login) {
+            if (getState().chatReducer.chatId != message.chatId) {
+                dispatch(addUnreadMessageToChatAction(message.chatId));
+                
+            }
+        }
+
 
         dispatch(setLastMessageDateForChat(message.chatId, message.createdDate))
-        if(message.newChat) 
-            await dispatch( addChatAction(message.newChat) );
+
+
+        if (message.newChat)
+            await dispatch(addChatAction(message.newChat));
     }
 
     //getStompClient()?.subscribe(rootUrl + "/user/security/queue/t", onMessageReceived(dispatch, getState));

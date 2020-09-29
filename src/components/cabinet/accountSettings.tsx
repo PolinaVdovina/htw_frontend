@@ -68,6 +68,7 @@ import { Competences } from "./displayMiniComponents/Competences";
 import { InstagramLink } from "./displayMiniComponents/InstagramLink";
 import { FacebookLink } from "./displayMiniComponents/FacebookLink";
 import { VkLink } from "./displayMiniComponents/VkLink";
+import { changeBirthDate } from './../../utils/change-component-utils';
 
 export const SETTINGS = {
     INDIVIDUAL: {
@@ -126,7 +127,7 @@ export const SETTINGS = {
             title: 'Дата рождения',
             changeSettings: settingsBirth,
             validateFunction: validateDate,
-            changeFunction: changeJobSeekerData,
+            changeFunction: changeBirthDate,
             displayComponent: SimpleTypography
         },
         gender: {

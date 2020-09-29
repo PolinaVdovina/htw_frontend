@@ -85,7 +85,7 @@ const ChatWrap = (props: IChatProps) => {
         //Если отправитель - это я и сообщение для собеседника
         //Тогда это тот чат, который нужно смотреть
         if ((newMessage.sender == props.chatName && newMessage.target == props.myLogin) || (newMessage.sender == props.myLogin && newMessage.target == props.chatName)) {
-            setMessages(prevState => [...prevState, newMessage].sort((a,b)=>a.id - b.id))
+            setMessages(prevState => [...prevState, newMessage].sort((a,b)=> Date.parse(a.createdDate) - Date.parse(b.createdDate)))
             setGetMessagesCount(old => old + 1);
 
             if (props.chatId) {
@@ -119,7 +119,7 @@ const ChatWrap = (props: IChatProps) => {
                 if (newMessages) {
                     if (newMessages.length < 20)
                         setTapeOver(true);
-                    setMessages(oldMsgs => [...newMessages, ...oldMsgs].sort((a, b) => a.id - b.id));
+                    setMessages(oldMsgs => [...newMessages, ...oldMsgs].sort((a,b)=> Date.parse(a.createdDate) - Date.parse(b.createdDate)));
                 } else {
                     setTapeOver(true);
                 }

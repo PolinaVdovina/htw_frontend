@@ -173,6 +173,7 @@ export const settingsJobs = {
     },
     stopDate: {
         title: 'Дата окончания',
+        maxDateOffset: 20,
         changeComponent: ChangeDate
     }
 }
@@ -205,6 +206,7 @@ export const settingsEdu = {
     },
     dateReceiving: {
         title: 'Дата окончания',
+        maxDateOffset: 20,
         changeComponent: ChangeDate
     }
 }
@@ -251,6 +253,7 @@ export const settingsEduDamaged = {
     },
     dateReceiving: {
         title: 'Дата окончания',
+        maxDateOffset: 20,
         changeComponent: ChangeDate
     }
 }
