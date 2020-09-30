@@ -78,7 +78,7 @@ class AccountInfoComp extends React.Component<IPropsAccountInfo, IStateAccountIn
                 this.props.enqueueSnackbar('Данные сохранены', {variant: "success"});
             }
             else {
-                this.props.enqueueSnackbar('Не удалось изменить данные из-за проблем с соединением', {variant: "error"})
+                this.props.enqueueSnackbar('Не удалось изменить данные', {variant: "error"})
             }
         }
         else {
@@ -98,7 +98,7 @@ class AccountInfoComp extends React.Component<IPropsAccountInfo, IStateAccountIn
                 this.props.enqueueSnackbar('Данные сохранены', {variant: "success"});
             }
             else {
-                this.props.enqueueSnackbar('Не удалось изменить данные из-за проблем с соединением', {variant: "error"})
+                this.props.enqueueSnackbar('Не удалось изменить данные', {variant: "error"})
             }
         }
         else {

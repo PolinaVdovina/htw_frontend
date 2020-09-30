@@ -367,15 +367,8 @@ export const validateNewPassword = (password: {currentPassword: string, newPassw
     }
 }
 
+
 export function validateAddress(data: any): IValidateResult {
-    if (data && Object.keys(data).length > 0) {
-        return {
-            isValid: true,
-            errorsMass: []
-        }
-    }
-    else return {
-        isValid: false,
-        errorsMass: ["Поле не заполнено. Пожалуйста, выберите адрес из списка автодополнения"]
-    }
+    alert(JSON.stringify(url))
+    return validateStringData(data)
 }

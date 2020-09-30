@@ -368,7 +368,8 @@ export const validateNewPassword = (password: {currentPassword: string, newPassw
 }
 
 export function validateAddress(data: any): IValidateResult {
-    if (data && Object.keys(data).length > 0) {
+    if (data) {
+        alert('tut')
         return {
             isValid: true,
             errorsMass: []

@@ -170,13 +170,14 @@ export function validateEmailString(email: any) : IValidateResult {
     };
 }
 
-export function validateStringData(data: any, additionalValidFunc?: (string) => IValidateResult): IValidateResult {
+export function validateStringData(data: any, additionalValidFunc?: (url: string) => IValidateResult): IValidateResult {
     const key = Object.keys(data)[0];
     if (key) {
-        const stringValue = data[key];
-        if (stringValue && stringValue.replace(/\s/g,"") != "") {
+        const url = data[key];
+        alert(JSON.stringify(url))
+        if (url && url.replace(/\s/g,"") != "") {
             if (additionalValidFunc !== undefined)
-                return additionalValidFunc(stringValue)
+                return additionalValidFunc(url)
             else return {
                 isValid: true,
                 errorsMass: []
@@ -202,6 +203,10 @@ export function validateEmail(data: any) : IValidateResult {
 }
 
 export function validateNameOrg(data: any): IValidateResult {
+    return validateStringData(data)
+}
+
+export function validateAddress(data: any): IValidateResult {
     return validateStringData(data)
 }
 
@@ -364,18 +369,5 @@ export const validateNewPassword = (password: {currentPassword: string, newPassw
     return {
         isValid: resultIsValid,
         errorsMass: resultErrors
-    }
-}
-
-export function validateAddress(data: any): IValidateResult {
-    if (data && Object.keys(data).length > 0) {
-        return {
-            isValid: true,
-            errorsMass: []
-        }
-    }
-    else return {
-        isValid: false,
-        errorsMass: ["Поле не заполнено. Пожалуйста, выберите адрес из списка автодополнения"]
     }
 }
