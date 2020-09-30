@@ -77,8 +77,9 @@ const useStyles = makeStyles((theme: Theme) =>
       position: "relative",
       left: "-20px",
       top: "16px",
-      width: "26px",
-      height: "26px",
+/*       width: "26px",
+      height: "26px", */
+      padding: theme.spacing(0.5),
       background: theme.palette.primary.main,
     },
     changeAvatarIcon: {

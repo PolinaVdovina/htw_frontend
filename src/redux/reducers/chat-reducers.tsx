@@ -17,7 +17,7 @@ export interface IChatState {
     chatName: string | null //Сейчас это логин того, с кем переписываешься
     chatViewName: string | null,
     chatId: number | null,
-    
+
     chats: Array<IReceivingChatData> | null
 
 }
@@ -36,7 +36,7 @@ export function chatReducer(state = initialState, action): IChatState {
         case OPEN_CHAT:
             return {
                 ...state,
-                chatId: action.chatId!=undefined ? action.chatId : state.chatId,
+                chatId: action.chatId != undefined ? action.chatId : state.chatId,
                 isOpen: true,
                 chatName: action.chatName,
                 chatViewName: action.chatViewName,
@@ -62,7 +62,7 @@ export function chatReducer(state = initialState, action): IChatState {
             let chats: Array<IReceivingChatData> = state.chats ? [...state.chats] : [];
             if (chats.filter((chat) => chat.id == action.chat.id).length == 0)
                 chats.push(action.chat);
-            chats =  chats && chats.sort((a: IReceivingChatData, b: IReceivingChatData) => {
+            chats = chats && chats.sort((a: IReceivingChatData, b: IReceivingChatData) => {
                 return Date.parse(b.lastMessageDate) - Date.parse(a.lastMessageDate);
             })
             return {
@@ -127,16 +127,16 @@ export function chatReducer(state = initialState, action): IChatState {
 }
 
 export const getUnreadMessagesCount = (chats: Array<IReceivingChatData>) => {
-    return chats.map( chat => chat.unreadMessageCount ).reduce( (sum, current) => sum + current, 0 );
+    return chats.map(chat => chat.unreadMessageCount).reduce((sum, current) => sum + current, 0);
 }
 
 export const showChat: (chatName: string, viewName?: string, chatId?: number) => void = (chatName, viewName, chatId) =>
     async (dispatch, getState: () => RootState) => {
         if (!getStompClient())
             return;
-        
+
         await dispatch(openChatAction(chatName, viewName, chatId));
-        if(chatId)
+        if (chatId)
             await dispatch(resetUnreadMessagesForChatAction(chatId));
         //const token = getState().authReducer.token;
         /* if (token)
@@ -150,23 +150,25 @@ export const openPrivateChat: (targetLogin: string, viewName?: string) => void =
         if (!getStompClient())
             return;
 
-        const fetchChat = await getPrivateChatFetch(getState().authReducer.token, targetLogin);
-        const chatId = fetchChat.id;
-        
-        if(chatId) {
-            //await dispatch(setOpenChatIdAction(chatId));
-            //alert("hehe");
-            dispatch( showChat(targetLogin, viewName, chatId) );
+        const chats = getState().chatReducer.chats;
+        const findChatInRedux = chats && chats.find(c => c.interlocutorLogin == targetLogin);
+        if (!findChatInRedux) {
+            dispatch(startLoadingAction());
+            const fetchChat = await getPrivateChatFetch(getState().authReducer.token, targetLogin);
+            const chatId = fetchChat.id;
+
+            if (chatId) {
+                //await dispatch(setOpenChatIdAction(chatId));
+                //alert("hehe");
+                dispatch(showChat(targetLogin, viewName, chatId));
+            } else {
+                await dispatch(showChat(targetLogin, viewName));
+            }
+
+            dispatch(stopLoadingAction());
         } else {
-            dispatch( showChat(targetLogin, viewName) );
+            dispatch(showChat(targetLogin, viewName, findChatInRedux.id));
         }
-        
-
-        //await dispatch(openPrivateChat(chatName, viewName));
-        const token = getState().authReducer.token;
-        /* if (token)
-            stompClient?.subscribe(rootUrl + "/user/security/queue/t", onMessageReceived); */
-
     }
 
 

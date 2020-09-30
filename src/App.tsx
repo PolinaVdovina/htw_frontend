@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 
 import './App.css';
 import { Routes } from './pages/Routes';
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter, Redirect } from 'react-router-dom';
 import { AppMenu } from './components/app-menu/AppMenu';
 import { Grid, makeStyles, createStyles, Theme, Divider, Backdrop, CircularProgress, Paper, useTheme, IconButton, useMediaQuery } from '@material-ui/core';
 import { AppFooter } from './components/app-footer/AppFooter';
@@ -20,13 +20,14 @@ import { AppDrawer } from './components/app-menu/AppDrawer';
 import SockJS from 'sockjs-client';
 import Stomp from 'stompjs'
 //import { startWebsocketConnection, getWebSocket } from './websockets/common';
-import { showChat, hideChat , getUnreadMessagesCount } from './redux/reducers/chat-reducers';
+import { showChat, hideChat, getUnreadMessagesCount } from './redux/reducers/chat-reducers';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import { Badge } from '@material-ui/core';
 import { ChatDialog } from './components/dialogs/ChatDialog';
 import { stopWebsocketConnection } from './websockets/common';
 import useSound from 'use-sound';
 import { Button } from '@material-ui/core';
+import { urls } from './pages/urls';
 
 const sound = require('./notification.mp3')
 
@@ -103,10 +104,12 @@ interface IAppProps {
   isChatOpen: boolean,
   newNotifications: number,
   unreadMessages: number,
+  login?: string | null,
 }
 
 function mapStateToProps(state: RootState) {
   return {
+    login: state.authReducer.login,
     isLoading: state.dialogReducer.isLoading,
     authCompleteStatus: state.authReducer.authCompleteStatus,
     isPersonalDataFetched: state.userPersonalsReducer.isFetched,
@@ -128,16 +131,16 @@ function App(props: IAppProps) {
   const theme = useTheme();
   const dispatch = useDispatch();
   const [isMenuOpen, setMenuOpen] = React.useState(false);
-  
-  const [prevUnreadMessage,setPrevUnreadMessage] = React.useState(props.unreadMessages);
-  
+
+  const [prevUnreadMessage, setPrevUnreadMessage] = React.useState(props.unreadMessages);
+
 
   const setupListeners = () => {
-    window.addEventListener("beforeunload", async(ev) => {
+    window.addEventListener("beforeunload", async (ev) => {
       await stopWebsocketConnection();
       ev.preventDefault();
-      
-      return async() => {
+
+      return async () => {
 
         await stopWebsocketConnection();
       };
@@ -147,18 +150,18 @@ function App(props: IAppProps) {
   const [play] = useSound(sound);
   useEffect(() => {
     props.reloadAuthData();
-   
+
   }, [])
 
 
   useEffect(() => {
-   
+
     setPrevUnreadMessage(props.unreadMessages);
   }, [(prevUnreadMessage < props.unreadMessages) && props.unreadMessages])
 
   useEffect(() => {
     setMenuOpen(false);
- 
+
   }, [props.authCompleteStatus])
 
 
@@ -189,11 +192,16 @@ function App(props: IAppProps) {
 
             <Grid className={classes.content} container item direction="row" >
               <BrowserRouter>
+
+
                 {
-                  props.authCompleteStatus &&
-                  <AppDrawer
-                    onClose={(event) => setMenuOpen(false)}
-                    open={isMenuOpen} />
+                  props.authCompleteStatus && 
+                  <>
+                    <Redirect exact from="/" to={urls.cabinet.shortPath + props.login} />
+                    <AppDrawer
+                      onClose={(event) => setMenuOpen(false)}
+                      open={isMenuOpen} />
+                  </>
                 }
                 <AppMenu
                   leftAppartment={props.authCompleteStatus && (

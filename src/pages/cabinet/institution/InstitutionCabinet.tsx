@@ -13,6 +13,7 @@ import { ExecuteDialogButtons } from '../../../components/cabinet/ExecuteDialogB
 import { TapeFetcherProvider } from '../../../components/tape/TapeFetcherContext';
 import { userToPost } from '../../../utils/tape-converters/user-to-tape-element';
 import { StudentsTab } from '../../../components/cabinet/institution/StudentsTab';
+import { ExecuteSubscriptionButtons } from '../../../components/cabinet/ExecuteSubscriptionButtons';
 
 interface IInstitutionCabinet {
 
@@ -22,27 +23,16 @@ const tabs: Array<ITabData> = [
   {
     label: "Общая информация",
     //IconComponent: <PersonPinIcon/>,
-    TabPanel: <AccountInfo key={0} role='LEGAL' title="Общая информация" settingsView={['inn', 'ogrn', 'email', 'types']} isPersonalInfo/>,
+    TabPanel: <AccountInfo key={0} role='LEGAL' title="Общая информация" settingsView={['inn', 'ogrn', 'email', 'types']} isPersonalInfo />,
     subTapPanels: [
-      <ExecuteDialogButtons executeDialogButtons={ [
-        {
-          title: "Подписки",
-          DialogComponent: SubscriptionDialog,
-          dialogProps: {subscription: true}
-        },
-        {
-          title: "Подписчики",
-          DialogComponent: SubscriptionDialog,
-          dialogProps: {subscription: false}
-        },
-      ] }/>
+      <ExecuteSubscriptionButtons />
       //<TapeFetcherProvider dataConverterFunction = {userToPost}><SubscriptionTab /></TapeFetcherProvider>
     ]
   },
   {
     label: "Студенты",
     //IconComponent: <PersonPinIcon/>,
-    TabPanel: <TapeFetcherProvider key={1} dataConverterFunction = {userToPost}><StudentsTab/></TapeFetcherProvider>
+    TabPanel: <TapeFetcherProvider key={1} dataConverterFunction={userToPost}><StudentsTab /></TapeFetcherProvider>
   },
   {
     label: "Образования",

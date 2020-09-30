@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import { MuiThemeProvider } from '@material-ui/core';
+import { MuiThemeProvider, CssBaseline } from '@material-ui/core';
 import { theme } from './theme';
 import { store } from './redux/store';
 import { SnackbarProvider } from 'notistack';
@@ -14,10 +14,10 @@ import DateFnsUtils from "@date-io/date-fns";
 import enLocale from "date-fns/locale/en-US";
 
 import {
-	DatePicker,
-	TimePicker,
-	DateTimePicker,
-	MuiPickersUtilsProvider,
+  DatePicker,
+  TimePicker,
+  DateTimePicker,
+  MuiPickersUtilsProvider,
 } from '@material-ui/pickers';
 
 const localeMap = {
@@ -28,18 +28,20 @@ const localeMap = {
 
 ReactDOM.render(
   <React.StrictMode>
-    <Provider store={store}>
-      <MuiPickersUtilsProvider locale={ruLocale} utils={DateFnsUtils}>
-        <MuiThemeProvider theme={theme}>
-          <SnackbarProvider maxSnack={3} anchorOrigin={{
-            vertical: 'bottom',
-            horizontal: 'right',
-          }}>
-            <App />
-          </SnackbarProvider>
-        </MuiThemeProvider>
-      </MuiPickersUtilsProvider>
-    </Provider>
+    <CssBaseline>
+      <Provider store={store}>
+        <MuiPickersUtilsProvider locale={ruLocale} utils={DateFnsUtils}>
+          <MuiThemeProvider theme={theme}>
+            <SnackbarProvider maxSnack={3} anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'right',
+            }}>
+              <App />
+            </SnackbarProvider>
+          </MuiThemeProvider>
+        </MuiPickersUtilsProvider>
+      </Provider>
+    </CssBaseline>
   </React.StrictMode>,
   document.getElementById('root')
 );

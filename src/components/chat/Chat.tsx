@@ -17,7 +17,8 @@ import Stomp from 'stompjs';
 import { startLoading, stopLoading } from '../../redux/reducers/dialog-reducers';
 import { useWritingStatusTracking, useOnlineStatusTracking, usePrivateChatTracking as usePrivateMessageTracking } from './../../websockets/chat/hooks';
 import { pagination, searchCriteria } from './../../utils/search-criteria/builders';
-import { resetUnreadMessagesForChatAction } from '../../redux/actions/chat-actions';
+import { resetUnreadMessagesForChatAction, setChatsAction } from '../../redux/actions/chat-actions';
+import { setOpenChatIdAction } from './../../redux/actions/chat-actions';
 
 
 
@@ -87,11 +88,13 @@ const ChatWrap = (props: IChatProps) => {
         if ((newMessage.sender == props.chatName && newMessage.target == props.myLogin) || (newMessage.sender == props.myLogin && newMessage.target == props.chatName)) {
             setMessages(prevState => [...prevState, newMessage].sort((a,b)=> Date.parse(a.createdDate) - Date.parse(b.createdDate)))
             setGetMessagesCount(old => old + 1);
-
+            
             if (props.chatId) {
                 readMessagesFromChat(props.chatId);
                 //dispatch(resetUnreadMessagesForChatAction(newMessage.chatId))
-                
+            } else {
+                dispatch(setOpenChatIdAction(newMessage.chatId));
+                readMessagesFromChat(newMessage.chatId);
             }
         }
     })

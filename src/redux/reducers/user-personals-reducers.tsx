@@ -43,7 +43,9 @@ interface ICommonState {
     phonePrivate?: boolean,
     socMediaPrivate?: boolean,
     responseVacancies?,
-    whoAmI?: string | null
+    whoAmI?: string | null,
+    subscriptionCount?: number | null,
+    observerCount?: number | null,
 }
 
 const initialState: ICommonState = {
@@ -83,7 +85,9 @@ const initialState: ICommonState = {
     phonePrivate: false,
     socMediaPrivate: false,
     responseVacancies: null,
-    whoAmI: null
+    whoAmI: null,
+    subscriptionCount: null,
+    observerCount: null,
 };
 
 
@@ -116,12 +120,14 @@ export function userPersonalsReducer(state = initialState, action): ICommonState
         case types.SUBSCRIBE: {
             return {
                 ...state,
+                subscriptionCount: state.subscriptionCount ? state.subscriptionCount + 1 : 1,
                 subscriptionLogins: [...(state.subscriptionLogins ? state.subscriptionLogins : []), action.login]
             }
         }
         case types.UNSUBSCRIBE: {
             return {
                 ...state,
+                subscriptionCount: state.subscriptionCount ? state.subscriptionCount - 1 : 0,
                 subscriptionLogins: state.subscriptionLogins ? state.subscriptionLogins.filter(login => login != action.login) : null,
             }
         }

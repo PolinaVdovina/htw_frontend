@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Grid, Typography, TextField, Button, makeStyles, Theme, createStyles } from '@material-ui/core';
+import { Grid, Typography, TextField, Button, makeStyles, Theme, createStyles, IconButton } from '@material-ui/core';
 import {
 	DatePicker,
 	TimePicker,
@@ -7,6 +7,7 @@ import {
 	MuiPickersUtilsProvider,
 } from '@material-ui/pickers';
 import { addYears } from 'date-fns';
+import CancelIcon from '@material-ui/icons/Cancel';
 
 interface IChangeDate {
 	data: string,
@@ -18,7 +19,7 @@ interface IChangeDate {
 export const ChangeDate = (props: IChangeDate) => {
 	const maxDateOffset = props.maxDateOffset ? props.maxDateOffset : 0;
 	return (
-		<>
+		<Grid container alignItems="center"> 
 			<DatePicker
 				required
 				inputVariant="outlined"
@@ -33,17 +34,9 @@ export const ChangeDate = (props: IChangeDate) => {
 				onChange={(date) => props.onChange({ [props.type]: date && date.toISOString().split('T')[0] })}
 				value={props.data[props.type] ? Date.parse(props.data[props.type]) : null}
 			/>
-			/* 		<TextField
-						id="date"
-						type="date"			
-						InputLabelProps={{
-							shrink: true,
-						}}
-						variant='outlined'
-						size='small'
-						value={props.data[props.type]}
-						onChange={(event) => props.onChange({[props.type]: event.target.value})}
-					/> */
-		</>
+			<IconButton onClick={() => props.onChange({[props.type]: null})}>
+				<CancelIcon/>
+			</IconButton>
+		</Grid>
 	);
 }

@@ -14,10 +14,13 @@ import { searchCriteria, sortCriteria, pagination } from '../../utils/search-cri
 import { SearchCriteriaOperation, SortCriteriaDirection } from '../../utils/search-criteria/types';
 
 interface ISubscriptionPaperProps {
-    token?: string | null,
+    token?: any,
+    subscriptionCount?: number | null,
+    observerCount?: number | null,
+    subscription: boolean,
 }
 
-function SubscriptionBlockComp(props) {
+function SubscriptionBlockComp(props: ISubscriptionPaperProps) {
     const cabinetContext = React.useContext(CabinetContext);
     const tapeFetcherContext = React.useContext(TapeFetcherContext);
     const theme = useTheme();

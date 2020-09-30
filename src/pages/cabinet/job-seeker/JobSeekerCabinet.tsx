@@ -19,6 +19,7 @@ import { SubscriptionDialog } from './../../../components/cabinet/SubscriptionDi
 import { AchievementTab } from '../../../components/cabinet/jobseeker/AchievementTab';
 import { achievementsToPost } from '../../../utils/tape-converters/achievement-to-tape-element';
 import { RespondViewDialog } from '../../../components/cabinet/jobseeker/RespondViewDialog';
+import { ExecuteSubscriptionButtons } from './../../../components/cabinet/ExecuteSubscriptionButtons';
 
 interface IJobSeekerCabinet {
 
@@ -37,18 +38,7 @@ const tabs: Array<ITabData> = [
     //IconComponent: <PersonPinIcon/>,
     TabPanel: <AccountInfo key={0} role='INDIVIDUAL' settingsView={['email', 'dateBirth', 'gender']} isPersonalInfo/>,
     subTapPanels: [
-      <ExecuteDialogButtons executeDialogButtons={ [
-        {
-          title: "Подписки",
-          DialogComponent: SubscriptionDialog,
-          dialogProps: {subscription: true}
-        },
-        {
-          title: "Подписчики",
-          DialogComponent: SubscriptionDialog,
-          dialogProps: {subscription: false}
-        },
-      ] }/>
+      <ExecuteSubscriptionButtons/>
       //<TapeFetcherProvider dataConverterFunction = {userToPost}><SubscriptionTab /></TapeFetcherProvider>
     ]
   },

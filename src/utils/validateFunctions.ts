@@ -238,7 +238,7 @@ export function validateFacebook(data: any): IValidateResult {
 }
 
 export function validateDate(date: any): IValidateResult {
-    if (date)
+    if (date.dateBirth)
         return {
             isValid: true,
             errorsMass: []

@@ -12,6 +12,7 @@ import { useTheme } from '@material-ui/core';
 import { userToPost } from '../../../utils/tape-converters/user-to-tape-element';
 import { SubscriptionDialog } from '../../../components/cabinet/SubscriptionDialog';
 import { ExecuteDialogButtons } from '../../../components/cabinet/ExecuteDialogButtons';
+import { ExecuteSubscriptionButtons } from '../../../components/cabinet/ExecuteSubscriptionButtons';
 
 interface IEmployeeCabinet {
 
@@ -22,27 +23,16 @@ const tabs: Array<ITabData> = [
   {
     label: "Общая информация",
     //IconComponent: <PersonPinIcon/>,
-    TabPanel: <AccountInfo key={0} role='INDIVIDUAL' title="Общая информация" settingsView={['email', 'employer']} isPersonalInfo/>,
+    TabPanel: <AccountInfo key={0} role='INDIVIDUAL' title="Общая информация" settingsView={['email', 'employer']} isPersonalInfo />,
     subTapPanels: [
-      <ExecuteDialogButtons executeDialogButtons={ [
-        {
-          title: "Подписки",
-          DialogComponent: SubscriptionDialog,
-          dialogProps: {subscription: true}
-        },
-        {
-          title: "Подписчики",
-          DialogComponent: SubscriptionDialog,
-          dialogProps: {subscription: false}
-        },
-      ] }/>
+      <ExecuteSubscriptionButtons />
       //<TapeFetcherProvider dataConverterFunction = {userToPost}><SubscriptionTab /></TapeFetcherProvider>
     ]
   },
   {
     label: "Вакансии",
     //IconComponent: <PersonPinIcon/>,
-    TabPanel: <TapeFetcherProvider key={1}  dataConverterFunction = {vacancyToPost}><VacancyTab /></TapeFetcherProvider>
+    TabPanel: <TapeFetcherProvider key={1} dataConverterFunction={vacancyToPost}><VacancyTab /></TapeFetcherProvider>
   },
   {
     label: "Мероприятия",

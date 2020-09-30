@@ -83,7 +83,9 @@ function mapStateToProps(state: RootState) {
             addressPrivate: state.userPersonalsReducer.addressPrivate,
             phonePrivate: state.userPersonalsReducer.phonePrivate,
             socMediaPrivate: state.userPersonalsReducer.socMediaPrivate,
-            whoAmI: state.userPersonalsReducer.whoAmI
+            whoAmI: state.userPersonalsReducer.whoAmI,
+            observerCount: state.userPersonalsReducer.observerCount,
+            subscriptionCount: state.userPersonalsReducer.subscriptionCount,
         }
     }
     return data;

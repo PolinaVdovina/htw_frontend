@@ -91,6 +91,8 @@ export function accountRequestToEntityDictionary(data, role) {
             case "ROLE_JOBSEEKER":
                 let parsedData = {
                     isOnline: data.online,
+                    subscriptionCount: data.subscriptionCount,
+                    observerCount: data.observerCount,
                     name: data.name,
                     surname: data.surname,
                     middlename: data.middlename,
@@ -129,6 +131,8 @@ export function accountRequestToEntityDictionary(data, role) {
             case "ROLE_EMPLOYER":
                 return {
                     isOnline: data.online,
+                    subscriptionCount: data.subscriptionCount,
+                    observerCount: data.observerCount,
                     name: data.name,
                     phone: data.contactDetails.phone,
                     email: data.contactDetails.email,
@@ -154,6 +158,8 @@ export function accountRequestToEntityDictionary(data, role) {
             case "ROLE_INSTITUTION":
                 return {
                     isOnline: data.online,
+                    subscriptionCount: data.subscriptionCount,
+                    observerCount: data.observerCount,
                     name: data.name,
                     phone: data.contactDetails.phone,
                     email: data.contactDetails.email,
@@ -181,6 +187,8 @@ export function accountRequestToEntityDictionary(data, role) {
             case "ROLE_EMPLOYEE":
                 return {
                     isOnline: data.online,
+                    subscriptionCount: data.subscriptionCount,
+                    observerCount: data.observerCount,
                     name: data.name,
                     surname: data.surname,
                     middlename: data.middlename,
