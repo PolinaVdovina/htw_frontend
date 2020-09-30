@@ -20,6 +20,7 @@ interface IPropsAccountInfo extends WithSnackbarProps{
     settingsView: any,
     enqueueSnackbar: any,
     theme?: any,
+    isPersonalInfo?: boolean
 }
 
 interface IStateAccountInfo{
@@ -77,7 +78,7 @@ class AccountInfoComp extends React.Component<IPropsAccountInfo, IStateAccountIn
                 this.props.enqueueSnackbar('Данные сохранены', {variant: "success"});
             }
             else {
-                this.props.enqueueSnackbar('Не удалось изменить данные из-за проблем с соединением', {variant: "error"})
+                this.props.enqueueSnackbar('Не удалось изменить данные', {variant: "error"})
             }
         }
         else {
@@ -97,7 +98,7 @@ class AccountInfoComp extends React.Component<IPropsAccountInfo, IStateAccountIn
                 this.props.enqueueSnackbar('Данные сохранены', {variant: "success"});
             }
             else {
-                this.props.enqueueSnackbar('Не удалось изменить данные из-за проблем с соединением', {variant: "error"})
+                this.props.enqueueSnackbar('Не удалось изменить данные', {variant: "error"})
             }
         }
         else {
@@ -106,9 +107,18 @@ class AccountInfoComp extends React.Component<IPropsAccountInfo, IStateAccountIn
     }
 
     render() {
+        let settingsView = [...this.props.settingsView];
+        if (this.props.isPersonalInfo) {
+            if (this.context.isMine || (!this.context.isMine && !this.context.phonePrivate))
+                settingsView.push('phone');
+            if (this.context.isMine || (!this.context.isMine && !this.context.addressPrivate))
+                settingsView.push('address'); 
+            if (this.context.isMine || (!this.context.isMine && !this.context.socMediaPrivate))
+                settingsView.push('vkontakte', 'facebook', 'instagram');   
+        }         
         return( 
             <Grid style={{padding:this.props.theme.spacing(2)}} container direction='column'>        
-                { this.props.settingsView.map(key => {
+                { settingsView.map(key => {
                     const Component = SETTINGS[this.props.role][key]["displayComponent"];
                 return(<>
                     <Grid container item direction="column" style={{marginBottom: this.props.theme.spacing(2)}}>
@@ -127,6 +137,7 @@ class AccountInfoComp extends React.Component<IPropsAccountInfo, IStateAccountIn
                             }
                         </Grid>
                         { (this.context[key] && SETTINGS[this.props.role][key]['type'] && SETTINGS[this.props.role][key]['type'] == 'mass') && 
+                            (this.context[key].length != 0 ? 
                             this.context[key].map((element, index) => 
                                 <Grid item container direction='row' spacing={2} style={{flexWrap:"nowrap", marginBottom: '2px'}}>
                                     <Grid item style={{flexGrow:1}}>
@@ -151,7 +162,7 @@ class AccountInfoComp extends React.Component<IPropsAccountInfo, IStateAccountIn
                                     </Grid>
                                     }
                                 </Grid>
-                            ) 
+                            ) : "Не задано")
                         }
                         { (!SETTINGS[this.props.role][key]['type'] || SETTINGS[this.props.role][key]['type'] != 'mass') && 
                         <Grid item container direction='row' spacing={2}  style={{flexWrap:"nowrap"}}>                             
