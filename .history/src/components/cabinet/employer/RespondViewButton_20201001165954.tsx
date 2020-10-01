@@ -18,7 +18,13 @@ export const RespondViewButton = (props: IRespondViewButton) => {
     const snackbar = useSnackbar();
 
     const handleClick = async () => {
-        setOpen(true);
+        //const result = await toRespondViewFetch(props.token, props.id, '/vacancy/get-responds');
+        //if (result.msgInfo.msgStatus == MessageStatus.OK) {
+            setOpen(true);
+            //setElements(result.tapeElements);
+        //}
+        //else
+            //snackbar.enqueueSnackbar("Ошибка", { variant: "error" })
     }
 
     return(<>

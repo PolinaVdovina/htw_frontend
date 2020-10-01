@@ -14,11 +14,17 @@ export interface IRespondViewButton {
 
 export const RespondViewButton = (props: IRespondViewButton) => {
     const [open, setOpen] = React.useState(false);
-    //const [elements, setElements] = React.useState(new Array<ITapeElementData>())
+    const [elements, setElements] = React.useState(new Array<ITapeElementData>())
     const snackbar = useSnackbar();
 
     const handleClick = async () => {
-        setOpen(true);
+        //const result = await toRespondViewFetch(props.token, props.id, '/vacancy/get-responds');
+        //if (result.msgInfo.msgStatus == MessageStatus.OK) {
+            setOpen(true);
+            //setElements(result.tapeElements);
+        //}
+        //else
+            //snackbar.enqueueSnackbar("Ошибка", { variant: "error" })
     }
 
     return(<>

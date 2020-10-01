@@ -26,14 +26,13 @@ export const RespondDialogComp = (props: IRespondDialog) => {
 
     const getCount = async () => {
         if (props.token) {
-            alert("lklkl")
             const token = props.token;          
             const lastPostDate: string = new Date(Date.now()).toISOString()
             const requestData: ISearchCriteriaRequest = {
                 searchCriteria: [
                     searchCriteria("respondVacancy", props.idVacancy, SearchCriteriaOperation.EQUAL),
                     searchCriteria("customers", true, SearchCriteriaOperation.EQUAL),
-                    searchCriteria("createdDate", lastPostDate, SearchCriteriaOperation.LESS)                         
+                    searchCriteria("createdDate", lastPostDate, SearchCriteriaOperation.MORE)                         
                 ],
                 sortCriteria: [
                     sortCriteria("viewName", SortCriteriaDirection.ASC)
@@ -54,7 +53,7 @@ export const RespondDialogComp = (props: IRespondDialog) => {
                 <DialogTitle style={{marginBottom:0, padding: theme.spacing(1), paddingLeft: theme.spacing(2)}}>
                     <Grid container alignItems="center" style={{padding:0}}>
                         <Typography style={{ fontWeight: "bold", flexGrow: 1 }}>
-                            Отклики на вакансию ({countElems ? countElems : 0}):
+                            ОТклики на вакансию ({countElems}):
                         </Typography>
                         <IconButton onClick={() => props.onClose()}>
                             <CloseIcon />
@@ -73,5 +72,6 @@ export const RespondDialogComp = (props: IRespondDialog) => {
 export const RespondDialog = connect(
     (state: RootState) => ({
         token: state.authReducer.token,
+
     })
 )(RespondDialogComp)

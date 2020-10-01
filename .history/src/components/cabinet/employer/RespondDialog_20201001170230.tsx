@@ -54,7 +54,7 @@ export const RespondDialogComp = (props: IRespondDialog) => {
                 <DialogTitle style={{marginBottom:0, padding: theme.spacing(1), paddingLeft: theme.spacing(2)}}>
                     <Grid container alignItems="center" style={{padding:0}}>
                         <Typography style={{ fontWeight: "bold", flexGrow: 1 }}>
-                            Отклики на вакансию ({countElems ? countElems : 0}):
+                            Отклики на вакансию ({countElems}):
                         </Typography>
                         <IconButton onClick={() => props.onClose()}>
                             <CloseIcon />
