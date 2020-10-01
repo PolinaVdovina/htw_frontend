@@ -23,14 +23,28 @@ function mapStateToProps(state: RootState) {
 }
 
 const RespondViewDialogComp = (props: IRespondViewDialog) => {
-    const additionalSearchCriteria = React.useMemo(
+
+    const additionalSearchCriteria: Array<ISearchCriteria> = [
+        searchCriteria("jobSeekerRespondedLogin", props.login, SearchCriteriaOperation.EQUAL)
+    ]
+
+    React.useMemo(
         () => {
-            return [
-                searchCriteria("jobSeekerRespondedLogin", props.login, SearchCriteriaOperation.EQUAL)
-            ];
+
         },
-        [props.login]
+        [props.token, props.additionalSearchCriteria]
     )
+
+    React.useEffect(() => {
+        if (props.token) {
+            context?.reset();
+            getNextElements();
+        }
+        
+        alert("jjj")
+        //alert(JSON.stringify(props.additionalSearchCriteria))
+    }, [props.token, props.additionalSearchCriteria])
+    
 
     return(
         <Dialog fullWidth  scroll="paper" open={props.open} onClose={props.onClose}>

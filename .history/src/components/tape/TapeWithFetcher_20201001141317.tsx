@@ -20,6 +20,7 @@ interface ITapeWithFetcherProps {
     sessionUID?: any,
     isRespondActive: boolean,
     isActiveNeed?: boolean,
+    rightText?: any
 }
 
 export const TapeWithFetcherComp = (props: ITapeWithFetcherProps) => {

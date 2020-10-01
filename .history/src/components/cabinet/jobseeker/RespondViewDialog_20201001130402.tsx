@@ -23,7 +23,7 @@ function mapStateToProps(state: RootState) {
 }
 
 const RespondViewDialogComp = (props: IRespondViewDialog) => {
-    const additionalSearchCriteria = React.useMemo(
+    const additional = React.useMemo(
         () => {
             return [
                 searchCriteria("jobSeekerRespondedLogin", props.login, SearchCriteriaOperation.EQUAL)

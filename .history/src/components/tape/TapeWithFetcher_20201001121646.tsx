@@ -19,7 +19,7 @@ interface ITapeWithFetcherProps {
     sortKey?: string | null,
     sessionUID?: any,
     isRespondActive: boolean,
-    isActiveNeed?: boolean,
+    isActiveNeed?: boolean
 }
 
 export const TapeWithFetcherComp = (props: ITapeWithFetcherProps) => {
@@ -69,7 +69,8 @@ const TapeWithFetcherWraper = (props: ITapeWithFetcherProps) => {
             context?.reset();
             getNextElements();
         }
-        //alert(JSON.stringify(props.additionalSearchCriteria))
+        alert("jjj")
+        alert(JSON.stringify(props.additionalSearchCriteria))
     }, [props.token, props.additionalSearchCriteria])
 
     return (

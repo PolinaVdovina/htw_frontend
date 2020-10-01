@@ -19,7 +19,7 @@ interface ITapeWithFetcherProps {
     sortKey?: string | null,
     sessionUID?: any,
     isRespondActive: boolean,
-    isActiveNeed?: boolean,
+    isActiveNeed?: boolean
 }
 
 export const TapeWithFetcherComp = (props: ITapeWithFetcherProps) => {
@@ -57,10 +57,10 @@ const TapeWithFetcherWraper = (props: ITapeWithFetcherProps) => {
                     requestData.searchCriteria = [...requestData.searchCriteria, ...props.additionalSearchCriteria];
                 return searchCriteriaFetch<any>(props.url, token, requestData);
             }
-            const newElements = await context?.fetchNext(fetchFunc, props.sortKey ? props.sortKey : undefined);
+            //const newElements = await context?.fetchNext(fetchFunc, props.sortKey ? props.sortKey : undefined);
        
-            if(newElements && newElements.result && newElements.result.length < 5) 
-                setTapeOver(true);
+            //if(newElements && newElements.result && newElements.result.length < 5) 
+            //    setTapeOver(true);
         }
     }
 
@@ -69,6 +69,7 @@ const TapeWithFetcherWraper = (props: ITapeWithFetcherProps) => {
             context?.reset();
             getNextElements();
         }
+        //alert("jjj")
         //alert(JSON.stringify(props.additionalSearchCriteria))
     }, [props.token, props.additionalSearchCriteria])
 

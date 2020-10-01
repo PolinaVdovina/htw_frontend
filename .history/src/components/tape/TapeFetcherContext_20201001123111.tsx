@@ -58,33 +58,8 @@ export const TapeFetcherProvider = (props: ITapeFetcherProvider) => {
     }
 
     const fetchNextHandler = async (dataFetchFunction, keyForFindingLastElement? ) => {
-        const sortingKey = keyForFindingLastElement ? keyForFindingLastElement : "createdDate"
-        if (dataFetchFunction) {
-            dispatch(startLoadingAction());
-            //Если элементов нет (не было фетча) - беру текущую дату, иначе беру дату последнего поста на ленте
-            let minDateForFilter: string | null = null;
-            if (tapeElements && tapeElements.length > 0) {
-                minDateForFilter = tapeElements[tapeElements.length - 1][sortingKey];
-            }
-            else {
-                if(sortingKey == "createdDate")
-                    minDateForFilter = new Date(Date.now()).toISOString();
-            }
-            const fetchResult = await dataFetchFunction(minDateForFilter, fetchCount);
-            if ((fetchResult.msgInfo.msgStatus == MessageStatus.OK) && (fetchResult.result)) {
-                if (props.dataConverterFunction) {
-                    const newTapeElements = fetchResult.result.map(props.dataConverterFunction);
-                    if (!tapeElements)
-                        setTapeElements(newTapeElements);
-                    else
-                        setTapeElements((oldElements: any) => [...oldElements, ...newTapeElements]);
-                }
-                else {
-                    setTapeElements(fetchResult.tapeElements);
-                }
-            }
-            await dispatch(stopLoadingAction());
-            return fetchResult;
+
+            return null;
         }
     }
 

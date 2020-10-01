@@ -23,14 +23,9 @@ function mapStateToProps(state: RootState) {
 }
 
 const RespondViewDialogComp = (props: IRespondViewDialog) => {
-    const additionalSearchCriteria = React.useMemo(
-        () => {
-            return [
-                searchCriteria("jobSeekerRespondedLogin", props.login, SearchCriteriaOperation.EQUAL)
-            ];
-        },
-        [props.login]
-    )
+
+
+
 
     return(
         <Dialog fullWidth  scroll="paper" open={props.open} onClose={props.onClose}>

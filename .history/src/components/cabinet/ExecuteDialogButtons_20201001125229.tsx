@@ -24,7 +24,7 @@ export const ExecuteDialogButton = (props: IExecuteDialogButtonProps) => {
     const [open, setOpen] = React.useState(false);
     return (
         <Grid container alignItems="center" direction="row" style={{ flexWrap: "nowrap", overflow: "hidden" }}>
-            <props.DialogComponent open={open} onClose={() => setOpen(false)} {...props.dialogProps}></props.DialogComponent>
+            <props.DialogComponent open={open} onClose={() => setOpen(false)} ></props.DialogComponent>
             <Typography style={{/*'color': '#808080', fontWeight:"bold", */  flexGrow: 1, paddingLeft: theme.spacing(2), }}>
                 {props.title}
             </Typography>

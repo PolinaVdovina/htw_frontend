@@ -4,6 +4,8 @@ import { IMessageInfo, MessageStatus } from "./fetchInterfaces";
 import { ITapeElementProps } from './../components/tape/posts/TapeElement';
 import { ISearchCriteriaRequest } from "./search-criteria/types";
 
+const rootUrl = "/api";
+
 interface ILoginResponse {
     login?: string,
     token?: string,
@@ -12,10 +14,11 @@ interface ILoginResponse {
     role?: string
 }
 
+
 export const loginFetch = async (identity, password) => {
     let returnData: ILoginResponse;
     try {
-        const response = await axios.post("/auth/login", {
+        const response = await axios.post(rootUrl+"/auth/login", {
             login: identity,
             password: password,
         });
@@ -51,15 +54,16 @@ interface IRegisterResponse {
     error?: string,
 }
 
-export const registerFetch = async (login, email, phone, password, role) => {
+export const registerFetch = async (login, email, phone, password, role, nameOrg?) => {
     let returnData: IRegisterResponse;
     try {
-        const response = await axios.post("/auth/create", {
+        const response = await axios.post(rootUrl + "/auth/create", {
             login,
             phone,
             email,
             password,
             roles: role,
+            nameOrg
         });
 
         if (response.data.token) {
@@ -104,7 +108,7 @@ export const registerFetch = async (login, email, phone, password, role) => {
 export const getPersonalDataFetch = async (token, role: string) => {
     let returnData;
     try {
-        const response = await axios.get("/" + role + "/get", {
+        const response = await axios.get(rootUrl + "/" + role + "/get", {
             headers: {
                 Authorization: 'Bearer ' + token
             }
@@ -129,7 +133,7 @@ export const getEmployeesListFetch = async (token, url?) => {
     let returnData;
     url = url || "/employer/employee";
     try {
-        const response = await axios.get("/employer/employee", {
+        const response = await axios.get(rootUrl + url, {
             headers: {
                 Authorization: 'Bearer ' + token
             }
@@ -151,9 +155,39 @@ export const getEmployeesListFetch = async (token, url?) => {
 
 export const addEmployeeFetch = async (token, data, url?) => {
     let returnData;
-    url = url || "/employer/employee";
     try {
-        const response = await axios.post(url,
+        const response = await axios.post(rootUrl + url,
+
+            data,
+
+            {
+                headers: {
+                    Authorization: 'Bearer ' + token
+                }
+            }
+
+        );
+
+        const msgInfo: IMessageInfo = {
+            msgStatus: response.data.error || (response.data.status && response.data.status == 'error') ? MessageStatus.ERROR : MessageStatus.OK,
+            id: response.data
+        };
+        return msgInfo;
+    }
+    catch
+    {
+        const msgInfo: IMessageInfo = {
+            msgStatus: MessageStatus.ERROR,
+            error: "Проблемы с соединением",
+        };
+        return msgInfo;
+    }
+}
+
+export const changePasswordFetch = async (token, data) => {
+    let returnData;
+    try {
+        const response = await axios.post(rootUrl + "/account/change-password",
 
             data,
 
@@ -184,7 +218,7 @@ export const addEmployeeFetch = async (token, data, url?) => {
 export const changePersonalDataFetch = async (token, data, url?) => {
     try {
         url = url || '/account/set';
-        const response = await axios.post(url,  //{
+        const response = await axios.post(rootUrl + url,  //{
                 /*...*/data,
 
             //},
@@ -210,7 +244,7 @@ export const changePersonalDataFetch = async (token, data, url?) => {
 export const changeEmployerAddressFetch = async (token, data, url?) => {
     try {
         url = url || '/account/address';
-        const response = await axios.post(url, {
+        const response = await axios.post(rootUrl + url, {
             ...data,
 
         },
@@ -234,10 +268,36 @@ export const changeEmployerAddressFetch = async (token, data, url?) => {
     }
 }
 
+export const getCountOfSearch = async (token, data, url?) => {
+    try {
+        const response = await axios.post(rootUrl + url, {
+            ...data,
+
+        },
+            {
+                headers: { Authorization: 'Bearer ' + token },
+            }
+        );
+
+        const msgInfo: {msgStatus?, result?, error?} = {
+            msgStatus: response.data.error || (response.data.status && response.data.status == 'error') ? MessageStatus.ERROR : MessageStatus.OK,
+            result: response.data
+        };
+        return msgInfo;
+    }
+    catch {
+        const msgInfo: {msgStatus, result?, error?} = {
+            msgStatus: MessageStatus.ERROR,
+            error: "Проблемы с соединением",
+        };
+        return msgInfo;
+    }
+}
+
 export const deletePersonalDataFetch = async (token, data, url?) => {
     try {
         url = url || '/account/address';
-        const response = await axios.delete(url,  {
+        const response = await axios.delete(rootUrl + url,  {
                 data: data,
                 headers: {Authorization: 'Bearer ' + token},
             }
@@ -259,7 +319,7 @@ export const deletePersonalDataFetch = async (token, data, url?) => {
 
 export const deleteEntity = async (token, id, url) => {
     try {
-        const response = await axios.delete(url+'?entityId='+id,  {
+        const response = await axios.delete(rootUrl + url+'?entityId='+id,  {
                 data: {},
                 headers: {Authorization: 'Bearer ' + token},
             }
@@ -281,7 +341,7 @@ export const deleteEntity = async (token, id, url) => {
 
 export const isValidTokenFetch = async (token: string) => {
     try {
-        const response = await axios.post("/account/set", {},
+        const response = await axios.post(rootUrl + "/account/set", {},
             {
                 headers: { Authorization: 'Bearer ' + token },
             }
@@ -293,15 +353,17 @@ export const isValidTokenFetch = async (token: string) => {
             return false;
         }
     }
-    catch {
-        return false;
+    catch(error) {
+        if(error.response.status != 504)
+            return false;
+        else return null;
     }
 }
 
 
 export const getAccountDataFetch = async (token: string, login: string) => {
     try {
-        const userData = await axios.get("/account/login?login=" + login,
+        const userData = await axios.get(rootUrl + "/account/login?login=" + login,
             {
                 headers: { Authorization: 'Bearer ' + token },
             });
@@ -316,7 +378,7 @@ export const getAccountDataFetch = async (token: string, login: string) => {
 
 export const addVacancyFetch = async (token: string, vacancyData) => {
     try {
-        const response = await axios.post("/vacancy/add", vacancyData,
+        const response = await axios.post(rootUrl + "/vacancy/add", vacancyData,
             {
                 headers: { Authorization: 'Bearer ' + token },
             }
@@ -346,7 +408,7 @@ export const addVacancyFetch = async (token: string, vacancyData) => {
 
 export const getOwnVacanciesFetch = async (token: string) => {
     try {
-        const result = await axios.get("/vacancy/getOwn",
+        const result = await axios.get(rootUrl + "/vacancy/getOwn",
             {
                 headers: { Authorization: 'Bearer ' + token },
             });
@@ -361,7 +423,7 @@ export const getOwnVacanciesFetch = async (token: string) => {
 
 export const getVacanciesByLoginFetch = async (token: string, login: string) => {
     try {
-        const result = await axios.get("/vacancy/getByLogin?login=" + login,
+        const result = await axios.get(rootUrl + "/vacancy/getByLogin?login=" + login,
             {
                 headers: { Authorization: 'Bearer ' + token },
             });
@@ -387,7 +449,7 @@ export interface ITapeFetch {
 export const getVacanciesByLoginAndMinDateFetch = async (token: string, login: string, minDate?: string | null, limit?: number) => {
     try {
 
-        const result = await axios.post("/vacancy/getByLoginAndDate",
+        const result = await axios.post(rootUrl + "/vacancy/getByLoginAndDate",
             {
                 login,
                 minDate,
@@ -419,7 +481,7 @@ export const getVacanciesByLoginAndMinDateFetch = async (token: string, login: s
 
 export const removeVacancyFetch = async (token: string, vacancyId: number) => {
     try {
-        const result = await axios.get("/vacancy/remove?vacancyId=" + vacancyId,
+        const result = await axios.get(rootUrl + "/vacancy/remove?vacancyId=" + vacancyId,
             {
                 headers: { Authorization: 'Bearer ' + token },
             });
@@ -436,7 +498,7 @@ export const setAvatarFetch = async (token: string, file: File) => {
     try {
         let formData = new FormData();
         formData.append("avatar", file);
-        const result = await axios.post("/account/setAvatar", formData,
+        const result = await axios.post(rootUrl + "/account/setAvatar", formData,
             {
                 headers: { Authorization: 'Bearer ' + token },
             }
@@ -448,14 +510,95 @@ export const setAvatarFetch = async (token: string, file: File) => {
     }
 }
 
+export const addAchievementFetch = async (token: string, achievData, files: Array<File>) => {
+    try {
+        let formData = new FormData();
+        /*if (files === undefined) return 0;
+        for (let i = 0; i < files.length; i++) {
+            let file: File;
+            let fileOfList = files.item(i);
+            if (fileOfList === null) {
+                return 0;
+            }
+            else {
+                file = fileOfList;
+                formData.append("file[]", file);
+            }
+        }*/
+
+        for (let i = 0; i < files.length; i++) {
+            formData.append("file[]", files[i]);
+        }
+
+        const response = await axios.post(rootUrl + "/personal/achievements/add?title=" + achievData.title + "&description=" + achievData.description, 
+            formData,
+            {
+                headers: { Authorization: 'Bearer ' + token },
+            }
+        );
+
+        const msgInfo: IMessageInfo = {
+            msgStatus: response.data.error || (response.data.status && response.data.status == 'error') ? MessageStatus.ERROR : MessageStatus.OK,
+            id: response.data
+        };
+        return {
+            data: response.data,
+            msgInfo
+        };
+    }
+    catch {
+        const msgInfo: IMessageInfo = {
+            msgStatus: MessageStatus.ERROR,
+            error: "Проблемы с соединением",
+        };
+        return {
+            data: null,
+            msgInfo
+        };
+    }
+}
+
+
+/*exsdvport const addImageAchievFetch = async (token: string, files: FileList) => {
+    try {
+        let formData = new FormData();
+        for (let i = 0; i < files.length; i++) {
+            let file: File;
+            let fileOfList = files.item(i);
+            if (fileOfList === null) {
+                return 0;
+            }
+            else {
+                file = fileOfList;
+                formData.append("file[]", file);
+            }
+        }
+        
+        const result = await axios.post("/", formData,
+            {
+                headers: { Authorization: 'Bearer ' + token },
+            }
+        );
+        return MessageStatus.OK;
+    }
+    catch {
+        return MessageStatus.ERROR;
+    }
+}*/
+
 export const getAvatarUrl = (login: string): string => {
-    return "/account/avatars/" + login
+    return rootUrl + "/account/avatars/" + login
+}
+
+
+export const getApchiUrl = (filePath: string): string => {
+    return rootUrl + "/personal/apchi/achievementFile/get?filepath=" + filePath
 }
 
 
 export const subscribeFetch = async (token: string, login: String): Promise<IMessageInfo> => {
     try {
-        const result = await axios.get("/account/subscribe?login="+login, { headers: { Authorization: 'Bearer ' + token } });
+        const result = await axios.get(rootUrl + "/account/subscribe?login="+login, { headers: { Authorization: 'Bearer ' + token } });
         return {
             msgStatus: MessageStatus.OK
         }
@@ -471,9 +614,25 @@ export const subscribeFetch = async (token: string, login: String): Promise<IMes
 
 export const unsubscribeFetch = async (token: string, login: string): Promise<IMessageInfo> => {
     try {
-        const result = await axios.get("/account/unsubscribe?login="+login, { headers: { Authorization: 'Bearer ' + token } });
+        const result = await axios.get(rootUrl + "/account/unsubscribe?login="+login, { headers: { Authorization: 'Bearer ' + token } });
         return {
             msgStatus: MessageStatus.OK
+        }
+    } 
+    catch {
+        return {
+            msgStatus: MessageStatus.ERROR,
+            error: "undefined error"        // шобы напугать
+        }
+    }
+}
+
+export const isUserOnlineFetch = async (token: string, login: string) => {
+    try {
+        const result = await axios.get(rootUrl + "/account/is-online?login="+login, { headers: { Authorization: 'Bearer ' + token } });
+        return {
+            msgStatus: MessageStatus.OK,
+            result: result.data
         }
     } 
     catch {
@@ -490,10 +649,10 @@ export interface ISearchCriteriaResponse<T> {
     result: Array<T> | null
 }
 
-export const searchCriteriaFetch: <T> (url: string, token: string, requestData: ISearchCriteriaRequest) => Promise<ISearchCriteriaResponse<T>> =
+export const searchCriteriaFetch: <T> (url: string, token: string, requestData: ISearchCriteriaRequest | null) => Promise<ISearchCriteriaResponse<T>> =
     async (url, token, requestData) => {
         try {
-            const result = await axios.post(url, requestData, { headers: { Authorization: 'Bearer ' + token } });
+            const result = await axios.post(rootUrl + url, requestData, { headers: { Authorization: 'Bearer ' + token } });
             return {
                 msgInfo: {
                     msgStatus: MessageStatus.OK,
@@ -513,5 +672,100 @@ export const searchCriteriaFetch: <T> (url: string, token: string, requestData: 
     }
 
 
+export const toRespondFetch = async (token, id, url) => {
+    try {
+        const response = await axios.post(rootUrl + url+'?entityId=' + id.toString(), 
+                null, 
+            {
+                headers: {Authorization: 'Bearer ' + token},
+            }
+        );        
+
+        const result = {
+            msgStatus: response.data.error || (response.data.status && response.data.status == 'error') ? MessageStatus.ERROR : MessageStatus.OK,
+            vacancyId: response.data
+        };
+        return result;
+    }
+    catch {
+        const result = {
+            msgStatus: MessageStatus.ERROR,
+            error: "Проблемы с соединением",
+        };
+        return result;
+    }
+}
+
+export const toRespondViewFetch = async (token, id, url) => {
+    try {
+        const result = await axios.post(rootUrl + url+'?vacancyId=' + id.toString(), 
+                null, 
+            {
+                headers: {Authorization: 'Bearer ' + token},
+            }
+        );        
+
+        const returnData: ITapeFetch = {
+            msgInfo: {
+                msgStatus: MessageStatus.OK
+            },
+            tapeElements: result.data
+        }
+        return returnData;
+    }
+    catch {
+        const returnData: ITapeFetch = {
+            msgInfo: {
+                msgStatus: MessageStatus.ERROR
+            },
+        }
+        return returnData;
+    }
+}
+
+export const removeAchievFetch = async (token: string, id: number) => {
+    try {
+        const result = await axios.get(rootUrl+"/personal/achievements/delete?id=" + id,
+            {
+                headers: { Authorization: 'Bearer ' + token },
+            });
+        //alert(JSON.stringify(userData.data))
+        return MessageStatus.OK;
+    }
+    catch {
+        return MessageStatus.ERROR;
+    }
+}
 
 
+export const getPrivateChatFetch = async (token, targetLogin: string) => {
+    let returnData;
+    try {
+        const response = await axios.get(rootUrl + "/chat/getPrivateChat/" + targetLogin, {
+            headers: {
+                Authorization: 'Bearer ' + token
+            }
+        });
+
+        returnData = response.data;
+        returnData["msgStatus"] = "ok"
+    }
+    catch
+    {
+        returnData = {
+            msgStatus: "error",
+            error: "Какая-нибудь ошибка с сетью!"
+        };
+    }
+
+    return returnData;
+}
+
+export const checkBackendFetch = async () => {
+    try {
+        await axios.get(rootUrl + "/auth/check");
+        return true;
+    } catch {
+        return false;
+    }
+}

@@ -19,7 +19,7 @@ interface ITapeWithFetcherProps {
     sortKey?: string | null,
     sessionUID?: any,
     isRespondActive: boolean,
-    isActiveNeed?: boolean,
+    isActiveNeed?: boolean
 }
 
 export const TapeWithFetcherComp = (props: ITapeWithFetcherProps) => {

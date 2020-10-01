@@ -14,7 +14,7 @@ export interface ITapeContextValue {
     setTapeElements: any// (newElements: Array<ITapeElementData>) => void,
     changeTapeElement?: (id: number, newValue: ITapeElementData) => void
     fetchNext: (
-        dataFetchFunction?: null | ((lastPostDate: string, dataCount) => Promise<ISearchCriteriaResponse<any>>),
+        dataFetchFunction?: null | ((lastPostDate: string, dataCount) => any),
         sortingKey?: string
     ) => Promise<ISearchCriteriaResponse<any>>,
     reset: () => void,

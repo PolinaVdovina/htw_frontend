@@ -279,14 +279,14 @@ export const getCountOfSearch = async (token, data, url?) => {
             }
         );
 
-        const msgInfo = {
+        const msgInfo: {msgStatus, result?, error?} = {
             msgStatus: response.data.error || (response.data.status && response.data.status == 'error') ? MessageStatus.ERROR : MessageStatus.OK,
             result: response.data
         };
         return msgInfo;
     }
     catch {
-        const msgInfo = {
+        const msgInfo: {msgStatus, result?, error?} = {
             msgStatus: MessageStatus.ERROR,
             error: "Проблемы с соединением",
         };

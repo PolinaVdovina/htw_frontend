@@ -60,7 +60,7 @@ export const TapeFetcherProvider = (props: ITapeFetcherProvider) => {
     const fetchNextHandler = async (dataFetchFunction, keyForFindingLastElement? ) => {
         const sortingKey = keyForFindingLastElement ? keyForFindingLastElement : "createdDate"
         if (dataFetchFunction) {
-            dispatch(startLoadingAction());
+            //dispatch(startLoadingAction());
             //Если элементов нет (не было фетча) - беру текущую дату, иначе беру дату последнего поста на ленте
             let minDateForFilter: string | null = null;
             if (tapeElements && tapeElements.length > 0) {
@@ -83,7 +83,7 @@ export const TapeFetcherProvider = (props: ITapeFetcherProvider) => {
                     setTapeElements(fetchResult.tapeElements);
                 }
             }
-            await dispatch(stopLoadingAction());
+            //await dispatch(stopLoadingAction());
             return fetchResult;
         }
     }

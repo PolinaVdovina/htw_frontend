@@ -83,7 +83,7 @@ export const TapeFetcherProvider = (props: ITapeFetcherProvider) => {
                     setTapeElements(fetchResult.tapeElements);
                 }
             }
-            await dispatch(stopLoadingAction());
+         
             return fetchResult;
         }
     }

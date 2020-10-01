@@ -76,8 +76,8 @@ export const TapeFetcherProvider = (props: ITapeFetcherProvider) => {
                     const newTapeElements = fetchResult.result.map(props.dataConverterFunction);
                     if (!tapeElements)
                         setTapeElements(newTapeElements);
-                    else
-                        setTapeElements((oldElements: any) => [...oldElements, ...newTapeElements]);
+                    // else
+                    //     setTapeElements((oldElements: any) => [...oldElements, ...newTapeElements]);
                 }
                 else {
                     setTapeElements(fetchResult.tapeElements);

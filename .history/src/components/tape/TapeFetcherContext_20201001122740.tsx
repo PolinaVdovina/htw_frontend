@@ -72,16 +72,7 @@ export const TapeFetcherProvider = (props: ITapeFetcherProvider) => {
             }
             const fetchResult = await dataFetchFunction(minDateForFilter, fetchCount);
             if ((fetchResult.msgInfo.msgStatus == MessageStatus.OK) && (fetchResult.result)) {
-                if (props.dataConverterFunction) {
-                    const newTapeElements = fetchResult.result.map(props.dataConverterFunction);
-                    if (!tapeElements)
-                        setTapeElements(newTapeElements);
-                    else
-                        setTapeElements((oldElements: any) => [...oldElements, ...newTapeElements]);
-                }
-                else {
-                    setTapeElements(fetchResult.tapeElements);
-                }
+
             }
             await dispatch(stopLoadingAction());
             return fetchResult;

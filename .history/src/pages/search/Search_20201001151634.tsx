@@ -51,6 +51,13 @@ const settings = {
     institution: institutionSettings
 }
 
+const counts = {
+    jobseeker: 1,
+    vacancy: 2,
+    employer: 3,
+    institution: 4
+}
+
 const mapStateToProps = (state: RootState) => ({
     userRole: state.authReducer.entityType,
     token: state.authReducer.token
@@ -87,7 +94,7 @@ const SearchWrap = (props: ISearchProps) => {
                 <Paper style={{ flexGrow: 1, overflow: "hidden" }}>
                     <Grid container direction="column" style={{ height: "100%" }}>
                         <Grid item container alignItems="center" direction="row" style={{ padding: theme.spacing(1), paddingLeft: theme.spacing(2), }}>
-                            <TitleWithCount entityType={entityType} token={props.token} additionalSearchCriteria={searchCriteria}></TitleWithCount>
+                            <TitleWithCount entityType={entityType} token={props.token}></TitleWithCount>
                                 <Button
                                     onClick={openFilterDrawerHandler}
                                     style={{

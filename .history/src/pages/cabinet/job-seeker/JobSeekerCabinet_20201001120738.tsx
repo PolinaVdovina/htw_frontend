@@ -60,7 +60,7 @@ const tabs: Array<ITabData> = [
           //dialogProps: {subscription: false}
         },
       ] }/> */
-      <RespondViewPost key="HELP"/>
+      <RespondViewPost/>
     ] 
   },
   {

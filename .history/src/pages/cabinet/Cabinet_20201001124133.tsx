@@ -173,7 +173,7 @@ const CabinetComp = (props: ICabinetProps) => {
             if(subscription)
                 getStompClient()?.unsubscribe(subscription.id);
         }
-    }, [...Object.keys(props.reduxPersonalData).map(key => props.reduxPersonalData[key]), isMine(), urlLogin])
+    }, [])
     //alert(JSON.stringify(props.reduxPersonalData));
     return (
         <HCenterizingGrid>

@@ -51,6 +51,13 @@ const settings = {
     institution: institutionSettings
 }
 
+const counts = {
+    jobseeker: 1,
+    vacancy: 2,
+    employer: 3,
+    institution: 4
+}
+
 const mapStateToProps = (state: RootState) => ({
     userRole: state.authReducer.entityType,
     token: state.authReducer.token
