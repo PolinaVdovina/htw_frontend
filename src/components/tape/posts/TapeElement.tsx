@@ -42,6 +42,7 @@ export interface ITapeElementData {
 }
 
 export interface ITapeElementProps {
+  hideAvatar?: boolean,
   tapeElementData: ITapeElementData,
   avatarUrlUid: any,
   style: any,
@@ -97,14 +98,14 @@ const TapeElementCardComp = (props: ITapeElementProps) => {
     <div style={props.style}>
       <Grid container direction="row" className={classes.aboutGrid}>
         {
-          props.tapeElementData.ownerLogin ?
+          !props.hideAvatar && (props.tapeElementData.ownerLogin ?
             <Avatar
               src={getAvatarUrl(props.tapeElementData.ownerLogin) + "?uid=" + props.avatarUrlUid}
               component={RouterLink}
               to={urls.cabinet.shortPath + props.tapeElementData.ownerLogin}
               className={classes.avatar} />
             :
-            <Avatar className={classes.avatar} />
+            <Avatar className={classes.avatar} />)
         }
         <Grid item style={{ flexGrow: 1, marginRight: theme.spacing(2) }}>
           <Grid container direction="column" >

@@ -14,6 +14,11 @@ export const urls = {
         path: '/auth/',
         shortPath: '/auth',
     },
+    notifications: {
+        title: 'Уведомления',
+        path: '/notifications/',
+        shortPath: '/notifications',
+    },
     cabinet: {
         title: 'Кабинет',
         path: '/cabinet/:login',

@@ -209,6 +209,7 @@ export const readAllMessagesInChat: (chatId: number, token: string) => void = (c
         if (chatId) {
             readMessagesFromChat(chatId);
             await dispatch(resetUnreadMessagesForChatAction(0));
+            
         }
 
     }

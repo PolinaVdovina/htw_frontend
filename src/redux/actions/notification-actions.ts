@@ -2,7 +2,9 @@ import { ADD_NOTIFICATIONS, REMOVE_NOTIFICATIONS } from '../../constants/action-
 
 export interface INotificationData {
     message: string,
-    sender: string,
+    title: string,
+    sender?: string,
+    id?: any
 } 
 
 export function addNotificationsAction(notifications: Array<INotificationData> | null) {
@@ -12,7 +14,7 @@ export function addNotificationsAction(notifications: Array<INotificationData> |
     };
 }
 
-export function removeNotificationActions() {
+export function removeNotificationActions(id: number) {
     return {
         type: REMOVE_NOTIFICATIONS,
     };
