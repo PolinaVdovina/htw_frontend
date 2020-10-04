@@ -9,6 +9,7 @@ export interface ITapeProps {
   onDeleteClick?: ((id: any) => void) | null,
   isRespondActive?: boolean,
   isRespondViewActive?: boolean
+  hideAvatars?: boolean,
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -28,23 +29,27 @@ export const Tape = (props: ITapeProps) => {
   return (
     <Grid container direction="column">
       <>
-      {
-        props.elements && props.elements.map((postData, index) =>
-          <><TapeElement 
-              isRespondViewActive={props.isRespondViewActive ? props.isRespondViewActive : false} 
-              isRespondsActive={props.isRespondActive ? props.isRespondActive : false} 
-              onDeleteClick={props.onDeleteClick} 
-              key={postData.id} 
-              tapeElementData={postData} 
-              style={{ padding: theme.spacing(2) }} 
-          /> <Divider key={"b" + index} /> </>
-        )
-      }
-      {(!props.elements || props.elements.length == 0) &&
-        <Typography className = {classes.centerizedText}>
-          Пусто
+        {
+          props.elements && props.elements.map((postData, index) =>
+            <>
+              <TapeElement
+                isRespondViewActive={props.isRespondViewActive ? props.isRespondViewActive : false}
+                isRespondsActive={props.isRespondActive ? props.isRespondActive : false}
+                onDeleteClick={props.onDeleteClick}
+                key={postData.id}
+                hideAvatar={props.hideAvatars}
+                tapeElementData={postData}
+                style={{ padding: theme.spacing(2) }}
+              />
+              <Divider key={"b" + index} />
+            </>
+          )
+        }
+        {(!props.elements || props.elements.length == 0) &&
+          <Typography className={classes.centerizedText}>
+            Пусто
         </Typography>
-      }
+        }
       </>
     </Grid>
   )

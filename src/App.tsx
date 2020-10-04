@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 
 import './App.css';
 import { Routes } from './pages/Routes';
-import { BrowserRouter, Redirect } from 'react-router-dom';
+import { BrowserRouter, Redirect, NavLink } from 'react-router-dom';
 import { AppMenu } from './components/app-menu/AppMenu';
 import { Grid, makeStyles, createStyles, Theme, Divider, Backdrop, CircularProgress, Paper, useTheme, IconButton, useMediaQuery } from '@material-ui/core';
 import { AppFooter } from './components/app-footer/AppFooter';
@@ -195,9 +195,9 @@ function App(props: IAppProps) {
 
 
                 {
-                  props.authCompleteStatus && 
+                  props.authCompleteStatus &&
                   <>
-                    <Redirect exact from="/" to={urls.cabinet.shortPath + props.login} />
+
                     <AppDrawer
                       onClose={(event) => setMenuOpen(false)}
                       open={isMenuOpen} />
@@ -217,8 +217,12 @@ function App(props: IAppProps) {
                   )}
                   rightAppartment={props.authCompleteStatus && props.isPersonalDataFetched &&
                     <IconButton key={2} color="inherit">
-                      <Badge badgeContent={props.newNotifications} color={"error"}>
-                        <NotificationsIcon />
+                      <Badge
+                        component={NavLink}
+                        to={urls.notifications.shortPath}
+                        badgeContent={props.newNotifications} color={"error"}
+                      >
+                        <NotificationsIcon style={{color:"white"}} />
                       </Badge>
                     </IconButton>
                   }

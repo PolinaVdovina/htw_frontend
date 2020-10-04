@@ -92,7 +92,6 @@ interface IAppBarProps {
 
 export const AppBarComp = (props : IAppBarProps) => {
     const classes = appBarStyles();
-   
     const context = React.useContext(AppMenuContext);
     return (
         <MuiAppBar  position="fixed" className={classes.root}>

@@ -87,7 +87,7 @@ function mapStateToProps(state: RootState) {
             whoAmI: state.userPersonalsReducer.whoAmI,
             observerCount: state.userPersonalsReducer.observerCount,
             subscriptionCount: state.userPersonalsReducer.subscriptionCount,
-            responceVacanciesIds: state.userPersonalsReducer.responseVacancies
+            respondVacanciesIds: state.userPersonalsReducer.responseVacancies
         }
     }
     return data;

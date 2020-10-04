@@ -10,6 +10,7 @@ import { NewsComponent } from "../components/news/NewsComponent";
 import { Analytics } from "./cabinet/institution/Analytics";
 import { SettingsPage } from "./settings/SettingsPage";
 import { ChatList } from "./chat/ChatList";
+import { Notification } from './notifications/Notification';
 
 export const Routes = () =>
     <>
@@ -21,5 +22,7 @@ export const Routes = () =>
         <Route path={urls.analytics.path} component={Analytics}></Route>
         <Route path={urls.chat.path} component={ChatList}/>
         <Route path={urls.settings.path} component={SettingsPage}/>
+        <Route path={urls.notifications.path} component={Notification}/>
+        <Route exact path={urls.home.path} component={NewsComponent}/>
     </>
 

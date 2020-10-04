@@ -18,6 +18,7 @@ import { subscribeToChatMessagesTracking } from '../../websockets/chat/actions';
 import { initChat } from './chat-reducers';
 import { addChatAction, addUnreadMessageToChatAction, setLastMessageDateForChat, setChatsAction } from '../actions/chat-actions';
 import { setOpenChatIdAction } from './../actions/chat-actions';
+import { initNotifications } from './notification-reducers';
 
 
 export interface IAuthState {
@@ -192,8 +193,9 @@ export const reloadAuthData: (isReconnect?: boolean) => void = (isRecconnect) =>
             if (isValidToken) {
                 await dispatch(loginAction(login, token, null, role))
                 await Promise.all([dispatch(initChat(token)), initWebsocketWithSubscribes(dispatch, getState), dispatch(getPersonalData(token))]);
+                await dispatch(initNotifications());
                 await reloadSuccess();
-
+                
             } else if (isValidToken == false) {
                 clearAuth();
                 await dispatch(authCompletedAction(false));
@@ -269,9 +271,9 @@ const initWebsocketWithSubscribes = async (dispatch, getState: () => RootState, 
 
 const onMessageReceived = (dispatch, getState) => (msg: Stomp.Message) => {
     const msgBody: IChatReceivingMessage = JSON.parse(msg.body);
-    dispatch(addNotificationsAction(
+/*     dispatch(addNotificationsAction(
         [{ message: msgBody.content, sender: msgBody.sender }]
-    ));
+    )); */
 }
 
 const onError = (dispatch, getState: () => RootState) => async () => {

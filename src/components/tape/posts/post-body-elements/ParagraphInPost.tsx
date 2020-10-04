@@ -6,13 +6,15 @@ interface IParagraphInPostProps extends BodyElementCompProps  {
     data: {
         title?: string | null,
         description: string | null,
-        fontWeight?: number | "inherit" | "initial" | "-moz-initial" | "revert" | "unset" | "bold" | "normal" | "bolder" | "lighter"
+        fontWeight?: number | "inherit" | "initial" | "-moz-initial" | "revert" | "unset" | "bold" | "normal" | "bolder" | "lighter",
+        spacing?: number
     }
 }
 
 
 export const ParagraphInPost = (props: IParagraphInPostProps) => {
     const theme = useTheme();
+    const spacing = props.data.spacing != undefined ? props.data.spacing : 2 ;
     return (
         <div>
             {props.data.title && 
@@ -21,7 +23,7 @@ export const ParagraphInPost = (props: IParagraphInPostProps) => {
             </Typography>
             }
 
-            <Typography style={{fontWeight:props.data.fontWeight, textIndent: theme.spacing(2), wordBreak: "break-word",}}>
+            <Typography style={{fontWeight:props.data.fontWeight, textIndent: theme.spacing(spacing), wordBreak: "break-word",}}>
                 {props.data.description}
             </Typography>
         </div>

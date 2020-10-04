@@ -22,6 +22,7 @@ import InsertChartIcon from '@material-ui/icons/InsertChart';
 import SettingsIcon from '@material-ui/icons/Settings';
 import { getUnreadMessagesCount } from './../../redux/reducers/chat-reducers';
 
+
 interface IDrawerElement {
   IconComponent?: any,
   title?: string,
@@ -144,6 +145,11 @@ const drawerGroups: Array<IDrawerGroup> = [
         IconComponent: MessageCounterBadge,
         title: "Сообщения",
         url: urls.chat.shortPath,
+      },
+      {
+        IconComponent: NotificationsIcon ,
+        title: "Уведомления",
+        url: urls.notifications.shortPath,
       },
       {
         IconComponent: TransitEnterexitIcon,
