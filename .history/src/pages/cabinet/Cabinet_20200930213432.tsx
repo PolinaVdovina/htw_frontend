@@ -53,7 +53,7 @@ function mapStateToProps(state: RootState) {
         myLogin: state.authReducer.login,
         myToken: state.authReducer.token,
         reduxPersonalData: {
-            //mineLogin: state.authReducer.login,
+            myLogin: state.authReducer.login,
             subscriptionLogins: state.userPersonalsReducer.subscriptionLogins,
             role: state.authReducer.entityType,
             name: state.userPersonalsReducer.name,

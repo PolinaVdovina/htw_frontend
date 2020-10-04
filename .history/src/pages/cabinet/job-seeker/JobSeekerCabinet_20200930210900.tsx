@@ -57,10 +57,10 @@ const tabs: Array<ITabData> = [
         {
           title: "Отклики на вакансии",
           DialogComponent: RespondViewDialog,
-          //rightText: 
-            //store.getState().userPersonalsReducer.responseVacancies ? 
-            /*store.getState().userPersonalsReducer.responseVacancies.length.toString()*/ //"1" 
-            //: /*"0"*/store.getState().userPersonalsReducer.responseVacancies + ""
+          rightText: 
+            store.getState().userPersonalsReducer.responseVacancies ? 
+            /*store.getState().userPersonalsReducer.responseVacancies.length.toString()*/ "1" 
+            : /*"0"*/store.getState().userPersonalsReducer.responseVacancies + ""
           //dialogProps: {subscription: false}
         },
       ] }/> 

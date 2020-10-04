@@ -21,6 +21,7 @@ import { achievementsToPost } from '../../../utils/tape-converters/achievement-t
 import { RespondViewDialog } from '../../../components/cabinet/jobseeker/RespondViewDialog';
 import { ExecuteSubscriptionButtons } from './../../../components/cabinet/ExecuteSubscriptionButtons';
 import { store } from '../../../redux/store';
+import { RespondViewProps } from '../../../components/cabinet/jobseeker/RespondViewProps';
 
 interface IJobSeekerCabinet {
 
@@ -53,17 +54,7 @@ const tabs: Array<ITabData> = [
     //IconComponent: <PersonPinIcon/>,
     TabPanel: <AccountInfo key={2} role='INDIVIDUAL' settingsView={['experience', 'jobApplicantSet', 'status', 'employment', 'vacancyTypes']} />,
     subTapPanels: [
-      <ExecuteDialogButtons executeDialogButtons={ [
-        {
-          title: "Отклики на вакансии",
-          DialogComponent: RespondViewDialog,
-          //rightText: 
-            //store.getState().userPersonalsReducer.responseVacancies ? 
-            /*store.getState().userPersonalsReducer.responseVacancies.length.toString()*/ //"1" 
-            //: /*"0"*/store.getState().userPersonalsReducer.responseVacancies + ""
-          //dialogProps: {subscription: false}
-        },
-      ] }/> 
+      <RespondViewProps/>
     ] 
   },
   {
