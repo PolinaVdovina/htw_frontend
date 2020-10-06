@@ -786,60 +786,9 @@ export const getPrivateChatFetch = async (token, targetLogin: string) => {
     return returnData;
 }
 
-
-
-
-interface IReceivingNotification {
-    id: number,
-    createdDate: string,
-    notificationType: string,
-}
-
-interface INotificationFetchResponse {
-    msgStatus?: MessageStatus,
-    error?: string,
-    notifications?: IReceivingNotification & any,
-}
-
-export const getNotificationsFetch = async (token) => {
-    let returnData: INotificationFetchResponse = {};
-    try {
-        const response = await axios.get(rootUrl + "/notifications/get-notifications/", {
-            headers: {
-                Authorization: 'Bearer ' + token
-            }
-        });
-
-        returnData["notifications"] = response.data;
-        returnData["msgStatus"] = MessageStatus.OK
-    }
-    catch
-    {
-        returnData = {
-            msgStatus: MessageStatus.ERROR,
-            error: "Какая-нибудь ошибка с сетью!"
-        };
-    }
-
-    return returnData;
-}
-
 export const checkBackendFetch = async () => {
     try {
         await axios.get(rootUrl + "/auth/check");
-        return true;
-    } catch {
-        return false;
-    }
-}
-
-export const readNotificationsFetch = async (token: string) => {
-    try {
-        await axios.get(rootUrl + "/account/read-notifications", {
-            headers: {
-                Authorization: 'Bearer ' + token
-            }
-        });
         return true;
     } catch {
         return false;

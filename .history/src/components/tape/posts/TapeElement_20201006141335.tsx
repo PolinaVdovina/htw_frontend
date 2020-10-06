@@ -30,7 +30,7 @@ type SubButtonType = {
 
 export interface ITapeElementData {
   id?: any,
-  body?: Array<IBodyElement> | null,
+  body?: Array<IBodyElement>,
   fileList?: FileList,
   bottomText?: string,
   lastChange?: string,

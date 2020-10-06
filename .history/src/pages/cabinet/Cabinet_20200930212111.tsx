@@ -53,7 +53,6 @@ function mapStateToProps(state: RootState) {
         myLogin: state.authReducer.login,
         myToken: state.authReducer.token,
         reduxPersonalData: {
-            //mineLogin: state.authReducer.login,
             subscriptionLogins: state.userPersonalsReducer.subscriptionLogins,
             role: state.authReducer.entityType,
             name: state.userPersonalsReducer.name,
@@ -87,7 +86,7 @@ function mapStateToProps(state: RootState) {
             whoAmI: state.userPersonalsReducer.whoAmI,
             observerCount: state.userPersonalsReducer.observerCount,
             subscriptionCount: state.userPersonalsReducer.subscriptionCount,
-            respondVacanciesIds: state.userPersonalsReducer.responseVacancies
+            responceVacanciesIds: state.userPersonalsReducer.responseVacancies
         }
     }
     return data;

@@ -118,6 +118,7 @@ class AccountInfoComp extends React.Component<IPropsAccountInfo, IStateAccountIn
                 settingsView.push('vkontakte', 'facebook', 'instagram');   
         }         
         return( 
+            <ErrorBoundary>
             <Grid style={{padding:this.props.theme.spacing(2)}} container direction='column'>        
                 { settingsView.map(key => {
                     const Component = SETTINGS[this.props.role][key]["displayComponent"];
@@ -215,6 +216,7 @@ class AccountInfoComp extends React.Component<IPropsAccountInfo, IStateAccountIn
                 </>)})
             } 
             </Grid>                                   
+            </ErrorBoundary>
         )
     }
 }

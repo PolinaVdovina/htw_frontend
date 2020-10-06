@@ -30,7 +30,7 @@ type SubButtonType = {
 
 export interface ITapeElementData {
   id?: any,
-  body?: Array<IBodyElement> | null,
+  body?: Array<IBodyElement>,
   fileList?: FileList,
   bottomText?: string,
   lastChange?: string,
@@ -149,7 +149,8 @@ const TapeElementCardComp = (props: ITapeElementProps) => {
         }
         {props.tapeElementData.rightNode &&
           <Grid item>
-            <props.tapeElementData.rightNode id={props.tapeElementData.id}/>
+            <props.tapeElementData.rightNode/>
+           {/*<IconButton><GetAppIcon/></IconButton>*/}
           </Grid>
         }
         {props.tapeElementData.rightText &&

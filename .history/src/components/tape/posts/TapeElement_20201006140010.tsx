@@ -16,7 +16,6 @@ import { Tooltip } from '@material-ui/core';
 import { RespondButton } from '../../cabinet/jobseeker/RespondButton';
 import { RespondViewButton } from '../../cabinet/employer/RespondViewButton';
 import { showChat } from './../../../redux/reducers/chat-reducers';
-import GetAppIcon from '@material-ui/icons/GetApp';
 
 export interface IBodyElement {
   data?: any,
@@ -30,7 +29,7 @@ type SubButtonType = {
 
 export interface ITapeElementData {
   id?: any,
-  body?: Array<IBodyElement> | null,
+  body?: Array<IBodyElement>,
   fileList?: FileList,
   bottomText?: string,
   lastChange?: string,
@@ -39,7 +38,7 @@ export interface ITapeElementData {
   rightText?: string,
   ownerLogin?: string,
   onClick?: () => any,
-  rightNode?: /*React.ReactNode*/any
+  rightNode?: React.ReactNode
 }
 
 export interface ITapeElementProps {
@@ -147,10 +146,10 @@ const TapeElementCardComp = (props: ITapeElementProps) => {
             <RespondViewButton id={props.tapeElementData.id} token={props.token}></RespondViewButton>
           </Grid>
         }
-        {props.tapeElementData.rightNode &&
-          <Grid item>
-            <props.tapeElementData.rightNode id={props.tapeElementData.id}/>
-          </Grid>
+        {props.tapeElementData.rightNode && alert(props.tapeElementData.rightNode) &&
+
+          props.tapeElementData.rightNode
+
         }
         {props.tapeElementData.rightText &&
           <Grid item>

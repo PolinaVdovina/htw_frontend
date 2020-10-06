@@ -29,6 +29,7 @@ export const RespondDialogComp = (props: IRespondDialog) => {
     React.useEffect(() => {
         async function getCount() {
         if (props.token) {
+            alert("lklkl")
             const token = props.token;          
             const lastPostDate: string = new Date(Date.now()).toISOString()
             const requestData: ISearchCriteriaRequest = {
