@@ -7,6 +7,7 @@ import { Education } from "../../components/cabinet/displayMiniComponents/Educat
 import { EducationInPost } from "../../components/tape/posts/post-body-elements/EducationInPost";
 import { JobApplInPost } from "../../components/tape/posts/post-body-elements/JobApplInPost";
 import { RightDownloadButton } from "../../components/tape/posts/RightDownloadButton";
+import React from "react"
 
 export interface IAccount {
     id?: number,
@@ -108,7 +109,7 @@ export function userToPostResume(accountData: IAccount): ITapeElementData {
         ownerLogin: accountData.login,
         bottomText: accountData.createdDate?.slice(0,10),
         body: postBody,
-        rightNode: RightDownloadButton
+        rightNode: <RightDownloadButton id={accountData.id}/>
     }
 }
 
