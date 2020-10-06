@@ -22,30 +22,28 @@ interface IRespondDialog {
 export const RespondDialogComp = (props: IRespondDialog) => {
     const theme = useTheme();
     const fullScreen = useMediaQuery(theme.breakpoints.down('xs'));
-    const [countElems, setCountElems] = React.useState(0)
-
-    
+    const [countElems, setCountElems] = React.useState(0)    
 
     React.useEffect(() => {
-        async function getCount() {
-        if (props.token) {
-            alert("lklkl")
-            const token = props.token;          
-            const lastPostDate: string = new Date(Date.now()).toISOString()
-            const requestData: ISearchCriteriaRequest = {
-                searchCriteria: [
-                    searchCriteria("respondVacancy", props.idVacancy, SearchCriteriaOperation.EQUAL),
-                    searchCriteria("customers", true, SearchCriteriaOperation.EQUAL),
-                    searchCriteria("createdDate", lastPostDate, SearchCriteriaOperation.LESS)                         
-                ],
-                sortCriteria: [
-                    sortCriteria("viewName", SortCriteriaDirection.ASC)
-                ]
+        function getCount = async () => {
+            if (props.token) {
+                alert("lklkl")
+                const token = props.token;          
+                const lastPostDate: string = new Date(Date.now()).toISOString()
+                const requestData: ISearchCriteriaRequest = {
+                    searchCriteria: [
+                        searchCriteria("respondVacancy", props.idVacancy, SearchCriteriaOperation.EQUAL),
+                        searchCriteria("customers", true, SearchCriteriaOperation.EQUAL),
+                        searchCriteria("createdDate", lastPostDate, SearchCriteriaOperation.LESS)                         
+                    ],
+                    sortCriteria: [
+                        sortCriteria("viewName", SortCriteriaDirection.ASC)
+                    ]
+                }
+                const resultFetch: any = await getCountOfSearch(token, requestData, "/personal/getBySearchCriteria/count")
+                setCountElems(resultFetch.result)
             }
-            const resultFetch: any = await getCountOfSearch(token, requestData, "/personal/getBySearchCriteria/count")
-            setCountElems(resultFetch.result)
         }
-    }
         getCount()
     }, [])
     

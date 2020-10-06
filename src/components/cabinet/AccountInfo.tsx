@@ -11,6 +11,7 @@ import { startLoadingAction, stopLoadingAction } from '../../redux/actions/dialo
 import { MessageStatus } from '../../utils/fetchInterfaces';
 import { withSnackbar, WithSnackbarProps } from 'notistack';
 import { CabinetContext } from './cabinet-context';
+import { ErrorBoundary } from '../../utils/ErrorBoundary';
 
 
 interface IPropsAccountInfo extends WithSnackbarProps{
@@ -214,7 +215,6 @@ class AccountInfoComp extends React.Component<IPropsAccountInfo, IStateAccountIn
                 </>)})
             } 
             </Grid>                                   
- 
         )
     }
 }

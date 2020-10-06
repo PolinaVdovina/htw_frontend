@@ -11,6 +11,7 @@ import { startLoadingAction, stopLoadingAction } from '../../redux/actions/dialo
 import { MessageStatus } from '../../utils/fetchInterfaces';
 import { withSnackbar, WithSnackbarProps } from 'notistack';
 import { CabinetContext } from './cabinet-context';
+import { ErrorBoundary } from '../../utils/ErrorBoundary';
 
 
 interface IPropsAccountInfo extends WithSnackbarProps{
@@ -20,6 +21,7 @@ interface IPropsAccountInfo extends WithSnackbarProps{
     settingsView: any,
     enqueueSnackbar: any,
     theme?: any,
+    isPersonalInfo?: boolean
 }
 
 interface IStateAccountInfo{
@@ -77,7 +79,7 @@ class AccountInfoComp extends React.Component<IPropsAccountInfo, IStateAccountIn
                 this.props.enqueueSnackbar('Данные сохранены', {variant: "success"});
             }
             else {
-                this.props.enqueueSnackbar('Не удалось изменить данные из-за проблем с соединением', {variant: "error"})
+                this.props.enqueueSnackbar('Не удалось изменить данные', {variant: "error"})
             }
         }
         else {
@@ -97,7 +99,7 @@ class AccountInfoComp extends React.Component<IPropsAccountInfo, IStateAccountIn
                 this.props.enqueueSnackbar('Данные сохранены', {variant: "success"});
             }
             else {
-                this.props.enqueueSnackbar('Не удалось изменить данные из-за проблем с соединением', {variant: "error"})
+                this.props.enqueueSnackbar('Не удалось изменить данные', {variant: "error"})
             }
         }
         else {
@@ -106,9 +108,19 @@ class AccountInfoComp extends React.Component<IPropsAccountInfo, IStateAccountIn
     }
 
     render() {
+        let settingsView = [...this.props.settingsView];
+        if (this.props.isPersonalInfo) {
+            if (this.context.isMine || (!this.context.isMine && !this.context.phonePrivate))
+                settingsView.push('phone');
+            if (this.context.isMine || (!this.context.isMine && !this.context.addressPrivate))
+                settingsView.push('address'); 
+            if (this.context.isMine || (!this.context.isMine && !this.context.socMediaPrivate))
+                settingsView.push('vkontakte', 'facebook', 'instagram');   
+        }         
         return( 
+            <ErrorBoundary>
             <Grid style={{padding:this.props.theme.spacing(2)}} container direction='column'>        
-                { this.props.settingsView.map(key => {
+                { settingsView.map(key => {
                     const Component = SETTINGS[this.props.role][key]["displayComponent"];
                 return(<>
                     <Grid container item direction="column" style={{marginBottom: this.props.theme.spacing(2)}}>
@@ -204,7 +216,7 @@ class AccountInfoComp extends React.Component<IPropsAccountInfo, IStateAccountIn
                 </>)})
             } 
             </Grid>                                   
- 
+            </ErrorBoundary>
         )
     }
 }

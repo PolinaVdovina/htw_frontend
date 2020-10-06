@@ -21,28 +21,26 @@ function RespondListTapeComp(props) {
     const theme = useTheme();
     const dispatch = useDispatch();
 
-    const getSubscriptions = async () => {
-        dispatch(startLoadingAction());
-
-        if (props.token) {
-            await tapeFetcherContext?.fetchNext(
-                (lastPostDate, count) => {
-                    const searchCriteriaArray = lastPostDate ? [searchCriteria("createdDate", lastPostDate, SearchCriteriaOperation.MORE)] : [];
-                    return searchCriteriaFetch("/personal/getBySearchCriteria", props.token, {
-                        searchCriteria: [searchCriteria("respondVacancy", props.idVacancy, SearchCriteriaOperation.EQUAL),
-                                         searchCriteria("customers", true, SearchCriteriaOperation.EQUAL), ...searchCriteriaArray],
-                        sortCriteria: [sortCriteria("viewName", SortCriteriaDirection.ASC)],
-                        pagination: pagination(5)
-
-                    })
-                }, "title"
-            )
-        }
-        dispatch(stopLoadingAction());
-    }
-
     React.useEffect(() => {
-        
+        function getSubscriptions = async () => {
+            dispatch(startLoadingAction());
+    
+            if (props.token) {
+                await tapeFetcherContext?.fetchNext(
+                    (lastPostDate, count) => {
+                        const searchCriteriaArray = lastPostDate ? [searchCriteria("createdDate", lastPostDate, SearchCriteriaOperation.MORE)] : [];
+                        return searchCriteriaFetch("/personal/getBySearchCriteria", props.token, {
+                            searchCriteria: [searchCriteria("respondVacancy", props.idVacancy, SearchCriteriaOperation.EQUAL),
+                                             searchCriteria("customers", true, SearchCriteriaOperation.EQUAL), ...searchCriteriaArray],
+                            sortCriteria: [sortCriteria("viewName", SortCriteriaDirection.ASC)],
+                            pagination: pagination(5)
+    
+                        })
+                    }, "title"
+                )
+            }
+            dispatch(stopLoadingAction());
+        }
         getSubscriptions();
     }, [props.token])
 

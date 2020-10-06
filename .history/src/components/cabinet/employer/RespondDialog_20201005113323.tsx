@@ -24,10 +24,7 @@ export const RespondDialogComp = (props: IRespondDialog) => {
     const fullScreen = useMediaQuery(theme.breakpoints.down('xs'));
     const [countElems, setCountElems] = React.useState(0)
 
-    
-
-    React.useEffect(() => {
-        async function getCount() {
+    const getCount = async () => {
         if (props.token) {
             alert("lklkl")
             const token = props.token;          
@@ -46,6 +43,8 @@ export const RespondDialogComp = (props: IRespondDialog) => {
             setCountElems(resultFetch.result)
         }
     }
+
+    React.useEffect(() => {
         getCount()
     }, [])
     
