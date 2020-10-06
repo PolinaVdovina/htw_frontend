@@ -149,7 +149,8 @@ const TapeElementCardComp = (props: ITapeElementProps) => {
         }
         {props.tapeElementData.rightNode &&
           <Grid item>
-            <props.tapeElementData.rightNode id={props.tapeElementData.id}/>
+            {/*props.tapeElementData.rightNode*/}
+            <IconButton><GetAppIcon/></IconButton>
           </Grid>
         }
         {props.tapeElementData.rightText &&
