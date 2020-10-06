@@ -11,13 +11,14 @@ import { dateParse } from './../../utils/appliedFunc';
 
 
 interface IChatBodyProps {
-    messagesData?: Array<IChatReceivingMessage> | null,
+    messagesData?: (Array<IChatReceivingMessage& {isFake?:boolean}>) | null,
     myLogin?: string | null,
     avatarUID?: any,
     fetchNext: (page: number) => void,
     dataFetching?: boolean,
     isTapeOver?: boolean,
     getMessagesCount: number,
+    setMessagesCount: number,
 }
 
 
@@ -82,11 +83,11 @@ const ChatBodyWrap = (props: IChatBodyProps) => {
     React.useEffect(() => {
         if (bodyRef.current && bottomElementRef.current) {
             //Если я близок к концу ленты
-            if (bodyRef.current.scrollHeight - bodyRef.current.clientHeight - bodyRef.current.scrollTop < 150)
+            if (bodyRef.current.scrollHeight - bodyRef.current.clientHeight - bodyRef.current.scrollTop < 300)
                 bottomElementRef.current.scrollIntoView({ behavior: 'smooth' });
             //Скролю в самый низ
         }
-    }, [props.getMessagesCount])
+    }, [props.getMessagesCount, props.setMessagesCount])
 
     //Автоскролл вниз при открытии клавиатуры на телефоне (чтобы клавиатура не закрывала сообщение последнее)
     React.useEffect(
@@ -107,7 +108,6 @@ const ChatBodyWrap = (props: IChatBodyProps) => {
             return () => body.removeEventListener("resize", resizeHandler);
         }
     )
-
 
     return (
         <div ref={bodyRef} className={classes.rootDiv}>
@@ -153,8 +153,10 @@ const ChatBodyWrap = (props: IChatBodyProps) => {
                         return (
                             <Grid container direction="column" key={messageData.id} >
                                 {
-                                    (!prevMessageDate ||
-                                        (currentMessageDate.getFullYear() != prevMessageDate.getFullYear() || currentMessageDate.getMonth() != prevMessageDate.getMonth() || currentMessageDate.getDate() != prevMessageDate.getDate())) &&
+                                    (!messageData.isFake && (!prevMessageDate ||
+                                        (currentMessageDate.getFullYear() != prevMessageDate.getFullYear() ||
+                                        currentMessageDate.getMonth() != prevMessageDate.getMonth() ||
+                                        currentMessageDate.getDate() != prevMessageDate.getDate()))) &&
                                     
                                     <Paper style={{ 
                                         alignSelf: "center", 

@@ -7,13 +7,16 @@ import { INotificationData } from './../../redux/actions/notification-actions';
 import { RootState } from '../../redux/store';
 import { connect } from 'react-redux';
 import { notificationToPost, notificationsToPost } from '../../utils/tape-converters/notification-to-tape-element';
+import { readNotificationsFetch, getNotificationsFetch } from '../../utils/fetchFunctions';
 
 interface INotificationProps {
     notifications?: Array<INotificationData> | null,
+    token?: string | null
 }
 
 const mapStateToProps = (state: RootState) => ({
-    notifications: state.notificationReducer.notifications
+    notifications: state.notificationReducer.notifications,
+    token: state.authReducer.token,
 })
 
 const messageNotifications = () => {
@@ -22,6 +25,27 @@ const messageNotifications = () => {
 
 const NotificationWrap = (props: INotificationProps) => {
     const theme = useTheme();
+    const [notifications, setNotifications] = React.useState([]);
+
+    const getNotifications = async() => {
+        const fetch = await getNotificationsFetch(props.token);
+
+        
+        if(fetch.notifications) {
+            setNotifications(fetch.notifications);
+        }
+    }
+
+   
+    React.useEffect(
+        () => {
+            if(props.token) {
+                readNotificationsFetch(props.token);
+                getNotifications();
+            }    
+        }, 
+    [])
+        
     return (
         <HCenterizingGrid >
             <Paper style={{ flexGrow: 1 }}>
@@ -31,7 +55,7 @@ const NotificationWrap = (props: INotificationProps) => {
                 <Divider />
                 <Tape
                     hideAvatars={true}
-                    elements={props.notifications ? notificationsToPost(props.notifications) : null}
+                    elements={notificationsToPost(notifications)}
                 />
             </Paper>
         </HCenterizingGrid>

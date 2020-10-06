@@ -288,11 +288,13 @@ export const jobApplGlue = (jobAppl) => {
 
 
 
-export const resize = (imgFile, maxWidth, onload) => {
+export const resize = (imgFile, maxWidth, onload, onerror?) => {
     let canvas = document.createElement('canvas');
 
     var img = new Image;
+    
     img.onload = () => {
+        
         if (canvas) {
             let k = 1;
             if (img.width > maxWidth)
@@ -301,7 +303,7 @@ export const resize = (imgFile, maxWidth, onload) => {
             canvas.height = img.height * k;
             const context = canvas.getContext('2d');
             context && context.drawImage(img, 0, 0, img.width * k, img.height * k);
-
+            
             let imgurl = canvas.toDataURL()
             var byteString = atob(imgurl.split(',')[1]);
             var ab = new ArrayBuffer(byteString.length);
@@ -313,6 +315,9 @@ export const resize = (imgFile, maxWidth, onload) => {
             var file = new File([blob], "image.jpg");
             onload(file, URL.createObjectURL(file))
         }
+    }
+    img.onerror = () => {
+        onerror && onerror();
     }
     img.src = URL.createObjectURL(imgFile);
 }

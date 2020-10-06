@@ -289,7 +289,8 @@ const onError = (dispatch, getState: () => RootState) => async () => {
             await initWebsocketWithSubscribes(dispatch, getState, true);
             await dispatch(stopLoadingAction());
         } else if (isValidToken == false) {
-            await dispatch(logout);
+            await dispatch(logout());
+            await(stopLoadingAction());
             await dispatch(enqueueSnackbarAction({
                 message: "У вас возникли проблемы с авторизацией",
                 options: { variant: "error" }
@@ -304,6 +305,8 @@ const onError = (dispatch, getState: () => RootState) => async () => {
 
 const onConnected = (dispatch, getState: () => RootState) => () => {
     const onChatMessageReceived = async (message: IChatReceivingMessage) => {
+
+        //Говно код для обновления количества непрочитанных сообщений
         if (message.sender != getState().authReducer.login) {
             if (getState().chatReducer.chatId) {
                 if (getState().chatReducer.chatId != message.chatId) {
@@ -311,13 +314,15 @@ const onConnected = (dispatch, getState: () => RootState) => () => {
                 }
             } else if (getState().chatReducer.chatName == message.sender) {
                 dispatch(setOpenChatIdAction(message.chatId));
+                dispatch(addUnreadMessageToChatAction(message.chatId));
             }
+            else dispatch(addUnreadMessageToChatAction(message.chatId));
         }
 
-
+        //Обновляем дату последнего сообщения в чате на основе полученного сообщения. Не делать же лишний запрос на сервак, когда я итак всё узнать могу?
         dispatch(setLastMessageDateForChat(message.chatId, message.createdDate))
 
-
+        //Если сервак считал нужным передать мне не только сообщение, но и чат, значит, следует попробовать добавить его в список чатов в редуксе
         if (message.newChat)
             await dispatch(addChatAction(message.newChat));
     }

@@ -39,8 +39,7 @@ export const initNotifications: () => void = () => async (dispatch, getState: ()
         const unreadMessageCount = getUnreadMessagesCount(chats);
         dispatch(addNotificationsAction(
             [{
-                    message: `Количество непрочитанных сообщений составляет ${unreadMessageCount}. Проверьте ваши сообщения. `,
-                    title: "У вас есть непрочитанные сообщения",
+                    title: `У вас есть непрочитанные сообщения (${unreadMessageCount})`,
             }]
         ));
     }

@@ -29,17 +29,31 @@ const AchievementTabComp = (props) => {
 	const tapeFetcherContext = React.useContext(TapeFetcherContext);
 	const [openDialog, setOpenDialog] = React.useState(false);
 	const [deletingId, setDeletingId] = React.useState<any>(null);
-	
+	const [isOver, setOver] = React.useState(false);
 	const getNextAchievements = async () => {
-		await tapeFetcherContext?.fetchNext(
-		() => searchCriteriaFetch("/personal/achievements/getBySearchCriteria", props.token,
+		// const lastPostDate = (tapeFetcherContext?.tapeElements && tapeFetcherContext?.tapeElements?.length > 0) ? 
+		// 	tapeFetcherContext?.tapeElements[tapeFetcherContext.tapeElements.length-1].createdDate 
+		// 	: null
+		// const additionSearchCriteria = lastPostDate ? [searchCriteria("createdDate", lastPostDate, SearchCriteriaOperation.LESS)] : [];
+		const r = await tapeFetcherContext?.fetchNext(
+		async(lastPostDate, count) => {
+			
+			const fetch = await searchCriteriaFetch("/personal/achievements/getBySearchCriteria", props.token,
 			{
 				searchCriteria: [
+					searchCriteria("createdDate", lastPostDate, SearchCriteriaOperation.LESS),
 					searchCriteria("jobSeekerLogin", cabinetContext.login, SearchCriteriaOperation.EQUAL)
 				],
 				sortCriteria: [sortCriteria("createdDate", SortCriteriaDirection.DESC)],
 				pagination: pagination(5)
-			}));
+			});
+			if(fetch && fetch.msgInfo && fetch.msgInfo.msgStatus==MessageStatus.OK )
+				if(fetch.result && fetch.result?.length < 5)
+					setOver(true);
+			return fetch;
+		});
+
+		
 	}
 
 	React.useEffect(() => {
@@ -53,7 +67,7 @@ const AchievementTabComp = (props) => {
 		if (result == MessageStatus.OK) {
 			snackbar.enqueueSnackbar("Достижение удалено", { variant: "success" });
 			tapeFetcherContext?.reset();
-			getNextAchievements();
+			await getNextAchievements();
 		}
 		else
 			snackbar.enqueueSnackbar("Не удалось удалить достижение", { variant: "error" });
@@ -106,13 +120,14 @@ const AchievementTabComp = (props) => {
 			/>
 			<Grid item style={{ flexGrow: 1 }}>
 				<Button 
+					disabled={isOver}
 					variant="contained" 
 					color="primary" 
 					fullWidth 
 					onClick={getNextAchievements} 
 					style={{ borderTopLeftRadius: 0, borderTopRightRadius: 0 }}
 				>
-					Дальше
+					{isOver ? "Лента закончена" : "Дальше"}
 				</Button>
 			</Grid>
 		</div>

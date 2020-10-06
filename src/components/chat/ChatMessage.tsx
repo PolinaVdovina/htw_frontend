@@ -1,10 +1,11 @@
 import React from 'react';
 import { IChatReceivingMessage } from './../../websockets/chat/interfaces';
-import { Paper, makeStyles, createStyles, Theme, Grid, Typography } from '@material-ui/core';
+import { Paper, makeStyles, createStyles, Theme, Grid, Typography, CircularProgress } from '@material-ui/core';
 import { connect } from 'react-redux';
 import { RootState } from '../../redux/store';
 import { useTheme } from '@material-ui/core';
 import { timeParse } from '../../utils/appliedFunc';
+import { IChatSendingMessage } from '../../websockets/chat/interfaces';
 
 
 export enum ChatMessageColorScheme {
@@ -14,7 +15,7 @@ export enum ChatMessageColorScheme {
 
 interface IChatMessageProps {
     paperStyle?: React.CSSProperties,
-    messageData: IChatReceivingMessage,
+    messageData: IChatReceivingMessage & {isFake?: boolean},
     chatMessageColorScheme?: ChatMessageColorScheme | null,
     hideViewName?: boolean,
     classes?: typeof useStyles
@@ -35,9 +36,16 @@ const useStyles = makeStyles((theme: Theme) =>
             overflowWrap: "anywhere",
             fontSize: "12px",
         },
+        bottonGridItem: {
+            alignSelf: "flex-end"
+        },
         date: {
             textAlign: "right",
-            fontSize: "10px"
+            fontSize: "10px",
+        },
+        loading: {
+            color: "white",
+            alignSelf: "flex-end",
         },
         messageText: {
             overflowWrap: "anywhere",
@@ -91,17 +99,22 @@ const ChatMessageWrap = (props: IChatMessageProps) => {
                 >
                     {props.messageData.content}
                 </Typography>
-                <Grid item >
-                    <Typography
-                        className={classes.date}
-                        style={{
-                            color: props.chatMessageColorScheme == ChatMessageColorScheme.MINE ?
-                                theme.chat.ownMessageTitleColor : theme.chat.companionMessageTitleColor
-                        }}
-                    >
-                        {timeParse(props.messageData.createdDate)}
-                    </Typography>
-                </Grid>
+  
+                    {
+                        props.messageData.isFake && <CircularProgress size={"15px"} className={classes.loading}/>
+                    }
+                    {!props.messageData.isFake &&
+                        <Typography
+                            className={classes.date}
+                            style={{
+                                color: props.chatMessageColorScheme == ChatMessageColorScheme.MINE ?
+                                    theme.chat.ownMessageTitleColor : theme.chat.companionMessageTitleColor
+                            }}
+                        >
+                            {timeParse(props.messageData.createdDate)}
+                        </Typography>
+                    }
+         
             </Grid>
         </Paper>
     )

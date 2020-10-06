@@ -17,9 +17,7 @@ export interface IChatState {
     chatName: string | null //Сейчас это логин того, с кем переписываешься
     chatViewName: string | null,
     chatId: number | null,
-
     chats: Array<IReceivingChatData> | null
-
 }
 
 const initialState: IChatState = {

@@ -47,7 +47,7 @@ const mapUnreadMessageToProps = (state: RootState) => ({
 
 const MessageCounterBadge = connect(mapUnreadMessageToProps)((props: any) => {
   return (
-    <Badge badgeContent={props.unreadMessageCount} color={"secondary"}>
+    <Badge badgeContent={props.unreadMessageCount} color={"error"}>
       <ChatIcon />
     </Badge>
   )

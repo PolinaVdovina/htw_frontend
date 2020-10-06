@@ -158,7 +158,12 @@ const AccountCommonInfoComp = (props: IAccountCommonInfo) => {
       props.stopLoading();
     }
 
-    resize(e.target.files[0], 120, onResizedImage)
+    const onError = async() => {
+      snackBar.enqueueSnackbar("Не удалось поменять аватар. Выберите корректный файл с изображением.", { variant: "error" })
+      props.stopLoading();
+    }
+
+    resize(e.target.files[0], 120, onResizedImage, onError)
 
   }
 

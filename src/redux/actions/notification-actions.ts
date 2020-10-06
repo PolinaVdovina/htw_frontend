@@ -1,7 +1,7 @@
 import { ADD_NOTIFICATIONS, REMOVE_NOTIFICATIONS } from '../../constants/action-types';
 
 export interface INotificationData {
-    message: string,
+    message?: string,
     title: string,
     sender?: string,
     id?: any

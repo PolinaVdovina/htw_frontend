@@ -19,6 +19,7 @@ import { useWritingStatusTracking, useOnlineStatusTracking, usePrivateChatTracki
 import { pagination, searchCriteria } from './../../utils/search-criteria/builders';
 import { resetUnreadMessagesForChatAction, setChatsAction } from '../../redux/actions/chat-actions';
 import { setOpenChatIdAction } from './../../redux/actions/chat-actions';
+import { v4 as uuidv4 } from 'uuid';
 
 
 
@@ -59,6 +60,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const ChatWrap = (props: IChatProps) => {
     const [messages, setMessages] = React.useState<Array<IChatReceivingMessage>>([]);   //0 - это самое старое сообщение; 1 - предпоследнее и тд...
+    const [sendingMessages, setSendingMessages] = React.useState<Array<IChatReceivingMessage>>([]); //Введенные сообщения, но еще не отправленные
     const dispatch = useDispatch();
     const classes = useStyles();
     const theme = useTheme();
@@ -71,6 +73,9 @@ const ChatWrap = (props: IChatProps) => {
     const [fetchCount, setFetchCount] = React.useState(0);
     const [getMessagesCount, setGetMessagesCount] = React.useState(0);  //Сколько раз получил сообщения в реальном времени через вебсокет
 
+    //ИДЕАЛЬноЕ НАЗВАНИЕ У СЕТЕРА
+    const [setMessagesCount, setSetMessagesCount] = React.useState(0);  //Сколько раз отправил сообщения в реальном времени через вебсокет
+    
     let description: string | null = null;
     if (isCompanionWriting) {
         description = "печатает..."
@@ -96,6 +101,7 @@ const ChatWrap = (props: IChatProps) => {
                 dispatch(setOpenChatIdAction(newMessage.chatId));
                 readMessagesFromChat(newMessage.chatId);
             }
+            //setSendingMessages(old => old.length > 0 ? old.splice(0,1) : [])
         }
     })
 
@@ -134,8 +140,22 @@ const ChatWrap = (props: IChatProps) => {
     const sendMessageHandler = async (msg: string) => {
         if (props.token) {
             const msgParsed: IChatSendingMessage = { content: msg }
-            if (props.chatName)
+            if (props.chatName) {
+                const msgData: IChatReceivingMessage & {isFake?: boolean} = {
+                    content: msg,
+                    id: uuidv4(),
+                    target: props.chatName,
+                    chatId: props.chatId ? props.chatId : uuidv4(),
+                    createdDate: (new Date()).getUTCDate().toString(),
+                    sender:  props.myLogin ? props.myLogin : "",
+                    senderViewName: props.myLogin ? props.myLogin : "",
+                    isFake: true,
+                }
+                setSendingMessages(old => [...old, msgData])
+                setSetMessagesCount(old => old+1);
                 sendMessage(props.chatName, msgParsed);
+            }
+
         }
     }
 
@@ -155,7 +175,8 @@ const ChatWrap = (props: IChatProps) => {
                 fetchNext={fetchMessagesOnPage}
                 isTapeOver={tapeOver}
                 getMessagesCount={getMessagesCount}
-                messagesData={messages} />
+                setMessagesCount={setMessagesCount}
+                messagesData={[...messages, ...sendingMessages.slice(getMessagesCount, sendingMessages.length)]} />
             <Divider />
             <ChatInput onSendButtonClick={sendMessageHandler} />
 

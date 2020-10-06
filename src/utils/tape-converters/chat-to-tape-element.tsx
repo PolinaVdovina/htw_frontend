@@ -19,9 +19,9 @@ function CircleCounter(props) {
 
     const theme = useTheme();
     return (<Badge overlap="circle"
-        color="secondary"
+        color="error"
         badgeContent={props.count}
-        style={{ marginRight: theme.spacing(2) }} />)
+        style={{ marginRight: theme.spacing(2), wordBreak: "initial" }} />)
 }
 
 

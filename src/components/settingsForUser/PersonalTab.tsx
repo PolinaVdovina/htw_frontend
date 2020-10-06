@@ -32,6 +32,7 @@ export const PersonalTabComp = (props) => {
     const [privateAddress, setPrivateAddress] = React.useState(false);
     const [privateSocMedia, setPrivateSocMedia] = React.useState(false);
 
+
     React.useEffect(() => {
         const fetchData = async() => {
             dispatch(startLoadingAction());
@@ -49,6 +50,7 @@ export const PersonalTabComp = (props) => {
     }, [])
 
     const handleClickChangePhonePrivate = async() => {
+        await dispatch(startLoadingAction());
         const msgInfo: IMessageInfo = await changePersonalDataFetch(props.token, {phonePrivate: !privatePhone}, '/account/changeSettings/set')
         if(msgInfo.msgStatus == MessageStatus.OK) {
             snackbar.enqueueSnackbar("Настройки конфиденциальности изменены", {variant: "success"})
@@ -57,10 +59,11 @@ export const PersonalTabComp = (props) => {
         else {
             snackbar.enqueueSnackbar("Ошибка изменения настроек", {variant: "error"})
         }
-
+        await dispatch(stopLoadingAction());
     }
 
     const handleClickChangeAddressPrivate = async() => {
+        await dispatch(startLoadingAction());
         const msgInfo: IMessageInfo = await changePersonalDataFetch(props.token, {addressPrivate: !privateAddress}, '/account/changeSettings/set')
         if(msgInfo.msgStatus == MessageStatus.OK) {
             snackbar.enqueueSnackbar("Настройки конфиденциальности изменены", {variant: "success"})
@@ -69,10 +72,12 @@ export const PersonalTabComp = (props) => {
         else {
             snackbar.enqueueSnackbar("Ошибка изменения настроек", {variant: "error"})
         }
+        await dispatch(stopLoadingAction());
 
     }
 
     const handleClickChangeSocMediaPrivate = async() => {
+        await dispatch(startLoadingAction());
         const msgInfo: IMessageInfo = await changePersonalDataFetch(props.token, {socMediaPrivate: !privateSocMedia}, '/account/changeSettings/set')
         if(msgInfo.msgStatus == MessageStatus.OK) {
             snackbar.enqueueSnackbar("Настройки конфиденциальности изменены", {variant: "success"})
@@ -81,6 +86,7 @@ export const PersonalTabComp = (props) => {
         else {
             snackbar.enqueueSnackbar("Ошибка изменения настроек", {variant: "error"})
         }
+        await dispatch(stopLoadingAction());
 
     }
 

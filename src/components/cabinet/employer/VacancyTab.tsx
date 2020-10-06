@@ -64,7 +64,7 @@ const VacancyTabComp = (props) => {
     if (result == MessageStatus.OK) {
       snackbar.enqueueSnackbar("Вакансия успешно удалена", { variant: "success" });
       tapeFetcherContext?.reset();
-      getNextVacancies();
+      await getNextVacancies();
       //tapeFetcherContext?.deleteTapeElement(deletingId);
     }
     else
