@@ -21,7 +21,7 @@ export const Education = (props : IEducation) => {
     const [openDialog, setOpenDialog] = React.useState(false);
 
     React.useEffect(() => {
-        if (!props.element.dateStart && context && context.isMine)
+        if (!props.element.dateStart && context.isMine)
             setOpenDialog(true);
     }, [])
     

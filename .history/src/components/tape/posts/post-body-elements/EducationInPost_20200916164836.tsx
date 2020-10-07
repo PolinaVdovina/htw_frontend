@@ -19,7 +19,6 @@ export const EducationInPost = (props: IEducationInPost) => {
                 {props.data.title + ":"}
             </Typography>
             {props.data.items.map(item =>
-                item.dateStart &&
                 <div style={{paddingLeft: '30px'}}>
                     <Education
                         element={item}
