@@ -302,7 +302,7 @@ export const saveDocResumeFetch = async (token, id) => {
                     Authorization: 'Bearer ' + token,
                     //responceType: 'blob'
                     ContentType: 'application/octet-stream; charset=utf-8',
-                    ContentDisposition: "attachment; filename=\"resume.docx\""//; filename*="filename.jpg"
+                    ContentDisposition: "attachment"//; filename="filename.jpg"; filename*="filename.jpg"
                 }
             }
         )
