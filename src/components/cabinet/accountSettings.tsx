@@ -77,14 +77,15 @@ import { InstagramLink } from "./displayMiniComponents/InstagramLink";
 import { FacebookLink } from "./displayMiniComponents/FacebookLink";
 import { VkLink } from "./displayMiniComponents/VkLink";
 import { changeBirthDate } from './../../utils/change-component-utils';
+import { changeAbout } from '../../utils/change-component-utils';
 
 export const SETTINGS = {
     INDIVIDUAL: {
         about: {
             title: 'О себе',
             changeSettings: settingsDescriptionIndividual,
-            validateFunction: validateDate,
-            changeFunction: changeJobSeekerData,      
+            validateFunction: null,
+            changeFunction: changeAbout,      
         },
         email: {
             title: 'Электронная почта',

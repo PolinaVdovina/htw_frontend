@@ -22,6 +22,7 @@ import { RespondViewDialog } from '../../../components/cabinet/jobseeker/Respond
 import { ExecuteSubscriptionButtons } from './../../../components/cabinet/ExecuteSubscriptionButtons';
 import { store } from '../../../redux/store';
 import { RespondViewPost } from '../../../components/cabinet/jobseeker/RespondViewProps';
+import { CabinetContext } from '../../../components/cabinet/cabinet-context';
 
 interface IJobSeekerCabinet {
 
@@ -33,6 +34,14 @@ interface IJobSeekerTabs {
 }
 
 
+const TapeApchi = (props) => {
+  const context = React.useContext(CabinetContext)
+  return (
+    <TapeFetcherProvider dataConverterFunction={achievementsToPost(context.login ? context.login : null)}>
+      <AchievementTab />
+    </TapeFetcherProvider>
+  )
+}
 
 const tabs: Array<ITabData> = [
   {
@@ -60,7 +69,7 @@ const tabs: Array<ITabData> = [
   {
     label: "Достижения",
     //IconComponent: <PersonPinIcon/>,
-    TabPanel: <TapeFetcherProvider key={3} dataConverterFunction={achievementsToPost}><AchievementTab /></TapeFetcherProvider>
+    TabPanel: <TapeApchi key={3}/>
   },
 ]
 

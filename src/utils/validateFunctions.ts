@@ -214,7 +214,7 @@ export function validateInn(data: any): IValidateResult {
 }
 
 export function validateOgrn(data: any): IValidateResult {
-    return validateStringData(data, validateWebLink)
+    return validateStringData(data, validateOgrnString)
 }
 
 export function validateAboutUrl(data: any): IValidateResult {
@@ -329,7 +329,7 @@ export function validateEducation(data: {
         resultIsValid = false;
         resultErrors.push("Пожалуйста, укажите дату начала образования")
     }
-    if (data.dateStart && data.dateReceiving && new Date(Date.parse(data.dateStart)) <= new Date(Date.parse(data.dateStart))) {
+    if (data.dateStart && data.dateReceiving && new Date(Date.parse(data.dateReceiving)) <= new Date(Date.parse(data.dateStart))) {
         resultIsValid = false;
         resultErrors.push("Дата окончания не может быть раньше даты начала")
     }

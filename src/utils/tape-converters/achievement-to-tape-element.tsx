@@ -18,38 +18,42 @@ interface IAchievement {
     files: Array<string>
 }
 
-export function achievementsToPost(achievementData: IAchievement): ITapeElementData {
-    let postBody : Array<IBodyElement> = [
-        {
-            Component:ParagraphInPost,
-            data: {
-                description: achievementData.description
-            }
-        },        
-    ];
-    
-    if (achievementData.files && achievementData.files.length > 0) {
-        postBody.push(
+export const achievementsToPost = (ownerLogin: string) => {
+    const wrap = (achievementData: IAchievement): ITapeElementData => {
+        let postBody : Array<IBodyElement> = [
             {
-                Component: ImgInPost,
+                Component:ParagraphInPost,
                 data: {
-                    paths: achievementData.files
+                    description: achievementData.description
                 }
-            }
-        )
-    }
+            },        
+        ];
+        
+        if (achievementData.files && achievementData.files.length > 0) {
+            postBody.push(
+                {
+                    Component: ImgInPost,
+                    data: {
+                        paths: achievementData.files
+                    }
+                }
+            )
+        }
+            
         
     
-   
-    return {
-        createdDate: achievementData.createdDate,
-        id: achievementData.id,
-        title: achievementData.title,
-        bottomText: achievementData.createdDate?.slice(0,10),
-        body: postBody,
+        return {
+            createdDate: achievementData.createdDate,
+            id: achievementData.id,
+            title: achievementData.title,
+            bottomText: achievementData.createdDate?.slice(0,10),
+            body: postBody,
+            ownerLogin: ownerLogin,
+        }
     }
+    return wrap;
 }
 
-export function achievementsToPostList(avhievements: Array<IAchievement>) {
-    return avhievements.map(avhievement => achievementsToPost(avhievement))
+export function achievementsToPostList_DONTWORK(avhievements: Array<IAchievement>, ownerLogin) {
+    //return avhievements.map(avhievement => achiviementToPost(ownerLogin)(avhievement))
 }

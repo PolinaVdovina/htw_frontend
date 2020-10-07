@@ -7,6 +7,17 @@ import { loginAction, authCompletedAction } from "../redux/actions/auth-actions"
 import { login } from "../redux/reducers/auth-reducers";
 
 
+//Я не мог удалить О СЕБЕ из-за underfined (пустую строку оставил), добавил эту штуку
+export const changeAbout = async(dispatch, data) => {
+    const dataWithNullAbout = !data.about ? {about: null} : data
+    const msgInfo: IMessageInfo = await changePersonalDataFetch(store.getState().authReducer.token,dataWithNullAbout);
+    //alert(msgInfo.msgStatus==MessageStatus.OK)
+    if (msgInfo.msgStatus == MessageStatus.OK) {
+        await dispatch(fillPersonalDataAction(dataWithNullAbout));
+    }
+    return msgInfo;
+}
+
 export const changeJobSeekerData = async (dispatch, data) => {
 
     const msgInfo: IMessageInfo = await changePersonalDataFetch(store.getState().authReducer.token, data);

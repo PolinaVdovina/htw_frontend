@@ -6,7 +6,8 @@ import { RespondViewDialog } from './RespondViewDialog';
 
 export const RespondViewPost = (props) => {
     const cabinetContext = React.useContext(CabinetContext);
-    const vacancyCount = cabinetContext && cabinetContext.responseVacancies ? cabinetContext.responseVacancies.length : 0;
+    const vacancyCount = cabinetContext && cabinetContext.respondVacanciesIds ? cabinetContext.respondVacanciesIds.length : 0;
+ 
     const executeDialogButtons: Array<IExecuteDialogButton> = [
         {
             title: "Отклики на вакансии",

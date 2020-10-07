@@ -180,6 +180,18 @@ const TapeElementCardComp = (props: ITapeElementProps) => {
           }
         </Grid>
       </Grid>
+      {props.tapeElementData.body && props.tapeElementData.body.length > 0 &&
+        <Collapse in={open}>
+          <div style={{ marginTop: theme.spacing(2) }}>
+            {props.tapeElementData.body?.map(
+              (el, index) => <>
+                <el.Component key={index} data={el.data} />
+                {index + 1 != props.tapeElementData.body?.length && <br />}
+              </>
+            )}
+          </div>
+        </Collapse>
+      }
 
     </div>
   )
