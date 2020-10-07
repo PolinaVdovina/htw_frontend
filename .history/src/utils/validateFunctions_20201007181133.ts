@@ -70,14 +70,14 @@ function validateWebLink(url: string): IValidateResult {
 }
 
 function validateInstaLink(url: string): IValidateResult {
-    if (/^https:\/\/(instagram.com|www.instagram.com)\/[^ "]+$/.test(url))
+    if (/^https:\/\/instagram.com\/[^ "]+$/.test(url))
         return {
             isValid: true,
             errorsMass: []
         };
     else return {
         isValid: false,
-        errorsMass: ["Ссылка должна быть в формате https://instagram.com/*** или https://www.instagram.com/***"]
+        errorsMass: ["Ссылка должна быть в формате https://instagram.com/***"]
     };
 }
 
