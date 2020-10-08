@@ -226,7 +226,7 @@ function App(props: IAppProps) {
                       </Badge>
                     </IconButton>
                   }
-                  title="How To Fuzzy Work" />
+                  title="How To Work" />
                 {
                   //<div className = {classes.fakeAppMenuPaper}/>
                   props.authCompleteStatus &&
