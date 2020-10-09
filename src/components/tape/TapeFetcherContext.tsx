@@ -40,7 +40,7 @@ export const TapeFetcherProvider = (props: ITapeFetcherProvider) => {
     
 
     const setTapeElementsHandler = setTapeElements;
-    const resetHandler = () => {tapeElements = null; setTapeElements(old => null)};
+    const resetHandler = () => {tapeElements = null; setTapeElements(null)};
 
 
     const deleteTapeElementHandler = (id) => {
