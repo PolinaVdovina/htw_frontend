@@ -302,7 +302,7 @@ export const saveDocResumeFetch = async (token, id) => {
                     Authorization: 'Bearer ' + token,
                     //responceType: 'blob'
                     ContentType: 'application/octet-stream; charset=utf-8',
-                    ContentDisposition: "attachment; filename=\"resume.docx\""//; filename*="filename.jpg"
+                    ContentDisposition: "attachment"//; filename="filename.jpg"; filename*="filename.jpg"
                 }
             }
         )
@@ -837,7 +837,7 @@ export const checkBackendFetch = async () => {
 
 export const readNotificationsFetch = async (token: string) => {
     try {
-        await axios.get(rootUrl + "/notifications/read-notifications", {
+        await axios.get(rootUrl + "/account/read-notifications", {
             headers: {
                 Authorization: 'Bearer ' + token
             }

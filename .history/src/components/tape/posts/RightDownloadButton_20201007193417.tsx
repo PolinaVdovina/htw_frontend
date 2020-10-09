@@ -8,19 +8,22 @@ import { MessageStatus } from "../../../utils/fetchInterfaces";
 
 interface IRightDownloadButton {
     id: any,
-    token: any,
-    name: any
+    token: any
 }
 
 export const RightDownloadButtonComp = (props: IRightDownloadButton) => {
     const [ref, setRef] = React.useState(React.createRef<HTMLAnchorElement>());
-    const rootUrl = "/api";
 
     const handleClick = async () => {
-        let newRef: any = ref
-        newRef.current.href = rootUrl + "/personal/resume/getfile/" + props.id
-        newRef.current.download = "resume-" + props.name + ".docx"
-        newRef.current.click()
+        const resultFetch: any = await saveDocResumeFetch(props.token, props.id);
+        if (resultFetch.msgStatus == MessageStatus.OK) {
+            //FileSaver.saveAs(resultFetch.result, "resume.docx");
+            let blob = new Blob([resultFetch.result], {type: "application/octet-stream"})
+            let newRef: any = ref
+            newRef.current.href = URL.createObjectURL(blob)
+            newRef.current.download = "resume.docx"
+            newRef.current.click()
+        }
     }
 
     return (
@@ -34,6 +37,5 @@ export const RightDownloadButtonComp = (props: IRightDownloadButton) => {
 }
 
 export const RightDownloadButton = connect((state: RootState) => ({
-    token: state.authReducer.token,
-    name: state.userPersonalsReducer.viewName
+    token: state.authReducer.token
   }))(RightDownloadButtonComp);

@@ -8,32 +8,36 @@ import { MessageStatus } from "../../../utils/fetchInterfaces";
 
 interface IRightDownloadButton {
     id: any,
-    token: any,
-    name: any
+    token: any
 }
 
 export const RightDownloadButtonComp = (props: IRightDownloadButton) => {
-    const [ref, setRef] = React.useState(React.createRef<HTMLAnchorElement>());
-    const rootUrl = "/api";
+    const [ref, setRef] = React.useState(React.createRef());
 
     const handleClick = async () => {
-        let newRef: any = ref
-        newRef.current.href = rootUrl + "/personal/resume/getfile/" + props.id
-        newRef.current.download = "resume-" + props.name + ".docx"
-        newRef.current.click()
+        const resultFetch: any = await saveDocResumeFetch(props.token, props.id);
+        if (resultFetch.msgStatus == MessageStatus.OK) {
+            //FileSaver.saveAs(resultFetch.result, "resume.docx");
+            const blob = resultFetch.result.blob();
+            const href = window.URL.createObjectURL(blob);
+            const a: any = ref.current;
+            a.download = 'resume.docx';
+            a.href = href;
+            a.click();
+            a.href = '';
+        }
     }
 
     return (
         <IconButton
             onClick={handleClick}
         >
-            <a style={{display: "none"}} href="" ref={ref}>ref</a>
+            <a style={{display: 'none'}} href={"" + props.id} target="_blank" >qwe</a>
             <GetAppIcon/>
         </IconButton>
     )
 }
 
 export const RightDownloadButton = connect((state: RootState) => ({
-    token: state.authReducer.token,
-    name: state.userPersonalsReducer.viewName
+    token: state.authReducer.token
   }))(RightDownloadButtonComp);

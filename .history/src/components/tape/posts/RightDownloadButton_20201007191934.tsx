@@ -1,6 +1,6 @@
 import * as React from "react"
 import GetAppIcon from '@material-ui/icons/GetApp';
-import { IconButton, Link } from "@material-ui/core";
+import { IconButton } from "@material-ui/core";
 import { connect } from 'react-redux';
 import { RootState } from "../../../redux/store";
 import { saveDocResumeFetch } from "../../../utils/fetchFunctions";
@@ -8,32 +8,30 @@ import { MessageStatus } from "../../../utils/fetchInterfaces";
 
 interface IRightDownloadButton {
     id: any,
-    token: any,
-    name: any
+    token: any
 }
 
 export const RightDownloadButtonComp = (props: IRightDownloadButton) => {
-    const [ref, setRef] = React.useState(React.createRef<HTMLAnchorElement>());
-    const rootUrl = "/api";
+    const [ref, setRef] = React.useState(React.createRef());
 
     const handleClick = async () => {
-        let newRef: any = ref
-        newRef.current.href = rootUrl + "/personal/resume/getfile/" + props.id
-        newRef.current.download = "resume-" + props.name + ".docx"
-        newRef.current.click()
+        const resultFetch: any = await saveDocResumeFetch(props.token, props.id);
+        if (resultFetch.msgStatus == MessageStatus.OK) {
+            //FileSaver.saveAs(resultFetch.result, "resume.docx");
+            return resultFetch.result
+        }
     }
 
     return (
         <IconButton
             onClick={handleClick}
         >
-            <a style={{display: "none"}} href="" ref={ref}>ref</a>
+            <a style={{display: 'none'}} href={"" + props.id} target="_blank" >qwe</a>
             <GetAppIcon/>
         </IconButton>
     )
 }
 
 export const RightDownloadButton = connect((state: RootState) => ({
-    token: state.authReducer.token,
-    name: state.userPersonalsReducer.viewName
+    token: state.authReducer.token
   }))(RightDownloadButtonComp);

@@ -8,8 +8,7 @@ import { MessageStatus } from "../../../utils/fetchInterfaces";
 
 interface IRightDownloadButton {
     id: any,
-    token: any,
-    name: any
+    token: any
 }
 
 export const RightDownloadButtonComp = (props: IRightDownloadButton) => {
@@ -19,7 +18,7 @@ export const RightDownloadButtonComp = (props: IRightDownloadButton) => {
     const handleClick = async () => {
         let newRef: any = ref
         newRef.current.href = rootUrl + "/personal/resume/getfile/" + props.id
-        newRef.current.download = "resume-" + props.name + ".docx"
+        newRef.current.download = "resume.docx"
         newRef.current.click()
     }
 
@@ -34,6 +33,5 @@ export const RightDownloadButtonComp = (props: IRightDownloadButton) => {
 }
 
 export const RightDownloadButton = connect((state: RootState) => ({
-    token: state.authReducer.token,
-    name: state.userPersonalsReducer.viewName
+    token: state.authReducer.token
   }))(RightDownloadButtonComp);
