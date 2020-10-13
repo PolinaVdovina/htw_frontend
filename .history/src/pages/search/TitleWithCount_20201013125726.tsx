@@ -34,7 +34,7 @@ export const TitleWithCount = (props: ITitleWithCount) => {
 
     const getCount = async () => {
         if (props.token) {
-   
+            dispatch( startLoadingAction() )
             const token = props.token;          
             const lastPostDate: string = new Date(Date.now()).toISOString()
             const requestData: ISearchCriteriaRequest = {
@@ -47,9 +47,9 @@ export const TitleWithCount = (props: ITitleWithCount) => {
             }
             if (props.additionalSearchCriteria && requestData.searchCriteria)
                 requestData.searchCriteria = [...requestData.searchCriteria, ...props.additionalSearchCriteria];
-            const resultFetch: any = await getCountOfSearch(token, requestData, urls[props.entityType])
+            const resultFetch: any = getCountOfSearch(token, requestData, urls[props.entityType])
             setCountElems(resultFetch.result)
-
+            dispatch ( stopLoadingAction() )
         }
     }
 
