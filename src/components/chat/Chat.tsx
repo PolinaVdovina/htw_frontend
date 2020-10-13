@@ -20,6 +20,10 @@ import { pagination, searchCriteria } from './../../utils/search-criteria/builde
 import { resetUnreadMessagesForChatAction, setChatsAction } from '../../redux/actions/chat-actions';
 import { setOpenChatIdAction } from './../../redux/actions/chat-actions';
 import { v4 as uuidv4 } from 'uuid';
+import { initNotifications } from '../../redux/reducers/notification-reducers';
+import { getUnreadMessagesCount } from './../../redux/reducers/chat-reducers';
+import { IReceivingChatData } from './../../websockets/chat/interfaces';
+import { setChatNotificationAction } from './../../redux/actions/notification-actions';
 
 
 
@@ -33,6 +37,7 @@ export interface IChatProps {
     startLoading: typeof startLoading,
     stopLoading: typeof stopLoading,
     chatId?: number | null,
+    chats?: IReceivingChatData[] | null,
 }
 
 
@@ -42,6 +47,7 @@ const mapStateToProps = (state: RootState) => ({
     token: state.authReducer.token,
     chatId: state.chatReducer.chatId,
     viewName: state.chatReducer.chatViewName,
+    chats: state.chatReducer.chats,
 })
 
 const mapDispatchToProps = {
@@ -75,7 +81,7 @@ const ChatWrap = (props: IChatProps) => {
 
     //ИДЕАЛЬноЕ НАЗВАНИЕ У СЕТЕРА
     const [setMessagesCount, setSetMessagesCount] = React.useState(0);  //Сколько раз отправил сообщения в реальном времени через вебсокет
-    
+
     let description: string | null = null;
     if (isCompanionWriting) {
         description = "печатает..."
@@ -85,22 +91,24 @@ const ChatWrap = (props: IChatProps) => {
 
     }
 
-    usePrivateMessageTracking((newMessage: IChatReceivingMessage) => {
+    usePrivateMessageTracking(async (newMessage: IChatReceivingMessage) => {
         //Если отправитель - это собеседник и сообщение для моего логина
         //или
         //Если отправитель - это я и сообщение для собеседника
         //Тогда это тот чат, который нужно смотреть
         if ((newMessage.sender == props.chatName && newMessage.target == props.myLogin) || (newMessage.sender == props.myLogin && newMessage.target == props.chatName)) {
-            setMessages(prevState => [...prevState, newMessage].sort((a,b)=> Date.parse(a.createdDate) - Date.parse(b.createdDate)))
+            setMessages(prevState => [...prevState, newMessage].sort((a, b) => Date.parse(a.createdDate) - Date.parse(b.createdDate)))
             setGetMessagesCount(old => old + 1);
-            
+
             if (props.chatId) {
                 readMessagesFromChat(props.chatId);
                 //dispatch(resetUnreadMessagesForChatAction(newMessage.chatId))
             } else {
                 dispatch(setOpenChatIdAction(newMessage.chatId));
-                readMessagesFromChat(newMessage.chatId);
+                await readMessagesFromChat(newMessage.chatId);
+                //await dispatch(initNotifications())
             }
+      
             //setSendingMessages(old => old.length > 0 ? old.splice(0,1) : [])
         }
     })
@@ -128,7 +136,7 @@ const ChatWrap = (props: IChatProps) => {
                 if (newMessages) {
                     if (newMessages.length < 20)
                         setTapeOver(true);
-                    setMessages(oldMsgs => [...newMessages, ...oldMsgs].sort((a,b)=> Date.parse(a.createdDate) - Date.parse(b.createdDate)));
+                    setMessages(oldMsgs => [...newMessages, ...oldMsgs].sort((a, b) => Date.parse(a.createdDate) - Date.parse(b.createdDate)));
                 } else {
                     setTapeOver(true);
                 }
@@ -141,18 +149,18 @@ const ChatWrap = (props: IChatProps) => {
         if (props.token) {
             const msgParsed: IChatSendingMessage = { content: msg }
             if (props.chatName) {
-                const msgData: IChatReceivingMessage & {isFake?: boolean} = {
+                const msgData: IChatReceivingMessage & { isFake?: boolean } = {
                     content: msg,
                     id: uuidv4(),
                     target: props.chatName,
                     chatId: props.chatId ? props.chatId : uuidv4(),
                     createdDate: (new Date()).getUTCDate().toString(),
-                    sender:  props.myLogin ? props.myLogin : "",
+                    sender: props.myLogin ? props.myLogin : "",
                     senderViewName: props.myLogin ? props.myLogin : "",
                     isFake: true,
                 }
                 setSendingMessages(old => [...old, msgData])
-                setSetMessagesCount(old => old+1);
+                setSetMessagesCount(old => old + 1);
                 sendMessage(props.chatName, msgParsed);
             }
 

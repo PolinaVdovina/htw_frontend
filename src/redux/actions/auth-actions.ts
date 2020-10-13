@@ -41,6 +41,3 @@ export function authCompletedAction(loggedIn=true) {
     loggedIn,
   };
 }
-
-
-

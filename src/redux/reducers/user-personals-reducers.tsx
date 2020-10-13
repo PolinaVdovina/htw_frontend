@@ -8,6 +8,7 @@ import { MessageStatus } from '../../utils/fetchInterfaces';
 import { enqueueSnackbar as enqueueSnackbarAction } from '../actions/snackbar-action';
 import { unsubscribeFetch } from './../../utils/fetchFunctions';
 import { subscribeAction } from './../actions/user-personals';
+import { setNotificationWatchedDate } from './../actions/notification-actions';
 
 interface ICommonState {
     isFetched,
@@ -190,11 +191,16 @@ export const getPersonalData: (token: string) => void = (token) =>
     async (dispatch, getState) => {
         dispatch(startLoadingAction());
         const role = getState().authReducer.entityType;
+
+        
+
         switch (role) {
             case ("ROLE_JOBSEEKER"):
                 const jobSeekerData = await getPersonalDataFetch(getState().authReducer.token, 'personal');
                 const jobSeekerDict = accountRequestToEntityDictionary(jobSeekerData, role);
                 await dispatch(fillPersonalDataAction(jobSeekerDict));
+                if(jobSeekerDict)
+                    await dispatch(setNotificationWatchedDate(jobSeekerDict.notificationWatchedDate));
                 break;
 
             case ("ROLE_EMPLOYER"):

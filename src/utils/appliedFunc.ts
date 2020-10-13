@@ -90,6 +90,7 @@ export function accountRequestToEntityDictionary(data, role) {
         switch (role) {
             case "ROLE_JOBSEEKER":
                 let parsedData = {
+                    notificationWatchedDate: data.notificationWatchedDate,
                     isOnline: data.online,
                     subscriptionCount: data.subscriptionCount,
                     observerCount: data.observerCount,
@@ -130,6 +131,7 @@ export function accountRequestToEntityDictionary(data, role) {
                 return parsedData;
             case "ROLE_EMPLOYER":
                 return {
+                    notificationWatchedDate: data.notificationWatchedDate,
                     isOnline: data.online,
                     subscriptionCount: data.subscriptionCount,
                     observerCount: data.observerCount,
@@ -157,6 +159,7 @@ export function accountRequestToEntityDictionary(data, role) {
                 }
             case "ROLE_INSTITUTION":
                 return {
+                    notificationWatchedDate: data.notificationWatchedDate,
                     isOnline: data.online,
                     subscriptionCount: data.subscriptionCount,
                     observerCount: data.observerCount,
@@ -186,6 +189,7 @@ export function accountRequestToEntityDictionary(data, role) {
 
             case "ROLE_EMPLOYEE":
                 return {
+                    notificationWatchedDate: data.notificationWatchedDate,
                     isOnline: data.online,
                     subscriptionCount: data.subscriptionCount,
                     observerCount: data.observerCount,
