@@ -50,6 +50,7 @@ const AchievementTabComp = (props) => {
 			if(fetch && fetch.msgInfo && fetch.msgInfo.msgStatus==MessageStatus.OK )
 				if(fetch.result && fetch.result?.length < 5)
 					setOver(true);
+				else setOver(false);
 			return fetch;
 		});
 

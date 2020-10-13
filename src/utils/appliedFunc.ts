@@ -90,7 +90,7 @@ export function accountRequestToEntityDictionary(data, role) {
         switch (role) {
             case "ROLE_JOBSEEKER":
                 let parsedData = {
-                    notificationWatchedDate: data.notificationWatchedDate,
+                    notificationWatchedDate: data.notificationWatchedDate ? data.notificationWatchedDate : "1970-01-01",
                     isOnline: data.online,
                     subscriptionCount: data.subscriptionCount,
                     observerCount: data.observerCount,
@@ -131,7 +131,7 @@ export function accountRequestToEntityDictionary(data, role) {
                 return parsedData;
             case "ROLE_EMPLOYER":
                 return {
-                    notificationWatchedDate: data.notificationWatchedDate,
+                    notificationWatchedDate: data.notificationWatchedDate ? data.notificationWatchedDate : "1970-01-01",
                     isOnline: data.online,
                     subscriptionCount: data.subscriptionCount,
                     observerCount: data.observerCount,
@@ -159,7 +159,7 @@ export function accountRequestToEntityDictionary(data, role) {
                 }
             case "ROLE_INSTITUTION":
                 return {
-                    notificationWatchedDate: data.notificationWatchedDate,
+                    notificationWatchedDate: data.notificationWatchedDate ? data.notificationWatchedDate : "1970-01-01",
                     isOnline: data.online,
                     subscriptionCount: data.subscriptionCount,
                     observerCount: data.observerCount,
@@ -189,7 +189,7 @@ export function accountRequestToEntityDictionary(data, role) {
 
             case "ROLE_EMPLOYEE":
                 return {
-                    notificationWatchedDate: data.notificationWatchedDate,
+                    notificationWatchedDate: data.notificationWatchedDate ? data.notificationWatchedDate : "1970-01-01",
                     isOnline: data.online,
                     subscriptionCount: data.subscriptionCount,
                     observerCount: data.observerCount,
