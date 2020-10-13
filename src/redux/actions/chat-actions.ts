@@ -1,7 +1,7 @@
 import { OPEN_CHAT, HIDE_CHAT, SET_CHATS, ADD_CHAT, REMOVE_CHAT, ADD_UNREAD_CHAT, SET_CHAT_LAST_MSG_DATE, SET_OPEN_CHAT_ID } from '../../constants/action-types';
 import { IChatReceivingMessage } from '../../websockets/chat/interfaces';
 import { IReceivingChatData } from './../../websockets/chat/interfaces';
-import { RESET_UNREAD_MESSAGES } from './../../constants/action-types';
+import { RESET_UNREAD_MESSAGES, SET_NOTIFICATION_WATCHED_DATE } from './../../constants/action-types';
 
 //chatName - сейчас это логин пиздюка, с которым идет переписка
 export function openChatAction(chatName: string, chatViewName?: string, chatId?: number) {

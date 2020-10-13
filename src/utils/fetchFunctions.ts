@@ -837,13 +837,13 @@ export const checkBackendFetch = async () => {
 
 export const readNotificationsFetch = async (token: string) => {
     try {
-        await axios.get(rootUrl + "/notifications/read-notifications", {
+        const date = await axios.get(rootUrl + "/notifications/read-notifications", {
             headers: {
                 Authorization: 'Bearer ' + token
             }
         });
-        return true;
+        return date.data;
     } catch {
-        return false;
+        return null;
     }
 }

@@ -9,7 +9,9 @@ import { SearchCriteriaOperation, SortCriteriaDirection } from '../../utils/sear
 import { MessageStatus } from '../../utils/fetchInterfaces';
 import { IReceivingChatData } from './../../websockets/chat/interfaces';
 import { readMessagesFromChat } from '../../websockets/chat/actions';
-import { RESET_UNREAD_MESSAGES, SET_OPEN_CHAT_ID } from './../../constants/action-types';
+import { RESET_UNREAD_MESSAGES, SET_OPEN_CHAT_ID, SET_CHAT_NOTIFICATION } from './../../constants/action-types';
+import { initNotifications } from './notification-reducers';
+import { setChatNotificationAction } from './../actions/notification-actions';
 
 
 export interface IChatState {
@@ -32,13 +34,15 @@ const initialState: IChatState = {
 export function chatReducer(state = initialState, action): IChatState {
     switch (action.type) {
         case OPEN_CHAT:
+            const chats = state.chats && state.chats.map(chat => chat.name == action.chatName ? { ...chat, unreadMessageCount: 0 } : chat);
+            
             return {
                 ...state,
                 chatId: action.chatId != undefined ? action.chatId : state.chatId,
                 isOpen: true,
                 chatName: action.chatName,
                 chatViewName: action.chatViewName,
-                chats: state.chats && state.chats.map(chat => chat.name == action.chatName ? { ...chat, unreadMessageCount: 0 } : chat),
+                chats: chats,
             }
         case HIDE_CHAT:
             return {
@@ -56,7 +60,7 @@ export function chatReducer(state = initialState, action): IChatState {
                 })
             }
         }
-        case ADD_CHAT:
+        case ADD_CHAT: {
             let chats: Array<IReceivingChatData> = state.chats ? [...state.chats] : [];
             if (chats.filter((chat) => chat.id == action.chat.id).length == 0)
                 chats.push(action.chat);
@@ -67,7 +71,7 @@ export function chatReducer(state = initialState, action): IChatState {
                 ...state,
                 chats: chats
             }
-
+        }
         case REMOVE_CHAT: {
             return {
                 ...state,
@@ -128,14 +132,31 @@ export const getUnreadMessagesCount = (chats: Array<IReceivingChatData>) => {
     return chats.map(chat => chat.unreadMessageCount).reduce((sum, current) => sum + current, 0);
 }
 
+export const getUnreadMessagesLastDate = (chats: Array<IReceivingChatData>) => {
+    return new Date(Math.max(...chats.map(chat => chat.lastMessageDate ? Date.parse(chat.lastMessageDate) : 0)));
+}
+
 export const showChat: (chatName: string, viewName?: string, chatId?: number) => void = (chatName, viewName, chatId) =>
     async (dispatch, getState: () => RootState) => {
         if (!getStompClient())
             return;
 
+  
+
         await dispatch(openChatAction(chatName, viewName, chatId));
-        if (chatId)
+        if (chatId) {
+
             await dispatch(resetUnreadMessagesForChatAction(chatId));
+            const chats = getState().chatReducer.chats;
+            if(chats) {
+                const msgs = getState().chatReducer.chats ? getUnreadMessagesCount(chats) : 0;
+                if(msgs == 0) {
+                    dispatch( setChatNotificationAction(null) );
+                }
+            }
+        
+            //await dispatch(initNotifications())
+        }
         //const token = getState().authReducer.token;
         /* if (token)
             stompClient?.subscribe(rootUrl + "/user/security/queue/t", onMessageReceived); */
@@ -205,9 +226,15 @@ export const readAllMessagesInChat: (chatId: number, token: string) => void = (c
     async (dispatch, getState: () => RootState) => {
         //const chatName = getState().chatReducer.chatName;
         if (chatId) {
-            readMessagesFromChat(chatId);
+            await readMessagesFromChat(chatId);
             await dispatch(resetUnreadMessagesForChatAction(0));
-            
+            //await dispatch(initNotifications());
         }
 
+
+
     }
+
+
+
+    

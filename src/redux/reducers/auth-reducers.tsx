@@ -14,11 +14,12 @@ import { RootState } from '../store';
 import { addNotificationsAction } from '../actions/notification-actions';
 import { IChatReceivingMessage } from './../../websockets/chat/interfaces';
 import { USER_PREFIX, SECURITY, CHAT } from './../../websockets/channels';
-import { subscribeToChatMessagesTracking } from '../../websockets/chat/actions';
+import { subscribeToChatMessagesTracking, subscribeToNotificationsTracking } from '../../websockets/chat/actions';
 import { initChat } from './chat-reducers';
 import { addChatAction, addUnreadMessageToChatAction, setLastMessageDateForChat, setChatsAction } from '../actions/chat-actions';
 import { setOpenChatIdAction } from './../actions/chat-actions';
-import { initNotifications } from './notification-reducers';
+import { initNotifications, countNewNotifications } from './notification-reducers';
+import { setChatNotificationAction } from './../actions/notification-actions';
 
 
 export interface IAuthState {
@@ -315,6 +316,9 @@ const onConnected = (dispatch, getState: () => RootState) => () => {
             } else if (getState().chatReducer.chatName == message.sender) {
                 dispatch(setOpenChatIdAction(message.chatId));
                 dispatch(addUnreadMessageToChatAction(message.chatId));
+
+                //if(countNew ))
+
             }
             else dispatch(addUnreadMessageToChatAction(message.chatId));
         }
@@ -325,11 +329,28 @@ const onConnected = (dispatch, getState: () => RootState) => () => {
         //Если сервак считал нужным передать мне не только сообщение, но и чат, значит, следует попробовать добавить его в список чатов в редуксе
         if (message.newChat)
             await dispatch(addChatAction(message.newChat));
+        //await dispatch(initNotifications());
+    }
+
+    const onNotificationReceived = async (notificationOrEvent) => {
+        //alert(JSON.stringify(notification));
+
+        if(notificationOrEvent.isNoNotification) {
+            if(notificationOrEvent.eventType == "DELETE_CHAT_NOTIFICATION") {
+                dispatch( setChatNotificationAction(null) );
+            }
+        }
+        else
+            dispatch( setChatNotificationAction(notificationOrEvent) );
+/*         else {
+            if(notificationOrEvent.eventType == "DELETE_NOTIFICATION")
+                dispatch( setChatNotificationAction(null)  );
+        } */
     }
 
     //getStompClient()?.subscribe(rootUrl + "/user/security/queue/t", onMessageReceived(dispatch, getState));
     subscribeToChatMessagesTracking(onChatMessageReceived);
-
+    subscribeToNotificationsTracking(onNotificationReceived);
     /*     if (isReconnect) {
             dispatch(enqueueSnackbarAction({
                 message: "Соединение восстановлено",

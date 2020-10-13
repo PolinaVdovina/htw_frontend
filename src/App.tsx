@@ -28,6 +28,7 @@ import { stopWebsocketConnection } from './websockets/common';
 import useSound from 'use-sound';
 import { Button } from '@material-ui/core';
 import { urls } from './pages/urls';
+import { countNewNotifications } from './redux/reducers/notification-reducers';
 
 const sound = require('./notification.mp3')
 
@@ -108,6 +109,7 @@ interface IAppProps {
 }
 
 function mapStateToProps(state: RootState) {
+
   return {
     login: state.authReducer.login,
     isLoading: state.dialogReducer.isLoading,
@@ -115,7 +117,7 @@ function mapStateToProps(state: RootState) {
     isPersonalDataFetched: state.userPersonalsReducer.isFetched,
     token: state.authReducer.token,
     isChatOpen: state.chatReducer.isOpen,
-    newNotifications: state.notificationReducer.newNotifications,
+    newNotifications: countNewNotifications(state.notificationReducer.notifications, state.notificationReducer.notificationWatchLastDate).length,
     unreadMessages: state.chatReducer.chats ? getUnreadMessagesCount(state.chatReducer.chats) : 0
   }
 }

@@ -6,6 +6,7 @@ import { APP } from '../channels';
 import Stomp from 'stompjs';
 import { USER_PREFIX } from './../channels';
 import { WRITING_TRACKING } from './../channels';
+import { NOTIFICATION } from './../channels';
 
 export const sendMessage = (to: string, message: IChatSendingMessage) => {
     getStompClient()?.send(ROOT + APP + "/chat.sendMessage/" + to, {}, JSON.stringify(message));
@@ -66,4 +67,13 @@ export const subscribeToNewChatTracking = (onChatMessageReceived: (message: ICha
     } 
 
     return getStompClient()?.subscribe(USER_PREFIX + SECURITY + CHAT, onMessageReceived);
+}
+
+export const subscribeToNotificationsTracking = ( onNotificationReceived: (notification: any) => void ) => {
+    const onMessageReceived = (msg: Stomp.Message) => {
+        const msgBody: IChatReceivingMessage = JSON.parse(msg.body);
+        onNotificationReceived(msgBody);
+    } 
+
+    return getStompClient()?.subscribe(USER_PREFIX + SECURITY + NOTIFICATION, onMessageReceived);
 }
