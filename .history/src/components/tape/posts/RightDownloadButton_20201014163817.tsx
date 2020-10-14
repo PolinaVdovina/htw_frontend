@@ -41,20 +41,18 @@ export const RightDownloadButtonComp = (props: IRightDownloadButton) => {
                 Выберите тип файла
             </DialogTitle>
             <DialogContent>
-                <Grid container direction="column" alignItems="center">
+                <Grid direction="column" style={{flexGrow: "1"}}>
                     <RadioGroup aria-label="gender" name="gender1" value={fileType} onChange={handleChange}>
                         <FormControlLabel value={FileTypes.WORD} control={<Radio />} label=".docx" />
                         <FormControlLabel value={FileTypes.PDF} control={<Radio />} label=".pdf" />
                     </RadioGroup>
-                    <Grid item>
-                        <Button 
-                            variant="contained"
-                            style={{'margin': theme.spacing(1), width:"60%"}}
-                            color="primary"
-                            onClick={handleClick}>
-                            ОК
-                        </Button>
-                    </Grid>
+                    <Button 
+                        variant="contained"
+                        style={{'margin': theme.spacing(1), flexGrow: "1"}}
+                        color="primary"
+                        onClick={handleClick}>
+                        ОК
+                    </Button>
                 </Grid>
             </DialogContent>
         </Dialog>

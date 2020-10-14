@@ -1,6 +1,6 @@
 import * as React from "react"
 import GetAppIcon from '@material-ui/icons/GetApp';
-import { Button, Dialog, DialogContent, DialogTitle, FormControlLabel, Grid, IconButton, Link, Radio, RadioGroup, useTheme } from "@material-ui/core";
+import { Button, Dialog, DialogContent, DialogTitle, FormControlLabel, IconButton, Link, Radio, RadioGroup } from "@material-ui/core";
 import { connect } from 'react-redux';
 import { RootState } from "../../../redux/store";
 import { saveDocResumeFetch } from "../../../utils/fetchFunctions";
@@ -20,7 +20,6 @@ export const RightDownloadButtonComp = (props: IRightDownloadButton) => {
     const [ref, setRef] = React.useState(React.createRef<HTMLAnchorElement>());
     const [openDialog, setOpenDialog] = React.useState(false);
     const [fileType, setFileType] = React.useState(FileTypes.WORD)
-    const theme = useTheme();
     const rootUrl = "/api";
 
     const handleClick = async () => {
@@ -28,7 +27,6 @@ export const RightDownloadButtonComp = (props: IRightDownloadButton) => {
         newRef.current.href = rootUrl + "/personal/resume/getfile/" + props.id
         newRef.current.download = "resume.docx"
         newRef.current.click()
-        setOpenDialog(false);
     }
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -41,21 +39,13 @@ export const RightDownloadButtonComp = (props: IRightDownloadButton) => {
                 Выберите тип файла
             </DialogTitle>
             <DialogContent>
-                <Grid container direction="column" alignItems="center">
-                    <RadioGroup aria-label="gender" name="gender1" value={fileType} onChange={handleChange}>
-                        <FormControlLabel value={FileTypes.WORD} control={<Radio />} label=".docx" />
-                        <FormControlLabel value={FileTypes.PDF} control={<Radio />} label=".pdf" />
-                    </RadioGroup>
-                    <Grid item>
-                        <Button 
-                            variant="contained"
-                            style={{'margin': theme.spacing(1), width:"60%"}}
-                            color="primary"
-                            onClick={handleClick}>
-                            ОК
-                        </Button>
-                    </Grid>
-                </Grid>
+                <RadioGroup aria-label="gender" name="gender1" value={fileType} onChange={handleChange}>
+                    <FormControlLabel value={FileTypes.WORD} control={<Radio />} label=".docx" />
+                    <FormControlLabel value={FileTypes.PDF} control={<Radio />} label=".pdf" />
+                </RadioGroup>
+                <Button onClick={handleClick}>
+                    ОК
+                </Button>
             </DialogContent>
         </Dialog>
         <IconButton
