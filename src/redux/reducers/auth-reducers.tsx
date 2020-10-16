@@ -16,11 +16,11 @@ import { IChatReceivingMessage } from './../../websockets/chat/interfaces';
 import { USER_PREFIX, SECURITY, CHAT } from './../../websockets/channels';
 import { subscribeToChatMessagesTracking, subscribeToNotificationsTracking } from '../../websockets/chat/actions';
 import { initChat } from './chat-reducers';
-import { addChatAction, addUnreadMessageToChatAction, setLastMessageDateForChat, setChatsAction } from '../actions/chat-actions';
+import { addChatAction, addUnreadMessageToChatAction, setLastMessageDateForChat, setChatsAction, hideChatAction } from '../actions/chat-actions';
 import { setOpenChatIdAction } from './../actions/chat-actions';
 import { initNotifications, countNewNotifications } from './notification-reducers';
-import { setChatNotificationAction } from './../actions/notification-actions';
-
+import { setChatNotificationAction, setNotificationWatchedDate, setNotificationsAction } from './../actions/notification-actions';
+import { SET_CHAT_NOTIFICATION } from './../../constants/action-types';
 
 export interface IAuthState {
     authCompleteStatus?: boolean | null,
@@ -140,7 +140,9 @@ export const register: (identity: string, password: string, role: string,
                 }
                 await dispatch(loginAction(identity, result.token, 0, role));
                 initWebsocketWithSubscribes(dispatch, getState);
+                await dispatch(setNotificationWatchedDate("1970-01-01"));
                 await dispatch(authCompletedAction(true));
+
                 dispatch(enqueueSnackbarAction({
                     message: "Пользователь успешно зарегистрирован",
                     options: { variant: "success" }
@@ -234,6 +236,9 @@ export const logout: () => void = () =>
         await dispatch(logoutAction());
         await dispatch(resetPersonalDataAction());
         await dispatch(setChatsAction(null));
+        await dispatch(hideChatAction());
+        await dispatch(setNotificationsAction(null));
+        
         clearAuth();
         stopWebsocketConnection();
         await dispatch(stopLoadingAction());

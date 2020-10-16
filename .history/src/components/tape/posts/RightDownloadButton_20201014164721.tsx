@@ -7,7 +7,7 @@ import { saveDocResumeFetch } from "../../../utils/fetchFunctions";
 import { MessageStatus } from "../../../utils/fetchInterfaces";
 
 const FileTypes = {
-    WORD: "docx",
+    WORD: "word",
     PDF: "pdf"
 }
 
@@ -25,8 +25,8 @@ export const RightDownloadButtonComp = (props: IRightDownloadButton) => {
 
     const handleClick = async () => {
         let newRef: any = ref
-        newRef.current.href = rootUrl + "/personal/resume/getfile/"+ fileType + "/" + props.id
-        newRef.current.download = "resume." + fileType
+        newRef.current.href = rootUrl + "/personal/resume/getfile/" + props.id
+        newRef.current.download = "resume.docx"
         newRef.current.click()
         setOpenDialog(false);
     }

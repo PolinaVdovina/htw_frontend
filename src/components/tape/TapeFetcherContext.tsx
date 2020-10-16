@@ -68,7 +68,7 @@ export const TapeFetcherProvider = (props: ITapeFetcherProvider) => {
             }
             else {
                 if(sortingKey == "createdDate")
-                    minDateForFilter = new Date(Date.now()).toISOString();
+                    minDateForFilter = new Date("2100-01-01").toISOString();    //КОСТЫЛИЩЕ
             }
             const fetchResult = await dataFetchFunction(minDateForFilter, fetchCount);
             if ((fetchResult.msgInfo.msgStatus == MessageStatus.OK) && (fetchResult.result)) {

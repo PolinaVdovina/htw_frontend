@@ -7,7 +7,7 @@ import { saveDocResumeFetch } from "../../../utils/fetchFunctions";
 import { MessageStatus } from "../../../utils/fetchInterfaces";
 
 const FileTypes = {
-    WORD: "docx",
+    WORD: "word",
     PDF: "pdf"
 }
 
@@ -25,8 +25,8 @@ export const RightDownloadButtonComp = (props: IRightDownloadButton) => {
 
     const handleClick = async () => {
         let newRef: any = ref
-        newRef.current.href = rootUrl + "/personal/resume/getfile/"+ fileType + "/" + props.id
-        newRef.current.download = "resume." + fileType
+        newRef.current.href = rootUrl + "/personal/resume/getfile/" + props.id
+        newRef.current.download = "resume.docx"
         newRef.current.click()
         setOpenDialog(false);
     }
@@ -41,20 +41,17 @@ export const RightDownloadButtonComp = (props: IRightDownloadButton) => {
                 Выберите тип файла
             </DialogTitle>
             <DialogContent>
-                <Grid container direction="column" alignItems="center">
+                <Grid direction="column">
                     <RadioGroup aria-label="gender" name="gender1" value={fileType} onChange={handleChange}>
                         <FormControlLabel value={FileTypes.WORD} control={<Radio />} label=".docx" />
                         <FormControlLabel value={FileTypes.PDF} control={<Radio />} label=".pdf" />
                     </RadioGroup>
-                    <Grid item>
-                        <Button 
-                            variant="contained"
-                            style={{'margin': theme.spacing(1), width:"60%"}}
-                            color="primary"
-                            onClick={handleClick}>
-                            ОК
-                        </Button>
-                    </Grid>
+                    <Button 
+                        variant="contained"
+                        style={{'margin': theme.spacing(1), flexGrow: 1}}
+                        onClick={handleClick}>
+                        ОК
+                    </Button>
                 </Grid>
             </DialogContent>
         </Dialog>

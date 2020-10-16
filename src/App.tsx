@@ -29,7 +29,7 @@ import useSound from 'use-sound';
 import { Button } from '@material-ui/core';
 import { urls } from './pages/urls';
 import { countNewNotifications } from './redux/reducers/notification-reducers';
-
+import Logo from "./logo.svg"
 const sound = require('./notification.mp3')
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -83,7 +83,7 @@ const useStyles = makeStyles((theme: Theme) =>
       }
     },
     menuButton: {
-      marginRight: theme.spacing(2),
+      marginRight: theme.spacing(1),
       display: "none",
       [theme.breakpoints.down('xs')]: {
         display: "block",
@@ -206,29 +206,39 @@ function App(props: IAppProps) {
                   </>
                 }
                 <AppMenu
-                  leftAppartment={props.authCompleteStatus && (
-                    <IconButton
-                      key={1}
-                      onClick={(event) => setMenuOpen(true)} className={classes.menuButton}
-                      edge="start"
-                      color="inherit"
-                      aria-label="menu"
-                    >
-                      <MenuIcon />
-                    </IconButton>
-                  )}
+                  leftAppartment={
+                    <>
+                      {props.authCompleteStatus && (
+                        <IconButton
+                          key={1}
+                          onClick={(event) => setMenuOpen(true)} className={classes.menuButton}
+                          edge="start"
+                          color="inherit"
+                          aria-label="menu"
+                        >
+                          <MenuIcon />
+                        </IconButton>
+                      )}
+                      <Grid container style={{ height: 46, width: 46, marginRight: theme.spacing(1), borderRadius: "100%", backgroundColor: "white" }}>
+                        <img src={Logo} style={{width: "inherit"}}/>
+                      </Grid>
+                    </>
+                  }
                   rightAppartment={props.authCompleteStatus && props.isPersonalDataFetched &&
-                    <IconButton key={2} color="inherit">
+                    <IconButton
+                      component={NavLink}
+                      to={urls.notifications.shortPath}
+                      key={2}
+                      color="inherit"
+                    >
                       <Badge
-                        component={NavLink}
-                        to={urls.notifications.shortPath}
                         badgeContent={props.newNotifications} color={"error"}
                       >
-                        <NotificationsIcon style={{color:"white"}} />
+                        <NotificationsIcon style={{ color: "white" }} />
                       </Badge>
                     </IconButton>
                   }
-                  title="How To Fuzzy Work" />
+                  title="How To Work" />
                 {
                   //<div className = {classes.fakeAppMenuPaper}/>
                   props.authCompleteStatus &&

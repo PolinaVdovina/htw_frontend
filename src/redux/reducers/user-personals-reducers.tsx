@@ -191,9 +191,6 @@ export const getPersonalData: (token: string) => void = (token) =>
     async (dispatch, getState) => {
         dispatch(startLoadingAction());
         const role = getState().authReducer.entityType;
-
-        
-
         switch (role) {
             case ("ROLE_JOBSEEKER"):
                 const jobSeekerData = await getPersonalDataFetch(getState().authReducer.token, 'personal');
@@ -207,18 +204,25 @@ export const getPersonalData: (token: string) => void = (token) =>
                 const employerData = await getPersonalDataFetch(getState().authReducer.token, 'employer');
                 const employerDict = accountRequestToEntityDictionary(employerData, role);
                 await dispatch(fillPersonalDataAction(employerDict));
+                if(employerDict)
+                    await dispatch(setNotificationWatchedDate(employerDict.notificationWatchedDate));
                 break;
 
             case ("ROLE_INSTITUTION"):
                 const institutionData = await getPersonalDataFetch(getState().authReducer.token, 'institution');
                 const institutionDict = accountRequestToEntityDictionary(institutionData, role);
                 await dispatch(fillPersonalDataAction(institutionDict));
+                if(institutionDict)
+                    await dispatch(setNotificationWatchedDate(institutionDict.notificationWatchedDate));
                 break;
 
             case ("ROLE_EMPLOYEE"):
                 const employeeData = await getPersonalDataFetch(getState().authReducer.token, 'employee');
                 const employeeDict = accountRequestToEntityDictionary(employeeData, role);
                 await dispatch(fillPersonalDataAction(employeeDict));
+                if(employeeDict)
+                    await dispatch(setNotificationWatchedDate(employeeDict.notificationWatchedDate));
+                
                 break;
         }
         dispatch(stopLoadingAction());

@@ -17,7 +17,7 @@ export const RespondViewPost = (props) => {
     ]
 
     return (
-        cabinetContext && cabinetContext.isMine &&
+        cabinetContext.isMine &&
             <ExecuteDialogButtons executeDialogButtons={executeDialogButtons} />
     )
 }

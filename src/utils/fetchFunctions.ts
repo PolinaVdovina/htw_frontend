@@ -381,7 +381,7 @@ export const isValidTokenFetch = async (token: string) => {
         }
     }
     catch(error) {
-        if(error.response.status != 504)
+        if((error.response.status == 403)||(error.response.status == 500)||(error.response.status == 504))
             return false;
         else return null;
     }
