@@ -139,7 +139,7 @@ export const ChangeCompetences = (props : IChangeCompetences) => {
         }        
     }
 
-    return(<div>
+    return(<>
         <TextField 
             variant='outlined' 
             size='small' 
@@ -189,6 +189,6 @@ export const ChangeCompetences = (props : IChangeCompetences) => {
                 </Collapse>
             </>)}            
         </List>
-    </div>)
+    </>)
 }
 

@@ -139,7 +139,7 @@ export const ChangeCompetences = (props : IChangeCompetences) => {
         }        
     }
 
-    return(<div>
+    return(<div style={{width: "80%"}}>
         <TextField 
             variant='outlined' 
             size='small' 
