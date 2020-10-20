@@ -11,6 +11,8 @@ import { Analytics } from "./cabinet/institution/Analytics";
 import { SettingsPage } from "./settings/SettingsPage";
 import { ChatList } from "./chat/ChatList";
 import { Notification } from './notifications/Notification';
+import { AccountActivation } from './account-activation/AccountActivation';
+import { AccountActivationSuccess } from './account-activation/AccountActivationSuccess';
 
 export const Routes = () =>
     <>
@@ -24,5 +26,7 @@ export const Routes = () =>
         <Route path={urls.settings.path} component={SettingsPage}/>
         <Route path={urls.notifications.path} component={Notification}/>
         <Route exact path={urls.home.path} component={NewsComponent}/>
+        <Route path={urls.accountActivation.path} component={AccountActivation}/>
+        <Route path={urls.accountActivationSuccess.path} component={AccountActivationSuccess}/>
     </>
 

@@ -49,5 +49,15 @@ export const urls = {
         title: 'Настройки',
         path: '/settings/',
         shortPath: '/settings'
+    },
+    accountActivation: {
+        title: "Подтвердите аккаунт",
+        path: "/activation",
+        shortPath:"/activation"
+    },
+    accountActivationSuccess: {
+        title: "Аккаунт подтвержден",
+        path: "/activation-success/:code",
+        shortPath:"/activation-success"
     }
 }

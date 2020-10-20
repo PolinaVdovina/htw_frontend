@@ -1,6 +1,6 @@
 import { Button, Card, Grid, Typography, makeStyles, Theme, createStyles, TextField, Select, FormControl, MenuItem, Link } from '@material-ui/core';
 import React, { useState } from 'react';
-import { validateRegPasword, validateRegLoginConnect, validateLogin } from '../../utils/validateFunctions';
+import { validateRegPasword, validateRegLoginConnect, validateLogin, validateEmailString } from '../../utils/validateFunctions';
 import { startLoadingAction, stopLoadingAction } from '../../redux/actions/dialog-actions';
 import { loginAction } from '../../redux/actions/auth-actions';
 import { useDispatch, connect } from 'react-redux';
@@ -9,7 +9,7 @@ import { useSnackbar } from 'notistack';
 import { fillPersonalDataAction } from '../../redux/actions/user-personals';
 import { useStyles } from './styles';
 import { urls } from '../../pages/urls';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, Redirect } from 'react-router-dom';
 import { register } from './../../redux/reducers/auth-reducers';
 import { RootState } from '../../redux/store';
 
@@ -40,13 +40,17 @@ const RegCardComp = (props: IRegCardProps) => {
     const [errorLogin, setErrorLogin] = useState('');
     const [errorLoginConnect, setErrorLoginConnect] = useState('');
     const [nameOrg, setNameOrg] = useState('');
+    const [registerSuccess, setRegisterSuccess] = useState(false);
     const snackBar = useSnackbar();
     const dispatch = useDispatch();
     async function validate() {
         const prePasswordErrorValidate = validateRegPasword(password);
         const preLoginErrorValidate = validateLogin(login);
-        const preLoginConnectErrorValidate = validateRegLoginConnect(loginConnect)['error'];
-        let typeLoginConnect = validateRegLoginConnect(loginConnect)['type'];
+        //const preLoginConnectErrorValidate = validateRegLoginConnect(loginConnect)['error'];
+
+        const validatedEmail = validateEmailString(loginConnect).isValid;
+        const preLoginConnectErrorValidate = validatedEmail ? "" : "Введите корректный e-mail"
+        //let typeLoginConnect = validateRegLoginConnect(loginConnect)['type'];
         setErrorPassword(prePasswordErrorValidate);
         setErrorLoginConnect(preLoginConnectErrorValidate);
         setErrorLogin(preLoginErrorValidate);
@@ -64,7 +68,16 @@ const RegCardComp = (props: IRegCardProps) => {
         setErrorRole(preRoleErrorValidate);
         setErrorConfirmPassword(preConfirmPasswordErrorValidate);
         if (prePasswordErrorValidate == '' && preLoginErrorValidate == '' && preLoginConnectErrorValidate == '' && preConfirmPasswordErrorValidate == '' && preRoleErrorValidate =='') {
-            props.register(login, password, role, typeLoginConnect=='phone' ? loginConnect : null, typeLoginConnect=='email' ? loginConnect : null, undefined, nameOrg != '' ? nameOrg : null )
+            //props.register(login, password, role, typeLoginConnect=='phone' ? loginConnect : null, typeLoginConnect=='email' ? loginConnect : null, undefined, nameOrg != '' ? nameOrg : null )
+            //props.register(login, password, role, null, loginConnect, undefined, nameOrg != '' ? nameOrg : null )
+            dispatch(startLoadingAction());
+            const fetch = await registerFetch(login, loginConnect, null, password, role,nameOrg != '' ? nameOrg : null);
+            if(fetch.msgStatus != "ok")
+                snackBar.enqueueSnackbar("Данный логин занят", {variant: "error"});
+            else 
+                setRegisterSuccess(true);
+            dispatch(stopLoadingAction());
+            //props.register(login, password, role, null, loginConnect, undefined, nameOrg != '' ? nameOrg : null, false )
         }
         else {
             snackBar.enqueueSnackbar("Форма регистрации заполнена некорректно!", {variant: "error"});
@@ -73,6 +86,7 @@ const RegCardComp = (props: IRegCardProps) => {
     
     return (
         <Card className={classes.root}>
+            {registerSuccess && <Redirect to={urls.accountActivation.shortPath}/>}
             <Grid container direction="column" justify='center'>
                 <Grid item>
                     <Typography variant="h5" className={classes.title}>
@@ -105,7 +119,8 @@ const RegCardComp = (props: IRegCardProps) => {
                         variant="outlined"
                         margin="normal"
                         required
-                        placeholder='Номер телефона или e-mail'
+                        //placeholder='Номер телефона или e-mail'
+                        placeholder='Электронная почта'
                         error={errorLoginConnect!=''}
                         name="email"
                         helperText={errorLoginConnect}
@@ -184,7 +199,7 @@ const RegCardComp = (props: IRegCardProps) => {
                         </Button>
                    
                     <Link component={RouterLink} to={urls.authentication.shortPath}>
-                        Есть аккаунт?
+                        Авторизация
                     </Link>
                 </Grid>
             </Grid>

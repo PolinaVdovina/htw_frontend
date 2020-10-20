@@ -11,7 +11,8 @@ interface ILoginResponse {
     token?: string,
     msgStatus?: string,
     error?: string,
-    role?: string
+    role?: string,
+    activated?: boolean,
 }
 
 
@@ -65,20 +66,28 @@ export const registerFetch = async (login, email, phone, password, role, nameOrg
             roles: role,
             nameOrg
         });
-
-        if (response.data.token) {
+        if(response.status == 200)
             returnData = {
-                login: login,
-                token: response.data.token,
-                msgStatus: "ok"
-            };
-        }
-        else {
+                msgStatus: "ok",
+            }
+        else
             returnData = {
                 msgStatus: "error",
-                error: "Какая-нибудь ошибка!"
+                error: "Какая-нибудь ошибка с сетью!"
             };
-        }
+        // if (response.data.token) {
+        //     returnData = {
+        //         login: login,
+        //         token: response.data.token,
+        //         msgStatus: "ok"
+        //     };
+        // }
+        // else {
+        //     returnData = {
+        //         msgStatus: "error",
+        //         error: "Какая-нибудь ошибка!"
+        //     };
+        // }
     }
     catch
     {
@@ -846,4 +855,14 @@ export const readNotificationsFetch = async (token: string) => {
     } catch {
         return null;
     }
+}
+
+export const activateAccountFetch = async (code: string) => {
+    try {
+        const response = await axios.get(rootUrl + "/auth/activate/" + code);
+        return response.data;
+    } catch {
+        return null;
+    }
+    
 }
