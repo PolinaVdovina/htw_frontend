@@ -27,7 +27,7 @@ export const PersonalTabComp = (props) => {
     const classes = useStyles();
     const snackbar = useSnackbar();
     const dispatch = useDispatch();
-    const [openChange, setOpenChange] = React.useState(false);
+    const [openChange, setOpenChange] = React.useState("");
     const [privatePhone, setPrivatePhone] = React.useState(false);
     const [privateAddress, setPrivateAddress] = React.useState(false);
     const [privateSocMedia, setPrivateSocMedia] = React.useState(false);
@@ -121,24 +121,6 @@ export const PersonalTabComp = (props) => {
                     onChange={handleClickChangeAddressPrivate}
                     color="primary"
                 />
-            </Grid>
-            <Grid item container justify='flex-start'>
-                { !openChange &&
-                    <Link 
-                        component='button' 
-                        variant='h6'
-                        onClick={() => setOpenChange(true)}
-                    >
-                        Сменить пароль
-                    </Link>
-                }
-                { openChange &&
-                    <ChangeComponent
-                        handleClickClose={() => setOpenChange(false)}
-                        role='SETTINGS_PERSONAL'
-                        type='password'
-                    />
-                }
             </Grid>
         </Grid>
     )

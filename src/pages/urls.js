@@ -4,6 +4,14 @@ export const urls = {
         path: '/',
         shortPath: '/',
     },
+    registrationWithRole: {
+        title: 'Регистрация',
+        path: '/register/:role',
+        shortPath: '/register',
+        shortPathJobseeker: '/register/ROLE_JOBSEEKER',
+        shortPathEmployer: '/register/ROLE_EMPLOYER',
+        shortPathInstitution: '/register/ROLE_INSTITUTION',
+    },
     registration: {
         title: 'Регистрация',
         path: '/register/',
@@ -13,6 +21,16 @@ export const urls = {
         title: 'Аутентификация',
         path: '/auth/',
         shortPath: '/auth',
+    },
+    typeNewPassword: {
+        title: "Смена пароля",
+        path: "/type-new-password/:token",
+        shortPath: "/type-new-password"
+    },
+    passwordRecoveryRequest: {
+        title: "Восстановление пароля",
+        path: "/password-recovery",
+        shortPath: "/password-recovery"
     },
     notifications: {
         title: 'Уведомления',
@@ -59,5 +77,10 @@ export const urls = {
         title: "Аккаунт подтвержден",
         path: "/activation-success/:code",
         shortPath:"/activation-success"
+    },
+    changeEmail: {
+        title: "Почта изменена",
+        path: "/change-email/:token",
+        shortPath: "/change-email",
     }
 }

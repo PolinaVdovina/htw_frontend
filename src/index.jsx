@@ -57,7 +57,7 @@ function notifyMe() {
   // want to be respectful there is no need to bother them any more.
 }
 
-notifyMe();
+//notifyMe();
 
 serviceWorker.register();
 

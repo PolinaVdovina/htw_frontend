@@ -9,7 +9,7 @@ import { useSnackbar } from 'notistack';
 import { fillPersonalDataAction } from '../../redux/actions/user-personals';
 import { useStyles } from './styles';
 import { urls } from '../../pages/urls';
-import { Link as RouterLink, Redirect } from 'react-router-dom';
+import { Link as RouterLink, Redirect, useRouteMatch } from 'react-router-dom';
 import { register } from './../../redux/reducers/auth-reducers';
 import { RootState } from '../../redux/store';
 
@@ -28,9 +28,13 @@ const mapDispatchToProps = {
 }
 
 const RegCardComp = (props: IRegCardProps) => {
+
+    const routeMatch = useRouteMatch();
+    const urlRole = routeMatch.params['role'];
+
     const classes = useStyles();
     const [login, setLogin] = useState('');
-    const [role, setRole] = useState('');
+    const [role, setRole] = useState(urlRole);
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [loginConnect, setLoginConnect] = useState('');
@@ -43,6 +47,7 @@ const RegCardComp = (props: IRegCardProps) => {
     const [registerSuccess, setRegisterSuccess] = useState(false);
     const snackBar = useSnackbar();
     const dispatch = useDispatch();
+
     async function validate() {
         const prePasswordErrorValidate = validateRegPasword(password);
         const preLoginErrorValidate = validateLogin(login);
@@ -72,8 +77,13 @@ const RegCardComp = (props: IRegCardProps) => {
             //props.register(login, password, role, null, loginConnect, undefined, nameOrg != '' ? nameOrg : null )
             dispatch(startLoadingAction());
             const fetch = await registerFetch(login, loginConnect, null, password, role,nameOrg != '' ? nameOrg : null);
-            if(fetch.msgStatus != "ok")
-                snackBar.enqueueSnackbar("Данный логин занят", {variant: "error"});
+            if(fetch.msgStatus != "ok") {
+                if(fetch.error == "NOT_ORIGINAL_LOGIN")
+                    snackBar.enqueueSnackbar("Данный логин занят", {variant: "error"});
+                else
+                    if(fetch.error == "NOT_ORIGINAL_EMAIL")
+                snackBar.enqueueSnackbar("Данный email занят", {variant: "error"});
+            }
             else 
                 setRegisterSuccess(true);
             dispatch(stopLoadingAction());

@@ -3,6 +3,7 @@ import axios from "axios";
 import { IMessageInfo, MessageStatus } from "./fetchInterfaces";
 import { ITapeElementProps } from './../components/tape/posts/TapeElement';
 import { ISearchCriteriaRequest } from "./search-criteria/types";
+import { changePassword } from './change-component-utils';
 
 const rootUrl = "/api";
 
@@ -24,7 +25,15 @@ export const loginFetch = async (identity, password) => {
             password: password,
         });
 
-        if (response.data.token && response.data.accountLogin) {
+        if(response.data.activated == false) {
+            returnData = {
+                activated: false,
+                role: response.data.role,
+                login: response.data.accountLogin,
+                msgStatus: "ok"
+            }
+        } 
+        else if (response.data.token && response.data.accountLogin) {
             returnData = {
                 login: response.data.accountLogin,
                 token: response.data.token,
@@ -73,7 +82,7 @@ export const registerFetch = async (login, email, phone, password, role, nameOrg
         else
             returnData = {
                 msgStatus: "error",
-                error: "Какая-нибудь ошибка с сетью!"
+                error: response.data.message.errorMsg,
             };
         // if (response.data.token) {
         //     returnData = {
@@ -89,11 +98,12 @@ export const registerFetch = async (login, email, phone, password, role, nameOrg
         //     };
         // }
     }
-    catch
+    catch(error)
     {
         returnData = {
             msgStatus: "error",
-            error: "Какая-нибудь ошибка с сетью!"
+            error: error.response.data.message.errorMsg,
+            
         };
     }
 
@@ -866,3 +876,60 @@ export const activateAccountFetch = async (code: string) => {
     }
     
 }
+
+export const recoveryPasswordByEmailFetch = async(email: string) => {
+    try {
+        const response = await axios.get(rootUrl + "/auth/recovery-password-request?email=" + email);
+        return true;
+    } catch {
+        return false;
+    }
+}
+
+export const changePasswordByTokenFetch = async (token: string, newPassword: string) => {
+    try {
+        const response = await axios.post(rootUrl + "/auth/recovery-password", {
+                token,
+                newPassword,
+            }
+        );
+        return true;
+    } catch {
+        return false;
+    }
+}
+
+export const changeEmailRequestFetch = async(email: string, login: string, password: string) => {
+    try {
+        const response = await axios.post(rootUrl + "/auth/change-email-request", {login, email, password});
+        const msg: IMessageInfo = {
+            msgStatus: response.data.error || (response.data.status && response.data.status == 'error') ? MessageStatus.ERROR : MessageStatus.OK,
+        }
+        return msg;
+    } catch (e) {
+        const msg: IMessageInfo = {
+            msgStatus: MessageStatus.ERROR,
+            error: e != 403 ? "Не удалось подключиться к серверу" : "Неверный пароль"
+        }
+        return msg;
+    }
+}
+
+
+export const changeEmailFetch = async(token: string) => {
+    try {
+        const response = await axios.get(rootUrl + "/auth/change-email?token="+token);
+        const msg: IMessageInfo = {
+            msgStatus: response.data.error || (response.data.status && response.data.status == 'error') ? MessageStatus.ERROR : MessageStatus.OK,
+        }
+        return msg;
+    } catch (e) {
+        const msg: IMessageInfo = {
+            msgStatus: MessageStatus.ERROR,
+            error: e != 403 ? "Не удалось подключиться к серверу" : "Неверный пароль"
+        }
+        return msg;
+    }
+}
+
+

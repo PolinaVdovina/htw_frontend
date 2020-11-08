@@ -9,6 +9,7 @@ import { ChangeCompetences } from "./ChangeCompetences"
 import { SimpleTypography } from "../displayMiniComponents/SimpleTypography"
 import { ChangePassword } from "./ChangePassword"
 import { listCompetence } from "../../../constants/listCompetence"
+import { ChangeComponent } from '../ChangeComponent';
 
 export const settingsAddress = {
     /*'country': {
@@ -122,6 +123,17 @@ export const settingsEmail = {
     email: {
         title: 'Новый адрес',
         changeComponent: ChangeOneString
+    }
+}
+
+export const settingsEmailForAccess = {
+    email: {
+        title: 'Новый адрес',
+        changeComponent: ChangeOneString
+    },
+    password: {
+        title: 'Пароль',
+        changeComponent: ChangePassword ,
     }
 }
 

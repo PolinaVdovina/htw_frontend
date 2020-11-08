@@ -83,13 +83,13 @@ export const login: (identity: string, password: string, rememberMe?: boolean) =
             rememberMe = true;
         await dispatch(startLoadingAction());
         const result = await loginFetch(identity, password);
-        if (result.msgStatus == "ok" && result.token && result.role) {
+        if (result.msgStatus == "ok" && result.token && result.role && result.login) {
             if (rememberMe) {
                 localStorage.setItem("token", result.token);
                 localStorage.setItem("role", result.role);
-                localStorage.setItem("login", identity);
+                localStorage.setItem("login", result.login);
             }
-            await dispatch(loginAction(identity, result.token, 0, result.role));
+            await dispatch(loginAction(result.login, result.token, 0, result.role));
             await Promise.all([dispatch(initChat(result.token)), dispatch(getPersonalData(result.token)), initWebsocketWithSubscribes(dispatch, getState)]);
             await dispatch(authCompletedAction(true));
 
@@ -98,7 +98,7 @@ export const login: (identity: string, password: string, rememberMe?: boolean) =
                 options: { variant: "success" }
             }));
 
-        } else if(!result.activated) {
+        } else if(result.activated == false) {
             await dispatch(enqueueSnackbarAction(
                 {
                     message: "Учетная запись не активирована",

@@ -1,10 +1,12 @@
 import { fillPersonalDataAction } from "../redux/actions/user-personals"
-import { changePersonalDataFetch as changePersonalDataFetch, deletePersonalDataFetch, changeEmployerAddressFetch, changePasswordFetch } from "./fetchFunctions";
+import { changePersonalDataFetch as changePersonalDataFetch, deletePersonalDataFetch, changeEmployerAddressFetch, changePasswordFetch, changeEmailRequestFetch } from './fetchFunctions';
 import { IMessageInfo, MessageStatus } from "./fetchInterfaces";
 import { addressGlue, genderIntToStr, jobApplGlue, dateParse } from "./appliedFunc";
 import { store } from './../redux/store';
 import { loginAction, authCompletedAction } from "../redux/actions/auth-actions";
 import { login } from "../redux/reducers/auth-reducers";
+import { ENQUEUE_SNACKBAR } from '../constants/action-types';
+import { enqueueSnackbar } from '../redux/actions/snackbar-action';
 
 
 //Я не мог удалить О СЕБЕ из-за underfined (пустую строку оставил), добавил эту штуку
@@ -25,6 +27,25 @@ export const changeJobSeekerData = async (dispatch, data) => {
     if (msgInfo.msgStatus == MessageStatus.OK) {
         await dispatch(fillPersonalDataAction(data));
     }
+    return msgInfo;
+}
+
+//Для смены электронной почту у АККАУНТА (не изменение контактного емейла)
+export const changeEmail = async (dispatch, data) => {
+    const login =  store.getState().authReducer.login|| "";
+    const msgInfo: IMessageInfo = await changeEmailRequestFetch(data.email, login , data.password);
+
+    //alert(msgInfo.msgStatus==MessageStatus.OK)
+    if (msgInfo.msgStatus == MessageStatus.OK) {
+         await dispatch(enqueueSnackbar(
+            {
+                message: "На новую почту пришло сообщение с ссылкой на подтверждение изменения.",
+                options: { variant: "success" }
+            })); 
+
+        await dispatch(fillPersonalDataAction(data));
+    }
+    
     return msgInfo;
 }
 
