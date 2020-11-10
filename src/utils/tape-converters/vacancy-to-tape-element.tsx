@@ -20,6 +20,8 @@ interface IVacancy {
     experience: string,
     address: any,
     email: string,
+    vacancyType?: string,
+    employment?: string,
 }
 
 export function vacancyToPost(vacancyData: IVacancy): ITapeElementData {
@@ -37,6 +39,24 @@ export function vacancyToPost(vacancyData: IVacancy): ITapeElementData {
         Component:StatementInPost,
         data: {
             statements: [{title: "Опыт работы", value: vacancyData.experience}],
+        }
+    })
+
+    
+    if(vacancyData.vacancyType)
+    postBody.push({
+        Component:StatementInPost,
+        data: {
+            statements: [{title: "Тип вакансии", value: vacancyData.vacancyType}],
+        }
+    })
+
+
+    if(vacancyData.employment)
+    postBody.push({
+        Component:StatementInPost,
+        data: {
+            statements: [{title: "График работы", value: vacancyData.employment}],
         }
     })
 

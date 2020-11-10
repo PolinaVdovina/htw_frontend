@@ -102,7 +102,7 @@ export const registerFetch = async (login, email, phone, password, role, nameOrg
     {
         returnData = {
             msgStatus: "error",
-            error: error.response.data.message.errorMsg,
+            error: error.response.data.message && error.response.data.message.errorMsg,
             
         };
     }
