@@ -24,10 +24,10 @@ export const RightDownloadButtonComp = (props: IRightDownloadButton) => {
     const rootUrl = "/api";
 
     const handleClick = async () => {
-        let newRef: any = ref
+/*         let newRef: any = ref
         newRef.current.href = rootUrl + "/personal/resume/getfile/"+ fileType + "/" + props.id
         newRef.current.download = "resume." + fileType
-        newRef.current.click()
+        newRef.current.click() */
         setOpenDialog(false);
     }
 
@@ -51,6 +51,8 @@ export const RightDownloadButtonComp = (props: IRightDownloadButton) => {
                             variant="contained"
                             style={{'margin': theme.spacing(1), width:"60%"}}
                             color="primary"
+                            href={rootUrl + "/personal/resume/getfile/"+ fileType + "/" + props.id}
+                            download={"resume." + fileType}
                             onClick={handleClick}>
                             ОК
                         </Button>

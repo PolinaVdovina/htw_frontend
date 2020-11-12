@@ -57,16 +57,25 @@ const useStyles = makeStyles((theme: Theme) =>
         root: {
             padding:theme.spacing(2),
             overflowY: "scroll",
-            flexWrap: "nowrap"
+            flexWrap: "nowrap",
+            //flexShrink: 0,
+            //
+            //flexBasis:"auto"
         },
         header: {
             alignItems: "center",
-            color: "whiye",
+            color: "white",
             paddingLeft: theme.spacing(2),
             backgroundColor: theme.palette.primary.main,
+            flexShrink: 0,
+            flexBasis:"auto"
         },
         fieldGrid: {
             marginBottom: theme.spacing(2),
+            flexWrap: "nowrap",
+            flexShrink: 0,
+            flexBasis:"auto"
+
         },
         fieldTitle: {
             marginRight: theme.spacing(1),
@@ -195,7 +204,8 @@ const VacancyEditorDialogComp = (props: IVacancyDialogProps) => {
     } 
     const fullScreen = useMediaQuery(theme.breakpoints.down('xs'));
     return (
-        <Dialog  fullWidth fullScreen={fullScreen} open={props.open}>
+        <Dialog  fullWidth fullScreen={fullScreen} open={props.open} 
+        PaperProps={{ style: {overflow: "hidden"} }}>
             <Grid container className={classes.header}>
                 <Typography
                     style={{flexGrow:1, color:"white"}}
@@ -276,9 +286,9 @@ const VacancyEditorDialogComp = (props: IVacancyDialogProps) => {
                             </IconButton>
                         </Tooltip>
                     </Grid>
-                    <Collapse in={compOpen}>
+                
                         <ChangeCompetences type='competenceSet' onChange={(data) => {setCompetencies(data['competenceSet'])}} list={settingsCompetenceSet.competenceSet.listItemsSelect}   />
-                    </Collapse>
+            
 {/*                     <ChangeMultiSelect
                     onChange={(data) => {setCompetencies(data)}}
                     fullWidth
@@ -345,8 +355,9 @@ const VacancyEditorDialogComp = (props: IVacancyDialogProps) => {
                 onClick={() => validateAndPackageFormData()}  
                 style={{
                     flexGrow:1,
-                    marginTop: theme.spacing(2),
-                    borderRadius: 0
+                    borderRadius: 0,
+                    flexShrink: 0,
+                    flexBasis:"auto"
                     }}
             >
                         Добавить

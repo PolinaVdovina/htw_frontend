@@ -24,7 +24,8 @@ import DoneIcon from '@material-ui/icons/Done';
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     rootGrid: {
-
+      flexShrink: 0,
+      flexBasis:"auto",
       padding: theme.spacing(1),
     },
     title: {

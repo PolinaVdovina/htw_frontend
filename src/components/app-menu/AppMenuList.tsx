@@ -170,6 +170,8 @@ const useStyles = makeStyles((theme: Theme) =>
       alignItems: 'center',
       width: theme.menuBar.menuWidth,
       minWidth: theme.menuBar.menuWidth,
+      flexShrink: 0,
+      flexBasis:"auto"
     },
 
     avatarGrid: {
