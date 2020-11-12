@@ -42,6 +42,7 @@ export const appBarStyles = makeStyles((theme: Theme) =>
     title: {
       flexGrow: 1,
       marginRight: theme.spacing(2),
+      color: "",
       whiteSpace: "nowrap"
     },
     search: {

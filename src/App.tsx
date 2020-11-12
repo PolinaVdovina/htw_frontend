@@ -2,9 +2,9 @@ import React, { useEffect } from 'react';
 
 import './App.css';
 import { Routes } from './pages/Routes';
-import { BrowserRouter, Redirect, NavLink } from 'react-router-dom';
+import { BrowserRouter, Redirect, NavLink, Link as RouterLink } from 'react-router-dom';
 import { AppMenu } from './components/app-menu/AppMenu';
-import { Grid, makeStyles, createStyles, Theme, Divider, Backdrop, CircularProgress, Paper, useTheme, IconButton, useMediaQuery, SvgIcon, Icon } from '@material-ui/core';
+import { Grid, makeStyles, createStyles, Theme, Divider, Backdrop, CircularProgress, Paper, useTheme, IconButton, useMediaQuery, SvgIcon, Icon, Typography } from '@material-ui/core';
 import { AppFooter } from './components/app-footer/AppFooter';
 import { RootState } from './redux/store';
 import { useDispatch, connect } from 'react-redux';
@@ -220,12 +220,19 @@ function App(props: IAppProps) {
                         </IconButton>
                       )}
                       <Icon 
-                        component={NavLink}
+                        component={RouterLink}
                         to={"/"}
                         style={{ height: 46, width: 46, marginRight: theme.spacing(1), borderRadius: "100%", backgroundColor: "white", display: "flex" }}
                       >
                             <img src={Logo} style={{width:"inherit"}}/>
                       </Icon>
+                      <Typography 
+                      variant="h6" 
+                      component={NavLink} to={"/"}
+                      style={{textDecoration: 'none', color: "white"}}
+                      >
+                        How To Work
+                      </Typography>
               
                     </>
                   }
@@ -243,7 +250,7 @@ function App(props: IAppProps) {
                       </Badge>
                     </IconButton>
                   }
-                  title="How To Work" />
+                  />
                 {
                   //<div className = {classes.fakeAppMenuPaper}/>
                   props.authCompleteStatus &&

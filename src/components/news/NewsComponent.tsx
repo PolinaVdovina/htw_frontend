@@ -65,7 +65,7 @@ const employerSettings = {
 
 export const NewsComp = (props: INewsComponent) => {
     const routeMatch = useRouteMatch();
-    const entityType = routeMatch.params["entity"];
+    const entityType = routeMatch.params["entity"] || "vacancy";
     const title = titles[entityType];
     const theme = useTheme();
     const [openFilterDrawer, setOpenFilterDrawer] = React.useState(false);
