@@ -4,7 +4,7 @@ import './App.css';
 import { Routes } from './pages/Routes';
 import { BrowserRouter, Redirect, NavLink } from 'react-router-dom';
 import { AppMenu } from './components/app-menu/AppMenu';
-import { Grid, makeStyles, createStyles, Theme, Divider, Backdrop, CircularProgress, Paper, useTheme, IconButton, useMediaQuery } from '@material-ui/core';
+import { Grid, makeStyles, createStyles, Theme, Divider, Backdrop, CircularProgress, Paper, useTheme, IconButton, useMediaQuery, SvgIcon, Icon } from '@material-ui/core';
 import { AppFooter } from './components/app-footer/AppFooter';
 import { RootState } from './redux/store';
 import { useDispatch, connect } from 'react-redux';
@@ -219,9 +219,14 @@ function App(props: IAppProps) {
                           <MenuIcon />
                         </IconButton>
                       )}
-                      <Grid container style={{ height: 46, width: 46, marginRight: theme.spacing(1), borderRadius: "100%", backgroundColor: "white" }}>
-                        <img src={Logo} style={{width: "inherit"}}/>
-                      </Grid>
+                      <Icon 
+                        component={NavLink}
+                        to={"/"}
+                        style={{ height: 46, width: 46, marginRight: theme.spacing(1), borderRadius: "100%", backgroundColor: "white", display: "flex" }}
+                      >
+                            <img src={Logo} style={{width:"inherit"}}/>
+                      </Icon>
+              
                     </>
                   }
                   rightAppartment={props.authCompleteStatus && props.isPersonalDataFetched &&

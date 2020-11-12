@@ -77,7 +77,8 @@ import { InstagramLink } from "./displayMiniComponents/InstagramLink";
 import { FacebookLink } from "./displayMiniComponents/FacebookLink";
 import { VkLink } from "./displayMiniComponents/VkLink";
 import { changeBirthDate } from './../../utils/change-component-utils';
-import { changeAbout } from '../../utils/change-component-utils';
+import { changeAbout, changeEmail } from '../../utils/change-component-utils';
+import { settingsEmailForAccess } from './changeMiniComponents/changeSettings';
 
 export const SETTINGS = {
     INDIVIDUAL: {
@@ -88,7 +89,9 @@ export const SETTINGS = {
             changeFunction: changeAbout,      
         },
         email: {
-            title: 'Электронная почта',
+            title: 'Контактная электронная почта',
+            successMessage: "На новую почту пришла ссылка для подтверждения действия",
+            //ignoreSuccessNotification: true,
             changeSettings: settingsEmail,
             validateFunction: validateEmail,
             changeFunction: changeJobSeekerContactDetails, 
@@ -252,8 +255,9 @@ export const SETTINGS = {
             deleteFunction: deleteEmployerAddress
         },
         email: {
-            title: 'Электронная почта',
+            title: 'Контактная электронная почта',
             changeSettings: settingsEmail,
+            ignoreSuccessNotification: true,
             validateFunction: validateEmail,
             changeFunction: changeJobSeekerContactDetails,
             displayComponent: SimpleTypography          
@@ -310,6 +314,14 @@ export const SETTINGS = {
             changeSettings: settingsPassword,
             validateFunction: validateNewPassword,
             changeFunction: changePassword
-        }
+        },
+        email: {
+            title: 'Почта',
+            changeSettings: settingsEmailForAccess,
+            validateFunction: validateEmail,
+            changeFunction: changeEmail,
+            ignoreSuccessMessage: true,
+        },
+        
     }
 }

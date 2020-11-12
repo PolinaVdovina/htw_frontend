@@ -8,6 +8,8 @@ import { listItems } from "../../../utils/appliedFunc"
 import { ChangeCompetences } from "./ChangeCompetences"
 import { SimpleTypography } from "../displayMiniComponents/SimpleTypography"
 import { ChangePassword } from "./ChangePassword"
+import { listCompetence } from "../../../constants/listCompetence"
+import { ChangeComponent } from '../ChangeComponent';
 
 export const settingsAddress = {
     /*'country': {
@@ -68,20 +70,7 @@ export const settingsTypesEdu = {
 export const settingsCompetenceSet = {
     competenceSet: {
         title: 'Выберите компетенции',
-        listItemsSelect: {
-            'IT и коммуникации': [
-                'Администрирование баз данных',
-                "Разработка ПО"
-            ],
-            'Бухгалтерия': [
-                "Расчет заработной платы",
-                "Аудит"
-            ],
-            'Образование': [
-                "Репетиторство",
-                "Дошкольное образование"
-            ],
-        },
+        listItemsSelect: listCompetence,
         changeComponent: ChangeCompetences
     }
 }
@@ -134,6 +123,17 @@ export const settingsEmail = {
     email: {
         title: 'Новый адрес',
         changeComponent: ChangeOneString
+    }
+}
+
+export const settingsEmailForAccess = {
+    email: {
+        title: 'Новый адрес',
+        changeComponent: ChangeOneString
+    },
+    password: {
+        title: 'Пароль',
+        changeComponent: ChangePassword ,
     }
 }
 
@@ -216,9 +216,36 @@ export const settingsIndustry = {
         title: 'Выберите отрасли',
         changeComponent: ChangeMultiSelect,
         listItemsSelect: [
-            'IT и коммуникации',
-            'Бухгалтерия' ,
-            'Образование',
+            "Автомобильный бизнес",
+            "Гостиницы, рестораны, общепит, кейтеринг",
+            "Государственные организации",
+            "Добывающая отрасль",
+            "ЖКХ",
+            "Информационные технологии, системная интеграция, интернет",
+            "Искусство, культура",
+            "Лесная промышленность, деревообработка",
+            "Медицина, фармацевтика, аптеки",
+            "Металлургия, металлообработка",
+            "Нефть и газ",
+            "Образовательные учреждения",
+            "Общественная деятельность, партии, благотворительность, НКО",
+            "Перевозки, логистика, склад, ВЭД",
+            "Продукты питания",
+            "Промышленное оборудование, техника, станки и комплектующие",
+            "Розничная торговля",
+            "СМИ, маркетинг, реклама, BTL, PR, дизайн, продюсирование",
+            "Сельское хозяйство",
+            "Строительство, недвижимость, эксплуатация, проектирование",
+            "Телекоммуникации, связь",
+            "Товары народного потребления (непищевые)",
+            "Тяжелое машиностроение",
+            "Управление многопрофильными активами",
+            "Услуги для бизнеса",
+            "Услуги для населения",
+            "Финансовый сектор",
+            "Химическое производство, удобрения",
+            "Электроника, приборостроение, бытовая техника, компьютеры и оргтехника",
+            "Энергетика"
         ]
     }
 }

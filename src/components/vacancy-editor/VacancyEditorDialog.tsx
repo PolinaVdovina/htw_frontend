@@ -17,11 +17,12 @@ import { addressGlue, strToAddressDictionary } from './../../utils/appliedFunc';
 import { addVacancyFetch } from './../../utils/fetchFunctions';
 import { MessageStatus } from "../../utils/fetchInterfaces";
 import { startLoadingAction, stopLoadingAction } from './../../redux/actions/dialog-actions';
-import { settingsExperience } from "../cabinet/changeMiniComponents/changeSettings";
+import { settingsExperience, settingsVacancyType, settingsEmployment } from '../cabinet/changeMiniComponents/changeSettings';
 import { ChangeCompetences } from "../cabinet/changeMiniComponents/ChangeCompetences";
 import { settingsCompetenceSet } from './../cabinet/changeMiniComponents/changeSettings';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
+import CloseIcon from '@material-ui/icons/Close';
 // //Ненагло спизжено у Богини спизженности
 // function strParser(str/*: string*/) {
 //     let strArray = str.split(', ');
@@ -55,6 +56,14 @@ const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         root: {
             padding:theme.spacing(2),
+            overflowY: "scroll",
+            flexWrap: "nowrap"
+        },
+        header: {
+            alignItems: "center",
+            color: "whiye",
+            paddingLeft: theme.spacing(2),
+            backgroundColor: theme.palette.primary.main,
         },
         fieldGrid: {
             marginBottom: theme.spacing(2),
@@ -86,6 +95,9 @@ const VacancyEditorDialogComp = (props: IVacancyDialogProps) => {
     const [minSalary, setMinSalary] = React.useState("");
     const [maxSalary, setMaxSalary] = React.useState("");
     const [compOpen, setCompOpen] = React.useState(false);
+    const [vacancyType, setVacancyType] = React.useState("Работа");
+    const [employment, setEmployment] = React.useState("Полный день");
+
     const dispatch = useDispatch();
     //alert("min " + minSalary)
     //alert("max " + maxSalary)
@@ -151,6 +163,8 @@ const VacancyEditorDialogComp = (props: IVacancyDialogProps) => {
         }
         data['experience'] = experience;
         data['phone'] = phone;
+        data['vacancyType'] = vacancyType;
+        data['employment'] = employment;
 
         const minS = (parseInt(minSalary) > parseInt(maxSalary)) ? maxSalary : minSalary;
         const maxS = (parseInt(maxSalary) < parseInt(minSalary)) ? minSalary : maxSalary;
@@ -182,8 +196,23 @@ const VacancyEditorDialogComp = (props: IVacancyDialogProps) => {
     const fullScreen = useMediaQuery(theme.breakpoints.down('xs'));
     return (
         <Dialog  fullWidth fullScreen={fullScreen} open={props.open}>
+            <Grid container className={classes.header}>
+                <Typography
+                    style={{flexGrow:1, color:"white"}}
+                    key="title"
+                >
+                    Добавить вакансию
+                </Typography>
+                {
+                    props.onClose &&
+                    <IconButton onClick={props.onClose} style={{color:"white"}}>
+                        <CloseIcon/>
+                    </IconButton>
+                }
+            </Grid>
+
             <Grid container direction="column" className={classes.root}>
-                <Typography variant="h5" style={{marginBottom: theme.spacing(2), textAlign: "center"}}>Добавить вакансию</Typography>
+                {/* <Typography variant="h5" style={{marginBottom: theme.spacing(2), textAlign: "center"}}>Добавить вакансию</Typography> */}
                 <Grid item container direction="column" className={classes.fieldGrid}>
                     <Typography className={classes.fieldTitle}>Должность</Typography>
                     <TextField
@@ -283,23 +312,45 @@ const VacancyEditorDialogComp = (props: IVacancyDialogProps) => {
                 />
                 </Grid>
                 <Grid item container direction="column" className={classes.fieldGrid}>
+                    <Typography className={classes.fieldTitle}>Тип занятости</Typography>
+                    <ChangeListOneSelect 
+                        value={vacancyType} 
+                        type="type" 
+                        list={settingsVacancyType.vacancyTypes.listItemsSelect} 
+                        onChange={(data)=>{setVacancyType(data.type)}} 
+                        fullWidth
+                    />
+                </Grid>
+                <Grid item container direction="column" className={classes.fieldGrid}>
+                    <Typography className={classes.fieldTitle}>График работы</Typography>
+                    <ChangeListOneSelect 
+                        value={employment} 
+                        type="type" 
+                        list={settingsEmployment.employment.listItemsSelect} 
+                        onChange={(data)=>{setEmployment(data.type)}} 
+                        fullWidth
+                    />
+                </Grid>
+                <Grid item container direction="column" className={classes.fieldGrid}>
                     <ListEditor  onChange={setDemands} title="Обязанности" elementValues={demands}/>
                 </Grid>
 
                 <Grid item container direction="column" className={classes.fieldGrid}>
                     <ListEditor onChange={setDuties} title="Требования" elementValues={duties}/>
                 </Grid>
-                <Grid item container direction="row">
-                    <Button 
-                    variant="contained" 
-                    color="primary"
-                    onClick={() => validateAndPackageFormData()}  
-                    style={{flexGrow:1, marginRight:theme.spacing(2)}}>Добавить</Button>
-
-                    <Button variant="contained" onClick={() => props.onClose && props.onClose()}>Выйти</Button>
-                </Grid>
-
             </Grid>
+            <Button 
+                variant="contained" 
+                color="primary"
+                onClick={() => validateAndPackageFormData()}  
+                style={{
+                    flexGrow:1,
+                    marginTop: theme.spacing(2),
+                    borderRadius: 0
+                    }}
+            >
+                        Добавить
+            </Button>
         </Dialog>
     )
 }

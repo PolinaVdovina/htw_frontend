@@ -159,6 +159,11 @@ export function validatePhoneString(phone: any) : IValidateResult {
 }
 
 export function validateEmailString(email: any) : IValidateResult {
+    if(!email)
+        return {
+            isValid: false,
+            errorsMass: ["Введите Email"],
+        }
     let result = email.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);
     if (result) return {
         isValid: true,

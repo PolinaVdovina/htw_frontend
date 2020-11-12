@@ -77,7 +77,7 @@ const SignInCardComp = (props: ISignInCardProps) => {
                         margin="normal"
                         required
                         error={errorLogin!=''}
-                        placeholder='Логин'
+                        placeholder='Логин или Email'
                         id="email"
                         helperText={errorLogin}
                         autoComplete="login"   
@@ -100,6 +100,13 @@ const SignInCardComp = (props: ISignInCardProps) => {
                         onChange={(event) => {setPassword(event.target.value)}}
                     />
                 </Grid>
+                <Grid item className={classes.forgotPassword}>
+                    <Link 
+                        component={RouterLink} to={urls.passwordRecoveryRequest.shortPath}
+                    >
+                        Забыли пароль?
+                    </Link>
+                </Grid>
                 <Grid item container className={classes.submitContainer} >
                     
                     <Button className={classes.button}                                
@@ -109,7 +116,7 @@ const SignInCardComp = (props: ISignInCardProps) => {
                     >
                         Войти
                     </Button>
-                    <Link component={RouterLink} to={urls.registration.shortPath}>
+                    <Link component={RouterLink} to={urls.registrationWithRole.shortPath}>
                         Зарегистрироваться
                     </Link>
                 </Grid>

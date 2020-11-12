@@ -10,6 +10,9 @@ export const useStyles = makeStyles((theme: Theme) =>
             paddingBottom: theme.spacing(3),
             paddingTop: theme.spacing(3)
         },
+        forgotPassword: {
+            alignSelf: "flex-end"
+        },
         field: {
             width: '100%'
         },

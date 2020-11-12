@@ -139,7 +139,7 @@ export const ChangeCompetences = (props : IChangeCompetences) => {
         }        
     }
 
-    return(<>
+    return(<div>
         <TextField 
             variant='outlined' 
             size='small' 
@@ -166,7 +166,7 @@ export const ChangeCompetences = (props : IChangeCompetences) => {
                         disableRipple
                         onClick={() => handleCheckGroup(group)}
                     />
-                    <ListItemText primary={group}/>
+                    <ListItemText primary={group} style={{flexWrap: "wrap", wordWrap: "break-word"}}/>
                     { open[index] ? 
                         <ExpandLess onClick={() => handleClick(index)}/> : 
                         <ExpandMore onClick={() => handleClick(index)}/>
@@ -182,13 +182,13 @@ export const ChangeCompetences = (props : IChangeCompetences) => {
                                     tabIndex={-1}
                                     disableRipple
                                 />
-                                <ListItemText primary={competence} />
+                                <ListItemText primary={competence} style={{flexWrap: "wrap"}}/>
                             </ListItem>
                         )}                   
                     </List>
                 </Collapse>
             </>)}            
         </List>
-    </>)
+    </div>)
 }
 

@@ -54,18 +54,18 @@ export const theme = createMuiTheme({
   chat: {
     chatPaperBackgroundColor: "rgb(230,230,230)" , //"#f2f3f4", 
 
-    ownMessageBackgroundColor: "#4a76a8",
+    ownMessageBackgroundColor: "#028ec4",
     companionMessageBackgroundColor: "white",
 
     ownMessageColor: 'white',
     companionMessageColor: 'black',
 
     ownMessageTitleColor: 'rgb(185, 197, 210)',
-    companionMessageTitleColor: "#4a76a8",
+    companionMessageTitleColor: "#028ec4",
   },
   palette: {
     primary: {
-      main: "#4a76a8"
+      main: "#028ec4"
     }
   }
 

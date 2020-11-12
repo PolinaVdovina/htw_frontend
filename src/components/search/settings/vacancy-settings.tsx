@@ -10,9 +10,24 @@ import { ChangeCompetences } from '../../cabinet/changeMiniComponents/ChangeComp
 import { FilterCompetenceField } from './../filter-fields/FilterCompetenceField';
 import React from 'react';
 import { FilterMultiSelectField } from './../filter-fields/FilterMultiSelectField';
+import { settingsVacancyType, settingsEmployment } from '../../cabinet/changeMiniComponents/changeSettings';
 
 
 export const vacancySettings: SearchSettingsType = [
+    {
+        title: "Тип вакансии",
+        Component: FilterMultiSelectField(
+            settingsVacancyType.vacancyTypes.listItemsSelect
+        ),
+        searchCriteriaConverter: (value) => [searchCriteria("vacancyType", value, SearchCriteriaOperation.IN)]
+    },
+    {
+        title: "График работы",
+        Component: FilterMultiSelectField(
+            settingsEmployment.employment.listItemsSelect
+        ),
+        searchCriteriaConverter: (value) => [searchCriteria("employment", value, SearchCriteriaOperation.IN)]
+    },
     {
         title: "Зарплата (руб.)",
         Component: RangeField(FilterNumericField),

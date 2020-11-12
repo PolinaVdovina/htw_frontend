@@ -2,7 +2,7 @@ import * as types from '../../constants/action-types';
 import axios from 'axios';
 import { loginAction, errorAction, logoutAction, AuthFetchNotRequiredAction, authCompletedAction } from './../actions/auth-actions';
 import { startLoadingAction, stopLoadingAction } from '../actions/dialog-actions';
-import { registerFetch, isValidTokenFetch, checkBackendFetch } from '../../utils/fetchFunctions';
+import { registerFetch, isValidTokenFetch, checkBackendFetch, activateAccountFetch } from '../../utils/fetchFunctions';
 import { addressGlue, genderIntToStr } from '../../utils/appliedFunc';
 import { fillPersonalDataAction, resetPersonalDataAction } from '../actions/user-personals';
 import { loginFetch } from '../../utils/fetchFunctions'
@@ -83,14 +83,13 @@ export const login: (identity: string, password: string, rememberMe?: boolean) =
             rememberMe = true;
         await dispatch(startLoadingAction());
         const result = await loginFetch(identity, password);
-        const enqueueSnackbar = (...args) => dispatch(enqueueSnackbarAction(...args));
-        if (result.msgStatus == "ok" && result.token && result.role) {
+        if (result.msgStatus == "ok" && result.token && result.role && result.login) {
             if (rememberMe) {
                 localStorage.setItem("token", result.token);
                 localStorage.setItem("role", result.role);
-                localStorage.setItem("login", identity);
+                localStorage.setItem("login", result.login);
             }
-            await dispatch(loginAction(identity, result.token, 0, result.role));
+            await dispatch(loginAction(result.login, result.token, 0, result.role));
             await Promise.all([dispatch(initChat(result.token)), dispatch(getPersonalData(result.token)), initWebsocketWithSubscribes(dispatch, getState)]);
             await dispatch(authCompletedAction(true));
 
@@ -99,6 +98,13 @@ export const login: (identity: string, password: string, rememberMe?: boolean) =
                 options: { variant: "success" }
             }));
 
+        } else if(result.activated == false) {
+            await dispatch(enqueueSnackbarAction(
+                {
+                    message: "Учетная запись не активирована",
+                    options: { variant: "error" }
+                }));
+            await dispatch(authCompletedAction(false));
         } else {
             await dispatch(enqueueSnackbarAction(
                 {
@@ -106,15 +112,56 @@ export const login: (identity: string, password: string, rememberMe?: boolean) =
                     options: { variant: "error" }
                 }));
             await dispatch(authCompletedAction(false));
-        }
+        } 
         await dispatch(stopLoadingAction());
     }
 
 
 
+
+
+
+export const activate: (code: string) => void = (code) =>
+    async (dispatch, getState) => {
+        dispatch(startLoadingAction());
+        const authData = await activateAccountFetch(code);
+        if(authData && authData.token && authData.role && authData.accountLogin) {
+            localStorage.setItem("token", authData.token);
+            localStorage.setItem("role", authData.role);
+            localStorage.setItem("login", authData.accountLogin);
+
+            await dispatch(loginAction(authData.accountLogin, authData.token, 0, authData.role));
+            await Promise.all([dispatch(initChat(authData.token)), dispatch(getPersonalData(authData.token)), initWebsocketWithSubscribes(dispatch, getState)]);
+            await dispatch(authCompletedAction(true));
+
+            await dispatch(enqueueSnackbarAction({
+                message: "Учетная запись активирована",
+                options: { variant: "success" }
+            }));
+
+            await dispatch(stopLoadingAction());
+            return;
+        } else {
+            await dispatch(enqueueSnackbarAction(
+                {
+                    message: "Не удалось активировать учётную запись",
+                    options: { variant: "error" }
+                }));
+            await dispatch(stopLoadingAction());
+            return;
+        }
+        
+    }
+    
+
+
+
+
+
 export const register: (identity: string, password: string, role: string,
     phone: string | null, email: string | null,
-    rememberMe?: boolean, nameOrg?: string | null) => void = (identity, password, role, phone, email, rememberMe, nameOrg) =>
+    rememberMe?: boolean, nameOrg?: string | null,
+    activated?: boolean) => void = (identity, password, role, phone, email, rememberMe, nameOrg, activated=false) =>
         async (dispatch, getState) => {
             dispatch(startLoadingAction());
             const result = await registerFetch(identity, email, phone, password, role, nameOrg);
@@ -198,7 +245,6 @@ export const reloadAuthData: (isReconnect?: boolean) => void = (isRecconnect) =>
                 await Promise.all([dispatch(initChat(token)), initWebsocketWithSubscribes(dispatch, getState), dispatch(getPersonalData(token))]);
                 await dispatch(initNotifications());
                 await reloadSuccess();
-                
             } else if (isValidToken == false) {
                 clearAuth();
                 await dispatch(authCompletedAction(false));

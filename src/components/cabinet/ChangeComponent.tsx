@@ -30,6 +30,9 @@ const useStyles = makeStyles((theme: Theme) =>
 export const ChangeComponentRaw = (props : FinalProps) => {
     //const Component = SETTINGS[props.role][props.type].changeComponent;
     const changeSettings = SETTINGS[props.role][props.type].changeSettings;
+    //const ignoreSuccessNotification = SETTINGS[props.role][props.type].ignoreSuccessNotification;
+    const successMessage = SETTINGS[props.role][props.type].successMessage;
+    const ignoreSuccessMessage = SETTINGS[props.role][props.type].ignoreSuccessMessage;
     const validFunc: (any) => IValidateResult = SETTINGS[props.role][props.type].validateFunction;
     const changeFunc = SETTINGS[props.role][props.type]['changeFunction'];
 
@@ -54,7 +57,8 @@ export const ChangeComponentRaw = (props : FinalProps) => {
                 const result = await changeFunc(dispatch, data);
                 await dispatch(stopLoadingAction());
                 if(result.msgStatus == MessageStatus.OK) {
-                    props.enqueueSnackbar('Данные сохранены', {variant: "success"});
+                    if(ignoreSuccessMessage != true)
+                        props.enqueueSnackbar(successMessage ? successMessage : 'Данные сохранены', {variant: "success"});
                     props.handleClickClose();
                 }
                 else {
@@ -62,7 +66,8 @@ export const ChangeComponentRaw = (props : FinalProps) => {
                 }
             }
             else {
-                props.enqueueSnackbar('Данные сохранены', {variant: "success"});
+                if(ignoreSuccessMessage != true)
+                    props.enqueueSnackbar(successMessage ? successMessage : 'Данные сохранены', {variant: "success"});
                 props.handleClickClose();
             }
         }           
