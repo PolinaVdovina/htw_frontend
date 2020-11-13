@@ -932,9 +932,9 @@ export const changeEmailFetch = async(token: string) => {
     }
 }
 
-export const getOneVacancyFetch = async (token: string, id: any) => {
+export const getOneVacancyFetch = async (token: string, id: number) => {
     try {
-        const result = await axios.get(rootUrl + "/vacancy/get/" + id, { headers: { Authorization: 'Bearer ' + token } });
+        const result = await axios.get(rootUrl + "/vacancy/" + id, { headers: { Authorization: 'Bearer ' + token } });
         return {
             msgStatus: MessageStatus.OK,
             result: result.data
