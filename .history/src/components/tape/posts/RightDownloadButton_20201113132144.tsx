@@ -13,7 +13,7 @@ const FileTypes = {
 
 interface IRightDownloadButton {
     id: any,
-    token: any
+    token?: any
 }
 
 export const RightDownloadButtonComp = (props: IRightDownloadButton) => {
@@ -23,11 +23,11 @@ export const RightDownloadButtonComp = (props: IRightDownloadButton) => {
     const theme = useTheme();
     const rootUrl = "/api";
 
-    const handleClick = async () => {
-        // let newRef: any = ref
-        // newRef.current.href = rootUrl + "/personal/resume/getfile/"+ fileType + "/" + props.id
-        // newRef.current.download = "resume." + fileType
-        // newRef.current.click()
+    const handleClick = () => {
+        let newRef: any = ref
+        newRef.current.href = rootUrl + "/personal/resume/getfile/"+ fileType + "/" + props.id
+        newRef.current.download = "resume." + fileType
+        newRef.current.click() 
         setOpenDialog(false);
     }
 

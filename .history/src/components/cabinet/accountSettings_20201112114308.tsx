@@ -79,7 +79,6 @@ import { VkLink } from "./displayMiniComponents/VkLink";
 import { changeBirthDate } from './../../utils/change-component-utils';
 import { changeAbout, changeEmail } from '../../utils/change-component-utils';
 import { settingsEmailForAccess } from './changeMiniComponents/changeSettings';
-import { DownloadResume } from "./displayMiniComponents/DownLoadResume";
 
 export const SETTINGS = {
     INDIVIDUAL: {
@@ -217,10 +216,6 @@ export const SETTINGS = {
             changeSettings: settingsVacancyType,
             changeFunction: changeJobSeekerEmploymentData,
             deleteFunction: deleteJobSeekerVacancyTypeData
-        },
-        downloadResume: {
-            title: '',
-            displayComponent: DownloadResume
         }
     },
     LEGAL: {
