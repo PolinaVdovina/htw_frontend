@@ -47,7 +47,7 @@ const tabs: Array<ITabData> = [
   {
     label: "Общая информация",
     //IconComponent: <PersonPinIcon/>,
-    TabPanel: <AccountInfo key={0} role='INDIVIDUAL' settingsView={["downloadResume", 'email', 'dateBirth', 'gender']} isPersonalInfo/>,
+    TabPanel: <AccountInfo key={0} role='INDIVIDUAL' settingsView={['email', 'dateBirth', 'gender']} isPersonalInfo/>,
     subTapPanels: [
       <ExecuteSubscriptionButtons/>
       //<TapeFetcherProvider dataConverterFunction = {userToPost}><SubscriptionTab /></TapeFetcherProvider>

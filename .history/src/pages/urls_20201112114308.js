@@ -82,10 +82,5 @@ export const urls = {
         title: "Почта изменена",
         path: "/change-email/:token",
         shortPath: "/change-email",
-    },
-    vacancy: {
-        title: 'Вакансия',
-        path: "/vacancy/:id",
-        shortPath: "/vacancy"
     }
 }

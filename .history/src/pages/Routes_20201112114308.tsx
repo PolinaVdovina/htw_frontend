@@ -16,7 +16,6 @@ import { AccountActivationSuccess } from './account-activation/AccountActivation
 import { TypeNewPassword } from './password-recovery/TypeNewPassword';
 import { PasswordRecoveryRequest } from './password-recovery/PasswordRecoveryRequest';
 import { ChangeEmail } from './change-email/ChangeEmail';
-import { VacancyView } from "./vacancy/VacancyView";
 
 export const Routes = () =>
     <>
@@ -38,6 +37,5 @@ export const Routes = () =>
         <Route path={urls.typeNewPassword.path} component={TypeNewPassword}/>
         <Route path={urls.passwordRecoveryRequest.path} component={PasswordRecoveryRequest}/>
         <Route path={urls.changeEmail.path} component={ChangeEmail}/>
-        <Route path={urls.vacancy.path} component={VacancyView}/>
     </>
 

@@ -152,7 +152,6 @@ const CabinetComp = (props: ICabinetProps) => {
                     ...parsedData,
                     role: requestData.roles,
                     login: urlLogin,
-                    id: requestData.id,
                     isMine: false,
                 })
                 await dispatch(stopLoadingAction());

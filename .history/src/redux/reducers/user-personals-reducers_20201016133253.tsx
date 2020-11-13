@@ -11,7 +11,6 @@ import { subscribeAction } from './../actions/user-personals';
 import { setNotificationWatchedDate } from './../actions/notification-actions';
 
 interface ICommonState {
-    id?,
     isFetched,
     viewName,
     name?,
@@ -51,7 +50,6 @@ interface ICommonState {
 }
 
 const initialState: ICommonState = {
-    id: null,
     isFetched: false,
     name: null,
     surname: null,

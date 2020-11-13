@@ -13,7 +13,7 @@ const FileTypes = {
 
 interface IRightDownloadButton {
     id: any,
-    token?: any
+    token: any
 }
 
 export const RightDownloadButtonComp = (props: IRightDownloadButton) => {
