@@ -14,7 +14,7 @@ import { TapeElement, ITapeElementData } from '../../../components/tape/posts/Ta
 import { VacancyEditorDialog } from '../../../components/vacancy-editor/VacancyEditorDialog';
 import { theme } from '../../../theme';
 import { EmployeeList } from '../../../components/entityList/EmployeesList';
-import { VacancyTab } from '../../../components/cabinet/employer/VacancyTab';
+import { VacancyList } from '../../../components/cabinet/employer/VacancyList';
 import { EntitiesTab } from '../../../components/entityList/EntitiesTab';
 import { TapeFetcherProvider } from '../../../components/tape/TapeFetcherContext';
 import { vacancyToPost } from './../../../utils/tape-converters/vacancy-to-tape-element';
@@ -24,11 +24,13 @@ import { SubscriptionBlock } from '../../../components/cabinet/SubscriptionBlock
 import { ExecuteDialogButtons } from '../../../components/cabinet/ExecuteDialogButtons';
 import { SubscriptionDialog } from '../../../components/cabinet/SubscriptionDialog';
 import { ExecuteSubscriptionButtons } from '../../../components/cabinet/ExecuteSubscriptionButtons';
+import { VacancyTabWithContext } from '../../../components/vacancy-editor/VacancyTabWithContext';
 
 
 interface IEmployerCabinet {
 
 }
+
 
 
 
@@ -50,7 +52,10 @@ const tabs: Array<ITabData> = [
   {
     label: "Вакансии",
     //IconComponent: <PersonPinIcon/>,
-    TabPanel: <TapeFetcherProvider key={2} dataConverterFunction={vacancyToPost}><VacancyTab /></TapeFetcherProvider>
+    TabPanel:
+      // <TapeFetcherProvider key={2} dataConverterFunction={vacancyToPost}>
+        <VacancyTabWithContext />
+      // </TapeFetcherProvider>
   },
   {
     label: "Мероприятия",

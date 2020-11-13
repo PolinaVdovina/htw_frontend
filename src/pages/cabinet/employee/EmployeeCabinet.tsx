@@ -4,7 +4,7 @@ import AccountInfo from '../../../components/cabinet/AccountInfo';
 import { ITabData, TabsPaper } from '../../../components/cards/TabsPaper';
 import { PaddingPaper } from '../../../components/cards/PaddingPaper';
 import { AccountCommonInfo } from '../../../components/cabinet/AccountCommonInfo';
-import { VacancyTab } from '../../../components/cabinet/employer/VacancyTab';
+import { VacancyList } from '../../../components/cabinet/employer/VacancyList';
 import { TapeFetcherProvider } from './../../../components/tape/TapeFetcherContext';
 import { vacancyToPost } from './../../../utils/tape-converters/vacancy-to-tape-element';
 import { SubscriptionBlock } from '../../../components/cabinet/SubscriptionBlock';
@@ -32,7 +32,7 @@ const tabs: Array<ITabData> = [
   {
     label: "Вакансии",
     //IconComponent: <PersonPinIcon/>,
-    TabPanel: <TapeFetcherProvider key={1} dataConverterFunction={vacancyToPost}><VacancyTab /></TapeFetcherProvider>
+    TabPanel: <TapeFetcherProvider key={1} dataConverterFunction={vacancyToPost}><VacancyList /></TapeFetcherProvider>
   },
   {
     label: "Мероприятия",

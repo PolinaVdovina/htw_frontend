@@ -1,10 +1,14 @@
+import React from 'react'
+
 import { ITapeElementData, IBodyElement } from "../../components/tape/posts/TapeElement";
 import { ParagraphInPost } from "../../components/tape/posts/post-body-elements/ParagraphInPost";
 import { StatementInPost } from "../../components/tape/posts/post-body-elements/StatementsInPost";
 import { ListInPost } from "../../components/tape/posts/post-body-elements/ListInPost";
 import { addressGlue } from "../appliedFunc";
+import { IconButton, Tooltip } from "@material-ui/core";
+import EditIcon from '@material-ui/icons/Edit';
 
-interface IVacancy {
+export interface IVacancy {
     id?: number,
     phone?: string,
     position?: string,
@@ -24,7 +28,11 @@ interface IVacancy {
     employment?: string,
 }
 
-export function vacancyToPost(vacancyData: IVacancy): ITapeElementData {
+interface IVacancyToPostOptions {
+    changeFunction?: (vacancy: IVacancy) => void
+}
+
+export function vacancyToPost(vacancyData: IVacancy, options?: IVacancyToPostOptions): ITapeElementData {
     let postBody : Array<IBodyElement> = [
         {
             Component:ParagraphInPost,
@@ -117,6 +125,8 @@ export function vacancyToPost(vacancyData: IVacancy): ITapeElementData {
         rightText = vacancyData.maxSalary.toString() + "р"
     } 
 
+    const changeFunction = options && options?.changeFunction;
+
     return {
         rightText: rightText, //vacancyData.position + (vacancyData.maxSalary ? ( ", " + vacancyData.maxSalary + "р") : ""),
         title: vacancyData.position,
@@ -124,7 +134,15 @@ export function vacancyToPost(vacancyData: IVacancy): ITapeElementData {
         body: postBody,
         id: vacancyData.id,
         ownerLogin: vacancyData.employerAccountLogin,
-        createdDate: vacancyData.createdDate
+        createdDate: vacancyData.createdDate,
+        rawData: vacancyData,
+        rightNode: changeFunction ? 
+            <Tooltip title="Редактировать">
+                <IconButton onClick={() => changeFunction(vacancyData)}> 
+                    <EditIcon/> 
+                </IconButton> 
+            </Tooltip>
+            : null
     }
 }
 

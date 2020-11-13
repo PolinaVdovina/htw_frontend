@@ -49,6 +49,7 @@ export const achievementsToPost = (ownerLogin: string) => {
             bottomText: achievementData.createdDate?.slice(0,10),
             body: postBody,
             ownerLogin: ownerLogin,
+            
         }
     }
     return wrap;

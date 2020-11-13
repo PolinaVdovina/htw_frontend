@@ -19,7 +19,8 @@ export interface ITapeContextValue {
     ) => Promise<ISearchCriteriaResponse<any>>,
     reset: () => void,
     deleteTapeElement: (id) => void
-    addTapeElementAtFirst: (data: ITapeElementData) => void
+    addTapeElementAtFirst: (data: ITapeElementData) => void,
+    
 }
 
 export const TapeFetcherContext = React.createContext<ITapeContextValue | null>(null);

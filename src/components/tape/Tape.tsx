@@ -4,9 +4,11 @@ import { Redirect } from 'react-router';
 import { ITapeElementData, TapeElement, ITapeElementProps } from './posts/TapeElement';
 import { CabinetContext } from './../cabinet/cabinet-context';
 
+
 export interface ITapeProps {
   elements?: Array<ITapeElementData> | null,
   onDeleteClick?: ((id: any) => void) | null,
+  //subButtons: Array<React.ReactNode>,
   isRespondActive?: boolean,
   isRespondViewActive?: boolean
   hideAvatars?: boolean,

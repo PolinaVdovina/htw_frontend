@@ -39,7 +39,8 @@ export interface ITapeElementData {
   rightText?: string,
   ownerLogin?: string,
   onClick?: () => any,
-  rightNode?: /*React.ReactNode*/any
+  rightNode?: /*React.ReactNode*/any,
+  rawData?: any
 }
 
 export interface ITapeElementProps {
@@ -147,16 +148,16 @@ const TapeElementCardComp = (props: ITapeElementProps) => {
             <RespondViewButton id={props.tapeElementData.id} token={props.token}></RespondViewButton>
           </Grid>
         }
-        {props.tapeElementData.rightNode &&
-          <Grid item key={props.tapeElementData.id} >
-            {props.tapeElementData.rightNode}
-          </Grid>
-        }
         {props.tapeElementData.rightText &&
           <Grid item>
             <Typography style={{ fontSize: "12px" }}>
               {props.tapeElementData.rightText}
             </Typography>
+          </Grid>
+        }
+        {props.tapeElementData.rightNode &&
+          <Grid item key={props.tapeElementData.id} >
+            {props.tapeElementData.rightNode}
           </Grid>
         }
         <Grid item>

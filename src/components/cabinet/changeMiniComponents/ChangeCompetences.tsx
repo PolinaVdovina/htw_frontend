@@ -9,6 +9,7 @@ interface IChangeCompetences {
     onChange: (any) => void,
     type: string,
     list: any,
+    defaultValue?: Array<String>,
     value?: Array<String>,  //передаешь сюда список галочек, который получил от giveMeValue
     giveMeValue?: (any) => void  //засовываешь сюда функцию, которая получает в аргументы список галочек 
 }
@@ -20,17 +21,18 @@ export const ChangeCompetences = (props : IChangeCompetences) => {
     const [localList, setLocalList] = React.useState(props.list);
 
     React.useEffect(() => {
-        if (props.value) {
+        const value = props.value ? props.value : props.defaultValue;
+        if (value) {
             let newResultMass = new Array();
 
-            props.value.map(element => {
+            value.map(element => {
                 const group: String = element.split(',')[0];
                 const competence: String = element.split(',')[1];
                 newResultMass.push({group, name: competence})
             })
             
             setResultChange(newResultMass);
-            setChecked(props.value);
+            setChecked(value);
         } else {
             setChecked([]);
             setResultChange([]);
