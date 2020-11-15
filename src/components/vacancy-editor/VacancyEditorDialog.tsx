@@ -134,7 +134,7 @@ const VacancyEditorDialogComp = (props: IVacancyDialogProps) => {
     const setDemands = (demands?: Array<any>) => { setFieldValues(old => ({ ...old, demands })) }
     const setDescription = (description?: string | null) => { setFieldValues(old => ({ ...old, description })) }
     const setCompetencies = (competencies?: Array<any>) => { setFieldValues(old => ({ ...old, competencies })) }
-    const setAddress = (address?: any) => { alert(JSON.stringify(address)); setFieldValues(old => ({ ...old, address })) }
+    const setAddress = (address?: any) => { setFieldValues(old => ({ ...old, address })) }
     const setExperience = (experience?: any) => { setFieldValues(old => ({ ...old, experience })) }
     const setMinSalary = (minSalary?: string | null) => { setFieldValues(old => ({ ...old, minSalary })) }
     const setMaxSalary = (maxSalary?: string | null) => { setFieldValues(old => ({ ...old, maxSalary })) }

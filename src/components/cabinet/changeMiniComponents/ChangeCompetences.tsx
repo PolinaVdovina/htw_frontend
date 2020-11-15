@@ -92,7 +92,10 @@ export const ChangeCompetences = (props : IChangeCompetences) => {
         } 
         else {
             newChecked.splice(currentIndex, 1);
-            newResultMass.splice(resultChange.indexOf({group, name: competence}), 1);
+            newResultMass.splice(resultChange.findIndex(el => (el.group == group) && (el.name == competence)), 1);
+
+            //Тут он пытался найти элемент по ссылке и пиздец...
+            //newResultMass.splice(resultChange.indexOf({group, name: competence}), 1);
         }
     
         setChecked(newChecked);

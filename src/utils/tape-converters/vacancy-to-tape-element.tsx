@@ -50,7 +50,7 @@ const VacancyRightNode = (props: IVacancyRightNodeProps) => {
                     onCopy={() => snackbar.enqueueSnackbar("Ссылка скопирована в буфер обмена", { variant: 'success' })}
                 >
                     <IconButton
-                        style={{width: 32, height: 32}}
+                        style={{ width: 32, height: 32 }}
                     //onClick={() => alert(props.tapeElementData.id)}
                     >
                         <ReplyIcon />
@@ -60,7 +60,10 @@ const VacancyRightNode = (props: IVacancyRightNodeProps) => {
             {
                 props.changeFunction &&
                 <Tooltip title="Редактировать">
-                    <IconButton onClick={() => props.changeFunction && props.changeFunction(props.vacancy)}>
+                    <IconButton
+                        style={{ width: 32, height: 32 }}
+                        onClick={() => props.changeFunction && props.changeFunction(props.vacancy)}
+                    >
                         <EditIcon />
                     </IconButton>
                 </Tooltip>
@@ -162,7 +165,7 @@ export function vacancyToPost(vacancyData: IVacancy, options?: IVacancyToPostOpt
         rightText = vacancyData.maxSalary.toString() + "р"
     }
 
-    const changeFunction = options && options?.changeFunction;
+    const changeFunction = (options && options.changeFunction) ? options.changeFunction : undefined;
 
     return {
         rightText: rightText, //vacancyData.position + (vacancyData.maxSalary ? ( ", " + vacancyData.maxSalary + "р") : ""),
@@ -173,7 +176,7 @@ export function vacancyToPost(vacancyData: IVacancy, options?: IVacancyToPostOpt
         ownerLogin: vacancyData.employerAccountLogin,
         createdDate: vacancyData.createdDate,
         rawData: vacancyData,
-        rightNode: <VacancyRightNode vacancy={vacancyData}/>
+        rightNode: <VacancyRightNode vacancy={vacancyData} changeFunction={changeFunction} />
     }
 }
 

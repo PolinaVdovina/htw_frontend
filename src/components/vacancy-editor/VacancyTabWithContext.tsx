@@ -54,12 +54,13 @@ const VacancyTabComp = (props) => {
     }
 
     const getNextVacancies = async () => {
+        const paginationSize = 5;
         const mineCriteria = (cabinetContext.role == "ROLE_EMPLOYER") ?
             searchCriteria("employerLogin", cabinetContext.login, SearchCriteriaOperation.EQUAL)
             :
             searchCriteria("employeeLogin", cabinetContext.login, SearchCriteriaOperation.EQUAL)
 
-        await tapeFetcherContext?.fetchNext(
+        const fetch = await tapeFetcherContext?.fetchNext(
             (lastPostDate, dataCount) => searchCriteriaFetch("/vacancy/getBySearchCriteria", props.token,
                 {
                     searchCriteria: [
@@ -68,8 +69,14 @@ const VacancyTabComp = (props) => {
                         mineCriteria
                     ],
                     sortCriteria: [sortCriteria("createdDate", SortCriteriaDirection.DESC)],
-                    pagination: pagination(5)
+                    pagination: pagination(paginationSize)
                 }));
+        if (fetch && fetch.result) {
+            if (fetch.result.length < paginationSize)
+                setTapeOver(true);
+            else
+                setTapeOver(false);
+        }
     }
 
 
@@ -96,10 +103,11 @@ const VacancyTabComp = (props) => {
                 </Dialog>
             }
             <Grid container direction="row-reverse" style={{ padding: theme.spacing(2) }}>
-                <AddEntityBlock handleClickOpen={() => {props.resetDefaultValues(); props.setOpenVacancyDialog(true)}} />
+                <AddEntityBlock handleClickOpen={() => { props.resetDefaultValues(); props.setOpenVacancyDialog(true) }} />
             </Grid>
             <Divider />
             <VacancyList
+                isTapeOver={isTapeOver}
                 getNextVacancies={getNextVacancies}
                 onDeleteClick={cabinetContext.isMine ? (id) => setDeletingId(id) : null}
             />
@@ -132,8 +140,8 @@ export const VacancyTabWithContext = () => {
     const changeHandler = (vacancy: IVacancy) => {
         const processedVacancy = {
             ...vacancy,
-            demands: vacancy.demands && vacancy.demands.map( (demandsString: string) => ({value: demandsString, id: uuidv4() }) ),
-            duties: vacancy.duties && vacancy.duties.map( (dutyString: string) => ({value: dutyString, id: uuidv4() }) ),
+            demands: vacancy.demands && vacancy.demands.map((demandsString: string) => ({ value: demandsString, id: uuidv4() })),
+            duties: vacancy.duties && vacancy.duties.map((dutyString: string) => ({ value: dutyString, id: uuidv4() })),
             address: vacancy ? {
                 value: addressGlue(vacancy.address)
             } : null,

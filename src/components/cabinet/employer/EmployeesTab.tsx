@@ -39,11 +39,12 @@ const EmployeesTabComp = (props) => {
     const tapeFetcherContext = React.useContext(TapeFetcherContext);
 
     const snackbar = useSnackbar();
-
+    const [isTapeOver, setTapeOver] = React.useState(false);
     const getNextEmployees = async () => {
+        const paginationSize = 5;
         dispatch(startLoadingAction());
         if (props.token) {
-            await tapeFetcherContext?.fetchNext(
+            const fetch = await tapeFetcherContext?.fetchNext(
                 (lastPostDate, count) => {
                     const searchCriteriaArray = lastPostDate ? [searchCriteria("viewName", lastPostDate, SearchCriteriaOperation.MORE)] : [];
                     return searchCriteriaFetch("/employee/getBySearchCriteria", props.token, {
@@ -51,10 +52,16 @@ const EmployeesTabComp = (props) => {
                         searchCriteria("customers", true, SearchCriteriaOperation.EQUAL),
                         ],
                         sortCriteria: [sortCriteria("viewName", SortCriteriaDirection.ASC)],
-                        pagination: pagination(5)
+                        pagination: pagination(paginationSize)
                     })
                 }, "title"
             )
+            if (fetch && fetch.result) {
+                if (fetch.result.length < paginationSize)
+                    setTapeOver(true);
+                else
+                    setTapeOver(false);
+            }
         }
         dispatch(stopLoadingAction());
     }
@@ -133,7 +140,16 @@ const EmployeesTabComp = (props) => {
                 }
             />
             <Grid item style={{ flexGrow: 1 }}>
-                <Button variant="contained" color="primary" fullWidth onClick={getNextEmployees} style={{ borderTopLeftRadius: 0, borderTopRightRadius: 0 }}>Дальше</Button>
+                <Button 
+                disabled={isTapeOver}
+                variant="contained" 
+                color="primary" 
+                fullWidth 
+                onClick={getNextEmployees} 
+                style={{ borderTopLeftRadius: 0, borderTopRightRadius: 0 }}
+                >
+                    {isTapeOver ? "Лента закончена ": "Дальше"}
+                </Button>
             </Grid>
         </div>)
 }
