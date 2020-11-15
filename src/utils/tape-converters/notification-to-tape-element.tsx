@@ -4,6 +4,7 @@ import { ITapeElementData } from '../../components/tape/posts/TapeElement';
 import { ParagraphInPost } from './../../components/tape/posts/post-body-elements/ParagraphInPost';
 import { timeParse, dateParse } from '../appliedFunc';
 import { IBodyElement } from './../../components/tape/posts/TapeElement';
+import { ChatLinksInPost } from './../../components/tape/posts/post-body-elements/ChatLinksInPost';
 
 
 function textNotificationToPost(notificationData): ITapeElementData {
@@ -30,23 +31,24 @@ function chatNotificationToPost(notificationData): ITapeElementData {
     let body: IBodyElement[] | null = null;
 
     if (notificationData.chats) {
-        let description = "";
+/*         let description = "";
         if (notificationData.chats.length == 1)
             description = `Пользователь ${notificationData.chats[0].name} оставил вам сообщени${notificationData.messageCount > 1 ? "я": "е"}`;
         else if(notificationData.chats.length < 10)
             description = `Пользователи${notificationData.chats.map( chat => " " + chat.name )} оставили вам сообщения`;
         else
-            description = `У вас очень много непрочитанных чатов (${ notificationData.chats.length })`
+            description = `У вас очень много непрочитанных чатов (${ notificationData.chats.length })` */
 
+        const bodyElement: IBodyElement = {
+            Component: ChatLinksInPost,
+            data: {
+                chats: notificationData.chats,
+                messageCount: notificationData.messageCount
+            }
+        }
 
         body = [
-            {
-                Component: ParagraphInPost,
-                data: {
-                    description: description,
-                    spacing: 0,
-                }
-            }
+            bodyElement,
         ]
 
 

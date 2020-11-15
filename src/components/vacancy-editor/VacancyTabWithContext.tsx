@@ -35,7 +35,7 @@ const VacancyTabComp = (props) => {
     const tapeFetcherContext = React.useContext(TapeFetcherContext);
     const theme = useTheme();
     const snackbar = useSnackbar();
-
+    const [isTapeOver, setTapeOver] = React.useState(false);
     const onDeleteVacancy = async () => {
         dispatch(startLoadingAction());
         const result = await removeVacancyFetch(props.token, deletingId);

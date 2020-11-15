@@ -197,6 +197,7 @@ export const openChat: (chatName: string, viewName?: string) => void = (chatName
             return;
 
         await dispatch(openChatAction(chatName, viewName));
+
         const token = getState().authReducer.token;
         /* if (token)
             stompClient?.subscribe(rootUrl + "/user/security/queue/t", onMessageReceived); */

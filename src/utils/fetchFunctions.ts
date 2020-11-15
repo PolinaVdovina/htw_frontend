@@ -949,3 +949,4 @@ export const getOneVacancyFetch = async (token: string, id: any) => {
 }
 
 
+

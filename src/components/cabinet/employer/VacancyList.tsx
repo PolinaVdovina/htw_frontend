@@ -43,12 +43,13 @@ const VacancyTabComp = (props) => {
       />
       <Grid item style={{ flexGrow: 1 }}>
         <Button
+          disabled={props.isTapeOver==true}
           variant="contained"
           color="primary" fullWidth
           onClick={props.getNextVacancies}
           style={{ borderTopLeftRadius: 0, borderTopRightRadius: 0 }}
         >
-          Дальше
+          {props.isTapeOver==true ? "Лента закончена" : "Дальше"}
         </Button>
       </Grid>
     </div>)
