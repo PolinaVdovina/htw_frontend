@@ -16,7 +16,10 @@ import { Tooltip } from '@material-ui/core';
 import { RespondButton } from '../../cabinet/jobseeker/RespondButton';
 import { RespondViewButton } from '../../cabinet/employer/RespondViewButton';
 import { showChat } from './../../../redux/reducers/chat-reducers';
+import ReplyIcon from '@material-ui/icons/Reply';
+import {CopyToClipboard} from 'react-copy-to-clipboard';
 import GetAppIcon from '@material-ui/icons/GetApp';
+import {useSnackbar} from "notistack";
 
 export interface IBodyElement {
   data?: any,
@@ -96,6 +99,8 @@ const TapeElementCardComp = (props: ITapeElementProps) => {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(props.isOpenedDefaut == true)
+  const snackbar = useSnackbar()
+
   return (
     <div style={props.style}>
       <Grid container direction="row" className={classes.aboutGrid}>
@@ -170,6 +175,19 @@ const TapeElementCardComp = (props: ITapeElementProps) => {
               </IconButton>
             </Tooltip>
           }
+          <Tooltip title="Поделиться ссылкой">
+            <CopyToClipboard
+                text={"http://localhost:3000/vacancy/" + props.tapeElementData.id}
+                onCopy={() => snackbar.enqueueSnackbar("Ссылка скопирована в буфер обмена", {variant: 'success'})}
+            >
+              <IconButton
+                  className={classes.button}
+                  //onClick={() => alert(props.tapeElementData.id)}
+              >
+                <ReplyIcon />
+              </IconButton>
+            </CopyToClipboard>
+          </Tooltip>
           {props.tapeElementData.body && props.tapeElementData.body.length > 0 &&
             <Tooltip title={open ? "Скрыть подробности" : "Показать подробности"}>
               <IconButton

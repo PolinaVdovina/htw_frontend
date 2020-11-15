@@ -8,20 +8,29 @@ import { getOneVacancyFetch } from '../../utils/fetchFunctions'
 import { HCenterizingGrid } from '../grid-containers/HCenterizingGrid'
 import { MessageStatus } from '../../utils/fetchInterfaces'
 import { useSnackbar } from 'notistack'
+import {ITapeElementData} from "../../components/tape/posts/TapeElement";
+import {useState} from "react";
+import {vacancyToPost} from "../../utils/tape-converters/vacancy-to-tape-element";
+import {Link as RouterLink} from "react-router-dom";
+import {urls} from "../urls";
+import {RespondButton} from "../../components/cabinet/jobseeker/RespondButton";
+import {showChat} from "../../redux/reducers/chat-reducers";
 
 interface IVacancyView {
-    token?
+    token?,
+    userRole?: string | null,
 }
 
 const VacancyViewComp = (props: IVacancyView) => {
     const params: {id?: string | undefined} = useParams();
     const snackbar = useSnackbar();
+    const [vacancyData, setVacancyData] = useState<ITapeElementData>()
 
     React.useEffect(() => {
         const getVacancy = async () => {
             const fetchResult = await getOneVacancyFetch(props.token, params.id);
             if (fetchResult.msgStatus === MessageStatus.OK) {
-                alert(JSON.stringify(fetchResult.result))
+                setVacancyData(vacancyToPost(fetchResult.result))
             }
             else {
                 snackbar.enqueueSnackbar("Ошибка! Вакансия не может быть загружена", {variant: 'error'})
@@ -38,12 +47,43 @@ const VacancyViewComp = (props: IVacancyView) => {
                     <Typography variant="h6" style={{ flexGrow: 1, width: "min-content" }}>
                         Вакансия
                     </Typography>
-                    <Divider/>
+                    { props.userRole == "ROLE_JOBSEEKER" && vacancyData &&
+                        <Grid item>
+                            <RespondButton id={vacancyData.id} token={props.token}></RespondButton>
+                        </Grid>
+                    }
                     </Grid>
+                    {vacancyData && vacancyData.title && vacancyData.ownerLogin &&
+                    <Typography
+                        style={{ padding: theme.spacing(1), paddingLeft: theme.spacing(2)}}
+                    >
+                        Работодатель:
+                        <RouterLink
+                            to={urls.cabinet.shortPath + vacancyData.ownerLogin}
+                        >
+                            {vacancyData.title}
+                        </RouterLink>
+                    </Typography>
+                    }
+                    <Divider/>
+                    { vacancyData &&
+                    <div style={{marginTop: theme.spacing(2)}}>
+
+                        {vacancyData.body?.map(
+                            (el, index) => <>
+                                <el.Component key={index} data={el.data}/>
+                                {index + 1 != vacancyData.body?.length && <br/>}
+                            </>
+                        )}
+                    </div>
+                    }
                 </Grid>
             </Paper>
         </HCenterizingGrid>
     )
 }
 
-export const VacancyView = connect((state: RootState) => {return {token: state.authReducer.token}})(VacancyViewComp)
+export const VacancyView = connect((state: RootState) => ({
+    token: state.authReducer.token,
+    userRole: state.authReducer.entityType,
+}))(VacancyViewComp)
