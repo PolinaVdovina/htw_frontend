@@ -46,7 +46,7 @@ const VacancyRightNode = (props: IVacancyRightNodeProps) => {
         <>
             <Tooltip title="Поделиться ссылкой">
                 <CopyToClipboard
-                    text={"http://localhost:3000/vacancy/" + props.vacancy.id}
+                    text={window.location.protocol + '//' + window.location.host + "/vacancy/" + props.vacancy.id}
                     onCopy={() => snackbar.enqueueSnackbar("Ссылка скопирована в буфер обмена", { variant: 'success' })}
                 >
                     <IconButton
