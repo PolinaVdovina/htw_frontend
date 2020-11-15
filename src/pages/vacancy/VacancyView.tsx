@@ -15,6 +15,7 @@ import {Link as RouterLink} from "react-router-dom";
 import {urls} from "../urls";
 import {RespondButton} from "../../components/cabinet/jobseeker/RespondButton";
 import {showChat} from "../../redux/reducers/chat-reducers";
+import { IVacancy } from './../../utils/tape-converters/vacancy-to-tape-element';
 
 interface IVacancyView {
     token?,
@@ -25,12 +26,15 @@ const VacancyViewComp = (props: IVacancyView) => {
     const params: {id?: string | undefined} = useParams();
     const snackbar = useSnackbar();
     const [vacancyData, setVacancyData] = useState<ITapeElementData>()
+    const [vacancyRawData, setVacancyRawData] = useState<IVacancy>()
 
+    
     React.useEffect(() => {
         const getVacancy = async () => {
             const fetchResult = await getOneVacancyFetch(props.token, params.id);
             if (fetchResult.msgStatus === MessageStatus.OK) {
                 setVacancyData(vacancyToPost(fetchResult.result))
+                setVacancyRawData(fetchResult.result)
             }
             else {
                 snackbar.enqueueSnackbar("Ошибка! Вакансия не может быть загружена", {variant: 'error'})
@@ -45,7 +49,7 @@ const VacancyViewComp = (props: IVacancyView) => {
                 <Grid container direction="column" style={{ height: "100%" }}>
                     <Grid item container alignItems="center" direction="row" style={{ padding: theme.spacing(1), paddingLeft: theme.spacing(2), }}>
                     <Typography variant="h6" style={{ flexGrow: 1, width: "min-content" }}>
-                        Вакансия
+                        Вакансия "{(vacancyRawData && vacancyRawData.position) ? vacancyRawData.position : null }"
                     </Typography>
                     { props.userRole == "ROLE_JOBSEEKER" && vacancyData &&
                         <Grid item>
@@ -53,15 +57,14 @@ const VacancyViewComp = (props: IVacancyView) => {
                         </Grid>
                     }
                     </Grid>
-                    {vacancyData && vacancyData.title && vacancyData.ownerLogin &&
+                    {vacancyData && vacancyRawData && vacancyRawData.employerName && vacancyData.ownerLogin &&
                     <Typography
                         style={{ padding: theme.spacing(1), paddingLeft: theme.spacing(2)}}
                     >
-                        Работодатель:
-                        <RouterLink
+                        Работодатель: <RouterLink
                             to={urls.cabinet.shortPath + vacancyData.ownerLogin}
                         >
-                            {vacancyData.title}
+                            {vacancyRawData.employerName}
                         </RouterLink>
                     </Typography>
                     }
