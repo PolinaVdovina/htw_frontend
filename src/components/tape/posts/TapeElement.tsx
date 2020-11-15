@@ -175,19 +175,6 @@ const TapeElementCardComp = (props: ITapeElementProps) => {
               </IconButton>
             </Tooltip>
           }
-          <Tooltip title="Поделиться ссылкой">
-            <CopyToClipboard
-                text={"http://localhost:3000/vacancy/" + props.tapeElementData.id}
-                onCopy={() => snackbar.enqueueSnackbar("Ссылка скопирована в буфер обмена", {variant: 'success'})}
-            >
-              <IconButton
-                  className={classes.button}
-                  //onClick={() => alert(props.tapeElementData.id)}
-              >
-                <ReplyIcon />
-              </IconButton>
-            </CopyToClipboard>
-          </Tooltip>
           {props.tapeElementData.body && props.tapeElementData.body.length > 0 &&
             <Tooltip title={open ? "Скрыть подробности" : "Показать подробности"}>
               <IconButton

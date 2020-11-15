@@ -228,9 +228,11 @@ const VacancyEditorDialogComp = (props: IVacancyDialogProps) => {
         data['description'] = description;
         data['competencies'] = competencies;
         if (address) {
-            const a = addressGlue(strToAddressDictionary(address.value).address);
-            if (a)
-                data['address'] = strToAddressDictionary(a).address;
+            if(address.value) {
+                const a = addressGlue(strToAddressDictionary(address.value).address);
+                if (a)
+                    data['address'] = strToAddressDictionary(a).address;
+            }
         }
         data['experience'] = experience;
         data['phone'] = phone;
