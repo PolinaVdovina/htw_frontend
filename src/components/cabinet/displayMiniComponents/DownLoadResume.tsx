@@ -17,7 +17,7 @@ export const DownloadResume = (props) => {
            <Typography variant='h5'>
                 Скачать резюме
             </Typography> 
-            <RightDownloadButton id={ !context.isMine ? context.id : context.idUser }/>
+            <RightDownloadButton id={ context.id }/>
         </Grid>       
     )
 }

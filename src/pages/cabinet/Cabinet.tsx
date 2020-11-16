@@ -53,7 +53,7 @@ function mapStateToProps(state: RootState) {
         myLogin: state.authReducer.login,
         myToken: state.authReducer.token,
         reduxPersonalData: {
-            idUser: state.userPersonalsReducer.id,
+            id: state.userPersonalsReducer.id,
             //mineLogin: state.authReducer.login,
             subscriptionLogins: state.userPersonalsReducer.subscriptionLogins,
             role: state.authReducer.entityType,
@@ -152,7 +152,7 @@ const CabinetComp = (props: ICabinetProps) => {
                     ...parsedData,
                     role: requestData.roles,
                     login: urlLogin,
-                    id: requestData.id,
+                    id: parsedData ? parsedData.id : undefined,
                     isMine: false,
                 })
                 await dispatch(stopLoadingAction());

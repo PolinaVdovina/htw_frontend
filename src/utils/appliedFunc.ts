@@ -156,7 +156,8 @@ export function accountRequestToEntityDictionary(data, role) {
                     },
                     addressPrivate: data.addressPrivate,
                     phonePrivate: data.phonePrivate,
-                    socMediaPrivate: data.socMediaPrivate
+                    socMediaPrivate: data.socMediaPrivate,
+                    id: data.id
                 }
             case "ROLE_INSTITUTION":
                 return {
@@ -184,7 +185,8 @@ export function accountRequestToEntityDictionary(data, role) {
                     },
                     addressPrivate: data.addressPrivate,
                     phonePrivate: data.phonePrivate,
-                    socMediaPrivate: data.socMediaPrivate
+                    socMediaPrivate: data.socMediaPrivate,
+                    id: data.id
                 }
                 break
 
@@ -213,7 +215,8 @@ export function accountRequestToEntityDictionary(data, role) {
                     facebook: data.contactDetails.facebook,
                     addressPrivate: data.addressPrivate,
                     phonePrivate: data.phonePrivate,
-                    socMediaPrivate: data.socMediaPrivate
+                    socMediaPrivate: data.socMediaPrivate,
+                    id: data.id
                 }
                 break
         }
