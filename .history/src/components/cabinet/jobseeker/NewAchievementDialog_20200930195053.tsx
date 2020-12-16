@@ -47,8 +47,8 @@ export const NewAchievementDialog = (props: INewAchievementDialog) => {
 
     const handleClickSave = async () => {
         let data = {
-            title: title.replace("#", "%23"),
-            description: description.replace("#", "%23")
+            title,
+            description
         }
 
         if(props.token) {
